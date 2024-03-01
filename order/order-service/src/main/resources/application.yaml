@@ -6,7 +6,7 @@ spring:
         - app-common
         - app-inmemory
         - datastore-h2
-      docker-compose:
+      local:
         - app-common
         - app-docker-compose
         - axon-server
