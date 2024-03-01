@@ -9,35 +9,36 @@ plugins {
 	kotlin("plugin.jpa") version "1.9.22"
 }
 
-group = "inaba"
-version = "0.0.1-SNAPSHOT"
-
 java {
 	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
-repositories {
-	mavenCentral()
-}
+allprojects {
+	val axonVersion = "4.9.3"
 
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	runtimeOnly("com.h2database:h2")
-	runtimeOnly("com.mysql:mysql-connector-j")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
+	group = "inaba"
+	version = "0.0.1-SNAPSHOT"
 
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "21"
+	apply(plugin = "kotlin")
+
+	repositories {
+		mavenCentral()
 	}
-}
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+	tasks.withType<KotlinCompile> {
+		kotlinOptions {
+			freeCompilerArgs += "-Xjsr305=strict"
+			jvmTarget = "21"
+		}
+	}
+
+	tasks.withType<Test> {
+		useJUnitPlatform()
+	}
+
+	dependencies {
+		implementation(platform("org.axonframework:axon-bom:${axonVersion}"))
+		implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
+	}
 }

@@ -1,0 +1,12 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: inaba-order-service
+
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
