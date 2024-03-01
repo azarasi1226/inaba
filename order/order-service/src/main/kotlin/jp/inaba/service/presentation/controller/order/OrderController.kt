@@ -1,8 +1,11 @@
 package jp.inaba.service.presentation.controller.order
 
+import jp.inaba.order.api.domain.order.IssueOrderCommand
+import jp.inaba.order.api.domain.order.OrderId
 import jp.inaba.service.application.query.order.OrderFindByUserQuery
 import jp.inaba.service.application.query.order.OrderFindByUserResult
-import jp.inaba.service.presentation.model.order.FindOrderResponse
+import jp.inaba.service.presentation.model.order.OrderFindByUserIdResponse
+import jp.inaba.service.presentation.model.order.OrderIssueRequest
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.extensions.kotlin.queryMany
 import org.axonframework.queryhandling.QueryGateway
@@ -15,20 +18,30 @@ class OrderController(
     private val queryGateway: QueryGateway
 ) {
     @PostMapping
-    fun issue() {
+    fun issue(
+        @RequestBody
+        request: OrderIssueRequest
+    ) {
+        val orderId = OrderId()
+        val command = IssueOrderCommand(
+            id = orderId,
+            userId = request.userId,
+            productId = request.productId
+        )
 
+        commandGateway.sendAndWait<Any>(command)
     }
 
     @GetMapping
-    fun find(
+    fun findByUserId(
         @RequestParam
         userId: String
-    ): List<FindOrderResponse> {
+    ): List<OrderFindByUserIdResponse> {
         val query = OrderFindByUserQuery(userId)
         val result = queryGateway.queryMany<OrderFindByUserResult, OrderFindByUserQuery>(query).get()
 
         return result.map {
-            FindOrderResponse(
+            OrderFindByUserIdResponse(
                 orderId = it.orderId,
                 userId = it.userId,
                 status = it.orderStatus

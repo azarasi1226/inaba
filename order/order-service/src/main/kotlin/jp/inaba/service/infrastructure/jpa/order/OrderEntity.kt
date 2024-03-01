@@ -7,7 +7,7 @@ import jp.inaba.service.domain.order.OrderStatus
 @Entity
 data class OrderEntity(
     @Id
-    var id: String,
-    var status: OrderStatus,
-    var userId: String
+    var id: String = "",
+    var status: OrderStatus = OrderStatus.Issued,
+    var userId: String = ""
 )
