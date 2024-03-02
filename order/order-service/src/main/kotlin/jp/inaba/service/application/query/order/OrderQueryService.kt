@@ -9,11 +9,11 @@ class OrderQueryService(
     private val orderRepository: OrderJpaRepository
 ) {
     @QueryHandler
-    fun handle(query: OrderFindByUserQuery) : List<OrderFindByUserResult> {
+    fun handle(query: OrderFindByUserIdQuery) : List<OrderFindByUserIdResult> {
         val orders = orderRepository.findByUserId(query.userId)
 
         return orders.map {
-            OrderFindByUserResult(
+            OrderFindByUserIdResult(
                 it.id,
                 it.userId,
                 it.status.toString()

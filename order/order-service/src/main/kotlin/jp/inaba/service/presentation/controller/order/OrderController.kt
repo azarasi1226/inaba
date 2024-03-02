@@ -2,8 +2,8 @@ package jp.inaba.service.presentation.controller.order
 
 import jp.inaba.order.api.domain.order.IssueOrderCommand
 import jp.inaba.order.api.domain.order.OrderId
-import jp.inaba.service.application.query.order.OrderFindByUserQuery
-import jp.inaba.service.application.query.order.OrderFindByUserResult
+import jp.inaba.service.application.query.order.OrderFindByUserIdQuery
+import jp.inaba.service.application.query.order.OrderFindByUserIdResult
 import jp.inaba.service.presentation.model.order.OrderFindByUserIdResponse
 import jp.inaba.service.presentation.model.order.OrderIssueRequest
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -37,8 +37,8 @@ class OrderController(
         @RequestParam
         userId: String
     ): List<OrderFindByUserIdResponse> {
-        val query = OrderFindByUserQuery(userId)
-        val result = queryGateway.queryMany<OrderFindByUserResult, OrderFindByUserQuery>(query).get()
+        val query = OrderFindByUserIdQuery(userId)
+        val result = queryGateway.queryMany<OrderFindByUserIdResult, OrderFindByUserIdQuery>(query).get()
 
         return result.map {
             OrderFindByUserIdResponse(
