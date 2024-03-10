@@ -38,6 +38,7 @@ allprojects {
 	}
 
 	dependencies {
+		implementation(project(":common"))
 		implementation(platform("org.axonframework:axon-bom:${axonVersion}"))
 		implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 	}

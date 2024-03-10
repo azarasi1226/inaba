@@ -16,8 +16,8 @@ class OrderAggregate() {
     @CommandHandler
     constructor(command: IssueOrderCommand): this() {
         val event = OrderIssuedEvent(
-            command.id,
-            command.userId
+            id = command.id,
+            userId = command.userId
         )
 
         AggregateLifecycle.apply(event)
