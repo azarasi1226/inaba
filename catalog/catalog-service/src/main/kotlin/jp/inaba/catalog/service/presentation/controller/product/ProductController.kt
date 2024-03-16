@@ -30,7 +30,7 @@ class ProductController(
         val productId = ProductId()
         val command  = ProductCommands.Create(
             id = productId,
-            name = request.productName,
+            name = request.name,
             description = request.description,
             imageUrl = request.imageUrl,
             price = request.price,
