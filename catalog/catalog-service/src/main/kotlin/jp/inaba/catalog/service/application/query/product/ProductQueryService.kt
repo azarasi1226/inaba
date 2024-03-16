@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProductQueryService(
-    private val projectJpaRepository: ProductJpaRepository
+    private val productJpaRepository: ProductJpaRepository
 ) {
     @QueryHandler
     fun handle(query: ProductQueries.FindById): ProductQueries.FindByIdResult {
-        val entity = projectJpaRepository.findById(query.id)
-            .orElseThrow { Exception("存在しない") }
+        val entity = productJpaRepository.findById(query.id)
+            .orElseThrow { ProductNotFoundException(query.id) }
 
         return ProductQueries.FindByIdResult(
-            id = entity.productId,
-            name = entity.productName,
+            id = entity.id,
+            name = entity.name,
             description = entity.description,
             imageUrl = entity.imageUrl,
             price = entity.price,

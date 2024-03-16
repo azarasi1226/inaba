@@ -6,8 +6,8 @@ import jakarta.persistence.Id
 @Entity
 data class ProductJpaEntity(
     @Id
-    val productId: String = "",
-    val productName: String = "",
+    val id: String = "",
+    val name: String = "",
     val description: String = "",
     val imageUrl: String = "",
     val price: Int = 0,

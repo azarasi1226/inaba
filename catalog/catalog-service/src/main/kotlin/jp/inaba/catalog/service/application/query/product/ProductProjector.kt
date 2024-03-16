@@ -13,8 +13,8 @@ class ProductProjector(
     @EventHandler
     fun on(event: ProductEvents.Created) {
         val entity = ProductJpaEntity(
-            productId = event.id.value,
-            productName = event.name,
+            id = event.id.value,
+            name = event.name,
             description = event.description,
             imageUrl = event.imageUrl,
             price = event.price,
