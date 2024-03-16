@@ -5,6 +5,7 @@ apply(plugin = "io.spring.dependency-management")
 apply(plugin = "kotlin-allopen")
 
 dependencies {
+    implementation(project(":common"))
     implementation(project(":basket:basket-api"))
 
     //spring

@@ -1,6 +1,6 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.ianba.basket.api.domain.basket.*
+import jp.inaba.basket.api.domain.basket.*
 import jp.inaba.basket.api.domain.basket.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
