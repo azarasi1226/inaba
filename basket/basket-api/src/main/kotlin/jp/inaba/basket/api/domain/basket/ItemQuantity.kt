@@ -1,4 +1,4 @@
-package jp.ianba.basket.api.domain.basket
+package jp.inaba.basket.api.domain.basket
 
 import de.huxhorn.sulky.ulid.ULID
 

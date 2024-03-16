@@ -1,4 +1,4 @@
-package jp.ianba.basket.api.domain.basket
+package jp.inaba.basket.api.domain.basket
 
 sealed interface BasketEvent {
     val id: BasketId

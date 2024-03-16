@@ -1,4 +1,4 @@
-package jp.ianba.basket.api.domain.basket
+package jp.inaba.basket.api.domain.basket
 
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.PagingCondition

@@ -1,9 +1,9 @@
 package jp.inaba.basket.service.presentation.controller.basket
 
-import jp.ianba.basket.api.domain.basket.BasketId
-import jp.ianba.basket.api.domain.basket.CreateBasketCommand
-import jp.ianba.basket.api.domain.basket.ItemQuantity
-import jp.ianba.basket.api.domain.basket.SetItemCommand
+import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.CreateBasketCommand
+import jp.inaba.basket.api.domain.basket.ItemQuantity
+import jp.inaba.basket.api.domain.basket.SetItemCommand
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketRequest
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketResponse
 import jp.inaba.basket.service.presentation.model.basket.SetItemRequest
