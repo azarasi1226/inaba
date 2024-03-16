@@ -1,11 +1,16 @@
 package jp.inaba.catalog.service.presentation.controller.product
 
-import jp.inaba.catalog.api.domain.product.CreateProductCommand
+import jp.inaba.catalog.api.domain.product.ProductCommands
 import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.catalog.service.presentation.model.product.CreateProductRequest
-import jp.inaba.catalog.service.presentation.model.product.CreateProductResponse
+import jp.inaba.catalog.api.domain.product.ProductQueries
+import jp.inaba.catalog.service.presentation.model.product.ProductCreateRequest
+import jp.inaba.catalog.service.presentation.model.product.ProductCreateResponse
+import jp.inaba.catalog.service.presentation.model.product.ProductFindByIdResponse
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,12 +25,12 @@ class ProductController(
     @PostMapping
     fun create(
         @RequestBody
-        request: CreateProductRequest
-    ): CreateProductResponse {
+        request: ProductCreateRequest
+    ): ProductCreateResponse {
         val productId = ProductId()
-        val command  = CreateProductCommand(
+        val command  = ProductCommands.Create(
             id = productId,
-            productName = request.productName,
+            name = request.productName,
             description = request.description,
             imageUrl = request.imageUrl,
             price = request.price,
@@ -34,6 +39,25 @@ class ProductController(
 
         commandGateway.sendAndWait<Any>(command)
 
-        return CreateProductResponse(productId.value)
+        return ProductCreateResponse(productId.value)
+    }
+
+    @GetMapping("/{productId}")
+    fun findByProductId(
+        @PathVariable("productId")
+        rawProductId: String
+    ): ProductFindByIdResponse {
+        val query = ProductQueries.FindById(rawProductId)
+
+        val result = queryGateway.query<ProductQueries.FindByIdResult, ProductQueries.FindById>(query)
+            .get()
+
+        return ProductFindByIdResponse(
+            name = result.name,
+            description = result.description,
+            imageUrl = result.imageUrl,
+            price = result.price,
+            quantity = result.quantity
+        )
     }
 }

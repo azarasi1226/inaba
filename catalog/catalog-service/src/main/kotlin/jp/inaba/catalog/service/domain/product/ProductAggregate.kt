@@ -1,7 +1,7 @@
 package jp.inaba.catalog.service.domain.product
 
-import jp.inaba.catalog.api.domain.product.CreateProductCommand
-import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
+import jp.inaba.catalog.api.domain.product.ProductCommands
+import jp.inaba.catalog.api.domain.product.ProductEvents
 import jp.inaba.catalog.api.domain.product.ProductId
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -15,10 +15,10 @@ class ProductAggregate() {
     private lateinit var id: ProductId
 
     @CommandHandler
-    constructor(command: CreateProductCommand): this() {
-        val event = ProductCreatedEvent(
+    constructor(command: ProductCommands.Create): this() {
+        val event = ProductEvents.Created(
             id = command.id,
-            productName = command.productName,
+            name = command.name,
             description = command.description,
             imageUrl = command.imageUrl,
             price = command.price,
@@ -29,7 +29,7 @@ class ProductAggregate() {
     }
 
     @EventSourcingHandler
-    fun on(event: ProductCreatedEvent) {
+    fun on(event: ProductEvents.Created) {
         id = event.id
     }
 }

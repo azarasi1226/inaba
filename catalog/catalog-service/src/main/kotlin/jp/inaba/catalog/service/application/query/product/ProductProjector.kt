@@ -1,13 +1,26 @@
 package jp.inaba.catalog.service.application.query.product
 
-import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
+import jp.inaba.catalog.api.domain.product.ProductEvents
+import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaEntity
+import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class ProductProjector {
+class ProductProjector(
+    private val productJpaRepository: ProductJpaRepository
+) {
     @EventHandler
-    fun on(event: ProductCreatedEvent) {
-        println("商品マスタテーブルに、一見追加しました${event}")
+    fun on(event: ProductEvents.Created) {
+        val entity = ProductJpaEntity(
+            productId = event.id.value,
+            productName = event.name,
+            description = event.description,
+            imageUrl = event.imageUrl,
+            price = event.price,
+            quantity = event.quantity
+        )
+
+        productJpaRepository.save(entity)
     }
 }

@@ -1,5 +1,5 @@
 package jp.inaba.catalog.service.presentation.model.product
 
-data class CreateProductResponse(
+data class ProductCreateResponse(
     val productId: String
 )
