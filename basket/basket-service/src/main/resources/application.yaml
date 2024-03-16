@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: inmemory
+    group:
+      inmemory:
+        - app-common
+        - app-inmemory
+        - datastore-h2
+      local:
+        - app-common
+        - app-docker-compose
+        - axon-server
+        - datastore-mysql
+      test:
+        - app-common
+        - app-test
+        - axon-server
+        - datastore-mysql
+      prod:
+        - app-common
+        - app-prod
+        - axon-server
+        - datastore-mysql

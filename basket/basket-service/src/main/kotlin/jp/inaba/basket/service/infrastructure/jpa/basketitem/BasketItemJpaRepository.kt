@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository
 interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, String> {
     @Modifying
     @Transactional
-    @Query("DELETE FROM BasketItemEntity b WHERE b.basket.basketId = :basketId")
+    @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId")
     fun deleteByBasketId(@Param("basketId") basketId: String)
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM BasketItemEntity b WHERE b.basket.basketId = :basketId AND b.item.itemId = :itemId")
+    @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId AND b.item.itemId = :itemId")
     fun deleteByBasketIdAndItemId(@Param("basketId") basketId: String, @Param("itemId") itemId: String)
 }

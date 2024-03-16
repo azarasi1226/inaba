@@ -9,6 +9,7 @@ import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
+import jp.inaba.basket.service.infrastructure.jpa.item.ItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.item.ItemJpaRepository
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
@@ -34,8 +35,8 @@ class BasketProjector(
         val basketJpaEntity = basketJpaRepository.findById(event.id.value)
             .orElseThrow { Exception("Basketが存在しません") }
 
-        val itemJpaEntity = itemJpaRepository.findById(event.itemId)
-            .orElseThrow { Exception("Itemが存在しません") }
+        //TODO()
+        val itemJpaEntity = itemJpaRepository.findById(event.itemId).orElseGet { ItemJpaEntity("string", "いっぱいおっぱい", 0) }
 
         val basketItemJpaEntity = BasketItemJpaEntity(
             basketItemId = ULID().nextULID(),
