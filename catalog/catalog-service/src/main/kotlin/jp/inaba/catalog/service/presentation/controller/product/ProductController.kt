@@ -1,8 +1,6 @@
 package jp.inaba.catalog.service.presentation.controller.product
 
-import jp.inaba.catalog.api.domain.product.ProductCommands
-import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.catalog.api.domain.product.ProductQueries
+import jp.inaba.catalog.api.domain.product.*
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateRequest
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateResponse
 import jp.inaba.catalog.service.presentation.model.product.ProductFindByIdResponse
@@ -30,10 +28,10 @@ class ProductController(
         val productId = ProductId()
         val command  = ProductCommands.Create(
             id = productId,
-            name = request.name,
+            name = ProductName(request.name),
             description = request.description,
             imageUrl = request.imageUrl,
-            price = request.price,
+            price = Price(request.price),
             quantity = request.quantity
         )
 

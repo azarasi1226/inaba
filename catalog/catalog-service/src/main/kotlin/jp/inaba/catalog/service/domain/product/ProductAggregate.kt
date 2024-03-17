@@ -17,11 +17,11 @@ class ProductAggregate() {
     @CommandHandler
     constructor(command: ProductCommands.Create): this() {
         val event = ProductEvents.Created(
-            id = command.id,
-            name = command.name,
+            id = command.id.value,
+            name = command.name.value,
             description = command.description,
             imageUrl = command.imageUrl,
-            price = command.price,
+            price = command.price.value,
             quantity = command.quantity
         )
 
@@ -30,6 +30,6 @@ class ProductAggregate() {
 
     @EventSourcingHandler
     fun on(event: ProductEvents.Created) {
-        id = event.id
+        id = ProductId(event.id)
     }
 }

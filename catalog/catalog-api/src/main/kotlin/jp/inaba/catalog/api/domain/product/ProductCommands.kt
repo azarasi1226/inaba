@@ -10,19 +10,19 @@ sealed interface ProductCommand {
 object ProductCommands {
     data class Create(
         override val id: ProductId,
-        val name: String,
+        val name: ProductName,
         val description: String,
         val imageUrl: String,
-        val price: Int,
+        val price: Price,
         val quantity: Int
     ) : ProductCommand
 
     data class Update(
         override val id: ProductId,
-        val name: String,
+        val name: ProductName,
         val description: String,
         val imageUrl: String,
-        val price: Int,
+        val price: Price,
         val quantity: Int
     ) : ProductCommand
 
