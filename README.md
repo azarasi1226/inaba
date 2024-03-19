@@ -11,3 +11,34 @@ SPRING_DATASOURCE_PORT=3306;
 SPRING_DATASOURCE_USERNAME=root;
 SPRING_PROFILES_ACTIVE=local;
 ```
+* http://localhost:8081/swagger-ui/index.html
+
+
+
+## CatalogService
+Local:Environment
+```
+SERVER_PORT=8082;
+SPRING_DATASOURCE_DATABASE=catalog;
+SPRING_DATASOURCE_HOST=localhost;
+SPRING_DATASOURCE_PASSWORD=passw0rd;
+SPRING_DATASOURCE_PORT=3306;
+SPRING_DATASOURCE_USERNAME=root;
+SPRING_PROFILES_ACTIVE=local;
+```
+* http://localhost:8082/swagger-ui/index.html
+
+
+
+## BasketService
+Local:Environment
+```
+SERVER_PORT=8083;
+SPRING_DATASOURCE_DATABASE=basket;
+SPRING_DATASOURCE_HOST=localhost;
+SPRING_DATASOURCE_PASSWORD=passw0rd;
+SPRING_DATASOURCE_PORT=3306;
+SPRING_DATASOURCE_USERNAME=root;
+SPRING_PROFILES_ACTIVE=local;
+```
+* http://localhost:8083/swagger-ui/index.html

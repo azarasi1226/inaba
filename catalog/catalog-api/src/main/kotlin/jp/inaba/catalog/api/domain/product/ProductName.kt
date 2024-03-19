@@ -8,11 +8,11 @@ data class ProductName(val value: String) {
 
     init {
         if(value.length < MIN_LENGTH) {
-            throw IllegalArgumentException("商品名が短すぎます")
+            throw IllegalArgumentException("商品名が短すぎます。　最小:${MIN_LENGTH}")
         }
 
         if (value.length > MAX_LENGTH) {
-            throw IllegalArgumentException("商品名が長すぎます")
+            throw IllegalArgumentException("商品名が長すぎます。　最大:${MAX_LENGTH} 現在:${value.length}")
         }
     }
 }

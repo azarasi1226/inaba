@@ -11,8 +11,8 @@ class ProductQueryService(
 ) {
     @QueryHandler
     fun handle(query: ProductQueries.FindById): ProductQueries.FindByIdResult {
-        val entity = productJpaRepository.findById(query.id)
-            .orElseThrow { ProductNotFoundException(query.id) }
+        val entity = productJpaRepository.findById(query.id.value)
+            .orElseThrow { ProductNotFoundException(query.id.value) }
 
         return ProductQueries.FindByIdResult(
             id = entity.id,

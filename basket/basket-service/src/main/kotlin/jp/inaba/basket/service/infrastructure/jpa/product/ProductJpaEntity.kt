@@ -1,0 +1,13 @@
+package jp.inaba.basket.service.infrastructure.jpa.product
+
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+
+@Entity
+data class ProductJpaEntity(
+    @Id
+    var id: String = "",
+    var name: String = "",
+    var imageUrl: String = "",
+    var price: Int = 0
+)

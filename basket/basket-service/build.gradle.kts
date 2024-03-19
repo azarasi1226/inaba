@@ -7,6 +7,7 @@ apply(plugin = "kotlin-allopen")
 dependencies {
     implementation(project(":common"))
     implementation(project(":basket:basket-api"))
+    implementation(project(":catalog:catalog-api"))
 
     //spring
     implementation("org.springframework.boot:spring-boot-starter-actuator")

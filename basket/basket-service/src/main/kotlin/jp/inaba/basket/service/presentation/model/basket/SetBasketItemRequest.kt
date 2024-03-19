@@ -1,6 +1,6 @@
 package jp.inaba.basket.service.presentation.model.basket
 
-data class SetItemRequest(
-    val itemId: String,
+data class SetBasketItemRequest(
+    val productId: String,
     val itemQuantity: Int
 )

@@ -1,25 +1,27 @@
 package jp.inaba.basket.api.domain.basket
 
 sealed interface BasketEvent {
-    val id: BasketId
+    val id: String
 }
 
-data class BasketCreatedEvent(
-    override val id: BasketId,
-    val userId: String
-) : BasketEvent
+object BasketEvents {
+    data class Created(
+        override val id: String,
+        val userId: String
+    ) : BasketEvent
 
-data class ItemSetEvent(
-    override val id: BasketId,
-    val itemId: String,
-    val itemQuantity: ItemQuantity
-) : BasketEvent
+    data class BasketItemSet(
+        override val id: String,
+        val productId: String,
+        val basketItemQuantity: Int
+    ) : BasketEvent
 
-data class ItemDeletedEvent(
-    override val id: BasketId,
-    val itemId: String
-) : BasketEvent
+    data class BasketItemDeleted(
+        override val id: String,
+        val productId: String
+    ) : BasketEvent
 
-data class BasketClearedEvent(
-    override val id: BasketId
-) : BasketEvent
+    data class Cleared(
+        override val id: String
+    ) : BasketEvent
+}

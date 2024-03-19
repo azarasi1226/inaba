@@ -14,6 +14,8 @@ interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, String> {
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId")
     fun deleteByBasketId(@Param("basketId") basketId: String)
 
+
+    //TODO(動かない)
     @Modifying
     @Transactional
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId AND b.item.itemId = :itemId")

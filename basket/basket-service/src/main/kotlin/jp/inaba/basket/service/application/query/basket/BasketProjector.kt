@@ -1,29 +1,25 @@
 package jp.inaba.basket.service.application.query.basket
 
 import de.huxhorn.sulky.ulid.ULID
-import jp.inaba.basket.api.domain.basket.BasketClearedEvent
-import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
-import jp.inaba.basket.api.domain.basket.ItemDeletedEvent
-import jp.inaba.basket.api.domain.basket.ItemSetEvent
+import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
-import jp.inaba.basket.service.infrastructure.jpa.item.ItemJpaEntity
-import jp.inaba.basket.service.infrastructure.jpa.item.ItemJpaRepository
+import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
 class BasketProjector(
     private val basketJpaRepository: BasketJpaRepository,
-    private val itemJpaRepository: ItemJpaRepository,
+    private val itemJpaRepository: ProductJpaRepository,
     private val basketItemJpaRepository: BasketItemJpaRepository
 ) {
     @EventHandler
-    fun on(event: BasketCreatedEvent) {
+    fun on(event: BasketEvents.Created) {
         val basket = BasketJpaEntity(
-            basketId = event.id.value,
+            basketId = event.id,
             userId = event.userId
         )
 
@@ -31,31 +27,33 @@ class BasketProjector(
     }
 
     @EventHandler
-    fun on(event: ItemSetEvent) {
-        val basketJpaEntity = basketJpaRepository.findById(event.id.value)
+    fun on(event: BasketEvents.BasketItemSet) {
+        val basketJpaEntity = basketJpaRepository.findById(event.id)
             .orElseThrow { Exception("Basketが存在しません") }
 
-        //TODO()
-        val itemJpaEntity = itemJpaRepository.findById(event.itemId).orElseGet { ItemJpaEntity("string", "いっぱいおっぱい", 0) }
+        val productJpaEntity = itemJpaRepository.findById(event.id)
+            .orElseThrow { Exception("aaaa") }
 
         val basketItemJpaEntity = BasketItemJpaEntity(
             basketItemId = ULID().nextULID(),
             basket = basketJpaEntity,
-            item = itemJpaEntity,
-            itemQuantity = event.itemQuantity.value
+            product = productJpaEntity,
+            itemQuantity = event.basketItemQuantity
         )
+
+        basketItemJpaRepository.save(basketItemJpaEntity)
     }
 
     @EventHandler
-    fun on(event: ItemDeletedEvent) {
+    fun on(event: BasketEvents.BasketItemDeleted) {
         basketItemJpaRepository.deleteByBasketIdAndItemId(
-            basketId = event.id.value,
-            itemId = event.itemId
+            basketId = event.id,
+            itemId = event.productId
         )
     }
 
     @EventHandler
-    fun on(event: BasketClearedEvent) {
-        basketItemJpaRepository.deleteByBasketId(event.id.value)
+    fun on(event: BasketEvents.Cleared) {
+        basketItemJpaRepository.deleteByBasketId(event.id)
     }
 }

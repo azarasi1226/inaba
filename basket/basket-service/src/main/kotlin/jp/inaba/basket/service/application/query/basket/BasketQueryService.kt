@@ -1,9 +1,7 @@
 package jp.inaba.basket.service.application.query.basket
 
 import jakarta.persistence.EntityManager
-import jp.inaba.basket.api.domain.basket.BasketFindByUserIdQuery
-import jp.inaba.basket.api.domain.basket.BasketFindByUserIdResult
-import jp.inaba.basket.api.domain.basket.ItemDataModel
+import jp.inaba.basket.api.domain.basket.BasketQueries
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.Paging
@@ -16,7 +14,7 @@ class BasketQueryService(
     private val basketJpaRepository: BasketJpaRepository,
 ) {
     @QueryHandler
-    fun handle(query: BasketFindByUserIdQuery): BasketFindByUserIdResult {
+    fun handle(query: BasketQueries.FindByUserIdQuery): BasketQueries.FindByUserIdResult {
         if(!basketJpaRepository.existsByUserId(query.userId)) {
             throw Exception("UserId:${query.userId}のBasketは存在しません")
         }
@@ -57,14 +55,14 @@ class BasketQueryService(
         return convertToOutputData(query.resultList as List<BasketQueryResult>)
     }
 
-    private fun convertToOutputData(results : List<BasketQueryResult>): BasketFindByUserIdResult {
-        return BasketFindByUserIdResult(
+    private fun convertToOutputData(results : List<BasketQueryResult>): BasketQueries.FindByUserIdResult {
+        return BasketQueries.FindByUserIdResult(
             //TODO(resultsが存在しないとき死ぬ)
             basketId = results.first().basketId,
             userId = results.first().userId,
-            page = Page<ItemDataModel>(
+            page = Page<BasketQueries.ItemDataModel>(
                 items = results.map {
-                    ItemDataModel(
+                    BasketQueries.ItemDataModel(
                         itemId = it.itemId,
                         itemName = it.itemName,
                         itemPrice = it.itemPrice,

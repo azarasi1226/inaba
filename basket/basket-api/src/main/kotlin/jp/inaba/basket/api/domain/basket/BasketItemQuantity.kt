@@ -1,8 +1,6 @@
 package jp.inaba.basket.api.domain.basket
 
-import de.huxhorn.sulky.ulid.ULID
-
-data class ItemQuantity(val value: Int) {
+data class BasketItemQuantity(val value: Int) {
     companion object {
         private const val MAX_QUANTITY = 99
     }

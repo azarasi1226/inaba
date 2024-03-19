@@ -40,12 +40,13 @@ class ProductController(
         return ProductCreateResponse(productId.value)
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/{id}")
     fun findByProductId(
-        @PathVariable("productId")
-        rawProductId: String
+        @PathVariable("id")
+        rawId: String
     ): ProductFindByIdResponse {
-        val query = ProductQueries.FindById(rawProductId)
+        val productId = ProductId(rawId)
+        val query = ProductQueries.FindById(productId)
 
         val result = queryGateway.query<ProductQueries.FindByIdResult, ProductQueries.FindById>(query)
             .get()

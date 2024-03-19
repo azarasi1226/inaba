@@ -1,5 +1,6 @@
 package jp.inaba.basket.api.domain.basket
 
+import jp.inaba.catalog.api.domain.product.ProductId
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 
 sealed interface BasketCommand {
@@ -7,23 +8,25 @@ sealed interface BasketCommand {
     val id: BasketId
 }
 
-data class CreateBasketCommand(
-    override val id: BasketId,
-    //TODO(後でUserIDの値オブジェクトにする)
-    val userId: String
-) : BasketCommand
+object BasketCommands {
+    data class Create(
+        override val id: BasketId,
+        //TODO(UserIdを値オブジェクトにする)
+        val userId: String
+    ) : BasketCommand
 
-data class SetItemCommand(
-    override val id: BasketId,
-    val itemId: String,
-    val itemQuantity: ItemQuantity
-) : BasketCommand
+    data class SetBasketItem(
+        override val id: BasketId,
+        val productId: ProductId,
+        val basketItemQuantity: BasketItemQuantity
+    ) : BasketCommand
 
-data class DeleteItemCommand(
-    override val id: BasketId,
-    val itemId: String
-) : BasketCommand
+    data class DeleteBasketItem(
+        override val id: BasketId,
+        val productId: ProductId
+    ) : BasketCommand
 
-data class ClearBasketCommand(
-    override val id: BasketId
-) : BasketCommand
+    data class Clear(
+        override val id: BasketId
+    ) : BasketCommand
+}

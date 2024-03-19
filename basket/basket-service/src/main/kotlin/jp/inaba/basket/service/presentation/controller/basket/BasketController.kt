@@ -1,12 +1,12 @@
 package jp.inaba.basket.service.presentation.controller.basket
 
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.CreateBasketCommand
-import jp.inaba.basket.api.domain.basket.ItemQuantity
-import jp.inaba.basket.api.domain.basket.SetItemCommand
+import jp.inaba.basket.api.domain.basket.*
+import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketItemInputData
+import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketItemInteractor
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketRequest
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketResponse
-import jp.inaba.basket.service.presentation.model.basket.SetItemRequest
+import jp.inaba.basket.service.presentation.model.basket.SetBasketItemRequest
+import jp.inaba.catalog.api.domain.product.ProductId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.web.bind.annotation.*
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/baskets")
 class BasketController(
+    private val setBasketItemInteractor: SetBasketItemInteractor,
     private val commandGateway: CommandGateway,
     private val queryGateway: QueryGateway
 ) {
@@ -23,7 +24,7 @@ class BasketController(
         request: CreateBasketRequest
     ): CreateBasketResponse {
         val basketId = BasketId()
-        val command = CreateBasketCommand(
+        val command = BasketCommands.Create(
             id = basketId,
             userId = request.userId
         )
@@ -38,17 +39,18 @@ class BasketController(
         @PathVariable("basketId")
         rawBasketId: String,
         @RequestBody
-        request: SetItemRequest
+        request: SetBasketItemRequest
     ) {
         val basketId = BasketId(rawBasketId)
-        val itemQuantity = ItemQuantity(request.itemQuantity)
-        val command = SetItemCommand(
-            id = basketId,
-            itemId = request.itemId,
-            itemQuantity = itemQuantity
+        val productId = ProductId(request.productId)
+        val quantity = BasketItemQuantity(request.itemQuantity)
+        val inputData = SetBasketItemInputData(
+            basketId = basketId,
+            productId = productId,
+            basketItemQuantity = quantity
         )
 
-        commandGateway.sendAndWait<Any>(command)
+        setBasketItemInteractor.handle(inputData)
     }
 
     @GetMapping("/{basketId}")
