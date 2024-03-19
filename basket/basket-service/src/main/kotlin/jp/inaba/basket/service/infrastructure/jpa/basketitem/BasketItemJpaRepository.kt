@@ -18,6 +18,6 @@ interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, String> {
     //TODO(動かない)
     @Modifying
     @Transactional
-    @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId AND b.item.itemId = :itemId")
-    fun deleteByBasketIdAndItemId(@Param("basketId") basketId: String, @Param("itemId") itemId: String)
+    @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.basketId = :basketId AND b.product.id = :productId")
+    fun deleteByBasketIdAndProductId(@Param("basketId") basketId: String, @Param("productId") productId: String)
 }

@@ -46,9 +46,9 @@ class BasketProjector(
 
     @EventHandler
     fun on(event: BasketEvents.BasketItemDeleted) {
-        basketItemJpaRepository.deleteByBasketIdAndItemId(
+        basketItemJpaRepository.deleteByBasketIdAndProductId(
             basketId = event.id,
-            itemId = event.productId
+            productId = event.productId
         )
     }
 
