@@ -22,9 +22,9 @@ class BasketQueryService(
         val query = entityManager.createNativeQuery("""
             with target_basket as (
                 SELECT
-                    basket.,
+                    basket.id AS basket_id,
                     user_id
-                FROM BasketEntity basket
+                FROM basket
                 WHERE
                     user_id = :userId
             )
@@ -32,17 +32,16 @@ class BasketQueryService(
             SELECT 
                 tb.basket_id AS ${BasketQueryResult::basketId.name},
                 tb.user_id AS ${BasketQueryResult::userId.name},
-                i.item_id AS ${BasketQueryResult::itemId.name},
-                i.item_name AS ${BasketQueryResult::itemName.name},
-                i.item_price AS ${BasketQueryResult::itemPrice.name},
-                i.item_picture_url AS ${BasketQueryResult::itemPictureUrl.name},
-                i.item_stock_quantity AS ${BasketQueryResult::itemStockQuantity.name},
+                i.id AS ${BasketQueryResult::itemId.name},
+                i.name AS ${BasketQueryResult::itemName.name},
+                i.price AS ${BasketQueryResult::itemPrice.name},
+                i.image_url AS ${BasketQueryResult::itemPictureUrl.name},
                 bi.item_quantity AS ${BasketQueryResult::itemQuantity.name}
             FROM target_basket tb
             LEFT OUTER JOIN basket_item bi
                 ON tb.basket_id = bi.basket_id
-            LEFT OUTER JOIN item i
-                ON bi.item_id = i.item_id
+            LEFT OUTER JOIN product i
+                ON bi.product_id = i.id
         """, BasketQueryResult::class.java)
             .setParameter("userId", query.userId)
 
@@ -66,7 +65,6 @@ class BasketQueryService(
                         itemName = it.itemName,
                         itemPrice = it.itemPrice,
                         itemPictureUrl = it.itemPictureUrl,
-                        itemStockQuantity = it.itemStockQuantity,
                         itemQuantity = it.itemQuantity
                     )
                 },
@@ -87,7 +85,6 @@ class BasketQueryService(
         val itemName: String,
         val itemPrice: Int,
         val itemPictureUrl: String,
-        val itemStockQuantity: Int,
         val itemQuantity: Int,
     )
 }

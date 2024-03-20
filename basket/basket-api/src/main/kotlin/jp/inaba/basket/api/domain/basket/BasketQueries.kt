@@ -20,7 +20,6 @@ object BasketQueries {
         val itemName: String,
         val itemPrice: Int,
         val itemPictureUrl: String,
-        val itemStockQuantity: Int,
         val itemQuantity: Int,
     )
 }
