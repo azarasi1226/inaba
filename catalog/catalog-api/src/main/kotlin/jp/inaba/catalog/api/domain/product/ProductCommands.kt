@@ -13,7 +13,7 @@ object ProductCommands {
         val name: ProductName,
         val description: String,
         val imageUrl: String,
-        val price: Price,
+        val price: ProductPrice,
         val quantity: Int
     ) : ProductCommand
 
@@ -22,7 +22,7 @@ object ProductCommands {
         val name: ProductName,
         val description: String,
         val imageUrl: String,
-        val price: Price,
+        val price: ProductPrice,
         val quantity: Int
     ) : ProductCommand
 

@@ -1,8 +1,6 @@
 package jp.inaba.catalog.service.domain.product
 
-import jp.inaba.catalog.api.domain.product.ProductCommands
-import jp.inaba.catalog.api.domain.product.ProductEvents
-import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.api.domain.product.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
@@ -13,6 +11,11 @@ import org.axonframework.spring.stereotype.Aggregate
 class ProductAggregate() {
     @AggregateIdentifier
     private lateinit var id: ProductId
+    private lateinit var name: ProductName
+    private lateinit var description: String
+    private lateinit var imageUrl: String
+    private lateinit var price: ProductPrice
+    private var quantity: Int = 0
 
     @CommandHandler
     constructor(command: ProductCommands.Create): this() {
@@ -31,5 +34,10 @@ class ProductAggregate() {
     @EventSourcingHandler
     fun on(event: ProductEvents.Created) {
         id = ProductId(event.id)
+        name = ProductName(event.name)
+        description = event.description
+        imageUrl = event.imageUrl
+        price = ProductPrice(event.price)
+        quantity = event.quantity
     }
 }

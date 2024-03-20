@@ -1,4 +1,6 @@
 package jp.inaba.catalog.service.application.query.product
 
-class ProductNotFoundException(productId: String)
-    : Exception("productId:${productId}は存在しません")
+import jp.inaba.catalog.api.domain.product.ProductId
+
+class ProductNotFoundException(productId: ProductId)
+    : Exception("productId:{${productId}}を持つ商品は存在しません")

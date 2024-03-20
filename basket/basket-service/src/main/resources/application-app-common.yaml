@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: inaba-order-service
+    name: inaba-basket-service
 
 axon:
   serializer:

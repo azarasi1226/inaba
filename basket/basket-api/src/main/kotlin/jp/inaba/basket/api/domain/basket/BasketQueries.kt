@@ -12,7 +12,6 @@ object BasketQueries {
 
     data class FindByUserIdResult(
         val basketId: String,
-        val userId: String,
         val page: Page<ItemDataModel>
     )
 

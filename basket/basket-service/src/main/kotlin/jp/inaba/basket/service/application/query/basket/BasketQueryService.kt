@@ -59,7 +59,6 @@ class BasketQueryService(
         return BasketQueries.FindByUserIdResult(
             //TODO(resultsが存在しないとき死ぬ)
             basketId = results.first().basketId,
-            userId = results.first().userId,
             page = Page<BasketQueries.ItemDataModel>(
                 items = results.map {
                     BasketQueries.ItemDataModel(

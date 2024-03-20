@@ -5,9 +5,12 @@ import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketIt
 import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketItemInteractor
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketRequest
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketResponse
+import jp.inaba.basket.service.presentation.model.basket.GetBasketResponse
 import jp.inaba.basket.service.presentation.model.basket.SetBasketItemRequest
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.common.domain.shared.PagingCondition
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.web.bind.annotation.*
 
@@ -35,7 +38,7 @@ class BasketController(
     }
 
     @PostMapping("/{basketId}/items")
-    fun create(
+    fun setBasketItem(
         @PathVariable("basketId")
         rawBasketId: String,
         @RequestBody
@@ -53,11 +56,20 @@ class BasketController(
         setBasketItemInteractor.handle(inputData)
     }
 
-    @GetMapping("/{basketId}")
-    fun get(
-        @PathVariable("basketId")
-        rawBasketId: String
-    ) {
+    @GetMapping("/{userId}")
+    fun getBasket(
+        @PathVariable("userId")
+        rawUserId: String
+    ): GetBasketResponse {
+        val pagingCondition = PagingCondition(1, 10)
+        val query = BasketQueries.FindByUserIdQuery(rawUserId, pagingCondition)
 
+        val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)
+            .get()
+
+        return GetBasketResponse(
+            basketId = result.basketId,
+            page = result.page
+        )
     }
 }

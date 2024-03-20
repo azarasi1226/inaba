@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component
 @Component
 class BasketProjector(
     private val basketJpaRepository: BasketJpaRepository,
-    private val itemJpaRepository: ProductJpaRepository,
+    private val productJpaRepository: ProductJpaRepository,
     private val basketItemJpaRepository: BasketItemJpaRepository
 ) {
     @EventHandler
     fun on(event: BasketEvents.Created) {
         val basket = BasketJpaEntity(
-            basketId = event.id,
+            id = event.id,
             userId = event.userId
         )
 
@@ -31,7 +31,7 @@ class BasketProjector(
         val basketJpaEntity = basketJpaRepository.findById(event.id)
             .orElseThrow { Exception("Basketが存在しません") }
 
-        val productJpaEntity = itemJpaRepository.findById(event.id)
+        val productJpaEntity = productJpaRepository.findById(event.productId)
             .orElseThrow { Exception("aaaa") }
 
         val basketItemJpaEntity = BasketItemJpaEntity(
