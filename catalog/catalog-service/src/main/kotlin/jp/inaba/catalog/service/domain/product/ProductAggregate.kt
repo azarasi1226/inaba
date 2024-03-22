@@ -12,19 +12,19 @@ class ProductAggregate() {
     @AggregateIdentifier
     private lateinit var id: ProductId
     private lateinit var name: ProductName
-    private lateinit var description: String
-    private lateinit var imageUrl: String
+    private lateinit var description: ProductDescription
+    private lateinit var imageUrl: ProductImageURL
     private lateinit var price: ProductPrice
-    private var quantity: Int = 0
+    private lateinit var quantity: ProductQuantity
 
     @CommandHandler
     constructor(command: ProductCommands.Create): this() {
         val event = ProductEvents.Created(
-            id = command.id.value,
-            name = command.name.value,
+            id = command.id,
+            name = command.name,
             description = command.description,
             imageUrl = command.imageUrl,
-            price = command.price.value,
+            price = command.price,
             quantity = command.quantity
         )
 
@@ -33,11 +33,46 @@ class ProductAggregate() {
 
     @EventSourcingHandler
     fun on(event: ProductEvents.Created) {
-        id = ProductId(event.id)
-        name = ProductName(event.name)
+        id = event.id
+        name = event.name
         description = event.description
         imageUrl = event.imageUrl
-        price = ProductPrice(event.price)
+        price = event.price
         quantity = event.quantity
+    }
+    @CommandHandler
+    constructor(command: ProductCommands.Update): this() {
+        val event = ProductEvents.Updated(
+                id = command.id,
+                name = command.name,
+                description = command.description,
+                imageUrl = command.imageUrl,
+                price = command.price,
+                quantity = command.quantity
+        )
+
+        AggregateLifecycle.apply(event)
+    }
+
+    @EventSourcingHandler
+    fun on(event: ProductEvents.Updated) {
+        id = event.id
+        name = event.name
+        description = event.description
+        imageUrl = event.imageUrl
+        price = event.price
+        quantity = event.quantity
+    }
+    @CommandHandler
+    constructor(command: ProductCommands.Delete): this() {
+        val event = ProductEvents.Deleted(
+            id = command.id
+        )
+        AggregateLifecycle.apply(event)
+    }
+
+    @EventSourcingHandler
+    fun on(event: ProductEvents.Deleted) {
+        id = event.id
     }
 }

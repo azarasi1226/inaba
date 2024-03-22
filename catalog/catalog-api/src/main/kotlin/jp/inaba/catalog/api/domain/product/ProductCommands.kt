@@ -11,19 +11,19 @@ object ProductCommands {
     data class Create(
         override val id: ProductId,
         val name: ProductName,
-        val description: String,
-        val imageUrl: String,
+        val description: ProductDescription,
+        val imageUrl: ProductImageURL,
         val price: ProductPrice,
-        val quantity: Int
+        val quantity: ProductQuantity
     ) : ProductCommand
 
     data class Update(
         override val id: ProductId,
         val name: ProductName,
-        val description: String,
-        val imageUrl: String,
+        val description: ProductDescription,
+        val imageUrl: ProductImageURL,
         val price: ProductPrice,
-        val quantity: Int
+        val quantity: ProductQuantity
     ) : ProductCommand
 
     data class Delete(
