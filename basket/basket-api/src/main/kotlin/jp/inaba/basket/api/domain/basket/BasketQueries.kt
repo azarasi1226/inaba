@@ -23,4 +23,3 @@ object BasketQueries {
         val itemQuantity: Int,
     )
 }
-

@@ -77,6 +77,7 @@ class BasketAggregate() {
     @EventSourcingHandler
     fun on(event: BasketEvents.BasketItemDeleted) {
         val productId = ProductId(event.productId)
+
         items.remove(productId)
     }
 }
