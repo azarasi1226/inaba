@@ -55,12 +55,23 @@ class BasketController(
         setBasketItemInteractor.handle(inputData)
     }
 
+    @DeleteMapping("/{basketId}/items")
+    fun clear(
+        @PathVariable("basketId")
+        rawBasketId: String,
+    ) {
+        val basketId = BasketId(rawBasketId)
+        val command = BasketCommands.Clear(basketId)
+
+        commandGateway.sendAndWait<Any>(command)
+    }
+
     @GetMapping("/{userId}")
     fun getBasket(
         @PathVariable("userId")
         rawUserId: String
     ): GetBasketResponse {
-        val pagingCondition = PagingCondition(1, 10)
+        val pagingCondition = PagingCondition(20, 10)
         val query = BasketQueries.FindByUserIdQuery(rawUserId, pagingCondition)
 
         val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)

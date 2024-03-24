@@ -1,25 +1,26 @@
-package jp.inaba.basket.service.application.query.basket
+package jp.inaba.basket.service.application.query.basket.findbyuserid
 
 import jakarta.persistence.EntityManager
 import jp.inaba.basket.api.domain.basket.BasketQueries
+import jp.inaba.basket.service.application.query.basket.BasketNotFoundException
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.Paging
+import jp.inaba.common.domain.shared.PagingCondition
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
 @Component
-class BasketQueryService(
+class BasketFindByUserIdQueryService(
     private val entityManager: EntityManager,
     private val basketJpaRepository: BasketJpaRepository,
 ) {
     @QueryHandler
     fun handle(query: BasketQueries.FindByUserIdQuery): BasketQueries.FindByUserIdResult {
-        if(!basketJpaRepository.existsByUserId(query.userId)) {
-            throw Exception("UserId:${query.userId}のBasketは存在しません")
-        }
+        val basketJpaEntity = basketJpaRepository.findByUserId(query.userId)
+            .orElseThrow { BasketNotFoundException("UserId:${query.userId}のBasketは存在しません") }
 
-        val query = entityManager.createNativeQuery("""
+        val nativeQuery = entityManager.createNativeQuery("""
             with target_basket as (
                 SELECT
                     basket.id AS basket_id,
@@ -36,29 +37,37 @@ class BasketQueryService(
                 i.name AS ${BasketQueryResult::itemName.name},
                 i.price AS ${BasketQueryResult::itemPrice.name},
                 i.image_url AS ${BasketQueryResult::itemPictureUrl.name},
-                bi.item_quantity AS ${BasketQueryResult::itemQuantity.name}
+                bi.item_quantity AS ${BasketQueryResult::itemQuantity.name},
+                COUNT(*) OVER() AS ${BasketQueryResult::totalCount.name}
             FROM target_basket tb
-            LEFT OUTER JOIN basket_item bi
+            INNER JOIN basket_item bi
                 ON tb.basket_id = bi.basket_id
-            LEFT OUTER JOIN product i
+            INNER JOIN product i
                 ON bi.product_id = i.id
         """, BasketQueryResult::class.java)
             .setParameter("userId", query.userId)
 
-        try {
-            query.resultList
+        val results = try {
+            nativeQuery.resultList as List<BasketQueryResult>
         }
         catch(e: Exception) {
-            println(e)
+           emptyList()
         }
-        return convertToOutputData(query.resultList as List<BasketQueryResult>)
+
+        return convertToOutputData(basketJpaEntity.id, results, query.pagingCondition)
     }
 
-    private fun convertToOutputData(results : List<BasketQueryResult>): BasketQueries.FindByUserIdResult {
+    private fun convertToOutputData(basketId: String, results : List<BasketQueryResult>, pagingCondition: PagingCondition): BasketQueries.FindByUserIdResult {
+        val totalCount = if(results.isNotEmpty()) {
+            results.first().totalCount
+        }
+        else {
+            0
+        }
+
         return BasketQueries.FindByUserIdResult(
-            //TODO(resultsが存在しないとき死ぬ)
-            basketId = results.first().basketId,
-            page = Page<BasketQueries.ItemDataModel>(
+            basketId = basketId,
+            page = Page(
                 items = results.map {
                     BasketQueries.ItemDataModel(
                         itemId = it.itemId,
@@ -68,11 +77,10 @@ class BasketQueryService(
                         itemQuantity = it.itemQuantity
                     )
                 },
-                //TODO(pageing番号決定)
                 paging = Paging(
-                    totalCount = 250,
-                    pageSize = 2,
-                    pageNumber= 3
+                    totalCount = totalCount,
+                    pageSize = pagingCondition.pageSize,
+                    pageNumber= pagingCondition.pageNumber
                 )
             )
         )
@@ -86,5 +94,6 @@ class BasketQueryService(
         val itemPrice: Int,
         val itemPictureUrl: String,
         val itemQuantity: Int,
+        val totalCount: Long
     )
 }

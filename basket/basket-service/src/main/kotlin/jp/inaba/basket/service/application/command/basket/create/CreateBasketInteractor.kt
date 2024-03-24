@@ -12,6 +12,7 @@ class CreateBasketInteractor(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(inputData: CreateBasketInputData): CreateBasketOutputData {
+        // ユーザーIDの重複チェック
         if(basketJpaRepository.existsByUserId(inputData.userId)) {
           throw UserDuplicatedException(inputData.userId)
         }
