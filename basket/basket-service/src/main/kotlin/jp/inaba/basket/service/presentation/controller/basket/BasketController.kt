@@ -1,8 +1,10 @@
 package jp.inaba.basket.service.presentation.controller.basket
 
 import jp.inaba.basket.api.domain.basket.*
-import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketItemInputData
-import jp.inaba.basket.service.application.command.basket.setproduct.SetBasketItemInteractor
+import jp.inaba.basket.service.application.command.basket.create.CreateBasketInputData
+import jp.inaba.basket.service.application.command.basket.create.CreateBasketInteractor
+import jp.inaba.basket.service.application.command.basket.setbasketitem.SetBasketItemInputData
+import jp.inaba.basket.service.application.command.basket.setbasketitem.SetBasketItemInteractor
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketRequest
 import jp.inaba.basket.service.presentation.model.basket.CreateBasketResponse
 import jp.inaba.basket.service.presentation.model.basket.GetBasketResponse
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/baskets")
 class BasketController(
+    private val createBasketInteractor: CreateBasketInteractor,
     private val setBasketItemInteractor: SetBasketItemInteractor,
     private val commandGateway: CommandGateway,
     private val queryGateway: QueryGateway
@@ -26,15 +29,11 @@ class BasketController(
         @RequestBody
         request: CreateBasketRequest
     ): CreateBasketResponse {
-        val basketId = BasketId()
-        val command = BasketCommands.Create(
-            id = basketId,
-            userId = request.userId
-        )
+        val inputData = CreateBasketInputData(request.userId)
 
-        commandGateway.sendAndWait<Any>(command)
+        val outputData = createBasketInteractor.handle(inputData)
 
-        return CreateBasketResponse(basketId.value)
+        return CreateBasketResponse(outputData.basketId)
     }
 
     @PostMapping("/{basketId}/items")

@@ -4,6 +4,7 @@ import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
+import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemId
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
@@ -32,10 +33,15 @@ class BasketProjector(
             .orElseThrow { Exception("Basketが存在しません") }
 
         val productJpaEntity = productJpaRepository.findById(event.productId)
-            .orElseThrow { Exception("aaaa") }
+            .orElseThrow { Exception("Productが存在しません") }
+
+        val id = BasketItemId(
+            basketId = basketJpaEntity.id,
+            productId = productJpaEntity.id
+        )
 
         val basketItemJpaEntity = BasketItemJpaEntity(
-            basketItemId = ULID().nextULID(),
+            basketItemId = id,
             basket = basketJpaEntity,
             product = productJpaEntity,
             itemQuantity = event.basketItemQuantity

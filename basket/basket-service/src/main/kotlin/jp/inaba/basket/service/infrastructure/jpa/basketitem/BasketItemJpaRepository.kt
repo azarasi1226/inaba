@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, String> {
+interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, BasketItemId> {
     @Modifying
     @Transactional
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basket.id = :basketId")

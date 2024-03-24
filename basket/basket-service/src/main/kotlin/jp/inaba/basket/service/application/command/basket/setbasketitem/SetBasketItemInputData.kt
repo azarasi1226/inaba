@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.command.basket.setproduct
+package jp.inaba.basket.service.application.command.basket.setbasketitem
 
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
