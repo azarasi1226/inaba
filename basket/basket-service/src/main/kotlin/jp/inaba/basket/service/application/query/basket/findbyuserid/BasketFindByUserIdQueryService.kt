@@ -30,7 +30,7 @@ class BasketFindByUserIdQueryService(
                     user_id = :userId
             )
             
-            SELECT 
+            SELECT
                 tb.basket_id AS ${BasketQueryResult::basketId.name},
                 tb.user_id AS ${BasketQueryResult::userId.name},
                 i.id AS ${BasketQueryResult::itemId.name},
@@ -44,8 +44,11 @@ class BasketFindByUserIdQueryService(
                 ON tb.basket_id = bi.basket_id
             INNER JOIN product i
                 ON bi.product_id = i.id
+            LIMIT :offset, :pageSize
         """, BasketQueryResult::class.java)
             .setParameter("userId", query.userId)
+            .setParameter("offset", query.pagingCondition.offset)
+            .setParameter("pageSize", query.pagingCondition.pageSize)
 
         val results = try {
             nativeQuery.resultList as List<BasketQueryResult>

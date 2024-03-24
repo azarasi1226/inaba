@@ -69,9 +69,13 @@ class BasketController(
     @GetMapping("/{userId}")
     fun getBasket(
         @PathVariable("userId")
-        rawUserId: String
+        rawUserId: String,
+        @RequestParam("pageSize")
+        pageSize: Int,
+        @RequestParam("pageNumber")
+        pageNumber: Int
     ): GetBasketResponse {
-        val pagingCondition = PagingCondition(20, 10)
+        val pagingCondition = PagingCondition(pageSize = pageSize, pageNumber = pageNumber)
         val query = BasketQueries.FindByUserIdQuery(rawUserId, pagingCondition)
 
         val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)
