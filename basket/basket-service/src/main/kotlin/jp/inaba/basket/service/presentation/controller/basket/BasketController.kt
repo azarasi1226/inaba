@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/baskets")
 class BasketController(
-    private val createBasketInteractor: CreateBasketInteractor,
-    private val setBasketItemInteractor: SetBasketItemInteractor,
     private val commandGateway: CommandGateway,
     private val queryGateway: QueryGateway
 ) {
@@ -29,11 +27,15 @@ class BasketController(
         @RequestBody
         request: CreateBasketRequest
     ): CreateBasketResponse {
-        val inputData = CreateBasketInputData(request.userId)
+        val basketId = BasketId()
+        val command = BasketCommands.Create(
+            id = basketId,
+            userId = request.userId
+        )
 
-        val outputData = createBasketInteractor.handle(inputData)
+        commandGateway.sendAndWait<Any>(command)
 
-        return CreateBasketResponse(outputData.basketId)
+        return CreateBasketResponse(basketId.value)
     }
 
     @PostMapping("/{basketId}/items")
@@ -45,14 +47,31 @@ class BasketController(
     ) {
         val basketId = BasketId(rawBasketId)
         val productId = ProductId(request.productId)
-        val quantity = BasketItemQuantity(request.itemQuantity)
-        val inputData = SetBasketItemInputData(
-            basketId = basketId,
+        val basketItemQuantity = BasketItemQuantity(request.itemQuantity)
+        val command = BasketCommands.SetBasketItem(
+            id = basketId,
             productId = productId,
-            basketItemQuantity = quantity
+            basketItemQuantity = basketItemQuantity
         )
 
-        setBasketItemInteractor.handle(inputData)
+        commandGateway.sendAndWait<Any>(command)
+    }
+
+    @DeleteMapping("/{basketId}/items/{itemId}")
+    fun deleteBasketItem(
+        @PathVariable("basketId")
+        rawBasketId: String,
+        @PathVariable("itemId")
+        rawItemId: String
+    ) {
+        val basketId = BasketId(rawBasketId)
+        val productId = ProductId(rawItemId)
+        val command = BasketCommands.DeleteBasketItem(
+            id = basketId,
+            productId = productId
+        )
+
+        commandGateway.sendAndWait<Any>(command)
     }
 
     @DeleteMapping("/{basketId}/items")
@@ -75,7 +94,10 @@ class BasketController(
         @RequestParam("pageNumber")
         pageNumber: Int
     ): GetBasketResponse {
-        val pagingCondition = PagingCondition(pageSize = pageSize, pageNumber = pageNumber)
+        val pagingCondition = PagingCondition(
+            pageSize = pageSize,
+            pageNumber = pageNumber
+        )
         val query = BasketQueries.FindByUserIdQuery(rawUserId, pagingCondition)
 
         val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)

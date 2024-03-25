@@ -30,7 +30,7 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: BasketCommands.SetBasketItem) {
-        // 種類の個数をチェック
+        // 買い物かごの中の最大種類に達しているか？
         if(items.size >= MAX_ITEM_CAPACITY) {
             throw Exception("カートの中に入れられる商品種類の制限に引っかかったよ")
         }
@@ -46,6 +46,12 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: BasketCommands.DeleteBasketItem) {
+        if(!items.keys.contains(command.productId)) {
+            // productIdが存在しなかったら例外でもいい気がするけど、
+            // 冪等性な操作を実現したほうがいいような気もするから早期return
+            return
+        }
+
         val event = BasketEvents.BasketItemDeleted(
             id = command.id.value,
             productId = command.productId.value
