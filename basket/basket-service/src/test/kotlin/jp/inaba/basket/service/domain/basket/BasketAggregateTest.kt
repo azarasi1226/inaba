@@ -4,16 +4,11 @@ import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
-import jp.inaba.basket.service.application.command.basket.CreateBasketCommandInterceptor
-import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.catalog.api.domain.product.ProductId
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
 
 class BasketAggregateTest {
     private lateinit var fixture: FixtureConfiguration<BasketAggregate>
@@ -24,7 +19,7 @@ class BasketAggregateTest {
     }
 
     @Test
-    fun 買い物かご作成_買い物かご作成イベント発行() {
+    fun 買い物かご作成_買い物かごが作成されたイベント発行() {
         val basketId = BasketId()
         val userId = "seal1226"
         val command = BasketCommands.Create(id = basketId, userId = userId)
