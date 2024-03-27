@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.presentation.configuration
+package jp.inaba.basket.service.configuration
 
 import jp.inaba.basket.service.application.command.basket.CreateBasketCommandInterceptor
 import jp.inaba.basket.service.application.command.basket.SetBasketItemCommandInterceptor
