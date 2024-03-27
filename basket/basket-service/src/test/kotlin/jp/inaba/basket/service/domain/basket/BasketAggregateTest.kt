@@ -45,26 +45,50 @@ class BasketAggregateTest {
             )
     }
 
-    // なんでうまくうごかないいのおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
     @Test
-    fun アイテムが50個買い物かごにある_アイテムをセットする_例外() {
-//        val basketId = BasketId()
-//        val userId = "seal1226"
-//        val productId = ProductId()
-//        val quantity = BasketItemQuantity(20)
-//        val itemSetEvents = (1..50).map {
-//            BasketEvents.BasketItemSet(
-//                id = basketId.value,
-//                productId = ProductId().value,
-//                basketItemQuantity = quantity.value)
-//        }
-//
-//        fixture.given(
-//            BasketEvents.Created(id = basketId.value, userId = userId),
-//            itemSetEvents
-//        )
-//            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
-//            .expectException(Exception::class.java)
+    fun すでにアイテムが49種類買い物かごにある_アイテムをセットする_アイテムがセットされたイベント発行() {
+        val basketId = BasketId()
+        val userId = "seal1226"
+        val productId = ProductId()
+        val quantity = BasketItemQuantity(20)
+        val itemSetEvents = (1..49).map {
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = ProductId().value,
+                basketItemQuantity = quantity.value)
+        }
+
+        fixture.given(
+            BasketEvents.Created(id = basketId.value, userId = userId),
+            *itemSetEvents.toTypedArray(),
+        )
+            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
+            .expectSuccessfulHandlerExecution()
+            .expectEvents(
+                BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value)
+            )
+    }
+
+
+    @Test
+    fun すでにアイテムが50種類買い物かごにある_アイテムをセットする_例外() {
+        val basketId = BasketId()
+        val userId = "seal1226"
+        val productId = ProductId()
+        val quantity = BasketItemQuantity(20)
+        val itemSetEvents = (1..50).map {
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = ProductId().value,
+                basketItemQuantity = quantity.value)
+        }
+
+        fixture.given(
+            BasketEvents.Created(id = basketId.value, userId = userId),
+            *itemSetEvents.toTypedArray(),
+        )
+            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
+            .expectException(Exception::class.java)
     }
 
     @Test
@@ -86,7 +110,7 @@ class BasketAggregateTest {
     }
 
     @Test
-    fun アイテムが存在するけど番号が違う_アイテムを削除する_何もしない() {
+    fun アイテムが存在する_存在しないアイテムを削除する_何もしない() {
         val basketId = BasketId()
         val userId = "seal1226"
         val productId1 = ProductId()
