@@ -3,6 +3,7 @@ package jp.inaba.basket.service.presentation.basket.clear
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
+import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 class ClearBasketController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
-    @DeleteMapping("/{basketId}/items")
+    @DeleteMapping("/{userId}/items")
     fun clear(
-        @PathVariable("basketId")
-        rawBasketId: String,
+        @PathVariable("userId")
+        rawUserId: String,
     ) {
-        val basketId = BasketId(rawBasketId)
+        val userId = UserId(rawUserId)
+        val basketId = BasketId.formUserId(userId)
         val command = BasketCommands.Clear(basketId)
 
         commandGateway.sendAndWait<Any>(command)

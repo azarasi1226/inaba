@@ -1,7 +1,6 @@
 package jp.inaba.basket.service.infrastructure.jpa.basketitem
 
 import jakarta.persistence.*
-import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 
 @Entity
@@ -9,9 +8,8 @@ import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 data class BasketItemJpaEntity(
     @EmbeddedId
     var basketItemId: BasketItemId = BasketItemId(),
-    @ManyToOne
-    @JoinColumn(name = "basket_id", referencedColumnName = "id", insertable = false, updatable = false)
-    var basket: BasketJpaEntity = BasketJpaEntity(),
+    @Column(name = "basket_id", insertable=false, updatable=false)
+    var basketId: String = "",
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
     var product: ProductJpaEntity = ProductJpaEntity(),

@@ -36,6 +36,8 @@ class ProductProjector(
 
     @EventHandler
     fun on(event: ProductEvents.Deleted) {
-        
+
+        TODO("消していいのか？　ステータス変更とかでいいのでは..?")
+        // repository.deleteById(event.id)
     }
 }

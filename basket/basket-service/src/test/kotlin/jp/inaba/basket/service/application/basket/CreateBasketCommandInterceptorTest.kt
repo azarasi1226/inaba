@@ -2,23 +2,18 @@ package jp.inaba.basket.service.application.basket
 
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.service.application.command.basket.CreateBasketCommandInterceptor
 import jp.inaba.basket.service.application.command.basket.create.UserDuplicatedException
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
-import org.axonframework.commandhandling.CommandMessage
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 
 @SpringBootTest
 class CreateBasketCommandInterceptorTest {

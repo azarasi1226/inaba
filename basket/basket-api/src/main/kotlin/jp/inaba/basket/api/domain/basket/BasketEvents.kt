@@ -5,11 +5,6 @@ sealed interface BasketEvent {
 }
 
 object BasketEvents {
-    data class Created(
-        override val id: String,
-        val userId: String
-    ) : BasketEvent
-
     data class BasketItemSet(
         override val id: String,
         val productId: String,

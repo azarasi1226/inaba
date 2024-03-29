@@ -4,8 +4,10 @@ import jp.inaba.basket.api.domain.basket.*
 import jp.inaba.catalog.api.domain.product.ProductId
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
+import org.axonframework.modelling.command.AggregateCreationPolicy
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
+import org.axonframework.modelling.command.CreationPolicy
 import org.axonframework.spring.stereotype.Aggregate
 
 @Aggregate
@@ -19,16 +21,7 @@ class BasketAggregate() {
     }
 
     @CommandHandler
-    constructor(command: BasketCommands.Create): this() {
-        val event = BasketEvents.Created(
-            id = command.id.value,
-            userId = command.userId
-        )
-
-        AggregateLifecycle.apply(event)
-    }
-
-    @CommandHandler
+    @CreationPolicy(AggregateCreationPolicy.CREATE_IF_MISSING)
     fun handle(command: BasketCommands.SetBasketItem) {
         // 買い物かごの中の最大種類に達しているか？
         if(items.size >= MAX_ITEM_CAPACITY) {
@@ -68,15 +61,11 @@ class BasketAggregate() {
     }
 
     @EventSourcingHandler
-    fun on(event: BasketEvents.Created) {
-        id = BasketId(event.id)
-    }
-
-    @EventSourcingHandler
     fun on(event: BasketEvents.BasketItemSet) {
         val productId = ProductId(event.productId)
         val quantity = BasketItemQuantity(event.basketItemQuantity)
 
+        id = BasketId(event.id)
         items[productId] = quantity
     }
 
