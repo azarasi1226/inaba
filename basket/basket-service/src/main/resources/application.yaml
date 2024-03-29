@@ -8,7 +8,7 @@ spring:
         - datastore-h2
       local:
         - app-common
-        - app-docker-compose
+        - app-local
         - axon-server
         - datastore-mysql
       test:
