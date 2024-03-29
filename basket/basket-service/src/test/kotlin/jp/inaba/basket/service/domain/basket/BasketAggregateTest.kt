@@ -35,11 +35,45 @@ class BasketAggregateTest {
         }
 
         fixture.given(*itemSetEvents.toTypedArray())
-            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
+            .`when`(
+                BasketCommands.SetBasketItem(
+                    id = basketId,
+                    productId = productId,
+                    basketItemQuantity = quantity
+                )
+            )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value)
+                BasketEvents.BasketItemSet(
+                    id = basketId.value,
+                    productId = productId.value,
+                    basketItemQuantity = quantity.value
+                )
             )
+    }
+
+    @Test
+    fun アイテムをセットされている_全く同じ情報でサイドアイテムをセットする_何も起きない() {
+        val basketId = BasketId(UserId())
+        val productId = ProductId()
+        val quantity = BasketItemQuantity(20)
+
+        fixture.given(
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = productId.value,
+                basketItemQuantity = quantity.value
+            )
+        )
+            .`when`(
+                BasketCommands.SetBasketItem(
+                    id = basketId,
+                    productId = productId,
+                    basketItemQuantity = quantity
+                )
+            )
+            .expectSuccessfulHandlerExecution()
+            .expectNoEvents()
     }
 
     @Test
@@ -55,7 +89,13 @@ class BasketAggregateTest {
         }
 
         fixture.given(*itemSetEvents.toTypedArray())
-            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
+            .`when`(
+                BasketCommands.SetBasketItem(
+                    id = basketId,
+                    productId = productId,
+                    basketItemQuantity = quantity
+                )
+            )
             .expectException(Exception::class.java)
     }
 
@@ -65,11 +105,25 @@ class BasketAggregateTest {
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value))
-            .`when`(BasketCommands.DeleteBasketItem(id = basketId, productId = productId))
+        fixture.given(
+                BasketEvents.BasketItemSet(
+                    id = basketId.value,
+                    productId = productId.value,
+                    basketItemQuantity = quantity.value
+                )
+        )
+            .`when`(
+                BasketCommands.DeleteBasketItem(
+                    id = basketId,
+                    productId = productId
+                )
+            )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.BasketItemDeleted(id = basketId.value, productId = productId.value)
+                BasketEvents.BasketItemDeleted(
+                    id = basketId.value,
+                    productId = productId.value
+                )
             )
     }
 
@@ -80,8 +134,19 @@ class BasketAggregateTest {
         val productId2 = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(BasketEvents.BasketItemSet(id = basketId.value, productId = productId1.value, basketItemQuantity = quantity.value))
-            .`when`(BasketCommands.DeleteBasketItem(id = basketId, productId = productId2))
+        fixture.given(
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = productId1.value,
+                basketItemQuantity = quantity.value
+            )
+        )
+            .`when`(
+                BasketCommands.DeleteBasketItem(
+                    id = basketId,
+                    productId = productId2
+                )
+            )
             .expectSuccessfulHandlerExecution()
             .expectNoEvents()
     }

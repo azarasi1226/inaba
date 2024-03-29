@@ -1,5 +1,6 @@
 package jp.inaba.basket.service.application.query.basket.findbyuserid
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.persistence.EntityManager
 import jp.inaba.basket.api.domain.basket.BasketQueries
 import jp.inaba.common.domain.shared.Page
@@ -34,7 +35,8 @@ class BasketFindByUserIdQueryService(
 
         return convertToOutputData(
             results = nativeQuery.resultList as List<BasketQueryResult>,
-            pagingCondition = query.pagingCondition)
+            pagingCondition = query.pagingCondition
+        )
     }
 
     private fun convertToOutputData(results : List<BasketQueryResult>, pagingCondition: PagingCondition): BasketQueries.FindByUserIdResult {
