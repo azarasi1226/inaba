@@ -32,9 +32,9 @@ class BasketFindByUserIdQueryService(
             .setParameter("offset", query.pagingCondition.offset)
             .setParameter("pageSize", query.pagingCondition.pageSize)
 
-        val results = nativeQuery.resultList as List<BasketQueryResult>
-
-        return convertToOutputData(results, query.pagingCondition)
+        return convertToOutputData(
+            results = nativeQuery.resultList as List<BasketQueryResult>,
+            pagingCondition = query.pagingCondition)
     }
 
     private fun convertToOutputData(results : List<BasketQueryResult>, pagingCondition: PagingCondition): BasketQueries.FindByUserIdResult {
