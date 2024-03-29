@@ -14,47 +14,27 @@ class BasketFindByUserIdQueryService(
 ) {
     @QueryHandler
     fun handle(query: BasketQueries.FindByUserIdQuery): BasketQueries.FindByUserIdResult {
-//        val basketJpaEntity = basketJpaRepository.findByUserId(query.userId)
-//            .orElseThrow { BasketNotFoundException("UserId:${query.userId}のBasketは存在しません") }
-//
-//        val nativeQuery = entityManager.createNativeQuery("""
-//            with target_basket as (
-//                SELECT
-//                    basket.id AS basket_id,
-//                    user_id
-//                FROM basket
-//                WHERE
-//                    user_id = :userId
-//            )
-//
-//            SELECT
-//                tb.basket_id AS ${BasketQueryResult::basketId.name},
-//                tb.user_id AS ${BasketQueryResult::userId.name},
-//                i.id AS ${BasketQueryResult::itemId.name},
-//                i.name AS ${BasketQueryResult::itemName.name},
-//                i.price AS ${BasketQueryResult::itemPrice.name},
-//                i.image_url AS ${BasketQueryResult::itemPictureUrl.name},
-//                bi.item_quantity AS ${BasketQueryResult::itemQuantity.name},
-//                COUNT(*) OVER() AS ${BasketQueryResult::totalCount.name}
-//            FROM target_basket tb
-//            INNER JOIN basket_item bi
-//                ON tb.basket_id = bi.basket_id
-//            INNER JOIN product i
-//                ON bi.product_id = i.id
-//            LIMIT :offset, :pageSize
-//        """, BasketQueryResult::class.java)
-//            .setParameter("userId", query.userId)
-//            .setParameter("offset", query.pagingCondition.offset)
-//            .setParameter("pageSize", query.pagingCondition.pageSize)
-//
-//        val results = try {
-//            nativeQuery.resultList as List<BasketQueryResult>
-//        }
-//        catch(e: Exception) {
-//           emptyList()
-//        }
+        val nativeQuery = entityManager.createNativeQuery("""
+            SELECT
+                p.id AS ${BasketQueryResult::itemId.name},
+                p.name AS ${BasketQueryResult::itemName.name},
+                p.price AS ${BasketQueryResult::itemPrice.name},
+                p.image_url AS ${BasketQueryResult::itemPictureUrl.name},
+                bi.item_quantity AS ${BasketQueryResult::itemQuantity.name},
+                COUNT(*) OVER() AS ${BasketQueryResult::totalCount.name}
+            FROM basket_item bi
+            INNER JOIN product p
+                    ON bi.basket_id = :basketId
+                    AND bi.product_id = p.id
+            LIMIT :offset, :pageSize
+        """, BasketQueryResult::class.java)
+            .setParameter("basketId", query.basketId.value)
+            .setParameter("offset", query.pagingCondition.offset)
+            .setParameter("pageSize", query.pagingCondition.pageSize)
 
-        return convertToOutputData(emptyList(), query.pagingCondition)
+        val results = nativeQuery.resultList as List<BasketQueryResult>
+
+        return convertToOutputData(results, query.pagingCondition)
     }
 
     private fun convertToOutputData(results : List<BasketQueryResult>, pagingCondition: PagingCondition): BasketQueries.FindByUserIdResult {
@@ -86,8 +66,6 @@ class BasketFindByUserIdQueryService(
     }
 
     private data class BasketQueryResult(
-        val basketId: String,
-        val userId: String,
         val itemId: String,
         val itemName: String,
         val itemPrice: Int,
