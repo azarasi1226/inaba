@@ -24,7 +24,7 @@ class BasketAggregateTest {
     @ParameterizedTest
     @ValueSource(ints = [0, 49])
     fun アイテムをセットする_アイテムがセットされたイベント発行(eventCount: Int) {
-        val basketId = BasketId.fromUserId(UserId())
+        val basketId = BasketId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
         val itemSetEvents = (1..eventCount).map {
@@ -44,7 +44,7 @@ class BasketAggregateTest {
 
     @Test
     fun アイテムが50種類買い物かごに入っている_アイテムをセットする_例外() {
-        val basketId = BasketId.fromUserId(UserId())
+        val basketId = BasketId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
         val itemSetEvents = (1..50).map {
@@ -61,7 +61,7 @@ class BasketAggregateTest {
 
     @Test
     fun 削除対象のアイテムが存在する_アイテムを削除する_アイテムを削除したイベント発行() {
-        val basketId = BasketId.fromUserId(UserId())
+        val basketId = BasketId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
@@ -75,7 +75,7 @@ class BasketAggregateTest {
 
     @Test
     fun 被削除対象のアイテムが存在する_アイテムを削除する_何も起きない() {
-        val basketId = BasketId.fromUserId(UserId())
+        val basketId = BasketId(UserId())
         val productId1 = ProductId()
         val productId2 = ProductId()
         val quantity = BasketItemQuantity(20)

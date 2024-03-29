@@ -22,7 +22,7 @@ class DeleteBasketItemController(
         rawItemId: String
     ) {
         val userId = UserId(rawUserId)
-        val basketId = BasketId.fromUserId(userId)
+        val basketId = BasketId(userId)
         val productId = ProductId(rawItemId)
         val command = BasketCommands.DeleteBasketItem(
             id = basketId,

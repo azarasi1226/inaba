@@ -24,7 +24,7 @@ class SetBasketItemController(
         request: SetBasketItemRequest
     ) {
         val userId = UserId(rawUserId)
-        val basketId = BasketId.fromUserId(userId)
+        val basketId = BasketId(userId)
         val productId = ProductId(request.productId)
         val basketItemQuantity = BasketItemQuantity(request.itemQuantity)
         val command = BasketCommands.SetBasketItem(

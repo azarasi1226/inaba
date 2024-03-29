@@ -19,7 +19,7 @@ class ClearBasketController(
         rawUserId: String,
     ) {
         val userId = UserId(rawUserId)
-        val basketId = BasketId.fromUserId(userId)
+        val basketId = BasketId(userId)
         val command = BasketCommands.Clear(basketId)
 
         commandGateway.sendAndWait<Any>(command)
