@@ -30,7 +30,7 @@ class GetBasketController(
             pageNumber = pageNumber
         )
         val userId = UserId(rawUserId)
-        val basketId = BasketId.formUserId(userId)
+        val basketId = BasketId.fromUserId(userId)
         val query = BasketQueries.FindByUserIdQuery(basketId, pagingCondition)
 
         val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)

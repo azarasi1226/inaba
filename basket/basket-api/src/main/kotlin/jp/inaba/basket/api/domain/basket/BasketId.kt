@@ -1,6 +1,5 @@
 package jp.inaba.basket.api.domain.basket
 
-import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.identity.api.domain.user.UserId
 
 // MEMO: UserIdのラッパーIDみたいになっているがこれは、AxonFrameworkで集約が違っても同じIDを使ってはいけない縛りがあるため
@@ -8,7 +7,7 @@ import jp.inaba.identity.api.domain.user.UserId
 data class BasketId(val value: String) {
     companion object {
         private const val ID_PREFIX = "basket-"
-        fun formUserId(userId: UserId): BasketId {
+        fun fromUserId(userId: UserId): BasketId {
             return BasketId(ID_PREFIX + userId.value)
         }
     }
