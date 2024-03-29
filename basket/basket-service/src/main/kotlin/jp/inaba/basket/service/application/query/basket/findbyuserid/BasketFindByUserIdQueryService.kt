@@ -1,6 +1,5 @@
 package jp.inaba.basket.service.application.query.basket.findbyuserid
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.persistence.EntityManager
 import jp.inaba.basket.api.domain.basket.BasketQueries
 import jp.inaba.common.domain.shared.Page
@@ -25,14 +24,15 @@ class BasketFindByUserIdQueryService(
                 COUNT(*) OVER() AS ${BasketQueryResult::totalCount.name}
             FROM basket_item bi
             INNER JOIN product p
-                    ON bi.basket_id = :basketId
-                    AND bi.product_id = p.id
+                ON bi.basket_id = :basketId
+                AND bi.product_id = p.id
             LIMIT :offset, :pageSize
         """, BasketQueryResult::class.java)
             .setParameter("basketId", query.basketId.value)
             .setParameter("offset", query.pagingCondition.offset)
             .setParameter("pageSize", query.pagingCondition.pageSize)
 
+        @Suppress("UNCHECKED_CAST")
         return convertToOutputData(
             results = nativeQuery.resultList as List<BasketQueryResult>,
             pagingCondition = query.pagingCondition
