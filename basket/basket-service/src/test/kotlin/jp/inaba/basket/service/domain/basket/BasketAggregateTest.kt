@@ -5,10 +5,13 @@ import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class BasketAggregateTest {
     private lateinit var fixture: FixtureConfiguration<BasketAggregate>
@@ -18,50 +21,20 @@ class BasketAggregateTest {
         fixture = AggregateTestFixture(BasketAggregate::class.java)
     }
 
-    @Test
-    fun 買い物かご作成_買い物かごが作成されたイベント発行() {
-        val basketId = BasketId()
-        val userId = "seal1226"
-        val command = BasketCommands.Create(id = basketId, userId = userId)
-
-        fixture.givenNoPriorActivity()
-            .`when`(command)
-            .expectSuccessfulHandlerExecution()
-            .expectEvents(BasketEvents.Created(id = basketId.value, userId = userId))
-    }
-
-    @Test
-    fun アイテムをセットする_アイテムがセットされたイベント発行() {
-        val basketId = BasketId()
-        val userId = "seal1226"
+    @ParameterizedTest
+    @ValueSource(ints = [0, 49])
+    fun アイテムをセットする_アイテムがセットされたイベント発行(eventCount: Int) {
+        val basketId = BasketId.formUserId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
-
-        fixture.given(BasketEvents.Created(id = basketId.value, userId = userId))
-            .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
-            .expectSuccessfulHandlerExecution()
-            .expectEvents(
-                BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value)
-            )
-    }
-
-    @Test
-    fun すでにアイテムが49種類買い物かごにある_アイテムをセットする_アイテムがセットされたイベント発行() {
-        val basketId = BasketId()
-        val userId = "seal1226"
-        val productId = ProductId()
-        val quantity = BasketItemQuantity(20)
-        val itemSetEvents = (1..49).map {
+        val itemSetEvents = (1..eventCount).map {
             BasketEvents.BasketItemSet(
                 id = basketId.value,
                 productId = ProductId().value,
                 basketItemQuantity = quantity.value)
         }
 
-        fixture.given(
-            BasketEvents.Created(id = basketId.value, userId = userId),
-            *itemSetEvents.toTypedArray(),
-        )
+        fixture.given(*itemSetEvents.toTypedArray())
             .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
             .expectSuccessfulHandlerExecution()
             .expectEvents(
@@ -69,11 +42,9 @@ class BasketAggregateTest {
             )
     }
 
-
     @Test
-    fun すでにアイテムが50種類買い物かごにある_アイテムをセットする_例外() {
-        val basketId = BasketId()
-        val userId = "seal1226"
+    fun アイテムが50種類買い物かごに入っている_アイテムをセットする_例外() {
+        val basketId = BasketId.formUserId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
         val itemSetEvents = (1..50).map {
@@ -83,25 +54,18 @@ class BasketAggregateTest {
                 basketItemQuantity = quantity.value)
         }
 
-        fixture.given(
-            BasketEvents.Created(id = basketId.value, userId = userId),
-            *itemSetEvents.toTypedArray(),
-        )
+        fixture.given(*itemSetEvents.toTypedArray())
             .`when`(BasketCommands.SetBasketItem(id = basketId, productId = productId, basketItemQuantity = quantity))
             .expectException(Exception::class.java)
     }
 
     @Test
-    fun アイテムが存在する_アイテムを削除する_アイテムを削除したイベント発行() {
-        val basketId = BasketId()
-        val userId = "seal1226"
+    fun 削除対象のアイテムが存在する_アイテムを削除する_アイテムを削除したイベント発行() {
+        val basketId = BasketId.formUserId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(
-            BasketEvents.Created(id = basketId.value, userId = userId),
-            BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value)
-        )
+        fixture.given(BasketEvents.BasketItemSet(id = basketId.value, productId = productId.value, basketItemQuantity = quantity.value))
             .`when`(BasketCommands.DeleteBasketItem(id = basketId, productId = productId))
             .expectSuccessfulHandlerExecution()
             .expectEvents(
@@ -110,17 +74,13 @@ class BasketAggregateTest {
     }
 
     @Test
-    fun アイテムが存在する_存在しないアイテムを削除する_何もしない() {
-        val basketId = BasketId()
-        val userId = "seal1226"
+    fun 被削除対象のアイテムが存在する_アイテムを削除する_何も起きない() {
+        val basketId = BasketId.formUserId(UserId())
         val productId1 = ProductId()
         val productId2 = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(
-            BasketEvents.Created(id = basketId.value, userId = userId),
-            BasketCommands.SetBasketItem(id = basketId, productId = productId1, basketItemQuantity = quantity)
-        )
+        fixture.given(BasketEvents.BasketItemSet(id = basketId.value, productId = productId1.value, basketItemQuantity = quantity.value))
             .`when`(BasketCommands.DeleteBasketItem(id = basketId, productId = productId2))
             .expectSuccessfulHandlerExecution()
             .expectNoEvents()
