@@ -6,8 +6,10 @@ import jp.inaba.catalog.api.domain.product.ProductPrice
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 @Configuration
+@Profile("app-inmemory")
 class InitializePublishEvent {
     @Autowired
     fun publishEvent(eventGateway: EventGateway) {
