@@ -1,5 +1,6 @@
 package jp.inaba.basket.api.domain.basket
 
+import jp.inaba.common.domain.shared.ValueObjectException
 import jp.inaba.identity.api.domain.user.UserId
 
 // MEMO: UserIdのラッパーIDみたいになっているがこれは、AxonFrameworkで集約が違っても同じIDを使ってはいけない縛りがあるため
@@ -14,10 +15,10 @@ data class BasketId(val value: String) {
 
     init {
         if(!value.startsWith(PREFIX)) {
-            throw Exception("basketIdのprefixには[${PREFIX}]が必要です。現在の値は[${value}]")
+            throw ValueObjectException("basketIdのprefixには[${PREFIX}]が必要です。現在のIDは[${value}]")
         }
 
-        // UserIdがインスタンス化できなければ例外が起きるので、これが検証になる
+        // UserIdがインスタンス化できれば、Validationが通ったということ
         val maybeUserId = value.removePrefix(PREFIX)
         UserId(maybeUserId)
     }
