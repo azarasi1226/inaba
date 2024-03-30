@@ -1,13 +1,16 @@
 package jp.inaba.catalog.api.domain.product
 
+import jp.inaba.common.domain.shared.ValueObjectException
+
 data class ProductPrice(val value: Int) {
     companion object{
-        private const val PRICE_CAP = 1000_000_000
+        private const val MIN = 1
+        private const val MAX = 1_000_000_000
     }
 
     init {
-        if (value !in 1..PRICE_CAP) {
-            throw IllegalArgumentException("価格が不正です 1 ~ ${PRICE_CAP}の範囲を指定してください。　price : ${value}}")
+        if (value !in MIN..MAX) {
+            throw ValueObjectException("商品価格は[${MIN}~${MAX}]の間です。現在の価格[${value}]")
         }
     }
 }

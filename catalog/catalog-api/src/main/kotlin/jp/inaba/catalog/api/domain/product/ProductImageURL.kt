@@ -1,14 +1,18 @@
 package jp.inaba.catalog.api.domain.product
 
-import com.thoughtworks.xstream.mapper.Mapper.Null
-import java.net.MalformedURLException
+import jp.inaba.common.domain.shared.ValueObjectException
 import java.net.URL
 
 data class ProductImageURL(val value: String?) {
     init{
         if (value != null){
-            URL(value)
+
+            try {
+                URL(value).toURI();
+            }
+            catch (ex: Exception){
+                throw ValueObjectException("ProductImageURLはURLの形式である必要があります。現在の値[${value}]")
+            }
         }
-        // Todo あとで考える
     }
 }
