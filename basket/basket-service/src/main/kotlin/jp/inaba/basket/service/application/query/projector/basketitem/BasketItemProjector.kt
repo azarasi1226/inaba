@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.query.basket
+package jp.inaba.basket.service.application.query.projector.basketitem
 
 import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemId
@@ -13,56 +13,14 @@ import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
-@ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
-class BasketProjector(
+@ProcessingGroup(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
+class BasketItemProjector(
     private val productJpaRepository: ProductJpaRepository,
     private val basketItemJpaRepository: BasketItemJpaRepository
 ) {
-    @ResetHandler
-    fun reset() {
-        productJpaRepository.deleteAll()
-        basketItemJpaRepository.deleteAll()
-    }
-
-    // -------------------------------
-    // ------------product------------
-    // -------------------------------
-    @EventHandler
-    fun on(event: ProductEvents.Created) {
-        val entity = ProductJpaEntity(
-            id = event.id,
-            name = event.name,
-            imageUrl = event.imageUrl,
-            price = event.price
-        )
-
-        productJpaRepository.save(entity)
-    }
-
-    @EventHandler
-    fun on(event: ProductEvents.Updated) {
-        val entity = productJpaRepository.findById(event.id)
-            .orElseThrow()
-
-        entity.name = event.name
-        entity.imageUrl = event.imageUrl
-        entity.price = event.price
-
-        productJpaRepository.save(entity)
-    }
-
-    @EventHandler
-    fun on(event: ProductEvents.Deleted) {
-        basketItemJpaRepository.deleteByProductId(event.id)
-        productJpaRepository.deleteById(event.id)
-    }
-
-
-    // -------------------------------
-    // ----------basket_item----------
-    // -------------------------------
     @EventHandler
     fun on(event: BasketEvents.BasketItemSet) {
+        //TODO(取る必要があるのか調べる。)
         val productJpaEntity = productJpaRepository.findById(event.productId)
             .orElseThrow { Exception("Productが存在しません") }
 

@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.query.basket
+package jp.inaba.basket.service.application.query.projector.product
 
 import org.axonframework.common.jpa.EntityManagerProvider
 import org.axonframework.common.transaction.TransactionManager
@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BasketProjectorEventProcessor
+class ProductProjectorEventProcessor
 {
     companion object {
-        const val PROCESSOR_NAME = "basket_processor";
+        const val PROCESSOR_NAME = "product-projector";
         private const val PROCESSOR_COUNT = 5
         private const val DEAD_LETTER_QUEUE_SEQUENCE = 256
     }
