@@ -1,30 +1,30 @@
 package jp.inaba.catalog.api.domain.product
 
 sealed interface ProductEvent {
-    val id: ProductId
+    val id: String
 }
 
 object ProductEvents {
     data class Created(
-        override val id: ProductId,
-        val name: ProductName,
-        val description: ProductDescription,
-        val imageUrl: ProductImageURL,
-        val price: ProductPrice,
-        val quantity: ProductQuantity
+        override val id: String,
+        val name: String,
+        val description: String,
+        val imageUrl: String,
+        val price: Int,
+        val quantity: Int
     ) : ProductEvent
 
     data class Updated(
-        override val id: ProductId,
-        val name: ProductName,
-        val description: ProductDescription,
-        val imageUrl: ProductImageURL,
-        val price: ProductPrice,
-        val quantity: ProductQuantity
+        override val id: String,
+        val name: String,
+        val description: String,
+        val imageUrl: String,
+        val price: Int,
+        val quantity: Int
     ) : ProductEvent
 
     data class Deleted(
-        override val id: ProductId
+        override val id: String
     ) : ProductEvent
 }
 
