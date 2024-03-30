@@ -9,7 +9,7 @@ object ProductEvents {
         override val id: String,
         val name: String,
         val description: String,
-        val imageUrl: String,
+        val imageUrl: String?,
         val price: Int,
         val quantity: Int
     ) : ProductEvent
@@ -18,7 +18,7 @@ object ProductEvents {
         override val id: String,
         val name: String,
         val description: String,
-        val imageUrl: String,
+        val imageUrl: String?,
         val price: Int,
         val quantity: Int
     ) : ProductEvent
