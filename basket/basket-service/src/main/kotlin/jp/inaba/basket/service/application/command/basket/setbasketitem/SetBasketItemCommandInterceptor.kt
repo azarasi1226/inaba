@@ -1,7 +1,6 @@
-package jp.inaba.basket.service.application.command.basket
+package jp.inaba.basket.service.application.command.basket.setbasketitem
 
 import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.service.application.command.basket.setbasketitem.ProductNotFoundException
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.commandhandling.CommandMessage
 import org.axonframework.messaging.MessageDispatchInterceptor
