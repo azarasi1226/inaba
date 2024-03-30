@@ -1,7 +1,8 @@
-package jp.inaba.basket.service.presentation.common
+package jp.inaba.basket.service.presentation
 
 import jp.inaba.common.domain.shared.DomainException
 import jp.inaba.common.presentation.shared.ErrorResponse
+import org.axonframework.commandhandling.CommandExecutionException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -14,6 +15,14 @@ class CommonAdvice {
         return ResponseEntity(
             ErrorResponse(ex.errorMessage, ex.errorCode),
             HttpStatus.BAD_REQUEST
+        )
+    }
+
+    @ExceptionHandler
+    fun handle(ex: CommandExecutionException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity(
+            ErrorResponse(ex.message),
+            HttpStatus.INTERNAL_SERVER_ERROR
         )
     }
 

@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.query.projector.product
+package jp.inaba.basket.service.infrastructure.projector.product
 
 import org.axonframework.common.jpa.EntityManagerProvider
 import org.axonframework.common.transaction.TransactionManager

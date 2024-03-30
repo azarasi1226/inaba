@@ -12,6 +12,7 @@ docker compose up -d
 ### 2. サービス起動
 InteliJIDEのマルチプロジェクト機能で同時に起動します。
 
+* [AxonServer Console](http://localhost:8024/)
 * [OrderService Swagger](http://localhost:8081/swagger-ui/index.html)
 * [CatalogService Swagger](http://localhost:8082/swagger-ui/index.html)
 * [BasketService Swagger](http://localhost:8083/swagger-ui/index.html)

@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.presentation.admin
 
-import jp.inaba.basket.service.application.query.projector.basketitem.BasketItemProjectorEventProcessor
-import jp.inaba.basket.service.application.query.projector.product.ProductProjectorEventProcessor
+import jp.inaba.basket.service.infrastructure.projector.basketitem.BasketItemProjectorEventProcessor
+import jp.inaba.basket.service.infrastructure.projector.product.ProductProjectorEventProcessor
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.EventProcessingConfiguration

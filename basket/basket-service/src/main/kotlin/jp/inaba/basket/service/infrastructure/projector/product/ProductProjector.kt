@@ -1,12 +1,10 @@
-package jp.inaba.basket.service.application.query.projector.product
+package jp.inaba.basket.service.infrastructure.projector.product
 
-import jp.inaba.basket.service.application.query.projector.basketitem.BasketItemProjectorEventProcessor
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import jp.inaba.catalog.api.domain.product.ProductEvents
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
-import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component

@@ -1,15 +1,12 @@
-package jp.inaba.basket.service.application.query.projector.basketitem
+package jp.inaba.basket.service.infrastructure.projector.basketitem
 
 import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemId
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
-import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
-import jp.inaba.catalog.api.domain.product.ProductEvents
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
-import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component

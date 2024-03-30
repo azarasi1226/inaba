@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.query.projector.product
+package jp.inaba.basket.service.infrastructure.projector.basketitem
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.axonframework.config.EventProcessingConfiguration
@@ -9,20 +9,20 @@ import java.util.concurrent.TimeUnit
 
 @Configuration
 @EnableScheduling
-class ProductProjectorDeadEventRetryer (
+class BasketItemProjectorDeadEventRetryer (
     private val epc: EventProcessingConfiguration
 ){
     private val logger = KotlinLogging.logger {}
 
     @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     fun retry() {
-        val maybeProcessor = epc.sequencedDeadLetterProcessor(ProductProjectorEventProcessor.PROCESSOR_NAME)
+        val maybeProcessor = epc.sequencedDeadLetterProcessor(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
         if(maybeProcessor.isPresent) {
-            logger.info { "ProductProjectorDeadEventを再生します。" }
+            logger.info { "BasketItemProjectorDeadEventを再生します。" }
 
             val processor = maybeProcessor.get()
             while(processor.processAny()) {
-                logger.info { "DeadLetterQueueの適応が成功しました" }
+                logger.info { "Productを復元しました" }
             }
         }
     }
