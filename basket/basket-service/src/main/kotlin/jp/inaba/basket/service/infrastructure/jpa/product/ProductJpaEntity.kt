@@ -10,6 +10,6 @@ data class ProductJpaEntity(
     @Id
     var id: String = "",
     var name: String = "",
-    var imageUrl: String = "",
+    var imageUrl: String? = null,
     var price: Int = 0
 )
