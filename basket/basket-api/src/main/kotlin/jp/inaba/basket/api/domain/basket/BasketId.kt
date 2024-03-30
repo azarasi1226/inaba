@@ -7,6 +7,12 @@ import jp.inaba.identity.api.domain.user.UserId
 // 例えば、BasketIdとUserIdの集約IDを一緒にすることができない....だからUserIdからBasketIdを生成している。
 // 本当はUserIdそのまま使いたいよおお( ；∀；)
 data class BasketId(val value: String) {
+    val userId: UserId
+        get() {
+            val maybeUserId = value.removePrefix(PREFIX)
+            return UserId(maybeUserId)
+        }
+
     companion object {
         private const val PREFIX = "basket-"
     }
