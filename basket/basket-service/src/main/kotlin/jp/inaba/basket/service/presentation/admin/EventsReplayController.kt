@@ -20,23 +20,22 @@ class EventsReplayController(
         @PathVariable("processorName")
         processorName: String
     ) : ResponseEntity<String> {
-        val trackingEventProcessor = epc.eventProcessor<TrackingEventProcessor>(
-                processorName,
-                TrackingEventProcessor::class.java
-            );
+        val trackingEventProcessor = epc.eventProcessor(
+            processorName,
+            TrackingEventProcessor::class.java
+        );
 
-        if(trackingEventProcessor.isPresent) {
+        return if(trackingEventProcessor.isPresent) {
             val eventProcessor = trackingEventProcessor.get()
 
             eventProcessor.shutDown()
             eventProcessor.resetTokens()
             eventProcessor.start()
 
-            return ResponseEntity.ok()
+            ResponseEntity.ok()
                 .body("多分初期化できてるよ見てみて")
-        }
-        else {
-            return ResponseEntity.badRequest()
+        } else {
+            ResponseEntity.badRequest()
                 .body("そんなプロセッサー無いよ")
         }
     }
