@@ -1,7 +1,11 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.*
+import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.BasketEvents
+import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.common.domain.shared.DomainException
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateCreationPolicy
@@ -25,7 +29,7 @@ class BasketAggregate() {
     fun handle(command: BasketCommands.SetBasketItem) {
         // 買い物かごの中のアイテムが最大種類に達しているか？
         if(items.size >= MAX_ITEM_KIND_COUNT) {
-            throw Exception("カートの中に入れられる商品種類の制限に引っかかったよ")
+            throw DomainException("カートの中に入れられる商品種類の制限に引っかかったよ")
         }
 
         // 追加対象が買い物かごに既に存在し、かつ数量も同じだったらイベントを出さずに早期return

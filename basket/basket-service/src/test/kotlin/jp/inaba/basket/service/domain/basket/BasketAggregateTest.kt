@@ -5,6 +5,7 @@ import jp.inaba.basket.api.domain.basket.BasketEvents
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.common.domain.shared.DomainException
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -96,7 +97,7 @@ class BasketAggregateTest {
                     basketItemQuantity = quantity
                 )
             )
-            .expectException(Exception::class.java)
+            .expectException(DomainException::class.java)
     }
 
     @Test

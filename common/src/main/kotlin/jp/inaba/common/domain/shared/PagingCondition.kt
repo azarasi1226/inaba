@@ -5,11 +5,11 @@ data class PagingCondition(
     val pageNumber: Int,
 ){
     init {
-        if(pageSize  <= 0) {
-            throw Exception("値がおかしいよ")
+        if(pageSize <= 0) {
+            throw DomainException("pageSizeは[1 ~]の数値を入力してください。現在のpageSize[${pageSize}]")
         }
         if(pageNumber < 0) {
-            throw Exception("値がおかしいよ")
+            throw DomainException("pageNumberは[0 ~]の数値を入力してください。現在のpageNumber[${pageNumber}]")
         }
     }
     val offset
