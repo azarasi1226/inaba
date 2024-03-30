@@ -22,7 +22,9 @@ class BasketItemProjectorDeadEventRetryer (
             logger.info { "BasketItemProjectorDeadEventを再生します。" }
 
             val processor = maybeProcessor.get()
-            processor.processAny()
+            while(processor.processAny()) {
+                logger.info { "Productを復元しました" }
+            }
         }
     }
 }

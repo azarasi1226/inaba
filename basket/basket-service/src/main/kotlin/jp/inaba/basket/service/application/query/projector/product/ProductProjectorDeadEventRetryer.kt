@@ -21,7 +21,9 @@ class ProductProjectorDeadEventRetryer (
             logger.info { "ProductProjectorDeadEventを再生します。" }
 
             val processor = maybeProcessor.get()
-            processor.processAny()
+            while(processor.processAny()) {
+                logger.info { "DeadLetterQueueの適応が成功しました" }
+            }
         }
     }
 }
