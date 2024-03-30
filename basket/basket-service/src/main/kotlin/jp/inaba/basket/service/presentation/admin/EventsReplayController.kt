@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.presentation.admin
 
-import jp.inaba.basket.service.application.query.projector.basketitem.BasketItemProjectorEventProcessor
-import jp.inaba.basket.service.application.query.projector.product.ProductProjectorEventProcessor
+import jp.inaba.basket.service.application.projector.basketitem.BasketItemProjectorEventProcessor
+import jp.inaba.basket.service.application.projector.product.ProductProjectorEventProcessor
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.EventProcessingConfiguration
@@ -21,8 +21,8 @@ class EventsReplayController(
 
     @PostMapping("/reconstract")
     fun reset() : ResponseEntity<String> {
-        basketItemJpaRepository.deleteAll()
-        productJpaRepository.deleteAll()
+        basketItemJpaRepository.deleteAllInBatch()
+        productJpaRepository.deleteAllInBatch()
 
         eventProcessorReset(ProductProjectorEventProcessor.PROCESSOR_NAME)
         eventProcessorReset(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
