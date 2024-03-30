@@ -25,10 +25,10 @@ class ProductController(
         val command  = ProductCommands.Create(
             id = productId,
             name = ProductName(request.name),
-            description = request.description,
-            imageUrl = request.imageUrl,
+            description = ProductDescription(request.description),
+            imageUrl = ProductImageURL(request.imageUrl),
             price = ProductPrice(request.price),
-            quantity = request.quantity
+            quantity = ProductQuantity(request.quantity)
         )
 
         commandGateway.sendAndWait<Any>(command)
