@@ -1,6 +1,5 @@
 package jp.inaba.basket.service.presentation.common
 
-import jp.inaba.basket.service.application.query.basket.BasketNotFoundException
 import org.axonframework.commandhandling.CommandExecutionException
 import org.axonframework.modelling.command.AggregateNotFoundException
 import org.springframework.http.HttpStatus
@@ -12,12 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class CommonAdvice {
     @ExceptionHandler(CommandExecutionException::class)
     fun handle(ex: CommandExecutionException): ResponseEntity<String> {
-
-        ex.getDetails<BasketNotFoundException>()
-            .map {
-                println(it)
-            }
-
         val a = ex.cause?.cause
 
         println(a)
