@@ -1,7 +1,7 @@
 package jp.inaba.catalog.api.domain.product
 
 import de.huxhorn.sulky.ulid.ULID
-import jp.inaba.common.domain.shared.ValueObjectException
+import jp.inaba.common.domain.shared.DomainException
 
 data class ProductId(val value: String) {
     constructor() : this(ULID().nextULID())
@@ -11,7 +11,7 @@ data class ProductId(val value: String) {
             ULID.parseULID(value)
         }
         catch (ex: Exception){
-            throw ValueObjectException("ProductIdはULIDの形式である必要があります。現在のID[${value}]")
+            throw DomainException("ProductIdはULIDの形式である必要があります。現在のID[${value}]")
         }
     }
 

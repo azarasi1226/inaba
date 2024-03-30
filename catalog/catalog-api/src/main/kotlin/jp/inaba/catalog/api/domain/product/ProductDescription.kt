@@ -1,6 +1,6 @@
 package jp.inaba.catalog.api.domain.product
 
-import jp.inaba.common.domain.shared.ValueObjectException
+import jp.inaba.common.domain.shared.DomainException
 
 data class ProductDescription(val value:String) {
     companion object {
@@ -9,7 +9,7 @@ data class ProductDescription(val value:String) {
     }
     init{
         if(value.length !in MIN_LENGTH..MAX_LENGTH) {
-            throw ValueObjectException("商品説明の長さは[${MIN_LENGTH} ~ ${MAX_LENGTH}]間です。現在の文字数[${value.length}]")
+            throw DomainException("商品説明の長さは[${MIN_LENGTH} ~ ${MAX_LENGTH}]間です。現在の文字数[${value.length}]")
         }
     }
 }

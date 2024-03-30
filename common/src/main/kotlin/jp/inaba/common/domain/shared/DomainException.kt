@@ -1,6 +1,6 @@
 package jp.inaba.common.domain.shared
 
-class ValueObjectException(
+class DomainException(
     val errorMessage: String,
     val errorCode: String? = null,
 ) : Exception("errorMessage[${errorMessage}], errorCode[${errorCode}]")

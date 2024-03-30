@@ -1,6 +1,6 @@
 package jp.inaba.catalog.api.domain.product
 
-import jp.inaba.common.domain.shared.ValueObjectException
+import jp.inaba.common.domain.shared.DomainException
 
 data class ProductQuantity(val value: Int) {
     companion object{
@@ -9,7 +9,7 @@ data class ProductQuantity(val value: Int) {
     }
     init{
         if(value !in MIN.. MAX){
-            throw ValueObjectException("商品個数は[${MIN}~${MAX}]の間です。現在の個数[${value}]")
+            throw DomainException("商品個数は[${MIN}~${MAX}]の間です。現在の個数[${value}]")
         }
     }
 }

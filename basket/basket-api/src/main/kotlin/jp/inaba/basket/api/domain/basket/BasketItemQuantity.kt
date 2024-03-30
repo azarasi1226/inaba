@@ -1,6 +1,6 @@
 package jp.inaba.basket.api.domain.basket
 
-import jp.inaba.common.domain.shared.ValueObjectException
+import jp.inaba.common.domain.shared.DomainException
 
 data class BasketItemQuantity(val value: Int) {
     companion object {
@@ -10,7 +10,7 @@ data class BasketItemQuantity(val value: Int) {
 
     init {
         if(value !in MIN..MAX) {
-            throw ValueObjectException("買い物かごアイテムの最大個数は[${MIN} ~ ${MAX}]の間です。現在の個数[${value}]")
+            throw DomainException("買い物かごアイテムの最大個数は[${MIN} ~ ${MAX}]の間です。現在の個数[${value}]")
         }
     }
 }
