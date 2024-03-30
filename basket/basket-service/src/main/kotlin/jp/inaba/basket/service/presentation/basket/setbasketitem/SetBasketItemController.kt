@@ -5,6 +5,7 @@ import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,14 +16,15 @@ import org.springframework.web.bind.annotation.RestController
 class SetBasketItemController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
-    @PostMapping("/{basketId}/items")
+    @PostMapping("/{userId}/items")
     fun setBasketItem(
-        @PathVariable("basketId")
-        rawBasketId: String,
+        @PathVariable("userId")
+        rawUserId: String,
         @RequestBody
         request: SetBasketItemRequest
     ) {
-        val basketId = BasketId(rawBasketId)
+        val userId = UserId(rawUserId)
+        val basketId = BasketId(userId)
         val productId = ProductId(request.productId)
         val basketItemQuantity = BasketItemQuantity(request.itemQuantity)
         val command = BasketCommands.SetBasketItem(

@@ -9,12 +9,6 @@ sealed interface BasketCommand {
 }
 
 object BasketCommands {
-    data class Create(
-        override val id: BasketId,
-        //TODO(UserIdを値オブジェクトにする)
-        val userId: String
-    ) : BasketCommand
-
     data class SetBasketItem(
         override val id: BasketId,
         val productId: ProductId,

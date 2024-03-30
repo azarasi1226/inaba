@@ -1,8 +1,10 @@
 package jp.inaba.basket.service.presentation.basket.get
 
+import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketQueries
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.common.domain.shared.PagingCondition
+import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,14 +29,13 @@ class GetBasketController(
             pageSize = pageSize,
             pageNumber = pageNumber
         )
-        val query = BasketQueries.FindByUserIdQuery(rawUserId, pagingCondition)
+        val userId = UserId(rawUserId)
+        val basketId = BasketId(userId)
+        val query = BasketQueries.FindByUserIdQuery(basketId, pagingCondition)
 
         val result = queryGateway.query<BasketQueries.FindByUserIdResult, BasketQueries.FindByUserIdQuery>(query)
             .get()
 
-        return GetBasketResponse(
-            basketId = result.basketId,
-            page = result.page
-        )
+        return GetBasketResponse(page = result.page)
     }
 }
