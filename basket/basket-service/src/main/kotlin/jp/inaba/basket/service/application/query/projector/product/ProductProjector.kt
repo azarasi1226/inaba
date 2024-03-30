@@ -40,6 +40,7 @@ class ProductProjector(
 
     @EventHandler
     fun on(event: ProductEvents.Deleted) {
+        TODO("このままだと確定でエラーになる。先にbasketItem消すか、ステータス方式にしなければ")
         repository.deleteById(event.id)
     }
 }
