@@ -151,4 +151,48 @@ class BasketAggregateTest {
             .expectSuccessfulHandlerExecution()
             .expectNoEvents()
     }
+
+    @Test
+    fun アイテムが存在する_買い物かごクリア_買い物かごがクリアされたイベント発行() {
+        val basketId = BasketId(UserId())
+        val productId = ProductId()
+        val quantity = BasketItemQuantity(20)
+
+        fixture.given(
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = productId.value,
+                basketItemQuantity = quantity.value
+            )
+        )
+            .`when`(
+                BasketCommands.Clear(basketId)
+            )
+            .expectSuccessfulHandlerExecution()
+            .expectEvents(BasketEvents.Cleared(basketId.value))
+    }
+
+    @Test
+    fun アイテムが存在しない_買い物かごクリア_何もしない() {
+        val basketId = BasketId(UserId())
+        val productId = ProductId()
+        val quantity = BasketItemQuantity(20)
+
+        fixture.given(
+            BasketEvents.BasketItemSet(
+                id = basketId.value,
+                productId = productId.value,
+                basketItemQuantity = quantity.value
+            ),
+            BasketEvents.BasketItemDeleted(
+                id = basketId.value,
+                productId = productId.value
+            )
+        )
+            .`when`(
+                BasketCommands.Clear(basketId)
+            )
+            .expectSuccessfulHandlerExecution()
+            .expectNoEvents()
+    }
 }

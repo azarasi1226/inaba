@@ -65,6 +65,11 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: BasketCommands.Clear) {
+        // すべて消えていたらイベントを出さずに早期return
+        if(items.isEmpty()) {
+            return
+        }
+
         val event = BasketEvents.Cleared(command.id.value)
 
         AggregateLifecycle.apply(event)
@@ -84,5 +89,10 @@ class BasketAggregate() {
         val productId = ProductId(event.productId)
 
         items.remove(productId)
+    }
+
+    @EventSourcingHandler
+    fun on(event: BasketEvents.Cleared) {
+        items.clear()
     }
 }
