@@ -33,13 +33,13 @@ class BasketFindByIdQueryService(
             .setParameter("pageSize", query.pagingCondition.pageSize)
 
         @Suppress("UNCHECKED_CAST")
-        return convertToOutputData(
+        return convertToQueryResult(
             results = nativeQuery.resultList as List<BasketFindByIdSqlResult>,
             pagingCondition = query.pagingCondition
         )
     }
 
-    private fun convertToOutputData(results : List<BasketFindByIdSqlResult>, pagingCondition: PagingCondition): BasketQueries.FindByIdResult {
+    private fun convertToQueryResult(results : List<BasketFindByIdSqlResult>, pagingCondition: PagingCondition): BasketQueries.FindByIdResult {
         val totalCount = if(results.isNotEmpty()) {
             results.first().totalCount
         }
