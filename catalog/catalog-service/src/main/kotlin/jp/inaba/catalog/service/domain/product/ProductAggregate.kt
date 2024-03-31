@@ -40,6 +40,7 @@ class ProductAggregate() {
         price = ProductPrice(event.price)
         quantity = ProductQuantity(event.quantity)
     }
+
     @CommandHandler
     constructor(command: ProductCommands.Update): this() {
         val event = ProductEvents.Updated(
@@ -63,6 +64,7 @@ class ProductAggregate() {
         price = ProductPrice(event.price)
         quantity = ProductQuantity(event.quantity)
     }
+
     @CommandHandler
     constructor(command: ProductCommands.Delete): this() {
         val event = ProductEvents.Deleted(
