@@ -1,0 +1,12 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: inaba-identity-service
+
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
