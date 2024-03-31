@@ -16,6 +16,7 @@ InteliJIDEのマルチプロジェクト機能で同時に起動します。
 * [OrderService Swagger](http://localhost:8081/swagger-ui/index.html)
 * [CatalogService Swagger](http://localhost:8082/swagger-ui/index.html)
 * [BasketService Swagger](http://localhost:8083/swagger-ui/index.html)
+* [IdentityService Swagger](http://localhost:8084/swagger-ui/index.html)
 
 #### OrderService環境変数
 ```
@@ -43,6 +44,17 @@ SPRING_PROFILES_ACTIVE=local;
 ```
 SERVER_PORT=8083;
 SPRING_DATASOURCE_DATABASE=basket;
+SPRING_DATASOURCE_HOST=localhost;
+SPRING_DATASOURCE_PASSWORD=passw0rd;
+SPRING_DATASOURCE_PORT=3306;
+SPRING_DATASOURCE_USERNAME=root;
+SPRING_PROFILES_ACTIVE=local;
+```
+
+#### IdentityService環境変数
+```
+SERVER_PORT=8084;
+SPRING_DATASOURCE_DATABASE=identity;
 SPRING_DATASOURCE_HOST=localhost;
 SPRING_DATASOURCE_PASSWORD=passw0rd;
 SPRING_DATASOURCE_PORT=3306;
