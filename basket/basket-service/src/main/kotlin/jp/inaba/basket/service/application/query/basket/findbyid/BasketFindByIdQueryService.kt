@@ -13,7 +13,7 @@ class BasketFindByIdQueryService(
     private val entityManager: EntityManager,
 ) {
     @QueryHandler
-    fun handle(query: BasketQueries.FindByUserIdQuery): BasketQueries.FindByUserIdResult {
+    fun handle(query: BasketQueries.FindByIdQuery): BasketQueries.FindByIdResult {
         val nativeQuery = entityManager.createNativeQuery("""
             SELECT
                 p.id AS ${BasketFindByIdSqlResult::itemId.name},
@@ -39,7 +39,7 @@ class BasketFindByIdQueryService(
         )
     }
 
-    private fun convertToOutputData(results : List<BasketFindByIdSqlResult>, pagingCondition: PagingCondition): BasketQueries.FindByUserIdResult {
+    private fun convertToOutputData(results : List<BasketFindByIdSqlResult>, pagingCondition: PagingCondition): BasketQueries.FindByIdResult {
         val totalCount = if(results.isNotEmpty()) {
             results.first().totalCount
         }
@@ -47,7 +47,7 @@ class BasketFindByIdQueryService(
             0
         }
 
-        return BasketQueries.FindByUserIdResult(
+        return BasketQueries.FindByIdResult(
             page = Page(
                 items = results.map {
                     BasketQueries.ItemDataModel(
