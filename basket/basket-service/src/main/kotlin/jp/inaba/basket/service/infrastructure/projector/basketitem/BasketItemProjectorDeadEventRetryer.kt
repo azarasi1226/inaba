@@ -18,11 +18,9 @@ class BasketItemProjectorDeadEventRetryer (
     fun retry() {
         val maybeProcessor = epc.sequencedDeadLetterProcessor(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
         if(maybeProcessor.isPresent) {
-            logger.info { "BasketItemProjectorDeadEventを再生します。" }
-
             val processor = maybeProcessor.get()
             while(processor.processAny()) {
-                logger.info { "Productを復元しました" }
+                logger.info { "DeadLetterQueueの中身を適応できました。" }
             }
         }
     }

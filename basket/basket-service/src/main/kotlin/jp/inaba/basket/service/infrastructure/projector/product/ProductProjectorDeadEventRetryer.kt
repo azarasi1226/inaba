@@ -18,11 +18,9 @@ class ProductProjectorDeadEventRetryer (
     fun retry() {
         val maybeProcessor = epc.sequencedDeadLetterProcessor(ProductProjectorEventProcessor.PROCESSOR_NAME)
         if(maybeProcessor.isPresent) {
-            logger.info { "ProductProjectorDeadEventを再生します。" }
-
             val processor = maybeProcessor.get()
             while(processor.processAny()) {
-                logger.info { "DeadLetterQueueの適応が成功しました" }
+                logger.info { "DeadLetterQueueの中身を適応できました。" }
             }
         }
     }
