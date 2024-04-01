@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration
 class BasketItemProjectorEventProcessor
 {
     companion object {
-        const val PROCESSOR_NAME = "basket-item-projector";
+        const val PROCESSOR_NAME = "basket-item-projector"
         private const val PROCESSOR_COUNT = 5
         private const val DEAD_LETTER_QUEUE_SEQUENCE = 256
     }

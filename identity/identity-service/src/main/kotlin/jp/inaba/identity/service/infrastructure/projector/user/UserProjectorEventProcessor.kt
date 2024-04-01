@@ -14,7 +14,7 @@ class
 UserProjectorEventProcessor
 {
     companion object {
-        const val PROCESSOR_NAME = "user-projector";
+        const val PROCESSOR_NAME = "user-projector"
         private const val PROCESSOR_COUNT = 5
         private const val DEAD_LETTER_QUEUE_SEQUENCE = 256
     }
