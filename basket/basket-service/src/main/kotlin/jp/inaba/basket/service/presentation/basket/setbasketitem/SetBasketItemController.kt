@@ -5,6 +5,7 @@ import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.common.domain.shared.DomainException
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,6 +34,10 @@ class SetBasketItemController(
             basketItemQuantity = basketItemQuantity
         )
 
-        commandGateway.sendAndWait<Any>(command)
+        val result = commandGateway.sendAndWait<Any>(command)
+
+        if(result is DomainException) {
+            println("エラーだったよ")
+        }
     }
 }

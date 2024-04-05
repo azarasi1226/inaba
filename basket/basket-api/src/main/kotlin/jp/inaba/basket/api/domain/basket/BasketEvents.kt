@@ -1,10 +1,13 @@
 package jp.inaba.basket.api.domain.basket
 
-sealed interface BasketEvent {
+interface BasketEvent {
     val id: String
 }
 
 object BasketEvents {
+    data class Created(
+        override val id: String
+    ) : BasketEvent
     data class BasketItemSet(
         override val id: String,
         val productId: String,

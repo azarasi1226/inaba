@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.application.command.basket.setbasketitem
+package jp.inaba.basket.service.application.command.basket.create
 
 import jp.inaba.identity.api.domain.user.UserId
 
