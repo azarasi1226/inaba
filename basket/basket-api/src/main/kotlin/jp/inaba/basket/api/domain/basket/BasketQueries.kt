@@ -10,10 +10,10 @@ object BasketQueries {
     )
 
     data class FindByIdResult(
-        val page: Page<ItemDataModel>
+        val page: Page<BasketItemDataModel>
     )
 
-    data class ItemDataModel(
+    data class BasketItemDataModel(
         val itemId: String,
         val itemName: String,
         val itemPrice: Int,

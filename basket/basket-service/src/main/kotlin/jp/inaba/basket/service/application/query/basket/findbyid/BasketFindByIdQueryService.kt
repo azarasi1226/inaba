@@ -10,24 +10,28 @@ import org.springframework.stereotype.Component
 
 @Component
 class BasketFindByIdQueryService(
-    private val entityManager: EntityManager,
+    private val entityManager: EntityManager
 ) {
+    companion object {
+        private val QUERY =
+"""
+SELECT
+    p.id AS ${BasketFindByIdSqlResult::itemId.name},
+    p.name AS ${BasketFindByIdSqlResult::itemName.name},
+    p.price AS ${BasketFindByIdSqlResult::itemPrice.name},
+    p.image_url AS ${BasketFindByIdSqlResult::itemPictureUrl.name},
+    bi.item_quantity AS ${BasketFindByIdSqlResult::itemQuantity.name},
+    COUNT(*) OVER() AS ${BasketFindByIdSqlResult::totalCount.name}
+FROM basket_item bi
+INNER JOIN product p
+    ON bi.basket_id = :basketId
+    AND bi.product_id = p.id
+LIMIT :offset, :pageSize    
+"""
+    }
     @QueryHandler
     fun handle(query: BasketQueries.FindByIdQuery): BasketQueries.FindByIdResult {
-        val nativeQuery = entityManager.createNativeQuery("""
-            SELECT
-                p.id AS ${BasketFindByIdSqlResult::itemId.name},
-                p.name AS ${BasketFindByIdSqlResult::itemName.name},
-                p.price AS ${BasketFindByIdSqlResult::itemPrice.name},
-                p.image_url AS ${BasketFindByIdSqlResult::itemPictureUrl.name},
-                bi.item_quantity AS ${BasketFindByIdSqlResult::itemQuantity.name},
-                COUNT(*) OVER() AS ${BasketFindByIdSqlResult::totalCount.name}
-            FROM basket_item bi
-            INNER JOIN product p
-                ON bi.basket_id = :basketId
-                AND bi.product_id = p.id
-            LIMIT :offset, :pageSize
-        """, BasketFindByIdSqlResult::class.java)
+        val nativeQuery = entityManager.createNativeQuery(QUERY, BasketFindByIdSqlResult::class.java)
             .setParameter("basketId", query.basketId.value)
             .setParameter("offset", query.pagingCondition.offset)
             .setParameter("pageSize", query.pagingCondition.pageSize)
@@ -50,7 +54,7 @@ class BasketFindByIdQueryService(
         return BasketQueries.FindByIdResult(
             page = Page(
                 items = results.map {
-                    BasketQueries.ItemDataModel(
+                    BasketQueries.BasketItemDataModel(
                         itemId = it.itemId,
                         itemName = it.itemName,
                         itemPrice = it.itemPrice,

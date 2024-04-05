@@ -10,7 +10,7 @@ data class BasketItemQuantity(val value: Int) {
 
     init {
         if(value !in MIN..MAX) {
-            throw DomainException("買い物かごアイテムの最大個数は[${MIN} ~ ${MAX}]の間です。現在の個数[${value}]")
+            throw DomainException("買い物かごアイテムの許容個数は[${MIN} ~ ${MAX}]の間です。現在の個数[${value}]")
         }
     }
 }
