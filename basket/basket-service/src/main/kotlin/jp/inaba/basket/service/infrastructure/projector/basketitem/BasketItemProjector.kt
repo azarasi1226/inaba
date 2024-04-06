@@ -17,9 +17,8 @@ class BasketItemProjector(
 ) {
     @EventHandler
     fun on(event: BasketEvents.BasketItemSet) {
-        //TODO(取る必要があるのか調べる。)
         val productJpaEntity = productJpaRepository.findById(event.productId)
-            .orElseThrow { Exception("Productが存在しません") }
+            .orElseThrow { Exception("Productが存在しませんでした。event:[${event}]") }
 
         val id = BasketItemId(
             basketId = event.id,

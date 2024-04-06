@@ -15,6 +15,7 @@ object BasketCommands {
         @RoutingKey
         val userId: UserId
     )
+
     data class SetBasketItem(
         @RoutingKey
         val id: BasketId,
