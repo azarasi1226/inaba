@@ -1,13 +1,17 @@
 # inaba
 
 ## Local環境構築手順
-### 1. インフラ構築
+### 1. インフラ構築(docker)
 docker-composeを使用してAxonServer・Databaseを起動します。
 ```bash
 cd ./setup/docker
 docker compose up -d
 ```
 <br>
+
+### 2. インフラ構築(手動)
+#### 1. AxonServerの起動
+#### 2. CognitoSetup
 
 ### 2. サービス起動
 InteliJIDEのマルチプロジェクト機能で同時に起動します。

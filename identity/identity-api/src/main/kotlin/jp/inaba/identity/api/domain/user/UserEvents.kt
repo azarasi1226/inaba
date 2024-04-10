@@ -1,6 +1,6 @@
 package jp.inaba.identity.api.domain.user
 
-sealed interface UserEvent {
+interface UserEvent {
     val id: String
 }
 

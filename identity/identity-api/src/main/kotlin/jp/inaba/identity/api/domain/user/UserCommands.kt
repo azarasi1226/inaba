@@ -1,6 +1,6 @@
 package jp.inaba.identity.api.domain.user
 
-sealed interface UserCommand {
+interface UserCommand {
     val id: UserId
 }
 

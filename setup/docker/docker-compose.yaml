@@ -19,5 +19,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: passw0rd
 
+  cognito:
+    image: jagregory/cognito-local:latest
+    container_name: cognito
+    ports:
+      - 9229:9229
+
 volumes:
   mysql-volume:
