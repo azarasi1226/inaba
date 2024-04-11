@@ -1,9 +1,11 @@
-package jp.inaba.basket.service.application.command.basket.create
+package jp.inaba.basket.service.application.command.basket
 
+import jp.inaba.basket.api.domain.basket.BasketCommandErrors
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.basket.service.domain.basket.InternalBasketCommands
+import jp.inaba.common.domain.shared.ActionCommandResult
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Component
@@ -14,14 +16,16 @@ class CreateBasketInteractor(
     private val commandGateway: CommandGateway
 ) {
     @CommandHandler
-    fun handle(command: BasketCommands.Create) {
+    fun handle(command: BasketCommands.Create): ActionCommandResult {
         if(!canCreateBasketVerifier.existUser(command.userId)) {
-          throw UserNotFoundException(command.userId)
+            return ActionCommandResult.error(BasketCommandErrors.Create.USER_NOT_FOUND.errorCode)
         }
 
         val basketId = BasketId(command.userId)
         val internalCommand = InternalBasketCommands.Create(basketId)
 
         commandGateway.sendAndWait<Any>(internalCommand)
+
+        return ActionCommandResult.ok()
     }
 }

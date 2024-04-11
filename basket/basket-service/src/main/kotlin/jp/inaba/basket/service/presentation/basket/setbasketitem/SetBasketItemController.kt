@@ -3,11 +3,14 @@ package jp.inaba.basket.service.presentation.basket.setbasketitem
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.setBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.common.domain.shared.DomainException
+import jp.inaba.common.presentation.shared.ErrorResponse
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,7 +26,7 @@ class SetBasketItemController(
         rawUserId: String,
         @RequestBody
         request: SetBasketItemRequest
-    ) {
+    ): ResponseEntity<Any> {
         val userId = UserId(rawUserId)
         val basketId = BasketId(userId)
         val productId = ProductId(request.productId)
@@ -34,10 +37,18 @@ class SetBasketItemController(
             basketItemQuantity = basketItemQuantity
         )
 
-        val result = commandGateway.sendAndWait<Any>(command)
+        val result = commandGateway.setBasketItem(command)
 
-        if(result is DomainException) {
-            println("エラーだったよ")
+        return if (result.isOk) {
+            ResponseEntity.ok().build()
+        } else {
+            ResponseEntity(
+                ErrorResponse(
+                    errorCode = result.error.errorCode,
+                    errorMessage = result.error.errorMessage
+                ),
+                HttpStatus.BAD_REQUEST
+            )
         }
     }
 }

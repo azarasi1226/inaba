@@ -1,11 +1,8 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketEvents
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.*
 import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.common.domain.shared.DomainException
+import jp.inaba.common.domain.shared.ActionCommandResult
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
@@ -30,10 +27,10 @@ class BasketAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: InternalBasketCommands.SetBasketItem) {
+    fun handle(command: InternalBasketCommands.SetBasketItem): ActionCommandResult {
         // 買い物かごの中のアイテムが最大種類に達しているか？
         if(items.size >= MAX_ITEM_KIND_COUNT) {
-            throw DomainException("カートの中に入れられる商品種類の制限に引っかかったよ")
+            return ActionCommandResult.error(BasketCommandErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode)
         }
 
         val event = BasketEvents.BasketItemSet(
@@ -43,6 +40,8 @@ class BasketAggregate() {
         )
 
         AggregateLifecycle.apply(event)
+
+        return ActionCommandResult.ok()
     }
 
     @CommandHandler
