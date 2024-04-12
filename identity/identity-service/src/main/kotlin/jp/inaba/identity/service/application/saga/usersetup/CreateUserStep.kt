@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import jp.inaba.identity.api.domain.user.UserCommands
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.api.domain.user.createUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 class CreateUserStep(
@@ -20,12 +20,9 @@ class CreateUserStep(
         return this
     }
 
-    fun execute() {
-        val userId = UserId()
-        val command = UserCommands.Create(userId)
-
+    fun execute(command: UserCommands.Create) {
         try {
-            commandGateway.sendAndWait<Any>(command)
+            commandGateway.createUser(command)
             onSuccess?.invoke()
         }
         catch(e: Exception) {

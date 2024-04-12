@@ -1,8 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.user.UserCommands
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 class DeleteAuthUserStep(
@@ -22,10 +21,8 @@ class DeleteAuthUserStep(
     }
 
     fun execute(command: AuthCommands.DeleteAuthUser) {
-        val command =
-
         try {
-            commandGateway.sendAndWait<Any>(command)
+            commandGateway.deleteAuthUser(command)
             onSuccess?.invoke()
         }
         catch(e: Exception) {

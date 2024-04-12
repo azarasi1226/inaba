@@ -5,17 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketEvents
-import jp.inaba.basket.api.domain.basket.createBasket
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.AuthEvents
 import jp.inaba.identity.api.domain.user.UserCommands
 import jp.inaba.identity.api.domain.user.UserEvents
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
-import org.axonframework.modelling.saga.EndSaga
-import org.axonframework.modelling.saga.MetaDataAssociationResolver
-import org.axonframework.modelling.saga.SagaEventHandler
-import org.axonframework.modelling.saga.StartSaga
+import org.axonframework.modelling.saga.*
 import org.axonframework.spring.stereotype.Saga
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -45,21 +41,26 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.SignupConfirmed) {
-        logger.info { "UserSetupSaga: SignupConfirmed event received" }
+        logger.info { "UserSetupSaga開始" }
         sagaState = UserSetupSagaState.create(event)
+
+        val userId = UserId()
+        val userCreateCommand = UserCommands.Create(userId)
 
         createUserStep
             .onFail {
-                logger.error { "ユーザーの作成に失敗しました exception:[${it}]" }
+                logger.error { "ユーザーの作成に失敗しました。 exception:[${it}]" }
 
-                val command = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
+                val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
                 deleteAuthUserStep
                     .onFail {
-                        logger.error { "認証ユーザーの削除に失敗しました exception:[${it}]" }
+                        logger.error { "認証ユーザーの削除に失敗しました。 exception:[${it}]" }
+
+                        fatalError()
                     }
-                    .execute(command)
+                    .execute(deleteAuthUserCommand)
             }
-            .execute()
+            .execute(userCreateCommand)
     }
 
     @SagaEventHandler(
@@ -74,6 +75,9 @@ class UserSetupSaga {
         )
 
         updateIdTokenAttributeStep
+            .onFail {
+                logger.error { "IdTokenAttributeの更新に失敗しました。 exception: [$it]" }
+            }
     }
 
     @SagaEventHandler(
@@ -89,5 +93,10 @@ class UserSetupSaga {
     @EndSaga
     fun on(event: BasketEvents.Created) {
         logger.info { "UserSetupSaga: Basket created" }
+    }
+
+    private fun fatalError(){
+        logger.error { "致命的なエラーが発生しました。Sagaを強制停止します" }
+        SagaLifecycle.end()
     }
 }
