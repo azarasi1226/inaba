@@ -3,7 +3,7 @@ package jp.inaba.basket.service.infrastructure.domain.basket
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.identity.api.domain.user.UserId
 import jp.inaba.identity.api.domain.user.UserQueries
-import org.axonframework.extensions.kotlin.queryOptional
+import jp.inaba.identity.api.domain.user.findUserById
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.stereotype.Service
 
@@ -14,8 +14,8 @@ class CanCreateBasketVerifierImpl(
     override fun existUser(userId: UserId): Boolean {
         val query = UserQueries.FindByIdQuery(userId)
 
-        return queryGateway.queryOptional<UserQueries.FindByIdResult, UserQueries.FindByIdQuery>(query)
-            .get()
-            .isPresent;
+        val result =  queryGateway.findUserById(query)
+
+        return result.isOk
     }
 }
