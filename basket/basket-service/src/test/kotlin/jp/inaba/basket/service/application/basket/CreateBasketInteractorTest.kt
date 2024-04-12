@@ -29,7 +29,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun ユーザーが存在する_バスケットを作成する_内部コマンド配送() {
+    fun ユーザーが存在_買い物かごを作成_InternalCommandが配送() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
         Mockito.`when`(canCreateBasketVerifier.existUser(userId))
@@ -43,7 +43,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun ユーザーが存在しない_バスケットを作成する_内部コマンドが配送されずエラー() {
+    fun ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
         Mockito.`when`(canCreateBasketVerifier.existUser(userId))

@@ -20,7 +20,7 @@ class BasketAggregateTest {
     }
 
     @Test
-    fun バスケットを作成する_バスケットが作成されたイベント発行() {
+    fun 買い物かごを作成_買い物かごが作成されたイベント発行() {
         val basketId = BasketId(UserId())
 
         fixture.givenNoPriorActivity()
@@ -64,10 +64,13 @@ class BasketAggregateTest {
                     basketItemQuantity = quantity.value
                 )
             )
+            .expectResultMessagePayload(
+                ActionCommandResult.ok()
+            )
     }
 
     @Test
-    fun アイテムが50種類買い物かごに入っている_アイテムをセットする_例外() {
+    fun アイテムが50種類買い物かごに入っている_アイテムをセットする_エラー返却() {
         val basketId = BasketId(UserId())
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
