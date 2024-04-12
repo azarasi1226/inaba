@@ -2,6 +2,7 @@ package jp.inaba.basket.service.presentation.basket.get
 
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketQueries
+import jp.inaba.basket.api.domain.basket.findBasketById
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.common.domain.shared.PagingCondition
 import jp.inaba.identity.api.domain.user.UserId
@@ -33,8 +34,7 @@ class GetBasketController(
         val basketId = BasketId(userId)
         val query = BasketQueries.FindByIdQuery(basketId, pagingCondition)
 
-        val result = queryGateway.query<BasketQueries.FindByIdResult, BasketQueries.FindByIdQuery>(query)
-            .get()
+        val result = queryGateway.findBasketById(query)
 
         return GetBasketResponse(page = result.page)
     }

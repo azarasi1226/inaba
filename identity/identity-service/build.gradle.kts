@@ -8,6 +8,7 @@ dependencies {
     // project
     implementation(project(":common"))
     implementation(project(":identity:identity-api"))
+    implementation(project(":basket:basket-api"))
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-actuator")

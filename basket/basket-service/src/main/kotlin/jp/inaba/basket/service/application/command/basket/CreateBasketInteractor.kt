@@ -1,6 +1,6 @@
 package jp.inaba.basket.service.application.command.basket
 
-import jp.inaba.basket.api.domain.basket.BasketCommandErrors
+import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
@@ -18,7 +18,7 @@ class CreateBasketInteractor(
     @CommandHandler
     fun handle(command: BasketCommands.Create): ActionCommandResult {
         if(!canCreateBasketVerifier.existUser(command.userId)) {
-            return ActionCommandResult.error(BasketCommandErrors.Create.USER_NOT_FOUND.errorCode)
+            return ActionCommandResult.error(BasketErrors.Create.USER_NOT_FOUND.errorCode)
         }
 
         val basketId = BasketId(command.userId)

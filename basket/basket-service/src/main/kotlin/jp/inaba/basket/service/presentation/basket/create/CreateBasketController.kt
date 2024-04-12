@@ -1,6 +1,12 @@
 package jp.inaba.basket.service.presentation.basket.create
 
+import io.grpc.netty.shaded.io.netty.handler.codec.json.JsonObjectDecoder
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.createBasket
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.common.presentation.shared.ErrorResponse
@@ -16,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class CreateBasketController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
-    @PostMapping("")
+    @PostMapping
     fun create(
         @RequestBody
         request: CreateBasketRequest

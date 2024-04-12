@@ -1,7 +1,7 @@
 package jp.inaba.basket.api.domain.basket
 
 //TODO(もっとちゃんと考えろ)
-object BasketCommandErrors {
+object BasketErrors {
     enum class Create(
         val errorCode: String,
         val errorMessage: String

@@ -9,6 +9,10 @@ object UserEvents {
         override val id: String
     ) : UserEvent
 
+    data class ProfileUpdated(
+        override val id: String
+    ) : UserEvent
+
     data class AddressUpdated(
         override val id: String
     ) : UserEvent

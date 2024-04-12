@@ -1,30 +1,35 @@
-package jp.inaba.identity.api.domain.external.cognito
+package jp.inaba.identity.api.domain.external.auth
 
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.RoutingKey
 
-interface CognitoCommand {
+interface AuthCommand {
     @get:RoutingKey
     val emailAddress: String
 }
 
-object CognitoCommands {
+object AuthCommands {
     data class Signup(
         override val emailAddress: String,
         val password: String
-    ) : CognitoCommand
+    ) : AuthCommand
 
     data class ConfirmSignup(
         override val emailAddress: String,
         val confirmCode: String
-    ) : CognitoCommand
+    ) : AuthCommand
 
     data class ResendConfirmCode(
         override val emailAddress: String
-    ) : CognitoCommand
+    ) : AuthCommand
 
-    data class UpdateCustomAttributeForUserId(
+    //TODO(これ汎用的なプロパティにするか、Command/Event名をもっと具体化したほうがよさそう)
+    data class UpdateIdTokenAttribute(
         override val emailAddress: String,
         val userId: UserId
-    ) : CognitoCommand
+    ) : AuthCommand
+
+    data class DeleteAuthUser(
+        override val emailAddress: String
+    ) : AuthCommand
 }

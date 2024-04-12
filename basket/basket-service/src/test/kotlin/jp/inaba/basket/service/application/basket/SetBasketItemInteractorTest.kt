@@ -1,18 +1,19 @@
 package jp.inaba.basket.service.application.basket
 
 import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
-import jp.inaba.basket.service.application.command.basket.setbasketitem.ProductNotFoundException
-import jp.inaba.basket.service.application.command.basket.setbasketitem.SetBasketItemInteractor
+import jp.inaba.basket.service.application.command.basket.SetBasketItemInteractor
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.basket.service.domain.basket.InternalBasketCommands
 import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.common.domain.shared.ActionCommandResult
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers.any
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -32,7 +33,7 @@ class SetBasketItemInteractorTest {
     }
 
     @Test
-    fun 商品が存在する_商品をバスケットにセットする_InternalCommand配送() {
+    fun 商品が存在する_商品をバスケットにセットする_内部コマンド配送() {
         val basketId = BasketId(UserId())
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
@@ -43,19 +44,22 @@ class SetBasketItemInteractorTest {
         )
         Mockito.`when`(canSetBasketItemVerifier.existProduct(productId))
             .thenReturn(true)
+        Mockito.`when`(commandGateway.sendAndWait<ActionCommandResult>(any(InternalBasketCommands.SetBasketItem::class.java)))
+            .thenReturn(ActionCommandResult.ok())
 
-        sut.handle(command)
+        val result = sut.handle(command)
 
+        assert(result.isOk())
         val expectCommand = InternalBasketCommands.SetBasketItem(
             id = basketId,
             productId = productId,
             basketItemQuantity = basketItemQuantity
         )
-        Mockito.verify(commandGateway).sendAndWait<Any>(expectCommand)
+        Mockito.verify(commandGateway, Mockito.only()).sendAndWait<ActionCommandResult>(expectCommand)
     }
 
     @Test
-    fun ユーザーが存在しない_バスケットを作成する_例外() {
+    fun ユーザーが存在しない_バスケットを作成する_内部コマンドが配送されずエラー() {
         val basketId = BasketId(UserId())
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
@@ -67,15 +71,15 @@ class SetBasketItemInteractorTest {
         Mockito.`when`(canSetBasketItemVerifier.existProduct(productId))
             .thenReturn(false)
 
-        assertThrows<ProductNotFoundException> {
-            sut.handle(command)
-        }
+        val result = sut.handle(command)
 
+        assert(!result.isOk())
+        assert(result.errorCode == BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND.errorCode)
         val expectCommand = InternalBasketCommands.SetBasketItem(
             id = basketId,
             productId = productId,
             basketItemQuantity = basketItemQuantity
         )
-        Mockito.verify(commandGateway, Mockito.never()).sendAndWait<Any>(expectCommand)
+        Mockito.verify(commandGateway, Mockito.never()).sendAndWait<ActionCommandResult>(expectCommand)
     }
 }

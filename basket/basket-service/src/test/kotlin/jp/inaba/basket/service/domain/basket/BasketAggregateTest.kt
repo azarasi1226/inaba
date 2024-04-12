@@ -1,11 +1,8 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketEvents
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.*
 import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.common.domain.shared.DomainException
+import jp.inaba.common.domain.shared.ActionCommandResult
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -92,7 +89,10 @@ class BasketAggregateTest {
                     basketItemQuantity = quantity
                 )
             )
-            .expectException(DomainException::class.java)
+            .expectNoEvents()
+            .expectResultMessagePayload(
+                ActionCommandResult.error(BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode)
+            )
     }
 
     @Test

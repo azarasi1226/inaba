@@ -30,7 +30,7 @@ class BasketAggregate() {
     fun handle(command: InternalBasketCommands.SetBasketItem): ActionCommandResult {
         // 買い物かごの中のアイテムが最大種類に達しているか？
         if(items.size >= MAX_ITEM_KIND_COUNT) {
-            return ActionCommandResult.error(BasketCommandErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode)
+            return ActionCommandResult.error(BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode)
         }
 
         val event = BasketEvents.BasketItemSet(

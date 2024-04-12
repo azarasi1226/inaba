@@ -13,8 +13,7 @@ class LocalConfiguration {
     @Bean
     fun cognitoClient(): CognitoIdentityProviderClient {
         return CognitoIdentityProviderClient.builder()
-            .endpointOverride(URI.create("localhost:5000"))
-            .region(Region.AP_NORTHEAST_1)
+            .endpointOverride(URI.create("localhost:9229"))
             .build()
     }
 }

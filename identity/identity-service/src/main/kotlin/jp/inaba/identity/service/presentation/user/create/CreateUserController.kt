@@ -2,6 +2,7 @@ package jp.inaba.identity.service.presentation.user.create
 
 import jp.inaba.identity.api.domain.user.UserCommands
 import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.api.domain.user.createUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,7 +24,7 @@ class CreateUserController(
         val userId = UserId()
         val command = UserCommands.Create(userId)
 
-        commandGateway.sendAndWait<Any>(command)
+        commandGateway.createUser(command)
 
         return CreateUserResponse(userId.value)
     }

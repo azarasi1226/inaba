@@ -9,6 +9,10 @@ object UserCommands {
         override val id: UserId
     ) : UserCommand
 
+    data class UpdateProfile(
+        override val id: UserId
+    ) : UserCommand
+
     data class UpdateAddress(
         override val id: UserId
     ) : UserCommand
