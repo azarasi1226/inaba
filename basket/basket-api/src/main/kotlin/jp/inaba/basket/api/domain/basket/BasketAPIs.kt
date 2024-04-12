@@ -10,8 +10,7 @@ import org.axonframework.queryhandling.QueryGateway
 
 fun CommandGateway.createBasket(command: BasketCommands.Create): Result<Unit, BasketErrors.Create> {
     val result = this.sendAndWait<ActionCommandResult>(command)
-
-    //TODO(ここら辺、ジェネリクスメソッド使ってシンプルにできそう)
+    
     return if(result.isOk()) {
         Ok(Unit)
     }

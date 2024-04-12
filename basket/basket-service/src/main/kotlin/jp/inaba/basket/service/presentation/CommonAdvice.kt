@@ -20,7 +20,11 @@ class CommonAdvice {
     fun handle(ex: CommandExecutionException): ResponseEntity<ErrorResponse> {
         val responseEntity = when(ex.cause) {
             is AxonServerNonTransientRemoteCommandHandlingException -> return ResponseEntity(ErrorResponse(ex.message), HttpStatus.NOT_FOUND)
-            else -> ResponseEntity(ErrorResponse(ex.message), HttpStatus.INTERNAL_SERVER_ERROR)
+            else -> {
+                ex.printStackTrace()
+
+                ResponseEntity(ErrorResponse(ex.message), HttpStatus.INTERNAL_SERVER_ERROR)
+            }
         }
 
         return responseEntity
@@ -28,6 +32,8 @@ class CommonAdvice {
 
     @ExceptionHandler(Exception::class)
     fun handle(ex: Exception): ResponseEntity<ErrorResponse> {
+        ex.printStackTrace()
+
         return ResponseEntity(ErrorResponse(ex.message), HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

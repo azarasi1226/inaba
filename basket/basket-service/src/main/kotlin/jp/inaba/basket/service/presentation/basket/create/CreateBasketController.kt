@@ -1,10 +1,5 @@
 package jp.inaba.basket.service.presentation.basket.create
 
-import io.grpc.netty.shaded.io.netty.handler.codec.json.JsonObjectDecoder
-import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.createBasket
@@ -35,13 +30,16 @@ class CreateBasketController(
         return if (result.isOk) {
             ResponseEntity.ok().build()
         } else {
-            ResponseEntity(
-                ErrorResponse(
-                    errorCode = result.error.errorCode,
-                    errorMessage = result.error.errorMessage
-                ),
-                HttpStatus.BAD_REQUEST
-            )
+            when(result.error) {
+                BasketErrors.Create.USER_NOT_FOUND ->
+                    ResponseEntity(
+                        ErrorResponse(
+                            errorCode = result.error.errorCode,
+                            errorMessage = result.error.errorMessage
+                        ),
+                        HttpStatus.BAD_REQUEST
+                    )
+            }
         }
     }
 }

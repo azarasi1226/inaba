@@ -1,9 +1,6 @@
 package jp.inaba.basket.service.presentation.basket.setbasketitem
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.BasketItemQuantity
-import jp.inaba.basket.api.domain.basket.setBasketItem
+import jp.inaba.basket.api.domain.basket.*
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.presentation.shared.ErrorResponse
@@ -42,13 +39,17 @@ class SetBasketItemController(
         return if (result.isOk) {
             ResponseEntity.ok().build()
         } else {
-            ResponseEntity(
-                ErrorResponse(
-                    errorCode = result.error.errorCode,
-                    errorMessage = result.error.errorMessage
-                ),
-                HttpStatus.BAD_REQUEST
-            )
+            when(result.error) {
+                BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND,
+                BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER ->
+                    ResponseEntity(
+                        ErrorResponse(
+                            errorCode = result.error.errorCode,
+                            errorMessage = result.error.errorMessage
+                        ),
+                        HttpStatus.BAD_REQUEST
+                    )
+            }
         }
     }
 }
