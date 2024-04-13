@@ -1,9 +1,9 @@
 package jp.inaba.basket.service.presentation.admin
 
-import jp.inaba.basket.service.infrastructure.projector.basketitem.BasketItemProjectorEventProcessor
-import jp.inaba.basket.service.infrastructure.projector.product.ProductProjectorEventProcessor
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
+import jp.inaba.basket.service.infrastructure.projector.basketitem.BasketItemProjectorEventProcessor
+import jp.inaba.basket.service.infrastructure.projector.product.ProductProjectorEventProcessor
 import org.axonframework.config.EventProcessingConfiguration
 import org.axonframework.eventhandling.TrackingEventProcessor
 import org.springframework.http.ResponseEntity
@@ -20,7 +20,7 @@ class EventsReplayController(
 ) {
 
     @PostMapping("/reconstract")
-    fun reset() : ResponseEntity<String> {
+    fun handle() : ResponseEntity<String> {
         basketItemJpaRepository.deleteAllInBatch()
         productJpaRepository.deleteAllInBatch()
 

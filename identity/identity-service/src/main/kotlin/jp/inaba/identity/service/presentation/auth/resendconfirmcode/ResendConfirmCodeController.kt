@@ -12,7 +12,7 @@ class ResendConfirmCodeController(
     private val commandGateway: CommandGateway
 ) : AuthControllerBase() {
     @PostMapping("/resend-confirm-code")
-    fun resendConfirmCode(
+    fun handle(
         request: ResendConfirmCodeRequest
     ) {
         val command = AuthCommands.ResendConfirmCode(request.emailAddress)

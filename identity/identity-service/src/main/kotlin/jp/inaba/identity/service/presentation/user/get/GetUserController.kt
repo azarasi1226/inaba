@@ -19,7 +19,7 @@ class GetUserController(
     private val queryGateway: QueryGateway
 ) {
     @GetMapping("/{userId}")
-    fun get(
+    fun handle(
         @PathVariable("userId")
         rawUserId: String,
     ): ResponseEntity<Any> {

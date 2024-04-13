@@ -13,7 +13,7 @@ class ConfirmSignupController(
     private val commandGateway: CommandGateway
 ) : AuthControllerBase() {
     @PostMapping("/confirm-signup")
-    fun confirmSignup(
+    fun handle(
         @RequestBody
         request: ConfirmSignupRequest
     ) {

@@ -17,7 +17,7 @@ class CreateUserController(
     private val commandGateway: CommandGateway
 ) {
     @PostMapping
-    fun create(
+    fun handle(
         @RequestBody
         request: CreateUserRequest
     ): CreateUserResponse {

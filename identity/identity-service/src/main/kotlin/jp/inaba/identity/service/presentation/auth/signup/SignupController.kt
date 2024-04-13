@@ -13,7 +13,7 @@ class SignupController(
     private val commandGateway: CommandGateway
 ) : AuthControllerBase() {
     @PostMapping("/signup")
-    fun signup(
+    fun handle(
         @RequestBody
         request: SignupRequest
     ) {
