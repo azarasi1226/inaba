@@ -23,7 +23,7 @@ object AuthEvents {
 
     data class IdTokenAttributeUpdated(
         override val emailAddress: String,
-        val userId: String
+        val idTokenAttributes: Map<String, String>
     ) : AuthEvent
 
     data class AuthUserDeleted(

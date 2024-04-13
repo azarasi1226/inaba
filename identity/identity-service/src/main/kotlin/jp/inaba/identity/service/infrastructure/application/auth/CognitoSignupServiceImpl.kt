@@ -9,10 +9,10 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpReque
 
 @Service
 class CognitoSignupServiceImpl(
-    @Value("aws.cognito.client_id")
+    @Value("\${aws.cognito.client-id}")
     private val clientId: String,
     private val cognitoClient: CognitoIdentityProviderClient,
-): CognitoSignupService {
+) : CognitoSignupService {
     override fun handle(command: AuthCommands.Signup) {
         val request = SignUpRequest.builder()
             .clientId(clientId)

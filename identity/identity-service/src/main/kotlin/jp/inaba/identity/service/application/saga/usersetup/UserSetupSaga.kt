@@ -69,10 +69,6 @@ class UserSetupSaga {
     )
     fun on(event: UserEvents.Created) {
         val userId = UserId(event.id)
-        val command = AuthCommands.UpdateIdTokenAttribute(
-            emailAddress = sagaState.emailAddress,
-            userId = userId
-        )
 
         updateIdTokenAttributeStep
             .onFail {

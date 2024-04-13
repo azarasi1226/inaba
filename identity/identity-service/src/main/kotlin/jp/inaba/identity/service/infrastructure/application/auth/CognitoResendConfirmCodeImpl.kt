@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfi
 
 @Service
 class CognitoResendConfirmCodeImpl(
-    @Value("aws.cognito.client_id")
+    @Value("\${aws.cognito.client-id}")
     private val clientId: String,
     private val cognitoClient: CognitoIdentityProviderClient
 ) : CognitoResendConfirmCodeService {

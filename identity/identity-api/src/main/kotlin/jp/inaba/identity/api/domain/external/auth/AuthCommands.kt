@@ -1,6 +1,5 @@
 package jp.inaba.identity.api.domain.external.auth
 
-import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.RoutingKey
 
 interface AuthCommand {
@@ -23,10 +22,9 @@ object AuthCommands {
         override val emailAddress: String
     ) : AuthCommand
 
-    //TODO(これ汎用的なプロパティにするか、Command/Event名をもっと具体化したほうがよさそう)
     data class UpdateIdTokenAttribute(
         override val emailAddress: String,
-        val userId: UserId
+        val idTokenAttributes: Map<String, String>
     ) : AuthCommand
 
     data class DeleteAuthUser(

@@ -17,7 +17,7 @@ class UpdateIdTokenAttributeInteractor(
 
         val event = AuthEvents.IdTokenAttributeUpdated(
             emailAddress = command.emailAddress,
-            userId = command.userId.value,
+            idTokenAttributes = command.idTokenAttributes
         )
 
         eventGateway.publish(event)

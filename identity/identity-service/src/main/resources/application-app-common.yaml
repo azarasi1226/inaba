@@ -10,3 +10,7 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+
+aws:
+  cognito:
+    client-id: ${AWS_COGNITO_CLIENT-ID}

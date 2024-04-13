@@ -12,6 +12,13 @@ docker compose up -d
 ### 2. インフラ構築(手動)
 #### 1. AxonServerの起動
 #### 2. CognitoSetup
+```bash
+
+
+
+
+```
+
 
 ### 2. サービス起動
 InteliJIDEのマルチプロジェクト機能で同時に起動します。
@@ -64,4 +71,6 @@ SPRING_DATASOURCE_PASSWORD=passw0rd;
 SPRING_DATASOURCE_PORT=3306;
 SPRING_DATASOURCE_USERNAME=root;
 SPRING_PROFILES_ACTIVE=local;
+AWS_COGNITO_CLIENT-ID={*****};
+AWS_COGNITO_USER-POOL-ID={*****};
 ```
