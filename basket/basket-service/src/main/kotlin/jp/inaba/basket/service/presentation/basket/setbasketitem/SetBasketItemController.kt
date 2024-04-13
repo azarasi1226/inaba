@@ -18,7 +18,7 @@ class SetBasketItemController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
     @PostMapping("/{userId}/items")
-    fun setBasketItem(
+    fun handle(
         @PathVariable("userId")
         rawUserId: String,
         @RequestBody

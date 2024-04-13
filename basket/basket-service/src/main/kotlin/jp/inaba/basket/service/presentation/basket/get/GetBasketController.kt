@@ -6,7 +6,6 @@ import jp.inaba.basket.api.domain.basket.findBasketById
 import jp.inaba.basket.service.presentation.basket.BasketControllerBase
 import jp.inaba.common.domain.shared.PagingCondition
 import jp.inaba.identity.api.domain.user.UserId
-import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,7 +17,7 @@ class GetBasketController(
     private val queryGateway: QueryGateway
 ) : BasketControllerBase() {
     @GetMapping("/{userId}")
-    fun getBasket(
+    fun handle(
         @PathVariable("userId")
         rawUserId: String,
         @RequestParam("pageSize")

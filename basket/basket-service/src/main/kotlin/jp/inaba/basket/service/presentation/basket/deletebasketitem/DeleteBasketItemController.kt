@@ -16,7 +16,7 @@ class DeleteBasketItemController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
     @DeleteMapping("/{userId}/items/{itemId}")
-    fun deleteBasketItem(
+    fun handle(
         @PathVariable("userId")
         rawUserId: String,
         @PathVariable("itemId")

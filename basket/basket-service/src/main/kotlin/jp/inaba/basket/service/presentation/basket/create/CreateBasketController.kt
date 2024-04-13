@@ -18,7 +18,7 @@ class CreateBasketController(
     private val commandGateway: CommandGateway
 ) : BasketControllerBase() {
     @PostMapping
-    fun create(
+    fun handle(
         @RequestBody
         request: CreateBasketRequest
     ): ResponseEntity<Any> {
