@@ -59,7 +59,7 @@ class SetBasketItemInteractorTest {
     }
 
     @Test
-    fun 商品が存在しない_商品を買い物かごに入れる_InternalCommandが配送されずエラーが変える() {
+    fun 商品が存在しない_商品を買い物かごに入れる_InternalCommandが配送されずエラーが返る() {
         val basketId = BasketId(UserId())
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
