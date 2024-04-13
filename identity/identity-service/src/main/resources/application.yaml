@@ -1,11 +1,7 @@
 spring:
   profiles:
-    active: inmemory
+    active: local
     group:
-      inmemory:
-        - app-common
-        - app-inmemory
-        - datastore-h2
       local:
         - app-common
         - app-local
