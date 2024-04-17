@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdate
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 
 @Service
-class CognitoUpdateIdTokenAttributeImpl(
+class CognitoUpdateIdTokenAttributeServiceImpl(
     @Value("\${aws.cognito.user-pool-id}")
     private val userPoolId: String,
     private val cognitoClient: CognitoIdentityProviderClient,
