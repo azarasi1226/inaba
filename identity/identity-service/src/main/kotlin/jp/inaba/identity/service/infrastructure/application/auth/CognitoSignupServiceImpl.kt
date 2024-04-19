@@ -5,6 +5,7 @@ import jp.inaba.identity.service.application.command.external.auth.signup.Cognit
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest
 
 @Service
@@ -18,6 +19,14 @@ class CognitoSignupServiceImpl(
             .clientId(clientId)
             .username(command.emailAddress)
             .password(command.password)
+            //TODO(このUserAttribute本来であれば消せるはず...userNameでemailAddressを渡してるから。
+            // local cognitoの時だけなぜかこのattribute無いとエラーになるから追加してるだけ。余裕があれば消したい)
+            .userAttributes(
+                AttributeType.builder()
+                    .name("email")
+                    .value(command.emailAddress)
+                    .build()
+            )
             .build()
 
         cognitoClient.signUp(request)
