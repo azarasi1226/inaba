@@ -11,6 +11,22 @@ fun CommandGateway.createUser(command: UserCommands.Create) {
     this.sendAndWait<Any>(command)
 }
 
+fun CommandGateway.updateProfileInfo(command: UserCommands.UpdateProfileInfo) {
+    this.sendAndWait<Any>(command)
+}
+
+fun CommandGateway.updateAddressInfo(command: UserCommands.UpdateAddressInfo) {
+    this.sendAndWait<Any>(command)
+}
+
+fun CommandGateway.updatePaymentInfo(command: UserCommands.UpdatePaymentInfo) {
+    this.sendAndWait<Any>(command)
+}
+
+fun CommandGateway.deleteUser(command: UserCommands.Delete) {
+  this.sendAndWait<Any>(command)
+}
+
 fun QueryGateway.findUserById(query: UserQueries.FindByIdQuery): Result<UserQueries.FindByIdResult, UserErrors.FindById> {
     val result = this.query(query, ResponseTypes.optionalInstanceOf(UserQueries.FindByIdResult::class.java))
         .get()

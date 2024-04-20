@@ -9,15 +9,19 @@ object UserEvents {
         override val id: String
     ) : UserEvent
 
-    data class ProfileUpdated(
+    data class ProfileInfoUpdated(
         override val id: String
     ) : UserEvent
 
-    data class AddressUpdated(
+    data class AddressInfoUpdated(
         override val id: String
     ) : UserEvent
 
-    data class CreditCardInformationUpdated(
+    data class PaymentInfoUpdated(
+        override val id: String
+    ) : UserEvent
+
+    data class Deleted(
         override val id: String
     ) : UserEvent
 }

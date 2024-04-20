@@ -9,15 +9,19 @@ object UserCommands {
         override val id: UserId
     ) : UserCommand
 
-    data class UpdateProfile(
+    data class UpdateProfileInfo(
         override val id: UserId
     ) : UserCommand
 
-    data class UpdateAddress(
+    data class UpdateAddressInfo(
         override val id: UserId
     ) : UserCommand
 
-    data class UpdateCreditCardInformation(
+    data class UpdatePaymentInfo(
+        override val id: UserId
+    ) : UserCommand
+
+    data class Delete(
         override val id: UserId
     ) : UserCommand
 }

@@ -24,8 +24,8 @@ class UserAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: UserCommands.UpdateAddress) {
-        val event = UserEvents.AddressUpdated(
+    fun handle(command: UserCommands.UpdateProfileInfo) {
+        val event = UserEvents.ProfileInfoUpdated(
             id = command.id.value
         )
 
@@ -33,8 +33,17 @@ class UserAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: UserCommands.UpdateCreditCardInformation) {
-        val event = UserEvents.CreditCardInformationUpdated(
+    fun handle(command: UserCommands.UpdateAddressInfo) {
+        val event = UserEvents.AddressInfoUpdated(
+            id = command.id.value
+        )
+
+        AggregateLifecycle.apply(event)
+    }
+
+    @CommandHandler
+    fun handle(command: UserCommands.UpdatePaymentInfo) {
+        val event = UserEvents.PaymentInfoUpdated(
             id = command.id.value
         )
 
@@ -47,12 +56,17 @@ class UserAggregate() {
     }
 
     @EventSourcingHandler
-    fun on(event: UserEvents.AddressUpdated) {
+    fun on(event: UserEvents.ProfileInfoUpdated) {
         //TODO()
     }
 
     @EventSourcingHandler
-    fun on(event: UserEvents.CreditCardInformationUpdated) {
+    fun on(event: UserEvents.AddressInfoUpdated) {
+        //TODO()
+    }
+
+    @EventSourcingHandler
+    fun on(event: UserEvents.PaymentInfoUpdated) {
         //TODO()
     }
 }
