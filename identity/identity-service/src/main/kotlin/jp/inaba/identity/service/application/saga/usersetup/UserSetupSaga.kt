@@ -22,14 +22,16 @@ class UserSetupSaga {
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
 
-    @JsonIgnore
-    private val createUserStep = CreateUserStep(commandGateway)
-    @JsonIgnore
-    private val updateIdTokenAttributeStep = UpdateIdTokenAttributeStep(commandGateway)
-    @JsonIgnore
-    private val createBasketStep = CreateBasketStep(commandGateway)
-    @JsonIgnore
-    private val deleteAuthUserStep = DeleteAuthUserStep(commandGateway)
+    @delegate:JsonIgnore
+    private val createUserStep by lazy { CreateUserStep(commandGateway) }
+    @delegate:JsonIgnore
+    private val updateIdTokenAttributeStep by lazy { UpdateIdTokenAttributeStep(commandGateway) }
+    @delegate:JsonIgnore
+    private val createBasketStep by lazy { CreateBasketStep(commandGateway) }
+    @delegate:JsonIgnore
+    private val deleteUserStep by lazy { DeleteUserStep(commandGateway) }
+    @delegate:JsonIgnore
+    private val deleteAuthUserStep by lazy { DeleteAuthUserStep(commandGateway) }
     @JsonIgnore
     private val logger = KotlinLogging.logger {}
 
@@ -41,7 +43,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.SignupConfirmed) {
-        logger.info { "UserSetupSaga開始" }
+        logger.info { "AuthEvents.SignupConfirmed email:[${event.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
 
         val userId = UserId()
@@ -68,12 +70,28 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Created) {
-        val userId = UserId(event.id)
+        logger.info { "UserEvents.Created email:[${sagaState.emailAddress}]" }
+        sagaState = sagaState.associateUserCreatedEvent(event)
+
+        val attribute = "custom:user_id" to event.id
+        val command = AuthCommands.UpdateIdTokenAttribute(
+            emailAddress = sagaState.emailAddress,
+            idTokenAttributes = mapOf(attribute)
+        )
 
         updateIdTokenAttributeStep
             .onFail {
                 logger.error { "IdTokenAttributeの更新に失敗しました。 exception: [$it]" }
+
+                val deleteUserCommand = UserCommands.Delete(sagaState.userId!!)
+                deleteUserStep.onFail {
+                    logger.error { "ユーザーの削除に失敗しました。 exception:[${it}]" }
+
+                    fatalError()
+                }
+                .execute(deleteUserCommand)
             }
+            .execute(command)
     }
 
     @SagaEventHandler(
@@ -81,14 +99,52 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.IdTokenAttributeUpdated) {
+        logger.info { "AuthEvents.IdTokenAttributeUpdated email:[${sagaState.emailAddress}]" }
         val command = BasketCommands.Create(sagaState.userId!!)
 
         createBasketStep
+            .onFail {
+                logger.error {  }
+
+                val deleteUserCommand = UserCommands.Delete(sagaState.userId!!)
+                deleteUserStep.onFail {
+                    logger.error { "ユーザーの削除に失敗しました。 exception:[${it}]" }
+
+                    fatalError()
+                }
+                    .execute(deleteUserCommand)
+            }
+            .execute(command)
     }
 
     @EndSaga
+    @SagaEventHandler(
+        associationResolver = MetaDataAssociationResolver::class,
+        associationProperty = "traceId"
+    )
     fun on(event: BasketEvents.Created) {
-        logger.info { "UserSetupSaga: Basket created" }
+        logger.info { "BasketEvents.Created email:[${sagaState.emailAddress}]" }
+    }
+
+    @SagaEventHandler(
+        associationResolver = MetaDataAssociationResolver::class,
+        associationProperty = "traceId"
+    )
+    fun on(event: UserEvents.Deleted) {
+        deleteAuthUserStep.onFail {
+            logger.error { "認証ユーザーの削除に失敗しました。" }
+
+            fatalError()
+        }
+    }
+
+    @EndSaga
+    @SagaEventHandler(
+        associationResolver = MetaDataAssociationResolver::class,
+        associationProperty = "traceId"
+    )
+    fun on(event: AuthEvents.AuthUserDeleted) {
+        logger.info { "保障トランザクション終了" }
     }
 
     private fun fatalError(){

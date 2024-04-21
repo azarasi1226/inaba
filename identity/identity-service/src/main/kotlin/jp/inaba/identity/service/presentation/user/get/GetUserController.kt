@@ -5,6 +5,7 @@ import jp.inaba.identity.api.domain.user.UserErrors.FindById.USER_NOT_FOUND
 import jp.inaba.identity.api.domain.user.UserId
 import jp.inaba.identity.api.domain.user.UserQueries
 import jp.inaba.identity.api.domain.user.findUserById
+import jp.inaba.identity.service.presentation.user.UserControllerBase
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/users")
 class GetUserController(
     private val queryGateway: QueryGateway
-) {
+) : UserControllerBase() {
     @GetMapping("/{userId}")
     fun handle(
         @PathVariable("userId")
@@ -29,7 +30,10 @@ class GetUserController(
         val result = queryGateway.findUserById(query)
 
         return if(result.isOk) {
-            ResponseEntity(GetUserResponse(result.value.name), HttpStatus.OK)
+            ResponseEntity(
+                GetUserResponse(result.value.name),
+                HttpStatus.OK
+            )
         } else {
             when(result.error) {
                 USER_NOT_FOUND ->
