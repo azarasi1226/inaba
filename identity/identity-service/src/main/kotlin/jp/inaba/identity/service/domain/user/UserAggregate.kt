@@ -13,6 +13,7 @@ import org.axonframework.spring.stereotype.Aggregate
 class UserAggregate() {
     @AggregateIdentifier
     private lateinit var id: UserId
+    private var isDeleted: Boolean = false;
 
     @CommandHandler
     constructor(command: UserCommands.Create): this() {
@@ -50,6 +51,15 @@ class UserAggregate() {
         AggregateLifecycle.apply(event)
     }
 
+    @CommandHandler
+    fun handle(command: UserCommands.Delete) {
+        val event = UserEvents.Deleted(
+            id = command.id.value
+        )
+
+        AggregateLifecycle.apply(event)
+    }
+
     @EventSourcingHandler
     fun on(event: UserEvents.Created) {
         id = UserId(event.id)
@@ -68,5 +78,10 @@ class UserAggregate() {
     @EventSourcingHandler
     fun on(event: UserEvents.PaymentInfoUpdated) {
         //TODO()
+    }
+
+    @EventSourcingHandler
+    fun on(event: UserEvents.Deleted) {
+        isDeleted = true
     }
 }
