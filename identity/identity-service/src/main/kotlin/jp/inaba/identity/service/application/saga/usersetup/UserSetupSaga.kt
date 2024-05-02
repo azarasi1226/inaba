@@ -43,26 +43,25 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.SignupConfirmed) {
-        logger.info { "AuthEvents.SignupConfirmed email:[${event.emailAddress}]" }
+        logger.info { "catch AuthEvents.SignupConfirmed email:[${event.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
 
         val userId = UserId()
         val userCreateCommand = UserCommands.Create(userId)
 
-        createUserStep
-            .onFail {
-                logger.error { "ユーザーの作成に失敗しました。 exception:[${it}]" }
-
+        createUserStep.handle(
+            command = userCreateCommand,
+            onFail = {
                 val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
-                deleteAuthUserStep
-                    .onFail {
-                        logger.error { "認証ユーザーの削除に失敗しました。 exception:[${it}]" }
 
+                deleteAuthUserStep.handle(
+                    command = deleteAuthUserCommand,
+                    onFail = {
                         fatalError()
                     }
-                    .execute(deleteAuthUserCommand)
+                )
             }
-            .execute(userCreateCommand)
+        )
     }
 
     @SagaEventHandler(
@@ -70,7 +69,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Created) {
-        logger.info { "UserEvents.Created email:[${sagaState.emailAddress}]" }
+        logger.info { "catch UserEvents.Created email:[${sagaState.emailAddress}]" }
         sagaState = sagaState.associateUserCreatedEvent(event)
 
         val attribute = "custom:user_id" to event.id
@@ -79,19 +78,19 @@ class UserSetupSaga {
             idTokenAttributes = mapOf(attribute)
         )
 
-        updateIdTokenAttributeStep
-            .onFail {
-                logger.error { "IdTokenAttributeの更新に失敗しました。 exception: [$it]" }
-
+        updateIdTokenAttributeStep.handle(
+            command = command,
+            onFail = {
                 val deleteUserCommand = UserCommands.Delete(sagaState.userId!!)
-                deleteUserStep.onFail {
-                    logger.error { "ユーザーの削除に失敗しました。 exception:[${it}]" }
 
-                    fatalError()
-                }
-                .execute(deleteUserCommand)
+                deleteUserStep.handle(
+                    command = deleteUserCommand,
+                    onFail = {
+                        fatalError()
+                    }
+                )
             }
-            .execute(command)
+        )
     }
 
     @SagaEventHandler(
@@ -100,21 +99,20 @@ class UserSetupSaga {
     )
     fun on(event: AuthEvents.IdTokenAttributeUpdated) {
         logger.info { "AuthEvents.IdTokenAttributeUpdated email:[${sagaState.emailAddress}]" }
-        val command = BasketCommands.Create(sagaState.userId!!)
+        val createBasketCommand = BasketCommands.Create(sagaState.userId!!)
 
-        createBasketStep
-            .onFail {
-                logger.error {  }
-
+        createBasketStep.handle(
+            command = createBasketCommand,
+            onFail = {
                 val deleteUserCommand = UserCommands.Delete(sagaState.userId!!)
-                deleteUserStep.onFail {
-                    logger.error { "ユーザーの削除に失敗しました。 exception:[${it}]" }
-
-                    fatalError()
-                }
-                    .execute(deleteUserCommand)
+                deleteUserStep.handle(
+                    command = deleteUserCommand,
+                    onFail = {
+                        fatalError()
+                    }
+                )
             }
-            .execute(command)
+        )
     }
 
     @EndSaga
@@ -124,6 +122,7 @@ class UserSetupSaga {
     )
     fun on(event: BasketEvents.Created) {
         logger.info { "BasketEvents.Created email:[${sagaState.emailAddress}]" }
+        logger.info { "保障トランザクション正常終了 email:[${sagaState.emailAddress}]" }
     }
 
     @SagaEventHandler(
@@ -131,11 +130,14 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Deleted) {
-        deleteAuthUserStep.onFail {
-            logger.error { "認証ユーザーの削除に失敗しました。" }
+        val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
 
-            fatalError()
-        }
+        deleteAuthUserStep.handle(
+            command = deleteAuthUserCommand,
+            onFail = {
+                fatalError()
+            }
+        )
     }
 
     @EndSaga
@@ -144,11 +146,11 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.AuthUserDeleted) {
-        logger.info { "保障トランザクション終了" }
+        logger.info { "保障トランザクション異常終了 email:[${sagaState.emailAddress}]" }
     }
 
     private fun fatalError(){
-        logger.error { "致命的なエラーが発生しました。Sagaを強制停止します" }
+        logger.error { "致命的なエラーが発生しました。Sagaを強制停止します email:[${sagaState.emailAddress}]" }
         SagaLifecycle.end()
     }
 }

@@ -1,5 +1,6 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.createBasket
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -7,31 +8,23 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 class CreateBasketStep(
     private val commandGateway: CommandGateway
 ) {
-    private var onSuccess: (() -> Unit)? = null
-    private var onFail: ((Exception?) -> Unit)? = null
+    private val logger = KotlinLogging.logger {}
 
-    fun onSuccess(onSuccess: () -> Unit): CreateBasketStep {
-        this.onSuccess = onSuccess
-        return this
-    }
-
-    fun onFail(onFail: (Exception?) -> Unit): CreateBasketStep {
-        this.onFail = onFail
-        return this
-    }
-
-    fun execute(command: BasketCommands.Create) {
+    fun handle(
+        command: BasketCommands.Create,
+        onFail: (() -> Unit)? = null
+    ) {
         try {
             val result = commandGateway.createBasket(command)
 
-            if(result.isOk) {
-                onSuccess?.invoke()
-            } else {
-                onFail?.invoke(null)
+            if(result.isErr) {
+                logger.error { "バスケット作成に失敗しました error:[${result.error}]" }
+                onFail?.invoke()
             }
         }
         catch(e: Exception) {
-            onFail?.invoke(e)
+            logger.error { "バスケット作成に失敗しました exception:[${e}]" }
+            onFail?.invoke()
         }
     }
 }

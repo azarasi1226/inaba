@@ -1,5 +1,6 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.updateIdTokenAttribute
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -7,26 +8,18 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 class UpdateIdTokenAttributeStep(
     private val commandGateway: CommandGateway
 ) {
-    private var onSuccess: (() -> Unit)? = null
-    private var onFail: ((Exception) -> Unit)? = null
+    private val logger = KotlinLogging.logger {}
 
-    fun onSuccess(onSuccess: () -> Unit): UpdateIdTokenAttributeStep {
-        this.onSuccess = onSuccess
-        return this
-    }
-
-    fun onFail(onFail: (Exception) -> Unit): UpdateIdTokenAttributeStep {
-        this.onFail = onFail
-        return this
-    }
-
-    fun execute(command: AuthCommands.UpdateIdTokenAttribute) {
+    fun handle(
+        command: AuthCommands.UpdateIdTokenAttribute,
+        onFail: (() -> Unit)? = null
+    ) {
         try {
             commandGateway.updateIdTokenAttribute(command)
-            onSuccess?.invoke()
         }
         catch(e: Exception) {
-            onFail?.invoke(e)
+            logger.error { "IdTokenの属性変更に失敗しました exception:[${e}]" }
+            onFail?.invoke()
         }
     }
 }
