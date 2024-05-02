@@ -98,7 +98,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.IdTokenAttributeUpdated) {
-        logger.info { "AuthEvents.IdTokenAttributeUpdated email:[${sagaState.emailAddress}]" }
+        logger.info { "catch AuthEvents.IdTokenAttributeUpdated email:[${sagaState.emailAddress}]" }
         val createBasketCommand = BasketCommands.Create(sagaState.userId!!)
 
         createBasketStep.handle(
@@ -121,7 +121,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: BasketEvents.Created) {
-        logger.info { "BasketEvents.Created email:[${sagaState.emailAddress}]" }
+        logger.info { "catch BasketEvents.Created email:[${sagaState.emailAddress}]" }
         logger.info { "保障トランザクション正常終了 email:[${sagaState.emailAddress}]" }
     }
 
@@ -130,6 +130,8 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Deleted) {
+        logger.info { "catch UserEvents.Deleted email:[${sagaState.emailAddress}]" }
+
         val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
 
         deleteAuthUserStep.handle(
