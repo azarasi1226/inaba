@@ -9,7 +9,7 @@ import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.AuthEvents
 import jp.inaba.identity.api.domain.user.UserCommands
 import jp.inaba.identity.api.domain.user.UserEvents
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.api.domain.user.UserIdFactory
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.saga.*
 import org.axonframework.spring.stereotype.Saga
@@ -21,6 +21,9 @@ class UserSetupSaga {
     @Autowired
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
+    @Autowired
+    @JsonIgnore
+    private lateinit var userIdFactory: UserIdFactory
 
     @delegate:JsonIgnore
     private val createUserStep by lazy { CreateUserStep(commandGateway) }
@@ -46,7 +49,7 @@ class UserSetupSaga {
         logger.info { "catch AuthEvents.SignupConfirmed email:[${event.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
 
-        val userId = UserId()
+        val userId = userIdFactory.handle()
         val userCreateCommand = UserCommands.Create(userId)
 
         createUserStep.handle(
