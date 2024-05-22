@@ -11,7 +11,7 @@ CQRS/ESベースのマイクロサービスで作るECSite因幡のウサギ
 <br>
 
 ## Local環境構築手順
-### 1. インフラ構築(docker)
+### 1. Dockerによる環境構築
 docker-composeを使用してインフラ構築をします。
 ```bash
 cd ./setup/docker
