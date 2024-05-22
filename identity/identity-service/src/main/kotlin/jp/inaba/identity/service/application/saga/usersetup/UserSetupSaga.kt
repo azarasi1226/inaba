@@ -46,7 +46,6 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.SignupConfirmed) {
-        logger.info { "catch AuthEvents.SignupConfirmed email:[${event.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
 
         val userId = userIdFactory.handle()
@@ -72,7 +71,6 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Created) {
-        logger.info { "catch UserEvents.Created email:[${sagaState.emailAddress}]" }
         sagaState = sagaState.associateUserCreatedEvent(event)
 
         val attribute = "custom:user_id" to event.id
@@ -101,7 +99,6 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.IdTokenAttributeUpdated) {
-        logger.info { "catch AuthEvents.IdTokenAttributeUpdated email:[${sagaState.emailAddress}]" }
         val createBasketCommand = BasketCommands.Create(sagaState.userId!!)
 
         createBasketStep.handle(
@@ -124,8 +121,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: BasketEvents.Created) {
-        logger.info { "catch BasketEvents.Created email:[${sagaState.emailAddress}]" }
-        logger.info { "保障トランザクション正常終了 email:[${sagaState.emailAddress}]" }
+        logger.info { "UserSetupSaga正常終了 email:[${sagaState.emailAddress}]" }
     }
 
     @SagaEventHandler(
@@ -133,8 +129,6 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Deleted) {
-        logger.info { "catch UserEvents.Deleted email:[${sagaState.emailAddress}]" }
-
         val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
 
         deleteAuthUserStep.handle(
@@ -151,11 +145,11 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.AuthUserDeleted) {
-        logger.info { "保障トランザクション異常終了 email:[${sagaState.emailAddress}]" }
+        logger.warn { "UserSetupSaga補償終了 email:[${sagaState.emailAddress}]" }
     }
 
     private fun fatalError(){
-        logger.error { "致命的なエラーが発生しました。Sagaを強制停止します email:[${sagaState.emailAddress}]" }
+        logger.error { "UserSetupSaga強制終了 email:[${sagaState.emailAddress}]" }
         SagaLifecycle.end()
     }
 }
