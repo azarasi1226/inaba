@@ -24,7 +24,12 @@ docker compose up -d
 ```bash
 ./cognito-setup.sh
 ```
-以下↓のような出力が出たらUserPoolIdとUserPoolClientIdをコピーします。
+以下のようなものが出力されれば成功です。
+* CognitoUserPoolId
+* CognitoUserPoolClientId
+
+上記二つのIDをどこかにコピーしてください。  
+(後でサービス起動するときの環境変数にセットするため)
 ```
 CognitoUserPoolを作成します...
 CognitoUserPoolId:[local_2nKkO2sg]を作成しました
@@ -86,6 +91,6 @@ SPRING_DATASOURCE_PASSWORD=passw0rd;
 SPRING_DATASOURCE_PORT=3306;
 SPRING_DATASOURCE_USERNAME=root;
 SPRING_PROFILES_ACTIVE=local;
-AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
+AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 ```
