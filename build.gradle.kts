@@ -45,7 +45,6 @@ allprojects {
         implementation("com.michael-bull.kotlin-result:kotlin-result:2.0.0")
     }
 
-    // Ktlintの設定値
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         // testディレクトリをコーディング規約チェックから除外する
         filter {

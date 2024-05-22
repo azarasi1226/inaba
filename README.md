@@ -35,12 +35,14 @@ CognitoUserPoolClientId:[d14m44wivtx2lvonzzz7n8f4t]を作成しました
 <br>
 
 ### 3. AxonServerの起動
-* [AxonServer Console](http://localhost:8024/)にアクセスして、defualt contextを作成します。
+* [AxonServer Console](http://localhost:8024/)にアクセスして、defualt contextを手動で作成します。
 
 <br>
 
 ### 4. サービス起動
-InteliJIDEのマルチプロジェクト機能で同時に起動します。
+以下の環境変数をセットし、サービスを起動します。  
+InteliJ IDEAのマルチプロジェクト機能を使えばすべてまとめて起動できるので検証が楽です。
+
 
 #### OrderService環境変数
 ```
@@ -87,7 +89,3 @@ SPRING_PROFILES_ACTIVE=local;
 AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
 ```
-
-<br>
-
-### 5 終わりだぜFOOOOOOOOOOOOOOO!!
