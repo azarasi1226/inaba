@@ -1,5 +1,6 @@
 package jp.inaba.identity.api.domain.external.auth
 
+import jp.inaba.identity.api.domain.user.UserId
 
 
 interface AuthEvent {
@@ -21,9 +22,9 @@ object AuthEvents {
         override val emailAddress: String
     ) : AuthEvent
 
-    data class IdTokenAttributeUpdated(
+    data class IdTokenAttributeForUserIdUpdated(
         override val emailAddress: String,
-        val idTokenAttributes: Map<String, String>
+        val userId: UserId
     ) : AuthEvent
 
     data class AuthUserDeleted(

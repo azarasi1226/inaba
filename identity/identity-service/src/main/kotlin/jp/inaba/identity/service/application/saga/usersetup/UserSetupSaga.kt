@@ -28,7 +28,7 @@ class UserSetupSaga {
     @delegate:JsonIgnore
     private val createUserStep by lazy { CreateUserStep(commandGateway) }
     @delegate:JsonIgnore
-    private val updateIdTokenAttributeStep by lazy { UpdateIdTokenAttributeStep(commandGateway) }
+    private val updateIdTokenAttributeForUserIdStep by lazy { UpdateIdTokenAttributeForUserIdStep(commandGateway) }
     @delegate:JsonIgnore
     private val createBasketStep by lazy { CreateBasketStep(commandGateway) }
     @delegate:JsonIgnore
@@ -73,13 +73,12 @@ class UserSetupSaga {
     fun on(event: UserEvents.Created) {
         sagaState = sagaState.associateUserCreatedEvent(event)
 
-        val attribute = "custom:user_id" to event.id
-        val command = AuthCommands.UpdateIdTokenAttribute(
+        val command = AuthCommands.UpdateIdTokenAttributeForUserId(
             emailAddress = sagaState.emailAddress,
-            idTokenAttributes = mapOf(attribute)
+            userId = sagaState.userId!!
         )
 
-        updateIdTokenAttributeStep.handle(
+        updateIdTokenAttributeForUserIdStep.handle(
             command = command,
             onFail = {
                 val deleteUserCommand = UserCommands.Delete(sagaState.userId!!)
@@ -98,7 +97,7 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId"
     )
-    fun on(event: AuthEvents.IdTokenAttributeUpdated) {
+    fun on(event: AuthEvents.IdTokenAttributeForUserIdUpdated) {
         val createBasketCommand = BasketCommands.Create(sagaState.userId!!)
 
         createBasketStep.handle(

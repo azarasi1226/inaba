@@ -14,7 +14,7 @@ fun CommandGateway.resendConfirmCode(command: AuthCommands.ResendConfirmCode) {
     this.sendAndWait<Any>(command)
 }
 
-fun CommandGateway.updateIdTokenAttribute(command: AuthCommands.UpdateIdTokenAttribute) {
+fun CommandGateway.updateIdTokenAttributeForUserId(command: AuthCommands.UpdateIdTokenAttributeForUserId) {
     this.sendAndWait<Any>(command)
 }
 
