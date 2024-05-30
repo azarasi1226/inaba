@@ -46,6 +46,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: AuthEvents.SignupConfirmed) {
+        logger.info { "UserSetupSaga開始 email:[${sagaState.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
 
         val userId = userIdFactory.handle()
