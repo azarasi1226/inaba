@@ -13,7 +13,7 @@ class CommonAdvice {
     fun handle(ex: DomainException): ResponseEntity<ErrorResponse> {
         return ResponseEntity(
             ErrorResponse(ex.errorMessage, ex.errorCode),
-            HttpStatus.BAD_REQUEST
+            HttpStatus.BAD_REQUEST,
         )
     }
 
@@ -21,7 +21,7 @@ class CommonAdvice {
     fun handle(ex: Exception): ResponseEntity<ErrorResponse> {
         return ResponseEntity(
             ErrorResponse(ex.message),
-            HttpStatus.INTERNAL_SERVER_ERROR
+            HttpStatus.INTERNAL_SERVER_ERROR,
         )
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(OrderProjector.PROCESSOR_NAME)
 class OrderProjector(
-    private val orderJpaRepository: OrderJpaRepository
+    private val orderJpaRepository: OrderJpaRepository,
 ) {
     companion object {
         const val PROCESSOR_NAME = "OrderProjection"
@@ -20,11 +20,12 @@ class OrderProjector(
 
     @EventHandler
     fun on(event: OrderIssuedEvent) {
-        val entity = OrderEntity(
-            id = event.id.value,
-            status = OrderStatus.Issued,
-            userId = event.userId
-        )
+        val entity =
+            OrderEntity(
+                id = event.id.value,
+                status = OrderStatus.Issued,
+                userId = event.userId,
+            )
 
         orderJpaRepository.save(entity)
     }

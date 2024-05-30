@@ -9,5 +9,5 @@ data class OrderEntity(
     @Id
     var id: String = "",
     var status: OrderStatus = OrderStatus.Issued,
-    var userId: String = ""
+    var userId: String = "",
 )

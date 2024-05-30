@@ -8,8 +8,7 @@ data class OrderId(val value: String) {
     init {
         try {
             ULID.parseULID(value)
-        }
-        catch(e: Exception) {
+        } catch (e: Exception) {
             throw e
         }
     }

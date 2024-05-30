@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ResendConfirmCodeController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : AuthControllerBase() {
     @PostMapping("/resend-confirm-code")
-    fun handle(
-        request: ResendConfirmCodeRequest
-    ) {
+    fun handle(request: ResendConfirmCodeRequest) {
         val command = AuthCommands.ResendConfirmCode(request.emailAddress)
 
         commandGateway.resendConfirmCode(command)

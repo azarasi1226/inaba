@@ -9,25 +9,31 @@ import jp.inaba.service.presentation.model.order.OrderIssueRequest
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.extensions.kotlin.queryMany
 import org.axonframework.queryhandling.QueryGateway
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/orders")
 class OrderController(
     private val commandGateway: CommandGateway,
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) {
     @PostMapping
     fun issue(
         @RequestBody
-        request: OrderIssueRequest
+        request: OrderIssueRequest,
     ) {
         val orderId = OrderId()
-        val command = IssueOrderCommand(
-            id = orderId,
-            userId = request.userId,
-            productId = request.productId
-        )
+        val command =
+            IssueOrderCommand(
+                id = orderId,
+                userId = request.userId,
+                productId = request.productId,
+            )
 
         commandGateway.sendAndWait<Any>(command)
     }
@@ -35,7 +41,7 @@ class OrderController(
     @GetMapping
     fun findByUserId(
         @RequestParam
-        userId: String
+        userId: String,
     ): List<OrderFindByUserIdResponse> {
         val query = OrderFindByUserIdQuery(userId)
         val result = queryGateway.queryMany<OrderFindByUserIdResult, OrderFindByUserIdQuery>(query).get()
@@ -44,7 +50,7 @@ class OrderController(
             OrderFindByUserIdResponse(
                 orderId = it.orderId,
                 userId = it.userId,
-                status = it.orderStatus
+                status = it.orderStatus,
             )
         }
     }

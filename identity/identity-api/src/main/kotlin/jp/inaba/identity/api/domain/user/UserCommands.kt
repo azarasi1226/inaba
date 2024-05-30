@@ -6,22 +6,22 @@ interface UserCommand {
 
 object UserCommands {
     data class Create(
-        override val id: UserId
+        override val id: UserId,
     ) : UserCommand
 
     data class UpdateProfileInfo(
-        override val id: UserId
+        override val id: UserId,
     ) : UserCommand
 
     data class UpdateAddressInfo(
-        override val id: UserId
+        override val id: UserId,
     ) : UserCommand
 
     data class UpdatePaymentInfo(
-        override val id: UserId
+        override val id: UserId,
     ) : UserCommand
 
     data class Delete(
-        override val id: UserId
+        override val id: UserId,
     ) : UserCommand
 }

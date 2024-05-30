@@ -8,22 +8,21 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 private val logger = KotlinLogging.logger {}
 
 class CreateBasketStep(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     fun handle(
         command: BasketCommands.Create,
-        onFail: (() -> Unit)
+        onFail: (() -> Unit),
     ) {
         try {
             val result = commandGateway.createBasket(command)
 
-            if(result.isErr) {
+            if (result.isErr) {
                 logger.warn { "買い物かご作成に失敗しました error:[${result.error}]" }
                 onFail.invoke()
             }
-        }
-        catch(e: Exception) {
-            logger.warn { "買い物かご作成に失敗しました exception:[${e}]" }
+        } catch (e: Exception) {
+            logger.warn { "買い物かご作成に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

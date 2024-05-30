@@ -15,7 +15,7 @@ class OrderProjectorEventProcessorConfiguration {
         configurer.registerDeadLetterQueue(OrderProjector.PROCESSOR_NAME) {
             JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()
                 .processingGroup(OrderProjector.PROCESSOR_NAME)
-                //TODO(↓の数字DIしたい)
+                // TODO(↓の数字DIしたい)
                 .maxSequences(256)
                 .maxSequenceSize(256)
                 .entityManagerProvider(it.getComponent(EntityManagerProvider::class.java))

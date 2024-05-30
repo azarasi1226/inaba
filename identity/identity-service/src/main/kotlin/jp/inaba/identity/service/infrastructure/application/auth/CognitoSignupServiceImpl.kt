@@ -15,19 +15,20 @@ class CognitoSignupServiceImpl(
     private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoSignupService {
     override fun handle(command: AuthCommands.Signup) {
-        val request = SignUpRequest.builder()
-            .clientId(clientId)
-            .username(command.emailAddress)
-            .password(command.password)
-            //TODO(このUserAttribute本来であれば消せるはず...userNameでemailAddressを渡してるから。
-            // local cognitoの時だけなぜかこのattribute無いとエラーになるから追加してるだけ。余裕があれば消したい)
-            .userAttributes(
-                AttributeType.builder()
-                    .name("email")
-                    .value(command.emailAddress)
-                    .build()
-            )
-            .build()
+        val request =
+            SignUpRequest.builder()
+                .clientId(clientId)
+                .username(command.emailAddress)
+                .password(command.password)
+                // TODO(このUserAttribute本来であれば消せるはず...userNameでemailAddressを渡してるから。
+                // local cognitoの時だけなぜかこのattribute無いとエラーになるから追加してるだけ。余裕があれば消したい)
+                .userAttributes(
+                    AttributeType.builder()
+                        .name("email")
+                        .value(command.emailAddress)
+                        .build(),
+                )
+                .build()
 
         cognitoClient.signUp(request)
     }

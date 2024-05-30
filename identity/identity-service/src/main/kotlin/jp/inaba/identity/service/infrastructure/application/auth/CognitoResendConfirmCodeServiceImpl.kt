@@ -11,13 +11,14 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfi
 class CognitoResendConfirmCodeServiceImpl(
     @Value("\${aws.cognito.client-id}")
     private val clientId: String,
-    private val cognitoClient: CognitoIdentityProviderClient
+    private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoResendConfirmCodeService {
     override fun handle(command: AuthCommands.ResendConfirmCode) {
-        val request = ResendConfirmationCodeRequest.builder()
-            .clientId(clientId)
-            .username(command.emailAddress)
-            .build()
+        val request =
+            ResendConfirmationCodeRequest.builder()
+                .clientId(clientId)
+                .username(command.emailAddress)
+                .build()
 
         cognitoClient.resendConfirmationCode(request)
     }

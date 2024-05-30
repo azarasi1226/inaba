@@ -2,7 +2,7 @@ package jp.inaba.catalog.api.domain.product
 
 object ProductQueries {
     data class FindById(
-        val id: ProductId
+        val id: ProductId,
     )
 
     data class FindByIdResult(
@@ -11,6 +11,6 @@ object ProductQueries {
         val description: String,
         val imageUrl: String?,
         val price: Int,
-        val quantity: Int
+        val quantity: Int,
     )
 }

@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class
-UserProjectorEventProcessor
-{
+UserProjectorEventProcessor {
     companion object {
         const val PROCESSOR_NAME = "user-projector"
         private const val PROCESSOR_COUNT = 5

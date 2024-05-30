@@ -1,6 +1,6 @@
 package jp.inaba.common.presentation.shared
 
-data class ErrorResponse (
+data class ErrorResponse(
     val errorMessage: String? = null,
-    val errorCode: String? = null
+    val errorCode: String? = null,
 )

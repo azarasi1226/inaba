@@ -14,11 +14,12 @@ class CognitoConfirmSignupServiceImpl(
     private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoConfirmSignupService {
     override fun handle(command: AuthCommands.ConfirmSignup) {
-        val request = ConfirmSignUpRequest.builder()
-            .clientId(clientId)
-            .username(command.emailAddress)
-            .confirmationCode(command.confirmCode)
-            .build()
+        val request =
+            ConfirmSignUpRequest.builder()
+                .clientId(clientId)
+                .username(command.emailAddress)
+                .confirmationCode(command.confirmCode)
+                .build()
 
         cognitoClient.confirmSignUp(request)
     }

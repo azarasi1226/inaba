@@ -10,14 +10,15 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(UserProjectorEventProcessor.PROCESSOR_NAME)
 class UserProjector(
-    private val repository: UserJpaRepository
-){
+    private val repository: UserJpaRepository,
+) {
     @EventHandler
     fun on(event: UserEvents.Created) {
-        val entity = UserJpaEntity(
-            id = event.id,
-            userName = "ふｌえええ"
-        )
+        val entity =
+            UserJpaEntity(
+                id = event.id,
+                userName = "ふｌえええ",
+            )
 
         repository.save(entity)
     }

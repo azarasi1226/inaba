@@ -13,49 +13,54 @@ import org.axonframework.spring.stereotype.Aggregate
 class UserAggregate() {
     @AggregateIdentifier
     private lateinit var id: UserId
-    private var isDeleted: Boolean = false;
+    private var isDeleted: Boolean = false
 
     @CommandHandler
-    constructor(command: UserCommands.Create): this() {
-        val event = UserEvents.Created(
-            id = command.id.value
-        )
+    constructor(command: UserCommands.Create) : this() {
+        val event =
+            UserEvents.Created(
+                id = command.id.value,
+            )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: UserCommands.UpdateProfileInfo) {
-        val event = UserEvents.ProfileInfoUpdated(
-            id = command.id.value
-        )
+        val event =
+            UserEvents.ProfileInfoUpdated(
+                id = command.id.value,
+            )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: UserCommands.UpdateAddressInfo) {
-        val event = UserEvents.AddressInfoUpdated(
-            id = command.id.value
-        )
+        val event =
+            UserEvents.AddressInfoUpdated(
+                id = command.id.value,
+            )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: UserCommands.UpdatePaymentInfo) {
-        val event = UserEvents.PaymentInfoUpdated(
-            id = command.id.value
-        )
+        val event =
+            UserEvents.PaymentInfoUpdated(
+                id = command.id.value,
+            )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: UserCommands.Delete) {
-        val event = UserEvents.Deleted(
-            id = command.id.value
-        )
+        val event =
+            UserEvents.Deleted(
+                id = command.id.value,
+            )
 
         AggregateLifecycle.apply(event)
     }
@@ -67,17 +72,17 @@ class UserAggregate() {
 
     @EventSourcingHandler
     fun on(event: UserEvents.ProfileInfoUpdated) {
-        //TODO()
+        // TODO()
     }
 
     @EventSourcingHandler
     fun on(event: UserEvents.AddressInfoUpdated) {
-        //TODO()
+        // TODO()
     }
 
     @EventSourcingHandler
     fun on(event: UserEvents.PaymentInfoUpdated) {
-        //TODO()
+        // TODO()
     }
 
     @EventSourcingHandler

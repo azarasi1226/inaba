@@ -9,15 +9,16 @@ import org.springframework.stereotype.Component
 @Component
 class ResendConfirmCodeInteractor(
     private val cognitoResendConfirmCodeService: CognitoResendConfirmCodeService,
-    private val eventGateway: EventGateway
+    private val eventGateway: EventGateway,
 ) {
     @CommandHandler
     fun handle(command: AuthCommands.ResendConfirmCode) {
         cognitoResendConfirmCodeService.handle(command)
 
-        val event = AuthEvents.ConfirmCodeResent(
-            emailAddress = command.emailAddress
-        )
+        val event =
+            AuthEvents.ConfirmCodeResent(
+                emailAddress = command.emailAddress,
+            )
 
         eventGateway.publish(event)
     }

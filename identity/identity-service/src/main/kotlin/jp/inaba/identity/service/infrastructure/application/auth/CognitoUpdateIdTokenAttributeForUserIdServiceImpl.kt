@@ -15,16 +15,17 @@ class CognitoUpdateIdTokenAttributeForUserIdServiceImpl(
     private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoUpdateIdTokenAttributeForUserIdService {
     override fun handle(command: AuthCommands.UpdateIdTokenAttributeForUserId) {
-        val request = AdminUpdateUserAttributesRequest.builder()
-            .userPoolId(userPoolId)
-            .username(command.emailAddress)
-            .userAttributes(
-                AttributeType.builder()
-                    .name("custom:user_id")
-                    .value(command.userId.value)
-                    .build()
-            )
-            .build()
+        val request =
+            AdminUpdateUserAttributesRequest.builder()
+                .userPoolId(userPoolId)
+                .username(command.emailAddress)
+                .userAttributes(
+                    AttributeType.builder()
+                        .name("custom:user_id")
+                        .value(command.userId.value)
+                        .build(),
+                )
+                .build()
 
         cognitoClient.adminUpdateUserAttributes(request)
     }

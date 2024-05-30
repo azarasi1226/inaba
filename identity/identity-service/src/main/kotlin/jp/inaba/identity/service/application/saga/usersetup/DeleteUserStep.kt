@@ -8,17 +8,16 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 private val logger = KotlinLogging.logger {}
 
 class DeleteUserStep(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     fun handle(
         command: UserCommands.Delete,
-        onFail: (() -> Unit)
+        onFail: (() -> Unit),
     ) {
         try {
             commandGateway.deleteUser(command)
-        }
-        catch(e: Exception) {
-            logger.warn { "ユーザーの削除に失敗しました exception:[${e}]" }
+        } catch (e: Exception) {
+            logger.warn { "ユーザーの削除に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

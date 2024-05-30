@@ -6,7 +6,7 @@ package jp.inaba.common.domain.shared
 class ActionCommandResult private constructor(
     // なぜジェネリクスで持たないのかというと、jacksonのバグ？かなんかでジェネリクスでEnumを持とうとしたら変換できなかったから...
     // マジで意味わからんぜBaby...
-    val errorCode: String? = null
+    val errorCode: String? = null,
 ) {
     companion object {
         fun ok(): ActionCommandResult {
@@ -22,4 +22,3 @@ class ActionCommandResult private constructor(
         return errorCode == null
     }
 }
-

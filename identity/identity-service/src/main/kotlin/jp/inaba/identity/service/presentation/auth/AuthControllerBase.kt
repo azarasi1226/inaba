@@ -5,5 +5,4 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Tag(name = "Auth")
 @RequestMapping("/api/auth")
-abstract class AuthControllerBase {
-}
+abstract class AuthControllerBase

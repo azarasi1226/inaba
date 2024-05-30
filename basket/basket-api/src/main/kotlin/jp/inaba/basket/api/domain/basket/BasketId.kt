@@ -20,8 +20,8 @@ data class BasketId(val value: String) {
     constructor(userId: UserId) : this("${PREFIX}${userId.value}")
 
     init {
-        if(!value.startsWith(PREFIX)) {
-            throw DomainException("basketIdのprefixには[${PREFIX}]が必要です。現在のIDは[${value}]")
+        if (!value.startsWith(PREFIX)) {
+            throw DomainException("basketIdのprefixには[$PREFIX]が必要です。現在のIDは[$value]")
         }
 
         // UserIdがインスタンス化できれば、Validationが通ったということ

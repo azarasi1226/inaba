@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteAuthUserInteractor(
     private val cognitoDeleteAuthUserService: CognitoDeleteAuthUserService,
-    private val eventGateway: EventGateway
+    private val eventGateway: EventGateway,
 ) {
     @CommandHandler
     fun handle(command: AuthCommands.DeleteAuthUser) {

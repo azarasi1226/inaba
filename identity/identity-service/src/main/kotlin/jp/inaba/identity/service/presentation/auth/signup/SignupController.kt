@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class SignupController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : AuthControllerBase() {
     @PostMapping("/signup")
     fun handle(
         @RequestBody
-        request: SignupRequest
+        request: SignupRequest,
     ) {
-        val command = AuthCommands.Signup(
-            emailAddress = request.emailAddress,
-            password = request.password
-        )
+        val command =
+            AuthCommands.Signup(
+                emailAddress = request.emailAddress,
+                password = request.password,
+            )
 
         commandGateway.signup(command)
     }

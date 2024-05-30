@@ -10,11 +10,10 @@ import org.axonframework.queryhandling.QueryGateway
 
 fun CommandGateway.createBasket(command: BasketCommands.Create): Result<Unit, BasketErrors.Create> {
     val result = this.sendAndWait<ActionCommandResult>(command)
-    
-    return if(result.isOk()) {
+
+    return if (result.isOk()) {
         Ok(Unit)
-    }
-    else {
+    } else {
         val error = BasketErrors.Create.entries.find { it.errorCode == result.errorCode }
 
         Err(error!!)
@@ -24,10 +23,9 @@ fun CommandGateway.createBasket(command: BasketCommands.Create): Result<Unit, Ba
 fun CommandGateway.setBasketItem(command: BasketCommands.SetBasketItem): Result<Unit, BasketErrors.SetBasketItem> {
     val result = this.sendAndWait<ActionCommandResult>(command)
 
-    return if(result.isOk()) {
+    return if (result.isOk()) {
         Ok(Unit)
-    }
-    else {
+    } else {
         val error = BasketErrors.SetBasketItem.entries.find { it.errorCode == result.errorCode }
 
         Err(error!!)

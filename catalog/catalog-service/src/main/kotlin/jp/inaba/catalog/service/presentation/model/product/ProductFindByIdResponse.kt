@@ -5,5 +5,5 @@ data class ProductFindByIdResponse(
     val description: String,
     val imageUrl: String?,
     val price: Int,
-    val quantity: Int
+    val quantity: Int,
 )

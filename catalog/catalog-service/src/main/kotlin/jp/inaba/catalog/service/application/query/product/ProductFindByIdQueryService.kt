@@ -4,20 +4,19 @@ import jp.inaba.catalog.api.domain.product.ProductQueries
 import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Optional
 
 @Component
 class ProductFindByIdQueryService(
-    private val productJpaRepository: ProductJpaRepository
+    private val productJpaRepository: ProductJpaRepository,
 ) {
     @QueryHandler
     fun handle(query: ProductQueries.FindById): Optional<ProductQueries.FindByIdResult> {
         val maybeEntity = productJpaRepository.findById(query.id.value)
 
-        return if(maybeEntity.isEmpty) {
+        return if (maybeEntity.isEmpty) {
             Optional.empty()
-        }
-        else {
+        } else {
             val entity = maybeEntity.get()
             Optional.of(
                 ProductQueries.FindByIdResult(
@@ -26,8 +25,8 @@ class ProductFindByIdQueryService(
                     description = entity.description,
                     imageUrl = entity.imageUrl,
                     price = entity.price,
-                    quantity = entity.quantity
-                )
+                    quantity = entity.quantity,
+                ),
             )
         }
     }

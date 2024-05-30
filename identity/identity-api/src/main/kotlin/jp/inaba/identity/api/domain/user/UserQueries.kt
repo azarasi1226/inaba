@@ -5,6 +5,6 @@ object UserQueries {
 
     data class FindByIdResult(
         val id: String,
-        val name: String
+        val name: String,
     )
 }

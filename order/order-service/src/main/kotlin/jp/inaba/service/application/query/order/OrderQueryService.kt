@@ -6,17 +6,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrderQueryService(
-    private val orderRepository: OrderJpaRepository
+    private val orderRepository: OrderJpaRepository,
 ) {
     @QueryHandler
-    fun handle(query: OrderFindByUserIdQuery) : List<OrderFindByUserIdResult> {
+    fun handle(query: OrderFindByUserIdQuery): List<OrderFindByUserIdResult> {
         val orders = orderRepository.findByUserId(query.userId)
 
         return orders.map {
             OrderFindByUserIdResult(
                 it.id,
                 it.userId,
-                it.status.toString()
+                it.status.toString(),
             )
         }
     }

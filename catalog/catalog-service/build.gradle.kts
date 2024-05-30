@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":catalog:catalog-api"))
 
-    //spring
+    // spring
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -20,11 +20,11 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.retry:spring-retry:2.0.5")
 
-    //axon
+    // axon
     implementation("org.axonframework:axon-spring-boot-starter")
     implementation("org.axonframework.extensions.kotlin:axon-kotlin")
     testImplementation("org.axonframework:axon-test")
 
-    //other
+    // other
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 }

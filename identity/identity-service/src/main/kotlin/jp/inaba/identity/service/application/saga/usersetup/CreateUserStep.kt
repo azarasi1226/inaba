@@ -8,17 +8,16 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 private val logger = KotlinLogging.logger {}
 
 class CreateUserStep(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     fun handle(
         command: UserCommands.Create,
-        onFail: (() -> Unit)
+        onFail: (() -> Unit),
     ) {
         try {
             commandGateway.createUser(command)
-        }
-        catch(e: Exception) {
-            logger.warn { "ユーザー作成に失敗しました exception:[${e}]" }
+        } catch (e: Exception) {
+            logger.warn { "ユーザー作成に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

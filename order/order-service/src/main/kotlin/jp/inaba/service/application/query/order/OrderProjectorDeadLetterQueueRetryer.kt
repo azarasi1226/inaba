@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit
 @Configuration
 @EnableScheduling
 class OrderProjectorDeadLetterQueueRetryer(
-    private val configuration: EventProcessingConfiguration
+    private val configuration: EventProcessingConfiguration,
 ) {
-    //TODO(↓の数字DIしたい)
+    // TODO(↓の数字DIしたい)
     @Scheduled(fixedRate = 10, timeUnit = TimeUnit.MINUTES)
     fun retry() {
         val processor = configuration.sequencedDeadLetterProcessor(OrderProjector.PROCESSOR_NAME).get()

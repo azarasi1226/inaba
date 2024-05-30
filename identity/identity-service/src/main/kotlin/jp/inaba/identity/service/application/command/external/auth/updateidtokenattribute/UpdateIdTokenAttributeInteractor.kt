@@ -9,16 +9,17 @@ import org.springframework.stereotype.Component
 @Component
 class UpdateIdTokenAttributeInteractor(
     private val cognitoUpdateIdTokenAttributeForUserIdService: CognitoUpdateIdTokenAttributeForUserIdService,
-    private val eventGateway: EventGateway
+    private val eventGateway: EventGateway,
 ) {
     @CommandHandler
     fun handle(command: AuthCommands.UpdateIdTokenAttributeForUserId) {
         cognitoUpdateIdTokenAttributeForUserIdService.handle(command)
 
-        val event = AuthEvents.IdTokenAttributeForUserIdUpdated(
-            emailAddress = command.emailAddress,
-            userId = command.userId
-        )
+        val event =
+            AuthEvents.IdTokenAttributeForUserIdUpdated(
+                emailAddress = command.emailAddress,
+                userId = command.userId,
+            )
 
         eventGateway.publish(event)
     }

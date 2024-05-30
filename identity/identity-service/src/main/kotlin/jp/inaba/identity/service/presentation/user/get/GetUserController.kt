@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/users")
 class GetUserController(
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) : UserControllerBase() {
     @GetMapping("/{userId}")
     fun handle(
@@ -29,20 +29,20 @@ class GetUserController(
 
         val result = queryGateway.findUserById(query)
 
-        return if(result.isOk) {
+        return if (result.isOk) {
             ResponseEntity(
                 GetUserResponse(result.value.name),
-                HttpStatus.OK
+                HttpStatus.OK,
             )
         } else {
-            when(result.error) {
+            when (result.error) {
                 USER_NOT_FOUND ->
                     ResponseEntity(
                         ErrorResponse(
                             errorCode = result.error.errorCode,
-                            errorMessage = result.error.errorMessage
+                            errorMessage = result.error.errorMessage,
                         ),
-                        HttpStatus.NOT_FOUND
+                        HttpStatus.NOT_FOUND,
                     )
             }
         }

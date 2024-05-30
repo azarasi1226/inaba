@@ -8,17 +8,16 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 private val logger = KotlinLogging.logger {}
 
 class UpdateIdTokenAttributeForUserIdStep(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     fun handle(
         command: AuthCommands.UpdateIdTokenAttributeForUserId,
-        onFail: (() -> Unit)
+        onFail: (() -> Unit),
     ) {
         try {
             commandGateway.updateIdTokenAttributeForUserId(command)
-        }
-        catch(e: Exception) {
-            logger.warn { "IdTokenの属性変更に失敗しました exception:[${e}]" }
+        } catch (e: Exception) {
+            logger.warn { "IdTokenの属性変更に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

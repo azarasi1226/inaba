@@ -9,16 +9,17 @@ import org.springframework.stereotype.Component
 @Component
 class ConfirmSignupInteractor(
     private val cognitoConfirmSignupService: CognitoConfirmSignupService,
-    private val eventGateway: EventGateway
+    private val eventGateway: EventGateway,
 ) {
     @CommandHandler
     fun handle(command: AuthCommands.ConfirmSignup) {
         cognitoConfirmSignupService.handle(command)
 
-        val event = AuthEvents.SignupConfirmed(
-            emailAddress = command.emailAddress,
-            confirmCode = command.confirmCode
-        )
+        val event =
+            AuthEvents.SignupConfirmed(
+                emailAddress = command.emailAddress,
+                confirmCode = command.confirmCode,
+            )
 
         eventGateway.publish(event)
     }

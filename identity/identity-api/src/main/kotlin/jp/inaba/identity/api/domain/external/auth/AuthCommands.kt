@@ -11,24 +11,24 @@ interface AuthCommand {
 object AuthCommands {
     data class Signup(
         override val emailAddress: String,
-        val password: String
+        val password: String,
     ) : AuthCommand
 
     data class ConfirmSignup(
         override val emailAddress: String,
-        val confirmCode: String
+        val confirmCode: String,
     ) : AuthCommand
 
     data class ResendConfirmCode(
-        override val emailAddress: String
+        override val emailAddress: String,
     ) : AuthCommand
 
     data class UpdateIdTokenAttributeForUserId(
         override val emailAddress: String,
-        val userId: UserId
+        val userId: UserId,
     ) : AuthCommand
 
     data class DeleteAuthUser(
-        override val emailAddress: String
+        override val emailAddress: String,
     ) : AuthCommand
 }

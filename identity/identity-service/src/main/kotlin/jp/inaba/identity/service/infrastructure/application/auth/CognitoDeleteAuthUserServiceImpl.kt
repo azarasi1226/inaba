@@ -11,13 +11,14 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminDelete
 class CognitoDeleteAuthUserServiceImpl(
     @Value("\${aws.cognito.user-pool-id}")
     private val userPoolId: String,
-    private val cognitoIdentityProviderClient: CognitoIdentityProviderClient
+    private val cognitoIdentityProviderClient: CognitoIdentityProviderClient,
 ) : CognitoDeleteAuthUserService {
     override fun handle(command: AuthCommands.DeleteAuthUser) {
-        val request = AdminDeleteUserRequest.builder()
-            .userPoolId(userPoolId)
-            .username(command.emailAddress)
-            .build()
+        val request =
+            AdminDeleteUserRequest.builder()
+                .userPoolId(userPoolId)
+                .username(command.emailAddress)
+                .build()
 
         cognitoIdentityProviderClient.adminDeleteUser(request)
     }

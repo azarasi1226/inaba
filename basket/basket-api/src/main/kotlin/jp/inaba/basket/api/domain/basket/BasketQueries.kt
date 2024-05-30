@@ -6,11 +6,11 @@ import jp.inaba.common.domain.shared.PagingCondition
 object BasketQueries {
     data class FindByIdQuery(
         val basketId: BasketId,
-        val pagingCondition: PagingCondition
+        val pagingCondition: PagingCondition,
     )
 
     data class FindByIdResult(
-        val page: Page<BasketItemDataModel>
+        val page: Page<BasketItemDataModel>,
     )
 
     data class BasketItemDataModel(

@@ -6,7 +6,7 @@ interface OrderEvent {
 
 data class OrderIssuedEvent(
     override val id: OrderId,
-    val userId: String
+    val userId: String,
 ) : OrderEvent
 
 data class OrderCompletedEvent(override val id: OrderId) : OrderEvent

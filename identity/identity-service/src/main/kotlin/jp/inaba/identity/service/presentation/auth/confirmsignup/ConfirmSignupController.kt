@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ConfirmSignupController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : AuthControllerBase() {
     @PostMapping("/confirm-signup")
     fun handle(
         @RequestBody
-        request: ConfirmSignupRequest
+        request: ConfirmSignupRequest,
     ) {
-        val command = AuthCommands.ConfirmSignup(
-            emailAddress = request.emailAddress,
-            confirmCode = request.confirmCode
-        )
+        val command =
+            AuthCommands.ConfirmSignup(
+                emailAddress = request.emailAddress,
+                confirmCode = request.confirmCode,
+            )
 
         commandGateway.confirmSignup(command)
     }

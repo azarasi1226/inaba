@@ -8,18 +8,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProductProjector(
-    private val productJpaRepository: ProductJpaRepository
+    private val productJpaRepository: ProductJpaRepository,
 ) {
     @EventHandler
     fun on(event: ProductEvents.Created) {
-        val entity = ProductJpaEntity(
-            id = event.id,
-            name = event.name,
-            description = event.description,
-            imageUrl = event.imageUrl,
-            price = event.price,
-            quantity = event.quantity
-        )
+        val entity =
+            ProductJpaEntity(
+                id = event.id,
+                name = event.name,
+                description = event.description,
+                imageUrl = event.imageUrl,
+                price = event.price,
+                quantity = event.quantity,
+            )
 
         productJpaRepository.save(entity)
     }

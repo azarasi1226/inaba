@@ -11,7 +11,7 @@ object ProductEvents {
         val description: String,
         val imageUrl: String?,
         val price: Int,
-        val quantity: Int
+        val quantity: Int,
     ) : ProductEvent
 
     data class Updated(
@@ -20,11 +20,10 @@ object ProductEvents {
         val description: String,
         val imageUrl: String?,
         val price: Int,
-        val quantity: Int
+        val quantity: Int,
     ) : ProductEvent
 
     data class Deleted(
-        override val id: String
+        override val id: String,
     ) : ProductEvent
 }
-

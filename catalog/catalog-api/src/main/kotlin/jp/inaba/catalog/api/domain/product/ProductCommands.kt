@@ -14,7 +14,7 @@ object ProductCommands {
         val description: ProductDescription,
         val imageUrl: ProductImageURL,
         val price: ProductPrice,
-        val quantity: ProductQuantity
+        val quantity: ProductQuantity,
     ) : ProductCommand
 
     data class Update(
@@ -23,10 +23,10 @@ object ProductCommands {
         val description: ProductDescription,
         val imageUrl: ProductImageURL,
         val price: ProductPrice,
-        val quantity: ProductQuantity
+        val quantity: ProductQuantity,
     ) : ProductCommand
 
     data class Delete(
-        override val id: ProductId
+        override val id: ProductId,
     ) : ProductCommand
 }

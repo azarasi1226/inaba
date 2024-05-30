@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ProductControllerAdvice {
     @ExceptionHandler(ProductNotFoundException::class)
     fun handle(ex: ProductNotFoundException): ResponseEntity<String> {
-        //TODO(レスポンス構造考える)
+        // TODO(レスポンス構造考える)
         return ResponseEntity("そんなの無いよ", HttpStatus.NOT_FOUND)
     }
 }

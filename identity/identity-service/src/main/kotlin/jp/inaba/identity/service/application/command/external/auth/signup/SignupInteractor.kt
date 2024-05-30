@@ -9,16 +9,17 @@ import org.springframework.stereotype.Component
 @Component
 class SignupInteractor(
     private val cognitoSignupService: CognitoSignupService,
-    private val eventGateway: EventGateway
+    private val eventGateway: EventGateway,
 ) {
     @CommandHandler
     fun handle(command: AuthCommands.Signup) {
         cognitoSignupService.handle(command)
 
-        val event = AuthEvents.Signedup(
-            emailAddress = command.emailAddress,
-            password = command.password
-        )
+        val event =
+            AuthEvents.Signedup(
+                emailAddress = command.emailAddress,
+                password = command.password,
+            )
 
         eventGateway.publish(event)
     }

@@ -10,9 +10,9 @@ interface OrderCommand {
 data class IssueOrderCommand(
     override val id: OrderId,
     val userId: String,
-    val productId: String
-): OrderCommand
+    val productId: String,
+) : OrderCommand
 
 data class CompleteOrderCommand(override val id: OrderId) : OrderCommand
 
-data class FaileOrderCommand(override val id: OrderId): OrderCommand
+data class FaileOrderCommand(override val id: OrderId) : OrderCommand

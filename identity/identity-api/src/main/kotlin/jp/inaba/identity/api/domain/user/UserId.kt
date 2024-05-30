@@ -9,9 +9,8 @@ data class UserId(val value: String) {
     init {
         try {
             ULID.parseULID(value)
-        }
-        catch (ex: Exception){
-            throw DomainException("UserIdはULIDの形式である必要があります。現在のID[${value}]")
+        } catch (ex: Exception) {
+            throw DomainException("UserIdはULIDの形式である必要があります。現在のID[$value]")
         }
     }
 

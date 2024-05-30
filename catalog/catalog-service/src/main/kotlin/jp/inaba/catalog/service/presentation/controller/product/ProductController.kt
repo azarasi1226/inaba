@@ -1,6 +1,13 @@
 package jp.inaba.catalog.service.presentation.controller.product
 
-import jp.inaba.catalog.api.domain.product.*
+import jp.inaba.catalog.api.domain.product.ProductCommands
+import jp.inaba.catalog.api.domain.product.ProductDescription
+import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.api.domain.product.ProductImageURL
+import jp.inaba.catalog.api.domain.product.ProductName
+import jp.inaba.catalog.api.domain.product.ProductPrice
+import jp.inaba.catalog.api.domain.product.ProductQuantity
+import jp.inaba.catalog.api.domain.product.ProductQueries
 import jp.inaba.catalog.service.application.query.product.ProductNotFoundException
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateRequest
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateResponse
@@ -8,28 +15,34 @@ import jp.inaba.catalog.service.presentation.model.product.ProductFindByIdRespon
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.extensions.kotlin.queryOptional
 import org.axonframework.queryhandling.QueryGateway
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/catalog/products")
 class ProductController(
     private val commandGateway: CommandGateway,
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) {
     @PostMapping
     fun create(
         @RequestBody
-        request: ProductCreateRequest
+        request: ProductCreateRequest,
     ): ProductCreateResponse {
         val productId = ProductId()
-        val command  = ProductCommands.Create(
-            id = productId,
-            name = ProductName(request.name),
-            description = ProductDescription(request.description),
-            imageUrl = ProductImageURL(request.imageUrl),
-            price = ProductPrice(request.price),
-            quantity = ProductQuantity(request.quantity)
-        )
+        val command =
+            ProductCommands.Create(
+                id = productId,
+                name = ProductName(request.name),
+                description = ProductDescription(request.description),
+                imageUrl = ProductImageURL(request.imageUrl),
+                price = ProductPrice(request.price),
+                quantity = ProductQuantity(request.quantity),
+            )
 
         commandGateway.sendAndWait<Any>(command)
 
@@ -39,21 +52,22 @@ class ProductController(
     @GetMapping("/{id}")
     fun findById(
         @PathVariable("id")
-        rawId: String
+        rawId: String,
     ): ProductFindByIdResponse {
         val productId = ProductId(rawId)
         val query = ProductQueries.FindById(productId)
 
-        val result = queryGateway.queryOptional<ProductQueries.FindByIdResult, ProductQueries.FindById>(query)
-            .get()
-            .orElseThrow { ProductNotFoundException(productId) }
+        val result =
+            queryGateway.queryOptional<ProductQueries.FindByIdResult, ProductQueries.FindById>(query)
+                .get()
+                .orElseThrow { ProductNotFoundException(productId) }
 
         return ProductFindByIdResponse(
             name = result.name,
             description = result.description,
             imageUrl = result.imageUrl,
             price = result.price,
-            quantity = result.quantity
+            quantity = result.quantity,
         )
     }
 }
