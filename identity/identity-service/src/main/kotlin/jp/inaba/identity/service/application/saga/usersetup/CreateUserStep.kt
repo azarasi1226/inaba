@@ -5,21 +5,21 @@ import jp.inaba.identity.api.domain.user.UserCommands
 import jp.inaba.identity.api.domain.user.createUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
+private val logger = KotlinLogging.logger {}
+
 class CreateUserStep(
     private val commandGateway: CommandGateway
 ) {
-    private val logger = KotlinLogging.logger {}
-
     fun handle(
         command: UserCommands.Create,
-        onFail: (() -> Unit)? = null
+        onFail: (() -> Unit)
     ) {
         try {
             commandGateway.createUser(command)
         }
         catch(e: Exception) {
-            logger.error { "ユーザー作成に失敗しました exception:[${e}]" }
-            onFail?.invoke()
+            logger.warn { "ユーザー作成に失敗しました exception:[${e}]" }
+            onFail.invoke()
         }
     }
 }

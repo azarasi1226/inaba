@@ -15,6 +15,8 @@ import org.axonframework.modelling.saga.*
 import org.axonframework.spring.stereotype.Saga
 import org.springframework.beans.factory.annotation.Autowired
 
+private val logger = KotlinLogging.logger {}
+
 @Saga
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class UserSetupSaga {
@@ -35,8 +37,6 @@ class UserSetupSaga {
     private val deleteUserStep by lazy { DeleteUserStep(commandGateway) }
     @delegate:JsonIgnore
     private val deleteAuthUserStep by lazy { DeleteAuthUserStep(commandGateway) }
-    @JsonIgnore
-    private val logger = KotlinLogging.logger {}
 
     private lateinit var sagaState: UserSetupSagaState
 
@@ -71,7 +71,7 @@ class UserSetupSaga {
         associationProperty = "traceId"
     )
     fun on(event: UserEvents.Created) {
-        sagaState = sagaState.associateUserCreatedEvent(event)
+        sagaState.associateUserCreatedEvent(event)
 
         val command = AuthCommands.UpdateIdTokenAttributeForUserId(
             emailAddress = sagaState.emailAddress,
@@ -149,6 +149,7 @@ class UserSetupSaga {
 
     private fun fatalError(){
         logger.error { "UserSetupSaga強制終了 email:[${sagaState.emailAddress}]" }
+        logger.error { "保障トランザクションが最後まで実行されませんでした。データの整合性を確認してください。" }
         SagaLifecycle.end()
     }
 }

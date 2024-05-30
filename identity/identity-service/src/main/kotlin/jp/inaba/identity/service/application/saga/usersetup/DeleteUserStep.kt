@@ -5,21 +5,21 @@ import jp.inaba.identity.api.domain.user.UserCommands
 import jp.inaba.identity.api.domain.user.deleteUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
+private val logger = KotlinLogging.logger {}
+
 class DeleteUserStep(
     private val commandGateway: CommandGateway
 ) {
-    private val logger = KotlinLogging.logger {}
-
     fun handle(
         command: UserCommands.Delete,
-        onFail: (() -> Unit)? = null
+        onFail: (() -> Unit)
     ) {
         try {
             commandGateway.deleteUser(command)
         }
         catch(e: Exception) {
-            logger.error { "ユーザーの削除に失敗しました exception:[${e}]" }
-            onFail?.invoke()
+            logger.warn { "ユーザーの削除に失敗しました exception:[${e}]" }
+            onFail.invoke()
         }
     }
 }

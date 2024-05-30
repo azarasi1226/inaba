@@ -5,21 +5,21 @@ import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
+private val logger = KotlinLogging.logger {}
+
 class DeleteAuthUserStep(
     private val commandGateway: CommandGateway
 ) {
-    private val logger = KotlinLogging.logger {}
-
     fun handle(
         command: AuthCommands.DeleteAuthUser,
-        onFail: (() -> Unit)? = null
+        onFail: (() -> Unit)
     ) {
         try {
             commandGateway.deleteAuthUser(command)
         }
         catch(e: Exception) {
-            logger.error { "認証ユーザーの削除に失敗しました exception:[${e}]" }
-            onFail?.invoke()
+            logger.warn { "認証ユーザーの削除に失敗しました exception:[${e}]" }
+            onFail.invoke()
         }
     }
 }
