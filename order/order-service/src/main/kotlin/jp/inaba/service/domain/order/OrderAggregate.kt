@@ -1,8 +1,10 @@
 package jp.inaba.service.domain.order
 
 import jp.inaba.order.api.domain.order.CompleteOrderCommand
+import jp.inaba.order.api.domain.order.FaileOrderCommand
 import jp.inaba.order.api.domain.order.IssueOrderCommand
 import jp.inaba.order.api.domain.order.OrderCompletedEvent
+import jp.inaba.order.api.domain.order.OrderFailedEvent
 import jp.inaba.order.api.domain.order.OrderId
 import jp.inaba.order.api.domain.order.OrderIssuedEvent
 import org.axonframework.commandhandling.CommandHandler
