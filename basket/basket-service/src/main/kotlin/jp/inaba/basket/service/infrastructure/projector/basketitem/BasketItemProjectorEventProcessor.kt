@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BasketItemProjectorEventProcessor
-{
+class BasketItemProjectorEventProcessor {
     companion object {
         const val PROCESSOR_NAME = "basket-item-projector"
         private const val PROCESSOR_COUNT = 5

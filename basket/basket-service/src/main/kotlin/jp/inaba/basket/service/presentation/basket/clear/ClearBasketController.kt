@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ClearBasketController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : BasketControllerBase() {
     @DeleteMapping("/{userId}/items")
     fun handle(

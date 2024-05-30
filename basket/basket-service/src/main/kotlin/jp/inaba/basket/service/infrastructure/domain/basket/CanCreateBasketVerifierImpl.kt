@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class CanCreateBasketVerifierImpl(
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) : CanCreateBasketVerifier {
     override fun existUser(userId: UserId): Boolean {
         val query = UserQueries.FindByIdQuery(userId)
 
-        val result =  queryGateway.findUserById(query)
+        val result = queryGateway.findUserById(query)
 
         return result.isOk
     }

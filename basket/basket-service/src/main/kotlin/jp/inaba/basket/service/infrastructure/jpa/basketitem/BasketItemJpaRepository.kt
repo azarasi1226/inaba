@@ -12,15 +12,22 @@ interface BasketItemJpaRepository : JpaRepository<BasketItemJpaEntity, BasketIte
     @Modifying
     @Transactional
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.product.id = :productId")
-    fun deleteByProductId(@Param("productId") productId: String)
+    fun deleteByProductId(
+        @Param("productId") productId: String,
+    )
 
     @Modifying
     @Transactional
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basketId = :basketId")
-    fun deleteByBasketId(@Param("basketId") basketId: String)
+    fun deleteByBasketId(
+        @Param("basketId") basketId: String,
+    )
 
     @Modifying
     @Transactional
     @Query("DELETE FROM BasketItemJpaEntity b WHERE b.basketId = :basketId AND b.product.id = :productId")
-    fun deleteByBasketIdAndProductId(@Param("basketId") basketId: String, @Param("productId") productId: String)
+    fun deleteByBasketIdAndProductId(
+        @Param("basketId") basketId: String,
+        @Param("productId") productId: String,
+    )
 }

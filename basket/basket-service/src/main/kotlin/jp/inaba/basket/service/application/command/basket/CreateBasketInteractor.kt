@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.application.command.basket
 
-import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.basket.service.domain.basket.InternalBasketCommands
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component
 @Component
 class CreateBasketInteractor(
     private val canCreateBasketVerifier: CanCreateBasketVerifier,
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
     fun handle(command: BasketCommands.Create): ActionCommandResult {
-        if(!canCreateBasketVerifier.existUser(command.userId)) {
+        if (!canCreateBasketVerifier.existUser(command.userId)) {
             return ActionCommandResult.error(BasketErrors.Create.USER_NOT_FOUND.errorCode)
         }
 

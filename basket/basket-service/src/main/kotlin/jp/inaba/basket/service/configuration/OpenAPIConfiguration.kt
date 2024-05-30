@@ -13,7 +13,7 @@ class OpenAPIConfiguration {
             .info(
                 Info()
                     .title("Basket Service API")
-                    .version("0.0.1")
+                    .version("0.0.1"),
             )
     }
 }

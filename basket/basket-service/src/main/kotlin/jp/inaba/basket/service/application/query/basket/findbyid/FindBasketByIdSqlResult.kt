@@ -6,5 +6,5 @@ class FindBasketByIdSqlResult(
     val itemPrice: Int,
     val itemPictureUrl: String,
     val itemQuantity: Int,
-    val totalCount: Long
+    val totalCount: Long,
 )

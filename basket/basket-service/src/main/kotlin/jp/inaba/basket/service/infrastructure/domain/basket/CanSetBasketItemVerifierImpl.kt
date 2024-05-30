@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CanSetBasketItemVerifierImpl(
-    private val productJpaRepository: ProductJpaRepository
-): CanSetBasketItemVerifier{
+    private val productJpaRepository: ProductJpaRepository,
+) : CanSetBasketItemVerifier {
     override fun existProduct(productId: ProductId): Boolean {
         return productJpaRepository.existsById(productId.value)
     }

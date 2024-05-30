@@ -7,12 +7,12 @@ import jp.inaba.catalog.api.domain.product.ProductId
 
 object InternalBasketCommands {
     data class Create(
-        override val id: BasketId
+        override val id: BasketId,
     ) : BasketAggregateCommand
 
     data class SetBasketItem(
         override val id: BasketId,
         val productId: ProductId,
-        val basketItemQuantity: BasketItemQuantity
+        val basketItemQuantity: BasketItemQuantity,
     ) : BasketAggregateCommand
 }

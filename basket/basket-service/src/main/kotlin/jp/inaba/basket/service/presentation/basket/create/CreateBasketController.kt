@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CreateBasketController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : BasketControllerBase() {
     @PostMapping
     fun handle(
         @RequestBody
-        request: CreateBasketRequest
+        request: CreateBasketRequest,
     ): ResponseEntity<Any> {
         val userId = UserId(request.userId)
         val command = BasketCommands.Create(userId)
@@ -30,14 +30,14 @@ class CreateBasketController(
         return if (result.isOk) {
             ResponseEntity.ok().build()
         } else {
-            when(result.error) {
+            when (result.error) {
                 BasketErrors.Create.USER_NOT_FOUND ->
                     ResponseEntity(
                         ErrorResponse(
                             errorCode = result.error.errorCode,
-                            errorMessage = result.error.errorMessage
+                            errorMessage = result.error.errorMessage,
                         ),
-                        HttpStatus.BAD_REQUEST
+                        HttpStatus.BAD_REQUEST,
                     )
             }
         }

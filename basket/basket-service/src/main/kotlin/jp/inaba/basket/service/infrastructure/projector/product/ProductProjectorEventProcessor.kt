@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class ProductProjectorEventProcessor
-{
+class ProductProjectorEventProcessor {
     companion object {
         const val PROCESSOR_NAME = "product-projector"
         private const val PROCESSOR_COUNT = 5
