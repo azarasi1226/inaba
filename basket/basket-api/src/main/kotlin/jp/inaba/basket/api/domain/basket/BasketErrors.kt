@@ -1,6 +1,6 @@
 package jp.inaba.basket.api.domain.basket
 
-// TODO(もっとちゃんと考えろ)
+// TODO(もっとちゃんerrorCOde考えろ)
 object BasketErrors {
     enum class Create(
         val errorCode: String,
