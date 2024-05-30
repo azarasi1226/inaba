@@ -47,10 +47,10 @@ allprojects {
 
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         // testディレクトリをコーディング規約チェックから除外する
-        filter {
-            exclude { element ->
-                element.file.path.contains("test")
-            }
-        }
+//        filter {
+//            exclude { element ->
+//                element.file.path.contains("test")
+//            }
+//        }
     }
 }

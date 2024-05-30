@@ -19,7 +19,7 @@ class BasketIdTest {
     fun 正常な値でBasketId作成_成功() {
         assertDoesNotThrow {
             val userId = UserId()
-            BasketId("basket-${userId}")
+            BasketId("basket-$userId")
         }
 
         assertDoesNotThrow {

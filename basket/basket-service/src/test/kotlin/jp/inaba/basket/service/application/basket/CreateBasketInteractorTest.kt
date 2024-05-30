@@ -18,8 +18,10 @@ import org.mockito.MockitoAnnotations
 class CreateBasketInteractorTest {
     @Mock
     private lateinit var canCreateBasketVerifier: CanCreateBasketVerifier
+
     @Mock
     private lateinit var commandGateway: CommandGateway
+
     @InjectMocks
     private lateinit var sut: CreateBasketInteractor
 
@@ -29,7 +31,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun ユーザーが存在_買い物かごを作成_InternalCommandが配送() {
+    fun `ユーザーが存在_買い物かごを作成_InternalCommandが配送`() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
         Mockito.`when`(canCreateBasketVerifier.existUser(userId))
@@ -43,7 +45,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る() {
+    fun `ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
         Mockito.`when`(canCreateBasketVerifier.existUser(userId))

@@ -19,10 +19,11 @@ abstract class UserSetupSagaTestBase {
     val emailAddress = "azarasikazuki@gmail.com"
     val confirmCode = "A0001"
 
-    val signupConfirmed = AuthEvents.SignupConfirmed(
-        emailAddress = emailAddress,
-        confirmCode = confirmCode
-    )
+    val signupConfirmed =
+        AuthEvents.SignupConfirmed(
+            emailAddress = emailAddress,
+            confirmCode = confirmCode,
+        )
 
     @BeforeEach
     fun before() {

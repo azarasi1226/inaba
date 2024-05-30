@@ -11,12 +11,12 @@ class OrderAggregateTest {
     private lateinit var fixture: AggregateTestFixture<OrderAggregate>
 
     @BeforeEach
-    fun before(){
+    fun before() {
         fixture = AggregateTestFixture(OrderAggregate::class.java)
     }
 
     @Test
-    fun OrderAggregateが存在しない_IssueOrderCommandが投げられたら_OrderIssuedEventが発行される() {
+    fun `OrderAggregateが存在しない_IssueOrderCommandが投げられたら_OrderIssuedEventが発行される`() {
         val orderId = OrderId()
 
         fixture.givenNoPriorActivity()
