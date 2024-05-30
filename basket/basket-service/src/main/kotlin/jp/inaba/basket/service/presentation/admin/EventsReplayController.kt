@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController
 class EventsReplayController(
     private val productJpaRepository: ProductJpaRepository,
     private val basketItemJpaRepository: BasketItemJpaRepository,
-    private val epc: EventProcessingConfiguration
+    private val epc: EventProcessingConfiguration,
 ) {
-
     @PostMapping("/reconstract")
-    fun handle() : ResponseEntity<String> {
+    fun handle(): ResponseEntity<String> {
         basketItemJpaRepository.deleteAllInBatch()
         productJpaRepository.deleteAllInBatch()
 
@@ -32,12 +31,13 @@ class EventsReplayController(
     }
 
     private fun eventProcessorReset(processorName: String) {
-        val trackingEventProcessor = epc.eventProcessor(
-            processorName,
-            TrackingEventProcessor::class.java
-        );
+        val trackingEventProcessor =
+            epc.eventProcessor(
+                processorName,
+                TrackingEventProcessor::class.java,
+            )
 
-        if(trackingEventProcessor.isPresent) {
+        if (trackingEventProcessor.isPresent) {
             val eventProcessor = trackingEventProcessor.get()
 
             eventProcessor.shutDown()

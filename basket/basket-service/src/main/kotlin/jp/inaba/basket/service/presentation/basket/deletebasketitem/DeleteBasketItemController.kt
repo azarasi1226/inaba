@@ -13,22 +13,23 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class DeleteBasketItemController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : BasketControllerBase() {
     @DeleteMapping("/{userId}/items/{itemId}")
     fun handle(
         @PathVariable("userId")
         rawUserId: String,
         @PathVariable("itemId")
-        rawItemId: String
+        rawItemId: String,
     ) {
         val userId = UserId(rawUserId)
         val basketId = BasketId(userId)
         val productId = ProductId(rawItemId)
-        val command = BasketCommands.DeleteBasketItem(
-            id = basketId,
-            productId = productId
-        )
+        val command =
+            BasketCommands.DeleteBasketItem(
+                id = basketId,
+                productId = productId,
+            )
 
         commandGateway.deleteBasketItem(command)
     }

@@ -10,24 +10,26 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
 class ProductProjector(
-    private val repository: ProductJpaRepository
-){
+    private val repository: ProductJpaRepository,
+) {
     @EventHandler
     fun on(event: ProductEvents.Created) {
-        val entity = ProductJpaEntity(
-            id = event.id,
-            name = event.name,
-            imageUrl = event.imageUrl,
-            price = event.price
-        )
+        val entity =
+            ProductJpaEntity(
+                id = event.id,
+                name = event.name,
+                imageUrl = event.imageUrl,
+                price = event.price,
+            )
 
         repository.save(entity)
     }
 
     @EventHandler
     fun on(event: ProductEvents.Updated) {
-        val entity = repository.findById(event.id)
-            .orElseThrow()
+        val entity =
+            repository.findById(event.id)
+                .orElseThrow()
 
         entity.name = event.name
         entity.imageUrl = event.imageUrl

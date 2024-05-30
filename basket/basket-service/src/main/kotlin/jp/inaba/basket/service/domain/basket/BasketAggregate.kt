@@ -1,6 +1,10 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.*
+import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.BasketErrors
+import jp.inaba.basket.api.domain.basket.BasketEvents
+import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.BasketItemQuantity
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
 import org.axonframework.commandhandling.CommandHandler
@@ -20,7 +24,7 @@ class BasketAggregate() {
     }
 
     @CommandHandler
-    constructor(command: InternalBasketCommands.Create): this() {
+    constructor(command: InternalBasketCommands.Create) : this() {
         val event = BasketEvents.Created(command.id.value)
 
         AggregateLifecycle.apply(event)
@@ -29,15 +33,16 @@ class BasketAggregate() {
     @CommandHandler
     fun handle(command: InternalBasketCommands.SetBasketItem): ActionCommandResult {
         // 買い物かごの中のアイテムが最大種類に達しているか？
-        if(items.size >= MAX_ITEM_KIND_COUNT) {
+        if (items.size >= MAX_ITEM_KIND_COUNT) {
             return ActionCommandResult.error(BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode)
         }
 
-        val event = BasketEvents.BasketItemSet(
-            id = command.id.value,
-            productId = command.productId.value,
-            basketItemQuantity = command.basketItemQuantity.value
-        )
+        val event =
+            BasketEvents.BasketItemSet(
+                id = command.id.value,
+                productId = command.productId.value,
+                basketItemQuantity = command.basketItemQuantity.value,
+            )
 
         AggregateLifecycle.apply(event)
 
@@ -46,10 +51,11 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: BasketCommands.DeleteBasketItem) {
-        val event = BasketEvents.BasketItemDeleted(
-            id = command.id.value,
-            productId = command.productId.value
-        )
+        val event =
+            BasketEvents.BasketItemDeleted(
+                id = command.id.value,
+                productId = command.productId.value,
+            )
 
         AggregateLifecycle.apply(event)
     }

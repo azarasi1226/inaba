@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class GetBasketController(
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) : BasketControllerBase() {
     @GetMapping("/{userId}")
     fun handle(
@@ -23,12 +23,13 @@ class GetBasketController(
         @RequestParam("pageSize")
         pageSize: Int,
         @RequestParam("pageNumber")
-        pageNumber: Int
+        pageNumber: Int,
     ): GetBasketResponse {
-        val pagingCondition = PagingCondition(
-            pageSize = pageSize,
-            pageNumber = pageNumber
-        )
+        val pagingCondition =
+            PagingCondition(
+                pageSize = pageSize,
+                pageNumber = pageNumber,
+            )
         val userId = UserId(rawUserId)
         val basketId = BasketId(userId)
         val query = BasketQueries.FindByIdQuery(basketId, pagingCondition)

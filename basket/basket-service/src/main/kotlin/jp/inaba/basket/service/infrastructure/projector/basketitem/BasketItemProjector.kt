@@ -13,24 +13,27 @@ import org.springframework.stereotype.Component
 @ProcessingGroup(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
 class BasketItemProjector(
     private val productJpaRepository: ProductJpaRepository,
-    private val basketItemJpaRepository: BasketItemJpaRepository
+    private val basketItemJpaRepository: BasketItemJpaRepository,
 ) {
     @EventHandler
     fun on(event: BasketEvents.BasketItemSet) {
-        val productJpaEntity = productJpaRepository.findById(event.productId)
-            .orElseThrow { Exception("Productが存在しませんでした。event:[${event}]") }
+        val productJpaEntity =
+            productJpaRepository.findById(event.productId)
+                .orElseThrow { Exception("Productが存在しませんでした。event:[$event]") }
 
-        val id = BasketItemId(
-            basketId = event.id,
-            productId = event.productId
-        )
+        val id =
+            BasketItemId(
+                basketId = event.id,
+                productId = event.productId,
+            )
 
-        val basketItemJpaEntity = BasketItemJpaEntity(
-            basketItemId = id,
-            basketId = event.id,
-            product = productJpaEntity,
-            itemQuantity = event.basketItemQuantity
-        )
+        val basketItemJpaEntity =
+            BasketItemJpaEntity(
+                basketItemId = id,
+                basketId = event.id,
+                product = productJpaEntity,
+                itemQuantity = event.basketItemQuantity,
+            )
 
         basketItemJpaRepository.save(basketItemJpaEntity)
     }
@@ -39,7 +42,7 @@ class BasketItemProjector(
     fun on(event: BasketEvents.BasketItemDeleted) {
         basketItemJpaRepository.deleteByBasketIdAndProductId(
             basketId = event.id,
-            productId = event.productId
+            productId = event.productId,
         )
     }
 
