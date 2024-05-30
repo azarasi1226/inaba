@@ -44,13 +44,4 @@ allprojects {
         implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
         implementation("com.michael-bull.kotlin-result:kotlin-result:2.0.0")
     }
-
-    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        // testディレクトリをコーディング規約チェックから除外する
-//        filter {
-//            exclude { element ->
-//                element.file.path.contains("test")
-//            }
-//        }
-    }
 }
