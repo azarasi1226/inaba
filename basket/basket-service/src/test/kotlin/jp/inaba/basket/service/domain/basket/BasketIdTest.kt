@@ -9,14 +9,14 @@ import org.junit.jupiter.api.assertThrows
 
 class BasketIdTest {
     @Test
-    fun 不正な値でBasketId作成_例外() {
+    fun `不正な値でBasketId作成_例外`() {
         assertThrows<DomainException> {
             BasketId("")
         }
     }
 
     @Test
-    fun 正常な値でBasketId作成_成功() {
+    fun `正常な値でBasketId作成_成功`() {
         assertDoesNotThrow {
             val userId = UserId()
             BasketId("basket-$userId")
