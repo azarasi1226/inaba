@@ -1,5 +1,7 @@
 package jp.inaba.basket.service.application.basket
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
@@ -45,8 +47,8 @@ class SetBasketItemInteractorTest {
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
             )
-        Mockito.`when`(canSetBasketItemVerifier.existProduct(productId))
-            .thenReturn(true)
+        Mockito.`when`(canSetBasketItemVerifier.checkProductExits(productId))
+            .thenReturn(Ok(Unit))
         Mockito.`when`(commandGateway.sendAndWait<ActionCommandResult>(any(InternalBasketCommands.SetBasketItem::class.java)))
             .thenReturn(ActionCommandResult.ok())
 
@@ -73,8 +75,8 @@ class SetBasketItemInteractorTest {
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
             )
-        Mockito.`when`(canSetBasketItemVerifier.existProduct(productId))
-            .thenReturn(false)
+        Mockito.`when`(canSetBasketItemVerifier.checkProductExits(productId))
+            .thenReturn(Err(BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND))
 
         val result = sut.handle(command)
 

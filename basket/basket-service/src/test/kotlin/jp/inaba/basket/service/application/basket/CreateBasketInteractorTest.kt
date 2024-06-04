@@ -1,5 +1,7 @@
 package jp.inaba.basket.service.application.basket
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
@@ -34,8 +36,8 @@ class CreateBasketInteractorTest {
     fun `ユーザーが存在_買い物かごを作成_InternalCommandが配送`() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
-        Mockito.`when`(canCreateBasketVerifier.existUser(userId))
-            .thenReturn(true)
+        Mockito.`when`(canCreateBasketVerifier.checkUserExits(userId))
+            .thenReturn(Ok(Unit))
 
         val result = sut.handle(command)
 
@@ -48,8 +50,8 @@ class CreateBasketInteractorTest {
     fun `ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
         val userId = UserId()
         val command = BasketCommands.Create(userId)
-        Mockito.`when`(canCreateBasketVerifier.existUser(userId))
-            .thenReturn(false)
+        Mockito.`when`(canCreateBasketVerifier.checkUserExits(userId))
+            .thenReturn(Err(BasketErrors.Create.USER_NOT_FOUND))
 
         val result = sut.handle(command)
 

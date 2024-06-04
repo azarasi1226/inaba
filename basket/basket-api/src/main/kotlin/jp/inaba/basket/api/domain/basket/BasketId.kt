@@ -6,12 +6,10 @@ import jp.inaba.identity.api.domain.user.UserId
 // MEMO: UserIdのラッパーIDみたいになっているがこれは、AxonFrameworkで集約が違っても同じIDを使ってはいけない縛りがあるため
 // 例えば、BasketIdとUserIdの集約IDを一緒にすることができない....だからUserIdからBasketIdを生成している。
 // 本当はUserIdそのまま使いたいよおお( ；∀；)
-data class BasketId(val value: String) {
+data class BasketId(
+    val value: String
+) {
     val userId: UserId
-        get() {
-            val maybeUserId = value.removePrefix(PREFIX)
-            return UserId(maybeUserId)
-        }
 
     companion object {
         private const val PREFIX = "basket-"
@@ -24,9 +22,8 @@ data class BasketId(val value: String) {
             throw DomainException("basketIdのprefixには[$PREFIX]が必要です。現在のIDは[$value]")
         }
 
-        // UserIdがインスタンス化できれば、Validationが通ったということ
         val maybeUserId = value.removePrefix(PREFIX)
-        UserId(maybeUserId)
+        userId = UserId(maybeUserId)
     }
 
     override fun toString(): String {
