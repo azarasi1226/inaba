@@ -5,4 +5,4 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Tag(name = "Basket")
 @RequestMapping("/api/baskets")
-abstract class BasketControllerBase
+interface BasketController

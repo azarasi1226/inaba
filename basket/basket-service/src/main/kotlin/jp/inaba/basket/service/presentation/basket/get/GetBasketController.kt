@@ -3,7 +3,7 @@ package jp.inaba.basket.service.presentation.basket.get
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketQueries
 import jp.inaba.basket.api.domain.basket.findBasketById
-import jp.inaba.basket.service.presentation.basket.BasketControllerBase
+import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.common.domain.shared.PagingCondition
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.queryhandling.QueryGateway
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class GetBasketController(
     private val queryGateway: QueryGateway,
-) : BasketControllerBase() {
+) : BasketController {
     @GetMapping("/{userId}")
     fun handle(
         @PathVariable("userId")

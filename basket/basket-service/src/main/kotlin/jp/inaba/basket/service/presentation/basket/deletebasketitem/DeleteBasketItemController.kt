@@ -3,7 +3,7 @@ package jp.inaba.basket.service.presentation.basket.deletebasketitem
 import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.deleteBasketItem
-import jp.inaba.basket.service.presentation.basket.BasketControllerBase
+import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class DeleteBasketItemController(
     private val commandGateway: CommandGateway,
-) : BasketControllerBase() {
+) : BasketController {
     @DeleteMapping("/{userId}/items/{itemId}")
     fun handle(
         @PathVariable("userId")
