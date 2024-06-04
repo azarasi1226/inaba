@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.configuration
+package jp.inaba.basket.service.config
 
 import org.springframework.context.annotation.Configuration
 

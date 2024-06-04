@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.configuration
+package jp.inaba.basket.service.config
 
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
