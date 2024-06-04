@@ -17,11 +17,10 @@ object BasketCommands {
     )
 
     data class SetBasketItem(
-        @RoutingKey
-        val id: BasketId,
+        override val id: BasketId,
         val productId: ProductId,
         val basketItemQuantity: BasketItemQuantity,
-    )
+    ) : BasketAggregateCommand
 
     data class DeleteBasketItem(
         override val id: BasketId,
