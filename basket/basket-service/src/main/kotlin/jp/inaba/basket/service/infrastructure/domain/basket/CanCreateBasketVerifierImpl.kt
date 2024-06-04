@@ -28,10 +28,10 @@ class CanCreateBasketVerifierImpl(
                 Ok(Unit)
             },
             failure = {
-                when(it) {
+                when (it) {
                     UserErrors.FindById.USER_NOT_FOUND -> Err(BasketErrors.Create.USER_NOT_FOUND)
                 }
-            }
+            },
         )
     }
 }

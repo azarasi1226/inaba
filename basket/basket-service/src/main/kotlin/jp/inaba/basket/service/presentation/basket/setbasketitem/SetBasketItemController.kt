@@ -49,7 +49,7 @@ class SetBasketItemController(
                     .build()
             },
             failure = {
-                when(it) {
+                when (it) {
                     BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND ->
                         ResponseEntity
                             .status(HttpStatus.NOT_FOUND)
@@ -59,7 +59,7 @@ class SetBasketItemController(
                             .status(HttpStatus.BAD_REQUEST)
                             .body(ErrorResponse(it))
                 }
-            }
+            },
         )
     }
 }

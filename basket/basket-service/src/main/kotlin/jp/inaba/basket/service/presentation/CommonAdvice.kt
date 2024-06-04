@@ -19,8 +19,8 @@ class CommonAdvice {
             .body(
                 ErrorResponse(
                     errorCode = ex.errorCode,
-                    errorMessage = ex.errorMessage
-                )
+                    errorMessage = ex.errorMessage,
+                ),
             )
     }
 
@@ -52,8 +52,8 @@ class CommonAdvice {
             .body(
                 ErrorResponse(
                     errorCode = "",
-                    errorMessage = ex.message ?: "InternalServerError"
-                )
+                    errorMessage = ex.message ?: "InternalServerError",
+                ),
             )
     }
 }

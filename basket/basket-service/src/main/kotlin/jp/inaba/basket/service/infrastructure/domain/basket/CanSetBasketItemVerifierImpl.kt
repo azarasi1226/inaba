@@ -14,7 +14,7 @@ class CanSetBasketItemVerifierImpl(
     private val productJpaRepository: ProductJpaRepository,
 ) : CanSetBasketItemVerifier {
     override fun checkProductExits(productId: ProductId): Result<Unit, BasketErrors.SetBasketItem> {
-        return if(productJpaRepository.existsById(productId.value)) {
+        return if (productJpaRepository.existsById(productId.value)) {
             Ok(Unit)
         } else {
             Err(BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND)
