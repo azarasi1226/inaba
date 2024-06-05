@@ -16,6 +16,7 @@ import org.axonframework.spring.stereotype.Aggregate
 @Aggregate
 class BasketAggregate() {
     @AggregateIdentifier
+    //TODO("ここそのままUserIdでいいのでは？")
     private lateinit var id: BasketId
     private var items = mutableMapOf<ProductId, BasketItemQuantity>()
 

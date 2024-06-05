@@ -35,7 +35,7 @@ class CreateBasketController(
                     .body(it)
             },
             failure = {
-                return when (it) {
+                when (it) {
                     BasketErrors.Create.USER_NOT_FOUND ->
                         ResponseEntity
                             .status(HttpStatus.NOT_FOUND)
