@@ -36,8 +36,8 @@ class CommonAdvice {
                         .body(
                             ErrorResponse(
                                 errorCode = "",
-                                errorMessage = "CommandHandlerNotFound"
-                            )
+                                errorMessage = "CommandHandlerNotFound",
+                            ),
                         )
                 else -> {
                     logger.error { "原因不明のエラーが発生しました。" }
@@ -48,7 +48,7 @@ class CommonAdvice {
                             ErrorResponse(
                                 errorCode = "",
                                 errorMessage = ex.message ?: "CommandHandlerException",
-                            )
+                            ),
                         )
                 }
             }

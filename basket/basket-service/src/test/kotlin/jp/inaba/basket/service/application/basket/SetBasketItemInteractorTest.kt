@@ -8,7 +8,6 @@ import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
 import jp.inaba.basket.api.domain.basket.SetBasketItemError
 import jp.inaba.basket.service.application.command.basket.SetBasketItemInteractor
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
-import jp.inaba.basket.service.domain.basket.InternalCreateBasketCommand
 import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
