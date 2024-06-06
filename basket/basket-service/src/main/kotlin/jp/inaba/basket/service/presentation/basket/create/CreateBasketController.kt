@@ -1,8 +1,8 @@
 package jp.inaba.basket.service.presentation.basket.create
 
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketErrors
+import jp.inaba.basket.api.domain.basket.CreateBasketCommand
+import jp.inaba.basket.api.domain.basket.CreateBasketError
 import jp.inaba.basket.api.domain.basket.createBasket
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.common.presentation.shared.ErrorResponse
@@ -24,7 +24,7 @@ class CreateBasketController(
         request: CreateBasketRequest,
     ): ResponseEntity<Any> {
         val userId = UserId(request.userId)
-        val command = BasketCommands.Create(userId)
+        val command = CreateBasketCommand(userId)
 
         val result = commandGateway.createBasket(command)
 
@@ -36,7 +36,7 @@ class CreateBasketController(
             },
             failure = {
                 when (it) {
-                    BasketErrors.Create.USER_NOT_FOUND ->
+                    CreateBasketError.USER_NOT_FOUND ->
                         ResponseEntity
                             .status(HttpStatus.NOT_FOUND)
                             .body(ErrorResponse(it))

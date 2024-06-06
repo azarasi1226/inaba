@@ -1,10 +1,14 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketErrors
-import jp.inaba.basket.api.domain.basket.BasketEvents
+import jp.inaba.basket.api.domain.basket.BasketClearedEvent
+import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
 import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.BasketItemDeletedEvent
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.BasketItemSetEvent
+import jp.inaba.basket.api.domain.basket.ClearBasketCommand
+import jp.inaba.basket.api.domain.basket.DeleteBasketItemCommand
+import jp.inaba.basket.api.domain.basket.SetBasketItemError
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
 import jp.inaba.identity.api.domain.user.UserId
@@ -29,11 +33,11 @@ class BasketAggregateTest {
 
         fixture.givenNoPriorActivity()
             .`when`(
-                InternalBasketCommands.Create(basketId),
+                InternalCreateBasketCommand(basketId),
             )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.Created(basketId.value),
+                BasketCreatedEvent(basketId.value),
             )
     }
 
@@ -45,7 +49,7 @@ class BasketAggregateTest {
         val quantity = BasketItemQuantity(20)
         val itemSetEvents =
             (1..eventCount).map {
-                BasketEvents.BasketItemSet(
+                BasketItemSetEvent(
                     id = basketId.value,
                     productId = ProductId().value,
                     basketItemQuantity = quantity.value,
@@ -53,11 +57,11 @@ class BasketAggregateTest {
             }
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
+            BasketCreatedEvent(basketId.value),
             *itemSetEvents.toTypedArray(),
         )
             .`when`(
-                InternalBasketCommands.SetBasketItem(
+                InternalSetBasketItemCommand(
                     id = basketId,
                     productId = productId,
                     basketItemQuantity = quantity,
@@ -65,7 +69,7 @@ class BasketAggregateTest {
             )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.BasketItemSet(
+                BasketItemSetEvent(
                     id = basketId.value,
                     productId = productId.value,
                     basketItemQuantity = quantity.value,
@@ -83,7 +87,7 @@ class BasketAggregateTest {
         val quantity = BasketItemQuantity(20)
         val itemSetEvents =
             (1..50).map {
-                BasketEvents.BasketItemSet(
+                BasketItemSetEvent(
                     id = basketId.value,
                     productId = ProductId().value,
                     basketItemQuantity = quantity.value,
@@ -91,11 +95,11 @@ class BasketAggregateTest {
             }
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
+            BasketCreatedEvent(basketId.value),
             *itemSetEvents.toTypedArray(),
         )
             .`when`(
-                InternalBasketCommands.SetBasketItem(
+                InternalSetBasketItemCommand(
                     id = basketId,
                     productId = productId,
                     basketItemQuantity = quantity,
@@ -103,7 +107,7 @@ class BasketAggregateTest {
             )
             .expectNoEvents()
             .expectResultMessagePayload(
-                ActionCommandResult.error(BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER.errorCode),
+                ActionCommandResult.error(SetBasketItemError.PRODUCT_MAX_KIND_OVER.errorCode),
             )
     }
 
@@ -114,22 +118,22 @@ class BasketAggregateTest {
         val quantity = BasketItemQuantity(20)
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
-            BasketEvents.BasketItemSet(
+            BasketCreatedEvent(basketId.value),
+            BasketItemSetEvent(
                 id = basketId.value,
                 productId = productId.value,
                 basketItemQuantity = quantity.value,
             ),
         )
             .`when`(
-                BasketCommands.DeleteBasketItem(
+                DeleteBasketItemCommand(
                     id = basketId,
                     productId = productId,
                 ),
             )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.BasketItemDeleted(
+                BasketItemDeletedEvent(
                     id = basketId.value,
                     productId = productId.value,
                 ),
@@ -142,17 +146,17 @@ class BasketAggregateTest {
         val productId = ProductId()
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
+            BasketCreatedEvent(basketId.value),
         )
             .`when`(
-                BasketCommands.DeleteBasketItem(
+                DeleteBasketItemCommand(
                     id = basketId,
                     productId = productId,
                 ),
             )
             .expectSuccessfulHandlerExecution()
             .expectEvents(
-                BasketEvents.BasketItemDeleted(
+                BasketItemDeletedEvent(
                     id = basketId.value,
                     productId = productId.value,
                 ),
@@ -166,18 +170,18 @@ class BasketAggregateTest {
         val quantity = BasketItemQuantity(20)
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
-            BasketEvents.BasketItemSet(
+            BasketCreatedEvent(basketId.value),
+            BasketItemSetEvent(
                 id = basketId.value,
                 productId = productId.value,
                 basketItemQuantity = quantity.value,
             ),
         )
             .`when`(
-                BasketCommands.Clear(basketId),
+                ClearBasketCommand(basketId),
             )
             .expectSuccessfulHandlerExecution()
-            .expectEvents(BasketEvents.Cleared(basketId.value))
+            .expectEvents(BasketClearedEvent(basketId.value))
     }
 
     @Test
@@ -185,12 +189,12 @@ class BasketAggregateTest {
         val basketId = BasketId(UserId())
 
         fixture.given(
-            BasketEvents.Created(basketId.value),
+            BasketCreatedEvent(basketId.value),
         )
             .`when`(
-                BasketCommands.Clear(basketId),
+                ClearBasketCommand(basketId),
             )
             .expectSuccessfulHandlerExecution()
-            .expectEvents(BasketEvents.Cleared(basketId.value))
+            .expectEvents(BasketClearedEvent(basketId.value))
     }
 }

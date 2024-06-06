@@ -1,6 +1,8 @@
 package jp.inaba.basket.service.infrastructure.projector.basketitem
 
-import jp.inaba.basket.api.domain.basket.BasketEvents
+import jp.inaba.basket.api.domain.basket.BasketClearedEvent
+import jp.inaba.basket.api.domain.basket.BasketItemDeletedEvent
+import jp.inaba.basket.api.domain.basket.BasketItemSetEvent
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemId
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
@@ -16,7 +18,7 @@ class BasketItemProjector(
     private val basketItemJpaRepository: BasketItemJpaRepository,
 ) {
     @EventHandler
-    fun on(event: BasketEvents.BasketItemSet) {
+    fun on(event: BasketItemSetEvent) {
         val productJpaEntity =
             productJpaRepository.findById(event.productId)
                 .orElseThrow { Exception("Productが存在しませんでした。event:[$event]") }
@@ -39,7 +41,7 @@ class BasketItemProjector(
     }
 
     @EventHandler
-    fun on(event: BasketEvents.BasketItemDeleted) {
+    fun on(event: BasketItemDeletedEvent) {
         basketItemJpaRepository.deleteByBasketIdAndProductId(
             basketId = event.id,
             productId = event.productId,
@@ -47,7 +49,7 @@ class BasketItemProjector(
     }
 
     @EventHandler
-    fun on(event: BasketEvents.Cleared) {
+    fun on(event: BasketClearedEvent) {
         basketItemJpaRepository.deleteByBasketId(event.id)
     }
 }

@@ -8,39 +8,39 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
 
-fun CommandGateway.createBasket(command: BasketCommands.Create): Result<Unit, BasketErrors.Create> {
+fun CommandGateway.createBasket(command: CreateBasketCommand): Result<Unit, CreateBasketError> {
     val result = this.sendAndWait<ActionCommandResult>(command)
 
     return if (result.isOk()) {
         Ok(Unit)
     } else {
-        val error = BasketErrors.Create.entries.find { it.errorCode == result.errorCode }
+        val error = CreateBasketError.entries.find { it.errorCode == result.errorCode }
 
         Err(error!!)
     }
 }
 
-fun CommandGateway.setBasketItem(command: BasketCommands.SetBasketItem): Result<Unit, BasketErrors.SetBasketItem> {
+fun CommandGateway.setBasketItem(command: SetBasketItemCommand): Result<Unit, SetBasketItemError> {
     val result = this.sendAndWait<ActionCommandResult>(command)
 
     return if (result.isOk()) {
         Ok(Unit)
     } else {
-        val error = BasketErrors.SetBasketItem.entries.find { it.errorCode == result.errorCode }
+        val error = SetBasketItemError.entries.find { it.errorCode == result.errorCode }
 
         Err(error!!)
     }
 }
 
-fun CommandGateway.deleteBasketItem(command: BasketCommands.DeleteBasketItem) {
+fun CommandGateway.deleteBasketItem(command: DeleteBasketItemCommand) {
     this.sendAndWait<Any>(command)
 }
 
-fun CommandGateway.clearBasket(command: BasketCommands.Clear) {
+fun CommandGateway.clearBasket(command: ClearBasketCommand) {
     this.sendAndWait<Any>(command)
 }
 
-fun QueryGateway.findBasketById(query: BasketQueries.FindByIdQuery): BasketQueries.FindByIdResult {
-    return this.query(query, ResponseTypes.instanceOf(BasketQueries.FindByIdResult::class.java))
+fun QueryGateway.findBasketById(query: FindBasketByIdQuery): FindBasketByIdResult {
+    return this.query(query, ResponseTypes.instanceOf(FindBasketByIdResult::class.java))
         .get()
 }

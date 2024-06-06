@@ -1,10 +1,10 @@
 package jp.inaba.basket.service.presentation.basket.setbasketitem
 
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
+import jp.inaba.basket.api.domain.basket.SetBasketItemError
 import jp.inaba.basket.api.domain.basket.setBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId
@@ -34,7 +34,7 @@ class SetBasketItemController(
         val productId = ProductId(request.productId)
         val basketItemQuantity = BasketItemQuantity(request.itemQuantity)
         val command =
-            BasketCommands.SetBasketItem(
+            SetBasketItemCommand(
                 id = basketId,
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
@@ -50,11 +50,11 @@ class SetBasketItemController(
             },
             failure = {
                 when (it) {
-                    BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND ->
+                    SetBasketItemError.PRODUCT_NOT_FOUND ->
                         ResponseEntity
                             .status(HttpStatus.NOT_FOUND)
                             .body(ErrorResponse(it))
-                    BasketErrors.SetBasketItem.PRODUCT_MAX_KIND_OVER ->
+                    SetBasketItemError.PRODUCT_MAX_KIND_OVER ->
                         ResponseEntity
                             .status(HttpStatus.BAD_REQUEST)
                             .body(ErrorResponse(it))

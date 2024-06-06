@@ -1,9 +1,9 @@
 package jp.inaba.basket.service.application.command.basket
 
 import com.github.michaelbull.result.onFailure
-import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
-import jp.inaba.basket.service.domain.basket.InternalBasketCommands
+import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand
 import jp.inaba.common.domain.shared.ActionCommandResult
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -15,12 +15,12 @@ class SetBasketItemInteractor(
     private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
-    fun handle(command: BasketCommands.SetBasketItem): ActionCommandResult {
+    fun handle(command: SetBasketItemCommand): ActionCommandResult {
         canSetBasketItemVerifier.checkProductExits(command.productId)
             .onFailure { return ActionCommandResult.error(it.errorCode) }
 
         val internalCommand =
-            InternalBasketCommands.SetBasketItem(
+            InternalSetBasketItemCommand(
                 id = command.id,
                 productId = command.productId,
                 basketItemQuantity = command.basketItemQuantity,

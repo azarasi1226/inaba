@@ -4,8 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.basket.api.domain.basket.BasketErrors
-import jp.inaba.basket.api.domain.basket.BasketErrors.Create.*
+import jp.inaba.basket.api.domain.basket.CreateBasketError
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.identity.api.domain.user.UserErrors
 import jp.inaba.identity.api.domain.user.UserId
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service
 class CanCreateBasketVerifierImpl(
     private val queryGateway: QueryGateway,
 ) : CanCreateBasketVerifier {
-    override fun checkUserExits(userId: UserId): Result<Unit, BasketErrors.Create> {
+    override fun checkUserExits(userId: UserId): Result<Unit, CreateBasketError> {
         val query = UserQueries.FindByIdQuery(userId)
 
         val result = queryGateway.findUserById(query)
@@ -29,7 +28,7 @@ class CanCreateBasketVerifierImpl(
             },
             failure = {
                 when (it) {
-                    UserErrors.FindById.USER_NOT_FOUND -> Err(BasketErrors.Create.USER_NOT_FOUND)
+                    UserErrors.FindById.USER_NOT_FOUND -> Err(CreateBasketError.USER_NOT_FOUND)
                 }
             },
         )

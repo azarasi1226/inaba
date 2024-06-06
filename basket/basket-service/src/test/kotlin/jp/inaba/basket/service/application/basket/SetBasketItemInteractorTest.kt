@@ -2,13 +2,14 @@ package jp.inaba.basket.service.application.basket
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketErrors
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
+import jp.inaba.basket.api.domain.basket.SetBasketItemError
 import jp.inaba.basket.service.application.command.basket.SetBasketItemInteractor
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
-import jp.inaba.basket.service.domain.basket.InternalBasketCommands
+import jp.inaba.basket.service.domain.basket.InternalCreateBasketCommand
+import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
 import jp.inaba.identity.api.domain.user.UserId
@@ -42,21 +43,21 @@ class SetBasketItemInteractorTest {
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
         val command =
-            BasketCommands.SetBasketItem(
+            SetBasketItemCommand(
                 id = basketId,
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
             )
         Mockito.`when`(canSetBasketItemVerifier.checkProductExits(productId))
             .thenReturn(Ok(Unit))
-        Mockito.`when`(commandGateway.sendAndWait<ActionCommandResult>(any(InternalBasketCommands.SetBasketItem::class.java)))
+        Mockito.`when`(commandGateway.sendAndWait<ActionCommandResult>(any()))
             .thenReturn(ActionCommandResult.ok())
 
         val result = sut.handle(command)
 
         assert(result.isOk())
         val expectCommand =
-            InternalBasketCommands.SetBasketItem(
+            InternalSetBasketItemCommand(
                 id = basketId,
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
@@ -70,20 +71,20 @@ class SetBasketItemInteractorTest {
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
         val command =
-            BasketCommands.SetBasketItem(
+            SetBasketItemCommand(
                 id = basketId,
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,
             )
         Mockito.`when`(canSetBasketItemVerifier.checkProductExits(productId))
-            .thenReturn(Err(BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND))
+            .thenReturn(Err(SetBasketItemError.PRODUCT_NOT_FOUND))
 
         val result = sut.handle(command)
 
         assert(!result.isOk())
-        assert(result.errorCode == BasketErrors.SetBasketItem.PRODUCT_NOT_FOUND.errorCode)
+        assert(result.errorCode == SetBasketItemError.PRODUCT_NOT_FOUND.errorCode)
         val expectCommand =
-            InternalBasketCommands.SetBasketItem(
+            InternalSetBasketItemCommand(
                 id = basketId,
                 productId = productId,
                 basketItemQuantity = basketItemQuantity,

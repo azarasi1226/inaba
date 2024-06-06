@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.presentation.basket.deletebasketitem
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.DeleteBasketItemCommand
 import jp.inaba.basket.api.domain.basket.deleteBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId
@@ -26,7 +26,7 @@ class DeleteBasketItemController(
         val basketId = BasketId(userId)
         val productId = ProductId(rawItemId)
         val command =
-            BasketCommands.DeleteBasketItem(
+            DeleteBasketItemCommand(
                 id = basketId,
                 productId = productId,
             )

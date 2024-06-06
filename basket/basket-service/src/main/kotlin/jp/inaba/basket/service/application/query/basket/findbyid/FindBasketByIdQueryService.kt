@@ -1,7 +1,9 @@
 package jp.inaba.basket.service.application.query.basket.findbyid
 
 import jakarta.persistence.EntityManager
-import jp.inaba.basket.api.domain.basket.BasketQueries
+import jp.inaba.basket.api.domain.basket.FindBasketByIdQuery
+import jp.inaba.basket.api.domain.basket.FindBasketByIdResult
+import jp.inaba.basket.api.domain.basket.FindBasketByIdSummary
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.Paging
 import jp.inaba.common.domain.shared.PagingCondition
@@ -31,7 +33,7 @@ LIMIT :offset, :pageSize
     }
 
     @QueryHandler
-    fun handle(query: BasketQueries.FindByIdQuery): BasketQueries.FindByIdResult {
+    fun handle(query: FindBasketByIdQuery): FindBasketByIdResult {
         val nativeQuery =
             entityManager.createNativeQuery(QUERY, FindBasketByIdSqlResult::class.java)
                 .setParameter("basketId", query.basketId.value)
@@ -48,7 +50,7 @@ LIMIT :offset, :pageSize
     private fun convertToQueryResult(
         results: List<FindBasketByIdSqlResult>,
         pagingCondition: PagingCondition,
-    ): BasketQueries.FindByIdResult {
+    ): FindBasketByIdResult {
         val totalCount =
             if (results.isNotEmpty()) {
                 results.first().totalCount
@@ -56,12 +58,12 @@ LIMIT :offset, :pageSize
                 0
             }
 
-        return BasketQueries.FindByIdResult(
+        return FindBasketByIdResult(
             page =
                 Page(
                     items =
                         results.map {
-                            BasketQueries.BasketItemDataModel(
+                            FindBasketByIdSummary(
                                 itemId = it.itemId,
                                 itemName = it.itemName,
                                 itemPrice = it.itemPrice,

@@ -10,24 +10,22 @@ interface BasketAggregateCommand {
     val id: BasketId
 }
 
-object BasketCommands {
-    data class Create(
-        @RoutingKey
-        val userId: UserId,
-    )
+data class CreateBasketCommand(
+    @RoutingKey
+    val userId: UserId,
+)
 
-    data class SetBasketItem(
-        override val id: BasketId,
-        val productId: ProductId,
-        val basketItemQuantity: BasketItemQuantity,
-    ) : BasketAggregateCommand
+data class SetBasketItemCommand(
+    val id: BasketId,
+    val productId: ProductId,
+    val basketItemQuantity: BasketItemQuantity,
+)
 
-    data class DeleteBasketItem(
-        override val id: BasketId,
-        val productId: ProductId,
-    ) : BasketAggregateCommand
+data class DeleteBasketItemCommand(
+    override val id: BasketId,
+    val productId: ProductId,
+) : BasketAggregateCommand
 
-    data class Clear(
-        override val id: BasketId,
-    ) : BasketAggregateCommand
-}
+data class ClearBasketCommand(
+    override val id: BasketId,
+) : BasketAggregateCommand

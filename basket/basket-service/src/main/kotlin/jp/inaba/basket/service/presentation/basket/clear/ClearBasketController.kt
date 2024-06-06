@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.presentation.basket.clear
 
-import jp.inaba.basket.api.domain.basket.BasketCommands
 import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.ClearBasketCommand
 import jp.inaba.basket.api.domain.basket.clearBasket
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.identity.api.domain.user.UserId
@@ -21,7 +21,7 @@ class ClearBasketController(
     ) {
         val userId = UserId(rawUserId)
         val basketId = BasketId(userId)
-        val command = BasketCommands.Clear(basketId)
+        val command = ClearBasketCommand(basketId)
 
         commandGateway.clearBasket(command)
     }
