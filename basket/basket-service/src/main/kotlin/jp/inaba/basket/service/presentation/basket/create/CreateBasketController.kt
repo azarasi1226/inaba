@@ -31,7 +31,7 @@ class CreateBasketController(
         return result.mapBoth(
             success = {
                 ResponseEntity
-                    .status(HttpStatus.OK)
+                    .status(HttpStatus.CREATED)
                     .body(it)
             },
             failure = {

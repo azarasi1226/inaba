@@ -16,6 +16,7 @@ data class CreateBasketCommand(
 )
 
 data class SetBasketItemCommand(
+    @RoutingKey
     val id: BasketId,
     val productId: ProductId,
     val basketItemQuantity: BasketItemQuantity,
