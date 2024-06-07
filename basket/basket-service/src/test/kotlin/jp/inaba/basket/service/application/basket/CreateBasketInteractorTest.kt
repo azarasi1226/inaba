@@ -50,7 +50,7 @@ class CreateBasketInteractorTest {
         assert(result.isOk())
         val expectCommand = InternalCreateBasketCommand(BasketId(userId))
         verify(exactly = 1) {
-           commandGateway.sendAndWait<Any>(expectCommand)
+            commandGateway.sendAndWait<Any>(expectCommand)
         }
     }
 

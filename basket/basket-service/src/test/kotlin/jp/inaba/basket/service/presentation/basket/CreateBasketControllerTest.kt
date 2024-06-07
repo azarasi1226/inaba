@@ -1,8 +1,8 @@
 package jp.inaba.basket.service.presentation.basket
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -25,13 +25,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 class CreateBasketControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
+
     @Autowired
     private lateinit var objectMapper: ObjectMapper
+
     @MockkBean
     private lateinit var commandGateway: CommandGateway
 
     @Test
-    fun ユーザーが存在する_買い物かごを作成する_成功する() {
+    fun `ユーザーが存在する_買い物かごを作成する_成功する`() {
         val userId = UserId()
         val request = CreateBasketRequest(userId.value)
 
@@ -44,13 +46,13 @@ class CreateBasketControllerTest {
             MockMvcRequestBuilders
                 .post("/api/baskets")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(request)),
         )
             .andExpect(MockMvcResultMatchers.status().isCreated)
     }
 
     @Test
-    fun ユーザーが存在しない_買い物かごを作成する_失敗する() {
+    fun `ユーザーが存在しない_買い物かごを作成する_失敗する`() {
         val userId = UserId()
         val request = CreateBasketRequest(userId.value)
 
@@ -63,12 +65,13 @@ class CreateBasketControllerTest {
             MockMvcRequestBuilders
                 .post("/api/baskets")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(request)),
         )
             .andExpect(MockMvcResultMatchers.status().isNotFound)
-            .andExpect(MockMvcResultMatchers.content().json(
-                    objectMapper.writeValueAsString(ErrorResponse(CreateBasketError.USER_NOT_FOUND))
-                )
+            .andExpect(
+                MockMvcResultMatchers.content().json(
+                    objectMapper.writeValueAsString(ErrorResponse(CreateBasketError.USER_NOT_FOUND)),
+                ),
             )
     }
 }
