@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.basket.api.domain.basket.BasketCommands
+import jp.inaba.basket.api.domain.basket.CreateBasketCommand
 import jp.inaba.basket.api.domain.basket.createBasket
 import org.axonframework.commandhandling.gateway.CommandGateway
 
@@ -11,7 +11,7 @@ class CreateBasketStep(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(
-        command: BasketCommands.Create,
+        command: CreateBasketCommand,
         onFail: (() -> Unit),
     ) {
         try {

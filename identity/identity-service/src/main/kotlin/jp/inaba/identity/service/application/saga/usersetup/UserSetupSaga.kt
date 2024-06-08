@@ -3,8 +3,8 @@ package jp.inaba.identity.service.application.saga.usersetup
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.basket.api.domain.basket.BasketCommands
-import jp.inaba.basket.api.domain.basket.BasketEvents
+import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
+import jp.inaba.basket.api.domain.basket.CreateBasketCommand
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.AuthEvents
 import jp.inaba.identity.api.domain.user.UserCommands
@@ -55,8 +55,8 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: AuthEvents.SignupConfirmed) {
-        logger.info { "UserSetupSaga開始 email:[${sagaState.emailAddress}]" }
         sagaState = UserSetupSagaState.create(event)
+        logger.info { "UserSetupSaga開始 email:[${sagaState.emailAddress}]" }
 
         val userId = userIdFactory.handle()
         val userCreateCommand = UserCommands.Create(userId)
@@ -109,7 +109,7 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: AuthEvents.IdTokenAttributeForUserIdUpdated) {
-        val createBasketCommand = BasketCommands.Create(sagaState.userId!!)
+        val createBasketCommand = CreateBasketCommand(sagaState.userId!!)
 
         createBasketStep.handle(
             command = createBasketCommand,
@@ -130,7 +130,7 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
-    fun on(event: BasketEvents.Created) {
+    fun on(event: BasketCreatedEvent) {
         logger.info { "UserSetupSaga正常終了 email:[${sagaState.emailAddress}]" }
     }
 
