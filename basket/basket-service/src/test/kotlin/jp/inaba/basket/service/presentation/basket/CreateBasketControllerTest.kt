@@ -33,7 +33,7 @@ class CreateBasketControllerTest {
     private lateinit var commandGateway: CommandGateway
 
     @Test
-    fun `ユーザーが存在する_買い物かごを作成する_成功する`() {
+    fun `ユーザーが存在する_買い物かごを作成する_成功`() {
         val userId = UserId()
         val request = CreateBasketRequest(userId.value)
 
@@ -52,7 +52,7 @@ class CreateBasketControllerTest {
     }
 
     @Test
-    fun `ユーザーが存在しない_買い物かごを作成する_失敗する`() {
+    fun `ユーザーが存在しない_買い物かごを作成する_`() {
         val userId = UserId()
         val request = CreateBasketRequest(userId.value)
 
