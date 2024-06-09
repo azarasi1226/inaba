@@ -3,6 +3,7 @@ package jp.inaba.basket.service.presentation.basket.deletebasketitem
 import com.github.michaelbull.result.mapBoth
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.DeleteBasketItemCommand
+import jp.inaba.basket.api.domain.basket.DeleteBasketItemError
 import jp.inaba.basket.api.domain.basket.deleteBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId
@@ -43,9 +44,12 @@ class DeleteBasketItemController(
                         .build()
                 },
                 failure = {
-                    ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body(ErrorResponse(it))
+                    when(it) {
+                        DeleteBasketItemError.BASKET_DELETED ->
+                            ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse(it))
+                    }
                 },
             )
     }
