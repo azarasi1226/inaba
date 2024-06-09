@@ -1,12 +1,17 @@
 package jp.inaba.basket.service.presentation.basket.get
 
+import com.github.michaelbull.result.mapBoth
 import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.FindBasketByIdError
 import jp.inaba.basket.api.domain.basket.FindBasketByIdQuery
 import jp.inaba.basket.api.domain.basket.findBasketById
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.common.domain.shared.PagingCondition
+import jp.inaba.common.presentation.shared.ErrorResponse
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.queryhandling.QueryGateway
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
@@ -24,7 +29,7 @@ class GetBasketController(
         pageSize: Int,
         @RequestParam("pageNumber")
         pageNumber: Int,
-    ): GetBasketResponse {
+    ): ResponseEntity<Any> {
         val pagingCondition =
             PagingCondition(
                 pageSize = pageSize,
@@ -34,8 +39,21 @@ class GetBasketController(
         val basketId = BasketId(userId)
         val query = FindBasketByIdQuery(basketId, pagingCondition)
 
-        val result = queryGateway.findBasketById(query)
-
-        return GetBasketResponse(page = result.page)
+        return queryGateway.findBasketById(query)
+            .mapBoth(
+                success = {
+                    ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(it)
+                },
+                failure = {
+                    when (it) {
+                        FindBasketByIdError.BASKET_NOT_FOUND ->
+                            ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse(it))
+                    }
+                },
+            )
     }
 }

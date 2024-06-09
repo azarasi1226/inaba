@@ -58,6 +58,10 @@ class SetBasketItemController(
                         ResponseEntity
                             .status(HttpStatus.BAD_REQUEST)
                             .body(ErrorResponse(it))
+                    SetBasketItemError.BASKET_DELETED ->
+                        ResponseEntity
+                            .status(HttpStatus.NOT_FOUND)
+                            .body(ErrorResponse(it))
                 }
             },
         )

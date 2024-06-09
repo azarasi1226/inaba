@@ -30,3 +30,7 @@ data class DeleteBasketItemCommand(
 data class ClearBasketCommand(
     override val id: BasketId,
 ) : BasketAggregateCommand
+
+data class DeleteBasketCommand(
+    override val id: BasketId,
+) : BasketAggregateCommand

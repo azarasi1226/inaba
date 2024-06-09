@@ -40,9 +40,9 @@ class SetBasketItemControllerTest {
         val quantity = 5
         val request =
             SetBasketItemRequest(
-            productId = productId.value,
-            itemQuantity = quantity
-        )
+                productId = productId.value,
+                itemQuantity = quantity,
+            )
 
         mockkStatic(CommandGateway::setBasketItem)
         every {
@@ -66,7 +66,7 @@ class SetBasketItemControllerTest {
         val request =
             SetBasketItemRequest(
                 productId = productId.value,
-                itemQuantity = quantity
+                itemQuantity = quantity,
             )
 
         mockkStatic(CommandGateway::setBasketItem)
@@ -83,8 +83,8 @@ class SetBasketItemControllerTest {
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect(
                 MockMvcResultMatchers.content().json(
-                    objectMapper.writeValueAsString(ErrorResponse(SetBasketItemError.PRODUCT_NOT_FOUND))
-                )
+                    objectMapper.writeValueAsString(ErrorResponse(SetBasketItemError.PRODUCT_NOT_FOUND)),
+                ),
             )
     }
 
@@ -96,7 +96,7 @@ class SetBasketItemControllerTest {
         val request =
             SetBasketItemRequest(
                 productId = productId.value,
-                itemQuantity = quantity
+                itemQuantity = quantity,
             )
 
         mockkStatic(CommandGateway::setBasketItem)
@@ -113,8 +113,8 @@ class SetBasketItemControllerTest {
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andExpect(
                 MockMvcResultMatchers.content().json(
-                    objectMapper.writeValueAsString(ErrorResponse(SetBasketItemError.PRODUCT_MAX_KIND_OVER))
-                )
+                    objectMapper.writeValueAsString(ErrorResponse(SetBasketItemError.PRODUCT_MAX_KIND_OVER)),
+                ),
             )
     }
 }

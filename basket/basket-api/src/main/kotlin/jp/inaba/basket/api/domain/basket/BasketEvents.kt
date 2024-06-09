@@ -22,3 +22,7 @@ data class BasketItemDeletedEvent(
 data class BasketClearedEvent(
     override val id: String,
 ) : BasketEvent
+
+data class BasketDeletedEvent(
+    override val id: String,
+) : BasketEvent

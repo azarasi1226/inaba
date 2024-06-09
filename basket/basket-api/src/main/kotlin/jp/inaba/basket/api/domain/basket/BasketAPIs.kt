@@ -32,15 +32,38 @@ fun CommandGateway.setBasketItem(command: SetBasketItemCommand): Result<Unit, Se
     }
 }
 
-fun CommandGateway.deleteBasketItem(command: DeleteBasketItemCommand) {
-    this.sendAndWait<Any>(command)
+fun CommandGateway.deleteBasketItem(command: DeleteBasketItemCommand): Result<Unit, DeleteBasketItemError> {
+    val result = this.sendAndWait<ActionCommandResult>(command)
+
+    return if (result.isOk()) {
+        Ok(Unit)
+    } else {
+        val error = DeleteBasketItemError.entries.find { it.errorCode == result.errorCode }
+
+        Err(error!!)
+    }
 }
 
-fun CommandGateway.clearBasket(command: ClearBasketCommand) {
-    this.sendAndWait<Any>(command)
+fun CommandGateway.clearBasket(command: ClearBasketCommand): Result<Unit, ClearBasketError> {
+    val result = this.sendAndWait<ActionCommandResult>(command)
+
+    return if (result.isOk()) {
+        Ok(Unit)
+    } else {
+        val error = ClearBasketError.entries.find { it.errorCode == result.errorCode }
+
+        Err(error!!)
+    }
 }
 
-fun QueryGateway.findBasketById(query: FindBasketByIdQuery): FindBasketByIdResult {
-    return this.query(query, ResponseTypes.instanceOf(FindBasketByIdResult::class.java))
-        .get()
+fun QueryGateway.findBasketById(query: FindBasketByIdQuery): Result<FindBasketByIdResult, FindBasketByIdError> {
+    val maybeResult =
+        this.query(query, ResponseTypes.optionalInstanceOf(FindBasketByIdResult::class.java))
+            .get()
+
+    return if (maybeResult.isPresent) {
+        Ok(maybeResult.get())
+    } else {
+        Err(FindBasketByIdError.BASKET_NOT_FOUND)
+    }
 }

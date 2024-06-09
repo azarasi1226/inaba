@@ -1,11 +1,9 @@
 package jp.inaba.common.domain.shared
 
-/**
- * エラーを起こす可能性があるCommandの戻り値
- */
 class ActionCommandResult private constructor(
     // なぜジェネリクスで持たないのかというと、jacksonのバグ？かなんかでジェネリクスでEnumを持とうとしたら変換できなかったから...
     // マジで意味わからんぜBaby...
+    // TODO(ジェネリクスマスターになって未来で再トライ)
     val errorCode: String? = null,
 ) {
     companion object {

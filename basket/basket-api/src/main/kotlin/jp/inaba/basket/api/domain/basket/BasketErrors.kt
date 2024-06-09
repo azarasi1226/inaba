@@ -7,13 +7,42 @@ enum class CreateBasketError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : DomainError {
-    USER_NOT_FOUND("B_B_C_001", "ユーザーが存在しませんでした"),
+    USER_NOT_FOUND("1", "ユーザーが存在しませんでした"),
 }
 
 enum class SetBasketItemError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : DomainError {
-    PRODUCT_NOT_FOUND("B_B_S_001", "商品が見つかりませんでした"),
-    PRODUCT_MAX_KIND_OVER("B_B_S_002", "商品種類の上限数に到達しました"),
+    BASKET_DELETED("1", "削除済みの買い物かごです"),
+    PRODUCT_NOT_FOUND("2", "商品が見つかりませんでした"),
+    PRODUCT_MAX_KIND_OVER("3", "商品種類の上限数に到達しました"),
+}
+
+enum class DeleteBasketItemError(
+    override val errorCode: String,
+    override val errorMessage: String,
+) : DomainError {
+    BASKET_DELETED("1", "削除済みの買い物かごです"),
+}
+
+enum class ClearBasketError(
+    override val errorCode: String,
+    override val errorMessage: String,
+) : DomainError {
+    BASKET_DELETED("2", "削除済みの買い物かごです"),
+}
+
+enum class DeleteBasketError(
+    override val errorCode: String,
+    override val errorMessage: String,
+) : DomainError {
+    BASKET_DELETED("3", "削除済みの買い物かごです"),
+}
+
+enum class FindBasketByIdError(
+    override val errorCode: String,
+    override val errorMessage: String,
+) : DomainError {
+    BASKET_NOT_FOUND("1", "買い物かごが見つかりません"),
 }
