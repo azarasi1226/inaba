@@ -1,27 +1,16 @@
 package jp.inaba.identity.api.domain.user
 
-interface UserCommand {
+import org.axonframework.modelling.command.AggregateIdentifier
+
+interface UserAggregateCommand {
+    @get:AggregateIdentifier
     val id: UserId
 }
 
-object UserCommands {
-    data class Create(
-        override val id: UserId,
-    ) : UserCommand
+data class CreateUserCommand(
+    override val id: UserId,
+) : UserAggregateCommand
 
-    data class UpdateProfileInfo(
-        override val id: UserId,
-    ) : UserCommand
-
-    data class UpdateAddressInfo(
-        override val id: UserId,
-    ) : UserCommand
-
-    data class UpdatePaymentInfo(
-        override val id: UserId,
-    ) : UserCommand
-
-    data class Delete(
-        override val id: UserId,
-    ) : UserCommand
-}
+data class DeleteUserCommand(
+    override val id: UserId,
+) : UserAggregateCommand

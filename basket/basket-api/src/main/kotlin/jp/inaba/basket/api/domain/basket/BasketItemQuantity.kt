@@ -2,9 +2,7 @@ package jp.inaba.basket.api.domain.basket
 
 import jp.inaba.common.domain.shared.DomainException
 
-data class BasketItemQuantity(
-    val value: Int,
-) {
+data class BasketItemQuantity(val value: Int) {
     companion object {
         private const val MIN = 1
         private const val MAX = 99

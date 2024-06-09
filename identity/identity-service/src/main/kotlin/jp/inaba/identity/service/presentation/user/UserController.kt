@@ -5,4 +5,4 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Tag(name = "User")
 @RequestMapping("/api/user")
-abstract class UserControllerBase
+interface UserController

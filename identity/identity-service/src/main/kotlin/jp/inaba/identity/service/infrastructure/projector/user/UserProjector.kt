@@ -1,6 +1,6 @@
 package jp.inaba.identity.service.infrastructure.projector.user
 
-import jp.inaba.identity.api.domain.user.UserEvents
+import jp.inaba.identity.api.domain.user.UserCreatedEvent
 import jp.inaba.identity.service.infrastructure.jpa.user.UserJpaEntity
 import jp.inaba.identity.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -13,7 +13,7 @@ class UserProjector(
     private val repository: UserJpaRepository,
 ) {
     @EventHandler
-    fun on(event: UserEvents.Created) {
+    fun on(event: UserCreatedEvent) {
         val entity =
             UserJpaEntity(
                 id = event.id,

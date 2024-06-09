@@ -9,13 +9,13 @@ data class FindBasketByIdQuery(
 )
 
 data class FindBasketByIdResult(
-    val page: Page<FindBasketByIdSummary>,
-)
-
-data class FindBasketByIdSummary(
-    val itemId: String,
-    val itemName: String,
-    val itemPrice: Int,
-    val itemPictureUrl: String,
-    val itemQuantity: Int,
-)
+    val page: Page<BasketItem>,
+) {
+    data class BasketItem(
+        val productId: String,
+        val productName: String,
+        val productPrice: Int,
+        val productImageUrl: String,
+        val productQuantity: Int,
+    )
+}

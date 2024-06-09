@@ -1,7 +1,9 @@
 package jp.inaba.identity.service.domain.user
 
-import jp.inaba.identity.api.domain.user.UserCommands
-import jp.inaba.identity.api.domain.user.UserEvents
+import jp.inaba.identity.api.domain.user.CreateUserCommand
+import jp.inaba.identity.api.domain.user.DeleteUserCommand
+import jp.inaba.identity.api.domain.user.UserCreatedEvent
+import jp.inaba.identity.api.domain.user.UserDeletedEvent
 import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -16,9 +18,9 @@ class UserAggregate() {
     private var isDeleted: Boolean = false
 
     @CommandHandler
-    constructor(command: UserCommands.Create) : this() {
+    constructor(command: CreateUserCommand) : this() {
         val event =
-            UserEvents.Created(
+            UserCreatedEvent(
                 id = command.id.value,
             )
 
@@ -26,39 +28,9 @@ class UserAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: UserCommands.UpdateProfileInfo) {
+    fun handle(command: DeleteUserCommand) {
         val event =
-            UserEvents.ProfileInfoUpdated(
-                id = command.id.value,
-            )
-
-        AggregateLifecycle.apply(event)
-    }
-
-    @CommandHandler
-    fun handle(command: UserCommands.UpdateAddressInfo) {
-        val event =
-            UserEvents.AddressInfoUpdated(
-                id = command.id.value,
-            )
-
-        AggregateLifecycle.apply(event)
-    }
-
-    @CommandHandler
-    fun handle(command: UserCommands.UpdatePaymentInfo) {
-        val event =
-            UserEvents.PaymentInfoUpdated(
-                id = command.id.value,
-            )
-
-        AggregateLifecycle.apply(event)
-    }
-
-    @CommandHandler
-    fun handle(command: UserCommands.Delete) {
-        val event =
-            UserEvents.Deleted(
+            UserDeletedEvent(
                 id = command.id.value,
             )
 
@@ -66,27 +38,12 @@ class UserAggregate() {
     }
 
     @EventSourcingHandler
-    fun on(event: UserEvents.Created) {
+    fun on(event: UserCreatedEvent) {
         id = UserId(event.id)
     }
 
     @EventSourcingHandler
-    fun on(event: UserEvents.ProfileInfoUpdated) {
-        // TODO()
-    }
-
-    @EventSourcingHandler
-    fun on(event: UserEvents.AddressInfoUpdated) {
-        // TODO()
-    }
-
-    @EventSourcingHandler
-    fun on(event: UserEvents.PaymentInfoUpdated) {
-        // TODO()
-    }
-
-    @EventSourcingHandler
-    fun on(event: UserEvents.Deleted) {
+    fun on(event: UserDeletedEvent) {
         isDeleted = true
     }
 }

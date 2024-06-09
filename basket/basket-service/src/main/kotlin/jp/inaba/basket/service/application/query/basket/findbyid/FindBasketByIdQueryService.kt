@@ -3,7 +3,6 @@ package jp.inaba.basket.service.application.query.basket.findbyid
 import jakarta.persistence.EntityManager
 import jp.inaba.basket.api.domain.basket.FindBasketByIdQuery
 import jp.inaba.basket.api.domain.basket.FindBasketByIdResult
-import jp.inaba.basket.api.domain.basket.FindBasketByIdSummary
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.Paging
 import jp.inaba.common.domain.shared.PagingCondition
@@ -63,12 +62,12 @@ LIMIT :offset, :pageSize
                 Page(
                     items =
                         results.map {
-                            FindBasketByIdSummary(
-                                itemId = it.itemId,
-                                itemName = it.itemName,
-                                itemPrice = it.itemPrice,
-                                itemPictureUrl = it.itemPictureUrl,
-                                itemQuantity = it.itemQuantity,
+                            FindBasketByIdResult.BasketItem(
+                                productId = it.itemId,
+                                productName = it.itemName,
+                                productPrice = it.itemPrice,
+                                productImageUrl = it.itemPictureUrl,
+                                productQuantity = it.itemQuantity,
                             )
                         },
                     paging =

@@ -6,9 +6,7 @@ import jp.inaba.identity.api.domain.user.UserId
 // MEMO: UserIdのラッパーIDみたいになっているがこれは、AxonFrameworkで集約が違っても同じIDを使ってはいけない縛りがあるため
 // 例えば、BasketIdとUserIdの集約IDを一緒にすることができない....だからUserIdからBasketIdを生成している。
 // 本当はUserIdそのまま使いたいよおお( ；∀；)
-data class BasketId(
-    val value: String,
-) {
+data class BasketId(val value: String) {
     val userId: UserId
 
     companion object {

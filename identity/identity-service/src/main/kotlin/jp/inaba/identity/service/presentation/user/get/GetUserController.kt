@@ -1,11 +1,12 @@
 package jp.inaba.identity.service.presentation.user.get
 
+import com.github.michaelbull.result.mapBoth
 import jp.inaba.common.presentation.shared.ErrorResponse
-import jp.inaba.identity.api.domain.user.UserErrors.FindById.USER_NOT_FOUND
+import jp.inaba.identity.api.domain.user.FindUserByIdError
+import jp.inaba.identity.api.domain.user.FindUserByIdQuery
 import jp.inaba.identity.api.domain.user.UserId
-import jp.inaba.identity.api.domain.user.UserQueries
 import jp.inaba.identity.api.domain.user.findUserById
-import jp.inaba.identity.service.presentation.user.UserControllerBase
+import jp.inaba.identity.service.presentation.user.UserController
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,33 +19,32 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/users")
 class GetUserController(
     private val queryGateway: QueryGateway,
-) : UserControllerBase() {
+) : UserController {
     @GetMapping("/{userId}")
     fun handle(
         @PathVariable("userId")
         rawUserId: String,
     ): ResponseEntity<Any> {
         val userId = UserId(rawUserId)
-        val query = UserQueries.FindByIdQuery(userId)
+        val query = FindUserByIdQuery(userId)
 
-        val result = queryGateway.findUserById(query)
-
-        return if (result.isOk) {
-            ResponseEntity(
-                GetUserResponse(result.value.name),
-                HttpStatus.OK,
+        return queryGateway.findUserById(query)
+            .mapBoth(
+                success = {
+                    ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(GetUserResponse(
+                            name = it.name,
+                        ))
+                },
+                failure = {
+                    when (it) {
+                        FindUserByIdError.USER_NOT_FOUND ->
+                            ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse(it))
+                    }
+                }
             )
-        } else {
-            when (result.error) {
-                USER_NOT_FOUND ->
-                    ResponseEntity(
-                        ErrorResponse(
-                            errorCode = result.error.errorCode,
-                            errorMessage = result.error.errorMessage,
-                        ),
-                        HttpStatus.NOT_FOUND,
-                    )
-            }
-        }
     }
 }

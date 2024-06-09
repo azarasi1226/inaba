@@ -7,34 +7,22 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
 
-fun CommandGateway.createUser(command: UserCommands.Create) {
+fun CommandGateway.createUser(command: CreateUserCommand) {
     this.sendAndWait<Any>(command)
 }
 
-fun CommandGateway.updateProfileInfo(command: UserCommands.UpdateProfileInfo) {
+fun CommandGateway.deleteUser(command: DeleteUserCommand) {
     this.sendAndWait<Any>(command)
 }
 
-fun CommandGateway.updateAddressInfo(command: UserCommands.UpdateAddressInfo) {
-    this.sendAndWait<Any>(command)
-}
-
-fun CommandGateway.updatePaymentInfo(command: UserCommands.UpdatePaymentInfo) {
-    this.sendAndWait<Any>(command)
-}
-
-fun CommandGateway.deleteUser(command: UserCommands.Delete) {
-    this.sendAndWait<Any>(command)
-}
-
-fun QueryGateway.findUserById(query: UserQueries.FindByIdQuery): Result<UserQueries.FindByIdResult, UserErrors.FindById> {
+fun QueryGateway.findUserById(query: FindUserByIdQuery): Result<FindUserByIdResult, FindUserByIdError> {
     val result =
-        this.query(query, ResponseTypes.optionalInstanceOf(UserQueries.FindByIdResult::class.java))
+        this.query(query, ResponseTypes.optionalInstanceOf(FindUserByIdResult::class.java))
             .get()
 
     return if (result.isPresent) {
         Ok(result.get())
     } else {
-        Err(UserErrors.FindById.USER_NOT_FOUND)
+        Err(FindUserByIdError.USER_NOT_FOUND)
     }
 }
