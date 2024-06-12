@@ -2,7 +2,9 @@ package jp.inaba.basket.service.infrastructure.projector.product
 
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
-import jp.inaba.catalog.api.domain.product.ProductEvents
+import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
+import jp.inaba.catalog.api.domain.product.ProductDeletedEvent
+import jp.inaba.catalog.api.domain.product.ProductUpdatedEvent
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
@@ -13,7 +15,7 @@ class ProductProjector(
     private val repository: ProductJpaRepository,
 ) {
     @EventHandler
-    fun on(event: ProductEvents.Created) {
+    fun on(event: ProductCreatedEvent) {
         val entity =
             ProductJpaEntity(
                 id = event.id,
@@ -26,7 +28,7 @@ class ProductProjector(
     }
 
     @EventHandler
-    fun on(event: ProductEvents.Updated) {
+    fun on(event: ProductUpdatedEvent) {
         val entity =
             repository.findById(event.id)
                 .orElseThrow()
@@ -39,7 +41,7 @@ class ProductProjector(
     }
 
     @EventHandler
-    fun on(event: ProductEvents.Deleted) {
+    fun on(event: ProductDeletedEvent) {
         // TODO("このままだと確定でエラーになる。先にbasketItem消すか、ステータス方式にしなければ")
         repository.deleteById(event.id)
     }

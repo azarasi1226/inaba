@@ -17,7 +17,7 @@ data class BasketId(val value: String) {
 
     init {
         if (!value.startsWith(PREFIX)) {
-            throw DomainException("basketIdのprefixには[$PREFIX]が必要です。現在のIDは[$value]")
+            throw DomainException("basketIdのprefixには[$PREFIX]が必要です。value[$value]")
         }
 
         val maybeUserId = value.removePrefix(PREFIX)
