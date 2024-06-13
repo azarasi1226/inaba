@@ -1,6 +1,6 @@
 package jp.inaba.catalog.api.domain.product
 
-data class FindProductById(
+data class FindProductByIdQuery(
     val id: ProductId,
 )
 

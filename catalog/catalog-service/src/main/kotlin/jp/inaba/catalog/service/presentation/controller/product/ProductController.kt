@@ -1,13 +1,14 @@
 package jp.inaba.catalog.service.presentation.controller.product
 
-import jp.inaba.catalog.api.domain.product.ProductCommands
+import jp.inaba.catalog.api.domain.product.CreateProductCommand
+import jp.inaba.catalog.api.domain.product.FindProductByIdQuery
+import jp.inaba.catalog.api.domain.product.FindProductByIdResult
 import jp.inaba.catalog.api.domain.product.ProductDescription
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.catalog.api.domain.product.ProductImageURL
 import jp.inaba.catalog.api.domain.product.ProductName
 import jp.inaba.catalog.api.domain.product.ProductPrice
 import jp.inaba.catalog.api.domain.product.ProductQuantity
-import jp.inaba.catalog.api.domain.product.ProductQueries
 import jp.inaba.catalog.service.application.query.product.ProductNotFoundException
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateRequest
 import jp.inaba.catalog.service.presentation.model.product.ProductCreateResponse
@@ -35,7 +36,7 @@ class ProductController(
     ): ProductCreateResponse {
         val productId = ProductId()
         val command =
-            ProductCommands.Create(
+            CreateProductCommand(
                 id = productId,
                 name = ProductName(request.name),
                 description = ProductDescription(request.description),
@@ -55,10 +56,10 @@ class ProductController(
         rawId: String,
     ): ProductFindByIdResponse {
         val productId = ProductId(rawId)
-        val query = ProductQueries.FindById(productId)
+        val query = FindProductByIdQuery(productId)
 
         val result =
-            queryGateway.queryOptional<ProductQueries.FindByIdResult, ProductQueries.FindById>(query)
+            queryGateway.queryOptional<FindProductByIdResult, FindProductByIdQuery>(query)
                 .get()
                 .orElseThrow { ProductNotFoundException(productId) }
 

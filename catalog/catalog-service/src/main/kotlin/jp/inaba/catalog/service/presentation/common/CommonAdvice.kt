@@ -16,12 +16,4 @@ class CommonAdvice {
             HttpStatus.BAD_REQUEST,
         )
     }
-
-    @ExceptionHandler(Exception::class)
-    fun handle(ex: Exception): ResponseEntity<ErrorResponse> {
-        return ResponseEntity(
-            ErrorResponse(ex.message),
-            HttpStatus.INTERNAL_SERVER_ERROR,
-        )
-    }
 }
