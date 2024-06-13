@@ -11,12 +11,12 @@ interface BasketAggregateCommand {
 }
 
 data class CreateBasketCommand(
-    @RoutingKey
+    @get:RoutingKey
     val userId: UserId,
 )
 
 data class SetBasketItemCommand(
-    @RoutingKey
+    @get:RoutingKey
     val id: BasketId,
     val productId: ProductId,
     val basketItemQuantity: BasketItemQuantity,
