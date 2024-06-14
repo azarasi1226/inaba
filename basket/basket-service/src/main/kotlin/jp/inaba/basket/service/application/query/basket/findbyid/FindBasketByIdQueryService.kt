@@ -25,7 +25,7 @@ SELECT
     p.name AS ${FindBasketByIdSqlResult::productName.name},
     p.price AS ${FindBasketByIdSqlResult::productPrice.name},
     p.image_url AS ${FindBasketByIdSqlResult::productPictureUrl.name},
-    b.item_quantity AS ${FindBasketByIdSqlResult::productQuantity.name},
+    b.item_quantity AS ${FindBasketByIdSqlResult::quantity.name},
     COUNT(*) OVER() AS ${FindBasketByIdSqlResult::totalCount.name}
 FROM basket b
 INNER JOIN product p
@@ -77,7 +77,7 @@ LIMIT :offset, :pageSize
                                 productName = it.productName,
                                 productPrice = it.productPrice,
                                 productImageUrl = it.productPictureUrl,
-                                productQuantity = it.productQuantity,
+                                productQuantity = it.quantity,
                             )
                         },
                     paging =
