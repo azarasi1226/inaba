@@ -8,8 +8,8 @@ import jakarta.persistence.Table
 @Table(name = "product")
 data class ProductJpaEntity(
     @Id
-    var id: String = "",
-    var name: String = "",
-    var imageUrl: String? = null,
-    var price: Int = 0,
+    val id: String = "",
+    val name: String = "",
+    val imageUrl: String? = null,
+    val price: Int = 0,
 )

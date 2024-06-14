@@ -35,7 +35,10 @@ class BasketAggregate() {
 
     @CommandHandler
     constructor(command: InternalCreateBasketCommand) : this() {
-        val event = BasketCreatedEvent(command.id.value)
+        val event = BasketCreatedEvent(
+            id = command.id.value,
+            userId = command.userId.value
+        )
 
         AggregateLifecycle.apply(event)
     }

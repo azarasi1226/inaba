@@ -19,9 +19,13 @@ class CreateBasketInteractor(
     fun handle(command: CreateBasketCommand): ActionCommandResult {
         canCreateBasketVerifier.checkUserExits(command.userId)
             .onFailure { return ActionCommandResult.error(it.errorCode) }
+        canCreateBasketVerifier.checkBasketExitsForUserid(command.userId)
+            .onFailure { return ActionCommandResult.error(it.errorCode) }
 
-        val basketId = BasketId(command.userId)
-        val internalCommand = InternalCreateBasketCommand(basketId)
+        val internalCommand = InternalCreateBasketCommand(
+            id = command.id,
+            userId = command.userId,
+        )
 
         commandGateway.sendAndWait<Any>(internalCommand)
 

@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController
 class GetBasketController(
     private val queryGateway: QueryGateway,
 ) : BasketController {
-    @GetMapping("/{userId}")
+    @GetMapping("/{basketId}")
     fun handle(
-        @PathVariable("userId")
-        rawUserId: String,
+        @PathVariable("basketId")
+        rawBasketId: String,
         @RequestParam("pageSize")
         pageSize: Int,
         @RequestParam("pageNumber")
@@ -35,8 +35,7 @@ class GetBasketController(
                 pageSize = pageSize,
                 pageNumber = pageNumber,
             )
-        val userId = UserId(rawUserId)
-        val basketId = BasketId(userId)
+        val basketId = BasketId(rawBasketId)
         val query = FindBasketByIdQuery(basketId, pagingCondition)
 
         return queryGateway.findBasketById(query)

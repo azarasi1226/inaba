@@ -1,26 +1,26 @@
-package jp.inaba.basket.service.infrastructure.projector.basketitem
+package jp.inaba.basket.service.infrastructure.projector.basket
 
 import jp.inaba.basket.api.domain.basket.BasketClearedEvent
 import jp.inaba.basket.api.domain.basket.BasketItemDeletedEvent
 import jp.inaba.basket.api.domain.basket.BasketItemSetEvent
-import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemId
-import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaEntity
-import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
+import jp.inaba.basket.service.infrastructure.jpa.basket.BasketItemId
+import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaEntity
+import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-@ProcessingGroup(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
-class BasketItemProjector(
-    private val productJpaRepository: ProductJpaRepository,
-    private val basketItemJpaRepository: BasketItemJpaRepository,
+@ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
+class BasketProjector(
+    private val productRepository: ProductJpaRepository,
+    private val basketRepository: BasketJpaRepository,
 ) {
     @EventHandler
     fun on(event: BasketItemSetEvent) {
         val productJpaEntity =
-            productJpaRepository.findById(event.productId)
+            productRepository.findById(event.productId)
                 .orElseThrow { Exception("Productが存在しませんでした。event:[$event]") }
 
         val id =
@@ -30,19 +30,19 @@ class BasketItemProjector(
             )
 
         val basketItemJpaEntity =
-            BasketItemJpaEntity(
+            BasketJpaEntity(
                 basketItemId = id,
                 basketId = event.id,
                 product = productJpaEntity,
                 itemQuantity = event.basketItemQuantity,
             )
 
-        basketItemJpaRepository.save(basketItemJpaEntity)
+        basketRepository.save(basketItemJpaEntity)
     }
 
     @EventHandler
     fun on(event: BasketItemDeletedEvent) {
-        basketItemJpaRepository.deleteByBasketIdAndProductId(
+        basketRepository.deleteByBasketIdAndProductId(
             basketId = event.id,
             productId = event.productId,
         )
@@ -50,6 +50,6 @@ class BasketItemProjector(
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
-        basketItemJpaRepository.deleteByBasketId(event.id)
+        basketRepository.deleteByBasketId(event.id)
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
+import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.CreateBasketCommand
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.api.domain.external.auth.AuthEvents
@@ -111,7 +112,11 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: AuthEvents.IdTokenAttributeForUserIdUpdated) {
-        val createBasketCommand = CreateBasketCommand(sagaState.userId!!)
+        val basketId = BasketId()
+        val createBasketCommand = CreateBasketCommand(
+            id = basketId,
+            userId = sagaState.userId!!
+        )
 
         createBasketStep.handle(
             command = createBasketCommand,

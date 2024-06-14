@@ -22,15 +22,14 @@ import org.springframework.web.bind.annotation.RestController
 class SetBasketItemController(
     private val commandGateway: CommandGateway,
 ) : BasketController {
-    @PostMapping("/{userId}/items")
+    @PostMapping("/{basketId}/items")
     fun handle(
-        @PathVariable("userId")
-        rawUserId: String,
+        @PathVariable("basketId")
+        rawBasketId: String,
         @RequestBody
         request: SetBasketItemRequest,
     ): ResponseEntity<Any> {
-        val userId = UserId(rawUserId)
-        val basketId = BasketId(userId)
+        val basketId = BasketId(rawBasketId)
         val productId = ProductId(request.productId)
         val basketItemQuantity = BasketItemQuantity(request.itemQuantity)
         val command =

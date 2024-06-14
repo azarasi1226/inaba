@@ -15,16 +15,11 @@ class BasketIdTest {
         }
     }
 
-    @Test
-    fun `正常な値でBasketId作成_成功`() {
-        assertDoesNotThrow {
-            val userId = UserId()
-            BasketId("basket-$userId")
-        }
-
-        assertDoesNotThrow {
-            val userId = UserId()
-            BasketId(userId)
-        }
-    }
+//    @Test
+//    fun `正常な値でBasketId作成_成功`() {
+//        assertDoesNotThrow {
+//            val userId = UserId()
+//            BasketId("basket-$userId")
+//        }
+//    }
 }

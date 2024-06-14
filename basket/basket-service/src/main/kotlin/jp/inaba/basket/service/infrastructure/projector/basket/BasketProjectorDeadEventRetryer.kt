@@ -1,4 +1,4 @@
-package jp.inaba.basket.service.infrastructure.projector.basketitem
+package jp.inaba.basket.service.infrastructure.projector.basket
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.axonframework.config.EventProcessingConfiguration
@@ -11,12 +11,12 @@ private val logger = KotlinLogging.logger {}
 
 @Configuration
 @EnableScheduling
-class BasketItemProjectorDeadEventRetryer(
+class BasketProjectorDeadEventRetryer(
     private val epc: EventProcessingConfiguration,
 ) {
     @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     fun retry() {
-        val maybeProcessor = epc.sequencedDeadLetterProcessor(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
+        val maybeProcessor = epc.sequencedDeadLetterProcessor(BasketProjectorEventProcessor.PROCESSOR_NAME)
         if (maybeProcessor.isPresent) {
             val processor = maybeProcessor.get()
             while (processor.processAny()) {

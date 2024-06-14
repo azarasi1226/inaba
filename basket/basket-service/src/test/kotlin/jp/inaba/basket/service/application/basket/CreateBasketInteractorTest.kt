@@ -3,6 +3,7 @@ package jp.inaba.basket.service.application.basket
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.mockk.MockKAnnotations
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -36,10 +37,17 @@ class CreateBasketInteractorTest {
 
     @Test
     fun `ユーザーが存在_買い物かごを作成_InternalCommandが配送`() {
+        val basketId = BasketId()
         val userId = UserId()
-        val command = CreateBasketCommand(userId)
+        val command = CreateBasketCommand(
+            id = basketId,
+            userId = userId
+        )
         every {
             canCreateBasketVerifier.checkUserExits(userId)
+        } returns Ok(Unit)
+        every {
+            canCreateBasketVerifier.checkBasketExitsForUserid(userId)
         } returns Ok(Unit)
         every {
             commandGateway.sendAndWait<ActionCommandResult>(any())
@@ -48,7 +56,10 @@ class CreateBasketInteractorTest {
         val result = sut.handle(command)
 
         assert(result.isOk())
-        val expectCommand = InternalCreateBasketCommand(BasketId(userId))
+        val expectCommand = InternalCreateBasketCommand(
+            id = basketId,
+            userId = userId
+        )
         verify(exactly = 1) {
             commandGateway.sendAndWait<Any>(expectCommand)
         }
@@ -56,8 +67,12 @@ class CreateBasketInteractorTest {
 
     @Test
     fun `ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
+        val basketId = BasketId()
         val userId = UserId()
-        val command = CreateBasketCommand(userId)
+        val command = CreateBasketCommand(
+            id = basketId,
+            userId = userId
+        )
         every {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Err(CreateBasketError.USER_NOT_FOUND)
@@ -66,9 +81,32 @@ class CreateBasketInteractorTest {
 
         assert(!result.isOk())
         assert(result.errorCode == CreateBasketError.USER_NOT_FOUND.errorCode)
-        val expectCommand = InternalCreateBasketCommand(BasketId(userId))
         verify(exactly = 0) {
-            commandGateway.sendAndWait<Any>(expectCommand)
+            commandGateway.sendAndWait<Any>(any())
+        }
+    }
+
+    @Test
+    fun `ユーザーが存在しており、すでに買い物かごが登録されている_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
+        val basketId = BasketId()
+        val userId = UserId()
+        val command = CreateBasketCommand(
+            id = basketId,
+            userId = userId
+        )
+        every {
+            canCreateBasketVerifier.checkUserExits(userId)
+        } returns Ok(Unit)
+        every {
+            canCreateBasketVerifier.checkBasketExitsForUserid(userId)
+        } returns Err(CreateBasketError.BASKET_ALREADY_EXISTS)
+
+        val result = sut.handle(command)
+
+        assert(!result.isOk())
+        assert(result.errorCode == CreateBasketError.BASKET_ALREADY_EXISTS.errorCode)
+        verify(exactly = 0) {
+            commandGateway.sendAndWait<Any>(any())
         }
     }
 }

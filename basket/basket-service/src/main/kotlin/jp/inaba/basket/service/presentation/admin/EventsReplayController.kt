@@ -1,8 +1,8 @@
 package jp.inaba.basket.service.presentation.admin
 
-import jp.inaba.basket.service.infrastructure.jpa.basketitem.BasketItemJpaRepository
+import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
-import jp.inaba.basket.service.infrastructure.projector.basketitem.BasketItemProjectorEventProcessor
+import jp.inaba.basket.service.infrastructure.projector.basket.BasketProjectorEventProcessor
 import jp.inaba.basket.service.infrastructure.projector.product.ProductProjectorEventProcessor
 import org.axonframework.config.EventProcessingConfiguration
 import org.axonframework.eventhandling.TrackingEventProcessor
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/admin")
 class EventsReplayController(
     private val productJpaRepository: ProductJpaRepository,
-    private val basketItemJpaRepository: BasketItemJpaRepository,
+    private val basketItemJpaRepository: BasketJpaRepository,
     private val epc: EventProcessingConfiguration,
 ) {
     @PostMapping("/reconstract")
@@ -24,7 +24,7 @@ class EventsReplayController(
         productJpaRepository.deleteAllInBatch()
 
         eventProcessorReset(ProductProjectorEventProcessor.PROCESSOR_NAME)
-        eventProcessorReset(BasketItemProjectorEventProcessor.PROCESSOR_NAME)
+        eventProcessorReset(BasketProjectorEventProcessor.PROCESSOR_NAME)
 
         return ResponseEntity.ok()
             .body("OK")

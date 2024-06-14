@@ -1,9 +1,9 @@
 package jp.inaba.identity.api.domain.user
 
-import org.axonframework.modelling.command.AggregateIdentifier
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 
 interface UserAggregateCommand {
-    @get:AggregateIdentifier
+    @get:TargetAggregateIdentifier
     val id: UserId
 }
 

@@ -38,7 +38,7 @@ class SetBasketItemInteractorTest {
 
     @Test
     fun `商品が存在_商品を買い物かごに入れる_InternalCommandが配送`() {
-        val basketId = BasketId(UserId())
+        val basketId = BasketId()
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
         val command =
@@ -70,7 +70,7 @@ class SetBasketItemInteractorTest {
 
     @Test
     fun `商品が存在しない_商品を買い物かごに入れる_InternalCommandが配送されずエラーが返る`() {
-        val basketId = BasketId(UserId())
+        val basketId = BasketId()
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
         val command =

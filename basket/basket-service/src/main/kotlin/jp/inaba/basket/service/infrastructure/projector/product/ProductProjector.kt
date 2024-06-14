@@ -1,5 +1,6 @@
 package jp.inaba.basket.service.infrastructure.projector.product
 
+import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
 import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
@@ -12,11 +13,12 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
 class ProductProjector(
-    private val repository: ProductJpaRepository,
+    private val productRepository: ProductJpaRepository,
+    private val basketRepository: BasketJpaRepository,
 ) {
     @EventHandler
     fun on(event: ProductCreatedEvent) {
-        val entity =
+        val product =
             ProductJpaEntity(
                 id = event.id,
                 name = event.name,
@@ -24,25 +26,26 @@ class ProductProjector(
                 price = event.price,
             )
 
-        repository.save(entity)
+        productRepository.save(product)
     }
 
     @EventHandler
     fun on(event: ProductUpdatedEvent) {
-        val entity =
-            repository.findById(event.id)
-                .orElseThrow()
+        productRepository.findById(event.id)
+            .ifPresent {
+                val updatedProduct = it.copy(
+                    name = event.name,
+                    imageUrl = event.imageUrl,
+                    price = event.price
+                )
 
-        entity.name = event.name
-        entity.imageUrl = event.imageUrl
-        entity.price = event.price
-
-        repository.save(entity)
+                productRepository.save(updatedProduct)
+            }
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        // TODO("このままだと確定でエラーになる。先にbasketItem消すか、ステータス方式にしなければ")
-        repository.deleteById(event.id)
+        basketRepository.deleteByProductId(event.id)
+        productRepository.deleteById(event.id)
     }
 }
