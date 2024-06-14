@@ -3,7 +3,6 @@ package jp.inaba.basket.service.application.basket
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.mockk.MockKAnnotations
-import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -39,10 +38,11 @@ class CreateBasketInteractorTest {
     fun `ユーザーが存在_買い物かごを作成_InternalCommandが配送`() {
         val basketId = BasketId()
         val userId = UserId()
-        val command = CreateBasketCommand(
-            id = basketId,
-            userId = userId
-        )
+        val command =
+            CreateBasketCommand(
+                id = basketId,
+                userId = userId,
+            )
         every {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Ok(Unit)
@@ -56,10 +56,11 @@ class CreateBasketInteractorTest {
         val result = sut.handle(command)
 
         assert(result.isOk())
-        val expectCommand = InternalCreateBasketCommand(
-            id = basketId,
-            userId = userId
-        )
+        val expectCommand =
+            InternalCreateBasketCommand(
+                id = basketId,
+                userId = userId,
+            )
         verify(exactly = 1) {
             commandGateway.sendAndWait<Any>(expectCommand)
         }
@@ -69,10 +70,11 @@ class CreateBasketInteractorTest {
     fun `ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
         val basketId = BasketId()
         val userId = UserId()
-        val command = CreateBasketCommand(
-            id = basketId,
-            userId = userId
-        )
+        val command =
+            CreateBasketCommand(
+                id = basketId,
+                userId = userId,
+            )
         every {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Err(CreateBasketError.USER_NOT_FOUND)
@@ -90,10 +92,11 @@ class CreateBasketInteractorTest {
     fun `ユーザーが存在しており、すでに買い物かごが登録されている_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
         val basketId = BasketId()
         val userId = UserId()
-        val command = CreateBasketCommand(
-            id = basketId,
-            userId = userId
-        )
+        val command =
+            CreateBasketCommand(
+                id = basketId,
+                userId = userId,
+            )
         every {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Ok(Unit)

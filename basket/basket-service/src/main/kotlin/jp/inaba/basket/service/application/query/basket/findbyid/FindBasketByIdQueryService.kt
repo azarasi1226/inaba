@@ -47,10 +47,11 @@ LIMIT :offset, :pageSize
                 .setParameter("pageSize", query.pagingCondition.pageSize)
 
         @Suppress("UNCHECKED_CAST")
-        val result = convertToQueryResult(
-            results = nativeQuery.resultList as List<FindBasketByIdSqlResult>,
-            pagingCondition = query.pagingCondition,
-        )
+        val result =
+            convertToQueryResult(
+                results = nativeQuery.resultList as List<FindBasketByIdSqlResult>,
+                pagingCondition = query.pagingCondition,
+            )
 
         return Optional.of(result)
     }

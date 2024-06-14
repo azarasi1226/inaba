@@ -9,7 +9,6 @@ import jp.inaba.basket.api.domain.basket.setBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.presentation.shared.ErrorResponse
-import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

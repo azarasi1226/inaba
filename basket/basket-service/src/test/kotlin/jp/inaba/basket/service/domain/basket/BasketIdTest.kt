@@ -2,9 +2,7 @@ package jp.inaba.basket.service.domain.basket
 
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.common.domain.shared.DomainException
-import jp.inaba.identity.api.domain.user.UserId
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 
 class BasketIdTest {

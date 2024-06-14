@@ -8,7 +8,6 @@ import jp.inaba.basket.api.domain.basket.findBasketById
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.common.domain.shared.PagingCondition
 import jp.inaba.common.presentation.shared.ErrorResponse
-import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

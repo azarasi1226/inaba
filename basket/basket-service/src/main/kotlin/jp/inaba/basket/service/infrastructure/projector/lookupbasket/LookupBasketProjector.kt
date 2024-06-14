@@ -10,14 +10,15 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(LookupBasketProjectorEventProcessor.PROCESSOR_NAME)
 class LookupBasketProjector(
-    private val lookupBasketRepository: LookupBasketJpaRepository
+    private val lookupBasketRepository: LookupBasketJpaRepository,
 ) {
     @EventHandler
     fun on(event: BasketCreatedEvent) {
-        val lookupBasket = LookupBasketJpaEntity(
-            basketId = event.id,
-            userId = event.userId
-        )
+        val lookupBasket =
+            LookupBasketJpaEntity(
+                basketId = event.id,
+                userId = event.userId,
+            )
 
         lookupBasketRepository.save(lookupBasket)
     }

@@ -33,11 +33,12 @@ class ProductProjector(
     fun on(event: ProductUpdatedEvent) {
         productRepository.findById(event.id)
             .ifPresent {
-                val updatedProduct = it.copy(
-                    name = event.name,
-                    imageUrl = event.imageUrl,
-                    price = event.price
-                )
+                val updatedProduct =
+                    it.copy(
+                        name = event.name,
+                        imageUrl = event.imageUrl,
+                        price = event.price,
+                    )
 
                 productRepository.save(updatedProduct)
             }

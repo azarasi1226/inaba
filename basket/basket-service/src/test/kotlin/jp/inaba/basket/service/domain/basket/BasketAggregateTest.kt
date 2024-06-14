@@ -43,7 +43,7 @@ class BasketAggregateTest {
             .expectEvents(
                 BasketCreatedEvent(
                     id = basketId.value,
-                    userId = userId.value
+                    userId = userId.value,
                 ),
             )
     }

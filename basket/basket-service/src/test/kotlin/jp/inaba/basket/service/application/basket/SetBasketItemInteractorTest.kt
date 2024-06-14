@@ -16,7 +16,6 @@ import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
-import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
