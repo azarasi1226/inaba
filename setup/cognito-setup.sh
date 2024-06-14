@@ -24,7 +24,9 @@ create_user_pool_response=$(aws cognito-idp create-user-pool \
   --user-attribute-update-settings AttributesRequireVerificationBeforeUpdate=email \
   --schema \
     Name=email,Required=true \
-    Name=user_id,AttributeDataType=String,Mutable=true)
+    Name=user_id,AttributeDataType=String,Mutable=true \
+    Name=basket_id,AttributeDataType=String,Mutable=true
+)
 
 user_pool_id=$(echo ${create_user_pool_response} | jq -r '.UserPool.Id')
 echo "CognitoUserPoolId:[${user_pool_id}]を作成しました"
