@@ -21,11 +21,11 @@ class FindBasketByIdQueryService(
         private val QUERY =
 """
 SELECT
-    p.id AS ${FindBasketByIdSqlResult::itemId.name},
-    p.name AS ${FindBasketByIdSqlResult::itemName.name},
-    p.price AS ${FindBasketByIdSqlResult::itemPrice.name},
-    p.image_url AS ${FindBasketByIdSqlResult::itemPictureUrl.name},
-    b.item_quantity AS ${FindBasketByIdSqlResult::itemQuantity.name},
+    p.id AS ${FindBasketByIdSqlResult::productId.name},
+    p.name AS ${FindBasketByIdSqlResult::productName.name},
+    p.price AS ${FindBasketByIdSqlResult::productPrice.name},
+    p.image_url AS ${FindBasketByIdSqlResult::productPictureUrl.name},
+    b.item_quantity AS ${FindBasketByIdSqlResult::productQuantity.name},
     COUNT(*) OVER() AS ${FindBasketByIdSqlResult::totalCount.name}
 FROM basket b
 INNER JOIN product p
@@ -73,11 +73,11 @@ LIMIT :offset, :pageSize
                     items =
                         results.map {
                             FindBasketByIdResult.BasketItem(
-                                productId = it.itemId,
-                                productName = it.itemName,
-                                productPrice = it.itemPrice,
-                                productImageUrl = it.itemPictureUrl,
-                                productQuantity = it.itemQuantity,
+                                productId = it.productId,
+                                productName = it.productName,
+                                productPrice = it.productPrice,
+                                productImageUrl = it.productPictureUrl,
+                                productQuantity = it.productQuantity,
                             )
                         },
                     paging =
