@@ -13,6 +13,6 @@ class LookupBasketProjectorEventProcessor {
 
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
-        epc.registerSubscribingEventProcessor(BasketProjectorEventProcessor.PROCESSOR_NAME)
+        epc.registerSubscribingEventProcessor(PROCESSOR_NAME)
     }
 }
