@@ -4,13 +4,17 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
+import jakarta.persistence.Index
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 
 @Entity
-@Table(name = "basket")
+@Table(
+    name = "basket",
+    indexes = [Index(columnList = "basket_id")],
+)
 data class BasketJpaEntity(
     @EmbeddedId
     val basketItemId: BasketItemId = BasketItemId(),
