@@ -29,7 +29,6 @@ dependencies {
     testImplementation("org.axonframework:axon-test")
 
     // other
-    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.retry:spring-retry:2.0.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")

@@ -28,7 +28,6 @@ dependencies {
     testImplementation("org.axonframework:axon-test")
 
     // other
-    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
     implementation("software.amazon.awssdk:sso:2.21.20")
     implementation("software.amazon.awssdk:cognitoidentityprovider:2.21.20")
 }

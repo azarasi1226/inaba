@@ -25,5 +25,4 @@ dependencies {
     testImplementation("org.axonframework:axon-test")
 
     // other
-    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 }
