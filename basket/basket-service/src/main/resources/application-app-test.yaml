@@ -2,3 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+logging:
+  level:
+    jp.inaba.basket: INFO
