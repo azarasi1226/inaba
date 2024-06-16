@@ -46,6 +46,7 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: InternalSetBasketItemCommand): ActionCommandResult {
+        //TODO(この削除してる？の実装実はいらないんじゃないか疑惑が浮上。　というのはAggregateLifecycle.deleteってのをやると受け付けなくなる？)
         // 削除されてる?
         if (isDeleted) {
             return ActionCommandResult.error(SetBasketItemError.BASKET_DELETED.errorCode)
