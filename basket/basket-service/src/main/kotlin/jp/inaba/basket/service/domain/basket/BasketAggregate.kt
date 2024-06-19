@@ -27,7 +27,6 @@ class BasketAggregate() {
     @AggregateIdentifier
     private lateinit var id: BasketId
     private var items = mutableMapOf<ProductId, BasketItemQuantity>()
-    private var isDeleted = false
 
     companion object {
         private const val MAX_ITEM_KIND_COUNT = 50
@@ -46,12 +45,6 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: InternalSetBasketItemCommand): ActionCommandResult {
-        //TODO(この削除してる？の実装実はいらないんじゃないか疑惑が浮上。　というのはAggregateLifecycle.deleteってのをやると受け付けなくなる？)
-        // 削除されてる?
-        if (isDeleted) {
-            return ActionCommandResult.error(SetBasketItemError.BASKET_DELETED.errorCode)
-        }
-
         // 買い物かごの中のアイテムが最大種類に達している？
         if (items.size >= MAX_ITEM_KIND_COUNT) {
             return ActionCommandResult.error(SetBasketItemError.PRODUCT_MAX_KIND_OVER.errorCode)
@@ -71,11 +64,6 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: DeleteBasketItemCommand): ActionCommandResult {
-        // 削除されてる?
-        if (isDeleted) {
-            return ActionCommandResult.error(DeleteBasketItemError.BASKET_DELETED.errorCode)
-        }
-
         val event =
             BasketItemDeletedEvent(
                 id = command.id.value,
@@ -89,11 +77,6 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: ClearBasketCommand): ActionCommandResult {
-        // 削除されてる?
-        if (isDeleted) {
-            return ActionCommandResult.error(ClearBasketError.BASKET_DELETED.errorCode)
-        }
-
         val event = BasketClearedEvent(command.id.value)
 
         AggregateLifecycle.apply(event)
@@ -103,11 +86,6 @@ class BasketAggregate() {
 
     @CommandHandler
     fun handle(command: DeleteBasketCommand): ActionCommandResult {
-        // 削除されてる?
-        if (isDeleted) {
-            return ActionCommandResult.error(DeleteBasketError.BASKET_DELETED.errorCode)
-        }
-
         val event = BasketClearedEvent(command.id.value)
 
         AggregateLifecycle.apply(event)
@@ -142,6 +120,6 @@ class BasketAggregate() {
 
     @EventSourcingHandler
     fun on(event: BasketDeletedEvent) {
-        isDeleted = true
+        AggregateLifecycle.markDeleted()
     }
 }
