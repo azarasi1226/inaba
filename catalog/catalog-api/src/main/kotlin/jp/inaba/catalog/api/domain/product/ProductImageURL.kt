@@ -10,7 +10,7 @@ data class ProductImageURL(val value: String?) {
             try {
                 URL(value).toURI()
             } catch (ex: Exception) {
-                throw DomainException("ProductImageURLはURLの形式である必要があります。現在の値[$value]")
+                throw DomainException("ProductImageURLはURLの形式である必要があります。value:[$value]")
             }
         }
     }

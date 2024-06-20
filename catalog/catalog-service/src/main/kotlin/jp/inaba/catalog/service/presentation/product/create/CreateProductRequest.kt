@@ -1,6 +1,6 @@
-package jp.inaba.catalog.service.presentation.model.product
+package jp.inaba.catalog.service.presentation.product.create
 
-data class ProductCreateRequest(
+data class CreateProductRequest(
     val name: String,
     val description: String,
     val imageUrl: String,

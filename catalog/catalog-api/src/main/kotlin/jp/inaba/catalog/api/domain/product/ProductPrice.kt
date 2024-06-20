@@ -10,7 +10,7 @@ data class ProductPrice(val value: Int) {
 
     init {
         if (value !in MIN..MAX) {
-            throw DomainException("商品価格は[$MIN~$MAX]の間です。現在の価格[$value]")
+            throw DomainException("商品価格は[$MIN~$MAX]の間です。value:[$value]")
         }
     }
 }

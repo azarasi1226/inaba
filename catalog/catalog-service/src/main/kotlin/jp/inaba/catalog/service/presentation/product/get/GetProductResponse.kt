@@ -1,6 +1,6 @@
-package jp.inaba.catalog.service.presentation.model.product
+package jp.inaba.catalog.service.presentation.product.get
 
-data class ProductFindByIdResponse(
+data class GetProductResponse(
     val name: String,
     val description: String,
     val imageUrl: String?,

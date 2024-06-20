@@ -8,7 +8,7 @@ import jp.inaba.catalog.api.domain.product.ProductDeletedEvent
 import jp.inaba.catalog.api.domain.product.ProductDescription
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.catalog.api.domain.product.ProductImageURL
-import jp.inaba.catalog.api.domain.product.ProductInboundEvent
+import jp.inaba.catalog.api.domain.product.ProductInboundedEvent
 import jp.inaba.catalog.api.domain.product.ProductName
 import jp.inaba.catalog.api.domain.product.ProductPrice
 import jp.inaba.catalog.api.domain.product.ProductQuantity
@@ -31,7 +31,6 @@ class ProductAggregate() {
     private var imageUrl: ProductImageURL? = null
     private lateinit var price: ProductPrice
     private lateinit var quantity: ProductQuantity
-    private var isDeleted = false
 
     @CommandHandler
     constructor(command: CreateProductCommand) : this() {
@@ -76,7 +75,7 @@ class ProductAggregate() {
     @CommandHandler
     fun handle(command: InboundProductCommand) {
         val event =
-            ProductInboundEvent(
+            ProductInboundedEvent(
                 id = command.id.value,
                 quantity = command.quantity.value,
             )
@@ -115,12 +114,12 @@ class ProductAggregate() {
     }
 
     @EventSourcingHandler
-    fun on(event: ProductInboundEvent) {
+    fun on(event: ProductInboundedEvent) {
         quantity = ProductQuantity(event.quantity)
     }
 
     @EventSourcingHandler
     fun on(event: ProductDeletedEvent) {
-        isDeleted = true
+        AggregateLifecycle.markDeleted()
     }
 }

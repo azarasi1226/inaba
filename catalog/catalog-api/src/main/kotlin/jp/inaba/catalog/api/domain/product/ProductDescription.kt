@@ -10,7 +10,7 @@ data class ProductDescription(val value: String) {
 
     init {
         if (value.length !in MIN_LENGTH..MAX_LENGTH) {
-            throw DomainException("商品説明の長さは[${MIN_LENGTH} ~ ${MAX_LENGTH}]間です。現在の文字数[${value.length}]")
+            throw DomainException("商品説明の長さは[${MIN_LENGTH} ~ ${MAX_LENGTH}]間です。value.length:[${value.length}]")
         }
     }
 }

@@ -26,8 +26,7 @@ data class ProductShippedEvent(
     val quantity: Int,
 ) : ProductEvent
 
-// TODO(過去形)
-data class ProductInboundEvent(
+data class ProductInboundedEvent(
     override val id: String,
     val quantity: Int,
 ) : ProductEvent
