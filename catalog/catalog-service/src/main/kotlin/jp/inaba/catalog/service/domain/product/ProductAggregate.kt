@@ -67,7 +67,7 @@ class ProductAggregate() {
         val event =
             ProductShippedEvent(
                 id = command.id.value,
-                quantity = command.quantity.value
+                quantity = command.quantity.value,
             )
 
         AggregateLifecycle.apply(event)
@@ -78,7 +78,7 @@ class ProductAggregate() {
         val event =
             ProductInboundEvent(
                 id = command.id.value,
-                quantity = command.quantity.value
+                quantity = command.quantity.value,
             )
 
         AggregateLifecycle.apply(event)
@@ -90,7 +90,6 @@ class ProductAggregate() {
 
         AggregateLifecycle.apply(event)
     }
-
 
     @EventSourcingHandler
     fun on(event: ProductCreatedEvent) {

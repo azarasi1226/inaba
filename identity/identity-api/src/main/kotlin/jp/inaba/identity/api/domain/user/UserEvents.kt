@@ -5,9 +5,9 @@ interface UserEvent {
 }
 
 data class UserCreatedEvent(
-    override val id: String
+    override val id: String,
 ) : UserEvent
 
 data class UserDeletedEvent(
-    override val id: String
+    override val id: String,
 ) : UserEvent

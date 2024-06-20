@@ -113,10 +113,11 @@ class UserSetupSaga {
     )
     fun on(event: AuthEvents.IdTokenAttributeForUserIdUpdated) {
         val basketId = BasketId()
-        val createBasketCommand = CreateBasketCommand(
-            id = basketId,
-            userId = sagaState.userId!!
-        )
+        val createBasketCommand =
+            CreateBasketCommand(
+                id = basketId,
+                userId = sagaState.userId!!,
+            )
 
         createBasketStep.handle(
             command = createBasketCommand,

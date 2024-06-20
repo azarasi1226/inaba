@@ -34,12 +34,13 @@ class ProductProjector(
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
-            val updatedEntity = entity.copy(
-                name = event.name,
-                description = event.description,
-                imageUrl = event.imageUrl,
-                price = event.price,
-            )
+            val updatedEntity =
+                entity.copy(
+                    name = event.name,
+                    description = event.description,
+                    imageUrl = event.imageUrl,
+                    price = event.price,
+                )
 
             productJpaRepository.save(updatedEntity)
         }

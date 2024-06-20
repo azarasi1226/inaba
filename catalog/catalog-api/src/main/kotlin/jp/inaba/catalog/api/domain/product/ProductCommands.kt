@@ -22,16 +22,16 @@ data class UpdateProductCommand(
     val description: ProductDescription,
     val imageUrl: ProductImageURL?,
     val price: ProductPrice,
-) :ProductAggregateCommand
+) : ProductAggregateCommand
 
 data class ShipmentProductCommand(
     override val id: ProductId,
-    val quantity: ProductQuantity
+    val quantity: ProductQuantity,
 ) : ProductAggregateCommand
 
 data class InboundProductCommand(
     override val id: ProductId,
-    val quantity: ProductQuantity
+    val quantity: ProductQuantity,
 ) : ProductAggregateCommand
 
 data class DeleteProductCommand(

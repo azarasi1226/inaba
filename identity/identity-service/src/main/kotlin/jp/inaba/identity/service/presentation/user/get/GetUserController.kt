@@ -33,9 +33,11 @@ class GetUserController(
                 success = {
                     ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(GetUserResponse(
-                            name = it.name,
-                        ))
+                        .body(
+                            GetUserResponse(
+                                name = it.name,
+                            ),
+                        )
                 },
                 failure = {
                     when (it) {
@@ -44,7 +46,7 @@ class GetUserController(
                                 .status(HttpStatus.NOT_FOUND)
                                 .body(ErrorResponse(it))
                     }
-                }
+                },
             )
     }
 }

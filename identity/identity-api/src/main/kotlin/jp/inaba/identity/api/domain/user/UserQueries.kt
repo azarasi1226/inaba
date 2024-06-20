@@ -1,7 +1,7 @@
- package jp.inaba.identity.api.domain.user
+package jp.inaba.identity.api.domain.user
 
 data class FindUserByIdQuery(
-    val userId: UserId
+    val userId: UserId,
 )
 
 data class FindUserByIdResult(
