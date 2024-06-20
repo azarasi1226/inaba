@@ -21,27 +21,6 @@ enum class SetBasketItemError(
     PRODUCT_MAX_KIND_OVER("3", "商品種類の上限数に到達しました"),
 }
 
-enum class DeleteBasketItemError(
-    override val errorCode: String,
-    override val errorMessage: String,
-) : DomainError {
-    BASKET_DELETED("1", "削除済みの買い物かごです"),
-}
-
-enum class ClearBasketError(
-    override val errorCode: String,
-    override val errorMessage: String,
-) : DomainError {
-    BASKET_DELETED("2", "削除済みの買い物かごです"),
-}
-
-enum class DeleteBasketError(
-    override val errorCode: String,
-    override val errorMessage: String,
-) : DomainError {
-    BASKET_DELETED("3", "削除済みの買い物かごです"),
-}
-
 enum class FindBasketByIdError(
     override val errorCode: String,
     override val errorMessage: String,

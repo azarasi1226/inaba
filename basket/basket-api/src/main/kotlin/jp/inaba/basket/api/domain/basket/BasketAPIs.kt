@@ -32,28 +32,16 @@ fun CommandGateway.setBasketItem(command: SetBasketItemCommand): Result<Unit, Se
     }
 }
 
-fun CommandGateway.deleteBasketItem(command: DeleteBasketItemCommand): Result<Unit, DeleteBasketItemError> {
-    val result = this.sendAndWait<ActionCommandResult>(command)
-
-    return if (result.isOk()) {
-        Ok(Unit)
-    } else {
-        val error = DeleteBasketItemError.entries.find { it.errorCode == result.errorCode }
-
-        Err(error!!)
-    }
+fun CommandGateway.deleteBasketItem(command: DeleteBasketItemCommand) {
+    this.sendAndWait<Any>(command)
 }
 
-fun CommandGateway.clearBasket(command: ClearBasketCommand): Result<Unit, ClearBasketError> {
-    val result = this.sendAndWait<ActionCommandResult>(command)
+fun CommandGateway.clearBasket(command: ClearBasketCommand) {
+    this.sendAndWait<Any>(command)
+}
 
-    return if (result.isOk()) {
-        Ok(Unit)
-    } else {
-        val error = ClearBasketError.entries.find { it.errorCode == result.errorCode }
-
-        Err(error!!)
-    }
+fun CommandGateway.deleteBasket(command: DeleteBasketCommand) {
+    this.sendAndWait<Any>(command)
 }
 
 fun QueryGateway.findBasketById(query: FindBasketByIdQuery): Result<FindBasketByIdResult, FindBasketByIdError> {
