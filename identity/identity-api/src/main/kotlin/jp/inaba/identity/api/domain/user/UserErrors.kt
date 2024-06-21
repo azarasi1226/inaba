@@ -9,5 +9,3 @@ enum class FindUserByIdError(
 ) : DomainError {
     USER_NOT_FOUND("00000", "ユーザーが存在しませんでした"),
 }
-
-enum class FindUserError()

@@ -1,5 +1,6 @@
 package jp.inaba.order.api.domain.order
 
+import jp.inaba.identity.api.domain.user.UserId
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 
 interface OrderCommand {
@@ -9,8 +10,7 @@ interface OrderCommand {
 
 data class IssueOrderCommand(
     override val id: OrderId,
-    val userId: String,
-    val productId: String,
+    val userId: UserId,
 ) : OrderCommand
 
 data class CompleteOrderCommand(override val id: OrderId) : OrderCommand
