@@ -15,7 +15,6 @@ import org.axonframework.spring.stereotype.Aggregate
 class UserAggregate() {
     @AggregateIdentifier
     private lateinit var id: UserId
-    private var isDeleted: Boolean = false
 
     @CommandHandler
     constructor(command: CreateUserCommand) : this() {
@@ -44,6 +43,6 @@ class UserAggregate() {
 
     @EventSourcingHandler
     fun on(event: UserDeletedEvent) {
-        isDeleted = true
+        AggregateLifecycle.markDeleted()
     }
 }
