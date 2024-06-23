@@ -1,12 +1,19 @@
 # inaba
-CQRS/ESベースのマイクロサービスで作るECSite因幡のウサギ
+CQRS/ESなマイクロサービスで作るECサイト
 
-## Services
-* [AxonServer Console](http://localhost:8024/)
-* [OrderService Swagger](http://localhost:8081/swagger-ui/index.html)
-* [CatalogService Swagger](http://localhost:8082/swagger-ui/index.html)
-* [BasketService Swagger](http://localhost:8083/swagger-ui/index.html)
-* [IdentityService Swagger](http://localhost:8084/swagger-ui/index.html)
+## 参照
+* [ドメインストーミング](https://miro.com/app/board/uXjVM1s4A4A=/)
+* [Terraform](https://github.com/azarasi1226/inaba-infrastructure)
+
+## システム構成
+### サービス構成
+![](./document/1_サービス構成.drawio.svg)
+
+### サービス間トラフィック
+![](./document/2_サービス間トラフィック.drawio.svg)
+
+### インフラ構成
+![](./document/3_インフラ構成.drawio.svg)
 
 <br>
 
@@ -24,18 +31,16 @@ docker compose up -d
 ```bash
 ./cognito-setup.sh
 ```
-以下のようなものが出力されれば成功です。
-* CognitoUserPoolId
-* CognitoUserPoolClientId
-
-上記二つのIDをどこかにコピーしてください。  
-(後でサービス起動するときの環境変数にセットするため)
 ```
 CognitoUserPoolを作成します...
 CognitoUserPoolId:[local_2nKkO2sg]を作成しました
 CognitoUserPoolClientを作成します...
 CognitoUserPoolClientId:[d14m44wivtx2lvonzzz7n8f4t]を作成しました
 ```
+下記二つのIDをどこかにコピーしてください。
+* CognitoUserPoolId *(例 : local_2nKk02sg)*
+* CognitoUserPoolClientId *(例 : d14m44wivtx2lvonzzz7n8f4t)*
+
 
 <br>
 
@@ -94,3 +99,10 @@ SPRING_PROFILES_ACTIVE=local;
 AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
 AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 ```
+
+## Services
+* [AxonServer Console](http://localhost:8024/)
+* [OrderService Swagger](http://localhost:8081/swagger-ui/index.html)
+* [CatalogService Swagger](http://localhost:8082/swagger-ui/index.html)
+* [BasketService Swagger](http://localhost:8083/swagger-ui/index.html)
+* [IdentityService Swagger](http://localhost:8084/swagger-ui/index.html)
