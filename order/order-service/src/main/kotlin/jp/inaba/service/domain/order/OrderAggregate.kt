@@ -1,7 +1,7 @@
 package jp.inaba.service.domain.order
 
 import jp.inaba.order.api.domain.order.CompleteOrderCommand
-import jp.inaba.order.api.domain.order.FaileOrderCommand
+import jp.inaba.order.api.domain.order.FailOrderCommand
 import jp.inaba.order.api.domain.order.IssueOrderCommand
 import jp.inaba.order.api.domain.order.OrderCompletedEvent
 import jp.inaba.order.api.domain.order.OrderFailedEvent
@@ -23,36 +23,46 @@ class OrderAggregate() {
     constructor(command: IssueOrderCommand) : this() {
         val event =
             OrderIssuedEvent(
-                id = command.id,
-                userId = command.userId,
+                id = command.id.value,
+                userId = command.userId.value,
+                basketItems = command.basketItems.map{
+                    OrderIssuedEvent.BasketItem(
+                        productId = it.productId.value,
+                        productQuantity = it.productQuantity.value
+                    )
+                }
             )
+
+        AggregateLifecycle.apply(event)
+    }
+
+    @CommandHandler
+    fun handle(command: CompleteOrderCommand) {
+        val event = OrderCompletedEvent(command.id.value)
+
+        AggregateLifecycle.apply(event)
+    }
+
+    @CommandHandler
+    fun handle(command: FailOrderCommand) {
+        val event = OrderFailedEvent(command.id.value)
 
         AggregateLifecycle.apply(event)
     }
 
     @EventSourcingHandler
     fun on(event: OrderIssuedEvent) {
-        id = event.id
+        val orderId = OrderId(event.id)
+
+        id = orderId
         status = OrderStatus.Issued
     }
 
-    @CommandHandler
-    fun handle(command: CompleteOrderCommand) {
-        val event = OrderCompletedEvent(command.id)
 
-        AggregateLifecycle.apply(event)
-    }
 
     @EventSourcingHandler
     fun on(event: OrderCompletedEvent) {
         status = OrderStatus.Completed
-    }
-
-    @CommandHandler
-    fun handle(command: FaileOrderCommand) {
-        val event = OrderFailedEvent(command.id)
-
-        AggregateLifecycle.apply(event)
     }
 
     @EventSourcingHandler

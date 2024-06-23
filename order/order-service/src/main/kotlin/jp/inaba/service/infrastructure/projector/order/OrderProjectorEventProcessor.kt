@@ -1,4 +1,4 @@
-package jp.inaba.service.application.query.order
+package jp.inaba.service.infrastructure.projector.order
 
 import org.axonframework.common.jpa.EntityManagerProvider
 import org.axonframework.common.transaction.TransactionManager
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class OrderProjectorEventProcessorConfiguration {
+class OrderProjectorEventProcessor {
     @Autowired
     fun configureEventProcessing(configurer: EventProcessingConfigurer) {
         configurer.registerDeadLetterQueue(OrderProjector.PROCESSOR_NAME) {

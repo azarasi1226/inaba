@@ -1,9 +1,12 @@
 package jp.inaba.service.presentation.controller.order
 
+import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.api.domain.product.ProductQuantity
+import jp.inaba.identity.api.domain.user.UserId
 import jp.inaba.order.api.domain.order.IssueOrderCommand
+import jp.inaba.order.api.domain.order.OrderFindByUserIdQuery
+import jp.inaba.order.api.domain.order.OrderFindByUserIdResult
 import jp.inaba.order.api.domain.order.OrderId
-import jp.inaba.service.application.query.order.OrderFindByUserIdQuery
-import jp.inaba.service.application.query.order.OrderFindByUserIdResult
 import jp.inaba.service.presentation.model.order.OrderFindByUserIdResponse
 import jp.inaba.service.presentation.model.order.OrderIssueRequest
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -31,8 +34,13 @@ class OrderController(
         val command =
             IssueOrderCommand(
                 id = orderId,
-                userId = request.userId,
-                productId = request.productId,
+                userId = UserId(request.userId),
+                basketItems = request.basketItems.map {
+                    IssueOrderCommand.BasketItem(
+                        productId = ProductId(it.productId),
+                        productQuantity = ProductQuantity(it.productQuantity)
+                    )
+                }
             )
 
         commandGateway.sendAndWait<Any>(command)

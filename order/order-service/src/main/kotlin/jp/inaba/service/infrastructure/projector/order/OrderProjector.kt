@@ -1,4 +1,4 @@
-package jp.inaba.service.application.query.order
+package jp.inaba.service.infrastructure.projector.order
 
 import jp.inaba.order.api.domain.order.OrderCompletedEvent
 import jp.inaba.order.api.domain.order.OrderIssuedEvent
@@ -22,7 +22,7 @@ class OrderProjector(
     fun on(event: OrderIssuedEvent) {
         val entity =
             OrderEntity(
-                id = event.id.value,
+                id = event.id,
                 status = OrderStatus.Issued,
                 userId = event.userId,
             )
@@ -32,7 +32,7 @@ class OrderProjector(
 
     @EventHandler
     fun on(event: OrderCompletedEvent) {
-        val entity = orderJpaRepository.findById(event.id.value).orElseThrow()
+        val entity = orderJpaRepository.findById(event.id).orElseThrow()
 
         entity.status = OrderStatus.Completed
 

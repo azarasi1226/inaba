@@ -3,7 +3,6 @@ package jp.inaba.basket.api.domain.basket
 import jp.inaba.common.domain.shared.DomainError
 
 // TODO(もっとちゃんerrorCode考えろ)
-// TODO(削除されてたらエラーいらなく根...?)
 enum class CreateBasketError(
     override val errorCode: String,
     override val errorMessage: String,

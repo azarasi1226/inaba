@@ -1,11 +1,13 @@
-package jp.inaba.service.application.query.order
+package jp.inaba.service.application.query.order.findbyid
 
+import jp.inaba.order.api.domain.order.OrderFindByUserIdQuery
+import jp.inaba.order.api.domain.order.OrderFindByUserIdResult
 import jp.inaba.service.infrastructure.jpa.order.OrderJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Service
 
 @Service
-class OrderQueryService(
+class FindOrderByIdQueryService(
     private val orderRepository: OrderJpaRepository,
 ) {
     @QueryHandler
