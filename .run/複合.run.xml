@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="複合" type="CompoundRunConfigurationType">
+    <toRun name="Basket" type="JetRunConfigurationType" />
+    <toRun name="Catalog" type="JetRunConfigurationType" />
+    <toRun name="DataKey" type="JetRunConfigurationType" />
+    <toRun name="Identity" type="JetRunConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
