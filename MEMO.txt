@@ -4,3 +4,4 @@
 * 冪等性の実装が必要
 > これ全部外部コマンドとInteractorの組み合わせで実現できるよな
 
+* Docker4-composeのlatest運用を辞める。

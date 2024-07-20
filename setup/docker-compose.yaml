@@ -22,3 +22,9 @@ services:
     container_name: cognito
     ports:
       - 9229:9229
+
+  kms:
+    image: nsmithuk/local-kms:latest
+    container_name: kms
+    ports:
+      - 8080:8080

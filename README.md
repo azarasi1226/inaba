@@ -13,7 +13,7 @@ CQRS/ESなマイクロサービスで作るECサイト
 ![](./document/2_サービス間トラフィック.drawio.svg)
 
 ### インフラ構成
-![](./document/3_インフラ構成.drawio.svg)
+![](./document/3_)
 
 <br>
 
@@ -41,6 +41,10 @@ CognitoUserPoolClientId:[d14m44wivtx2lvonzzz7n8f4t]を作成しました
 * CognitoUserPoolId *(例 : local_2nKk02sg)*
 * CognitoUserPoolClientId *(例 : d14m44wivtx2lvonzzz7n8f4t)*
 
+<br>
+
+### 3. KMSの初期セットアップ
+TODO()
 
 <br>
 
@@ -98,6 +102,18 @@ SPRING_DATASOURCE_USERNAME=root;
 SPRING_PROFILES_ACTIVE=local;
 AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
 AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
+```
+
+### DataKeyService環境変数
+```
+SERVER_PORT=8085;
+SPRING_DATASOURCE_DATABASE=datakey;
+SPRING_DATASOURCE_HOST=localhost;
+SPRING_DATASOURCE_PASSWORD=passw0rd;
+SPRING_DATASOURCE_PORT=3306;
+SPRING_DATASOURCE_USERNAME=root;
+SPRING_PROFILES_ACTIVE=local;
+AWS_KMS_MASTER-KEY_ID={さっきコピーしたやつ}
 ```
 
 ## Services

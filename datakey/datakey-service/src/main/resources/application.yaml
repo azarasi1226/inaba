@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local:
+        - app-common
+        - app-local
+        - datastore-mysql
+      test:
+        - app-common
+        - app-test
+        - datastore-mysql
+      prod:
+        - app-common
+        - app-prod
+        - datastore-mysql
