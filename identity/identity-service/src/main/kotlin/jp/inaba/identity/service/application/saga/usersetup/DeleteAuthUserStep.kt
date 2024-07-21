@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
+import jp.inaba.identity.api.domain.external.auth.DeleteAuthUserCommand
 import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
@@ -11,7 +11,7 @@ class DeleteAuthUserStep(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(
-        command: AuthCommands.DeleteAuthUser,
+        command: DeleteAuthUserCommand,
         onFail: () -> Unit,
     ) {
         try {

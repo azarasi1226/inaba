@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.command.external.auth.deleteauthuser
 
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.identity.api.domain.external.auth.AuthUserDeletedEvent
+import jp.inaba.identity.api.domain.external.auth.DeleteAuthUserCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.stereotype.Component
@@ -12,10 +12,10 @@ class DeleteAuthUserInteractor(
     private val eventGateway: EventGateway,
 ) {
     @CommandHandler
-    fun handle(command: AuthCommands.DeleteAuthUser) {
-        cognitoDeleteAuthUserService.handle(command)
+    fun handle(command: DeleteAuthUserCommand) {
+        cognitoDeleteAuthUserService.handle(command.emailAddress)
 
-        val event = AuthEvents.AuthUserDeleted(command.emailAddress)
+        val event = AuthUserDeletedEvent(command.emailAddress)
 
         eventGateway.publish(event)
     }

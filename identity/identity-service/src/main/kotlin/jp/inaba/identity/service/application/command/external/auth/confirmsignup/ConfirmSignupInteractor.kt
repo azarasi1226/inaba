@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.command.external.auth.confirmsignup
 
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.identity.api.domain.external.auth.ConfirmSignupCommand
+import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.stereotype.Component
@@ -12,11 +12,14 @@ class ConfirmSignupInteractor(
     private val eventGateway: EventGateway,
 ) {
     @CommandHandler
-    fun handle(command: AuthCommands.ConfirmSignup) {
-        cognitoConfirmSignupService.handle(command)
+    fun handle(command: ConfirmSignupCommand) {
+        cognitoConfirmSignupService.handle(
+            emailAddress = command.emailAddress,
+            confirmCode = command.confirmCode
+        )
 
         val event =
-            AuthEvents.SignupConfirmed(
+            SignupConfirmedEvent(
                 emailAddress = command.emailAddress,
                 confirmCode = command.confirmCode,
             )

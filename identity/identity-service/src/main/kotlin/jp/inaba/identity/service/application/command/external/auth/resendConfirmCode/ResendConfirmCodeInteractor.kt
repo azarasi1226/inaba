@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.command.external.auth.resendConfirmCode
 
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.identity.api.domain.external.auth.ConfirmCodeResentEvent
+import jp.inaba.identity.api.domain.external.auth.ResendConfirmCodeCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.stereotype.Component
@@ -12,13 +12,10 @@ class ResendConfirmCodeInteractor(
     private val eventGateway: EventGateway,
 ) {
     @CommandHandler
-    fun handle(command: AuthCommands.ResendConfirmCode) {
-        cognitoResendConfirmCodeService.handle(command)
+    fun handle(command: ResendConfirmCodeCommand) {
+        cognitoResendConfirmCodeService.handle(command.emailAddress)
 
-        val event =
-            AuthEvents.ConfirmCodeResent(
-                emailAddress = command.emailAddress,
-            )
+        val event = ConfirmCodeResentEvent(command.emailAddress)
 
         eventGateway.publish(event)
     }

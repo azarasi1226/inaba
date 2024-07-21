@@ -14,5 +14,5 @@ fi
 # マスターキー作成
 aws kms create-key \
   --endpoint http://localhost:8080 \
-  --description "DataKeyService" \
+  --description "DataKeyServiceMasterKey" \
   --key-usage ENCRYPT_DECRYPT

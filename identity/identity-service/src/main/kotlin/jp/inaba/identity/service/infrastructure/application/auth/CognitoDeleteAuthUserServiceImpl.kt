@@ -1,6 +1,5 @@
 package jp.inaba.identity.service.infrastructure.application.auth
 
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
 import jp.inaba.identity.service.application.command.external.auth.deleteauthuser.CognitoDeleteAuthUserService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -13,11 +12,11 @@ class CognitoDeleteAuthUserServiceImpl(
     private val userPoolId: String,
     private val cognitoIdentityProviderClient: CognitoIdentityProviderClient,
 ) : CognitoDeleteAuthUserService {
-    override fun handle(command: AuthCommands.DeleteAuthUser) {
+    override fun handle(emailAddress: String) {
         val request =
             AdminDeleteUserRequest.builder()
                 .userPoolId(userPoolId)
-                .username(command.emailAddress)
+                .username(emailAddress)
                 .build()
 
         cognitoIdentityProviderClient.adminDeleteUser(request)

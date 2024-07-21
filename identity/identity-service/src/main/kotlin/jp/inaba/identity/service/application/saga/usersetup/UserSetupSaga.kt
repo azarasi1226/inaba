@@ -4,10 +4,17 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
+import jp.inaba.basket.api.domain.basket.BasketDeletedEvent
 import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.CreateBasketCommand
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.basket.api.domain.basket.DeleteBasketCommand
+import jp.inaba.identity.api.domain.external.auth.AuthUserDeletedEvent
+import jp.inaba.identity.api.domain.external.auth.DeleteAuthUserCommand
+import jp.inaba.identity.api.domain.external.auth.IdTokenAttributeForBasketIdUpdatedEvent
+import jp.inaba.identity.api.domain.external.auth.IdTokenAttributeForUserIdUpdatedEvent
+import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
+import jp.inaba.identity.api.domain.external.auth.UpdateIdTokenAttributeForBasketIdCommand
+import jp.inaba.identity.api.domain.external.auth.UpdateIdTokenAttributeForUserIdCommand
 import jp.inaba.identity.api.domain.user.CreateUserCommand
 import jp.inaba.identity.api.domain.user.DeleteUserCommand
 import jp.inaba.identity.api.domain.user.UserCreatedEvent
@@ -45,6 +52,12 @@ class UserSetupSaga {
     private val createBasketStep by lazy { CreateBasketStep(commandGateway) }
 
     @delegate:JsonIgnore
+    private val updateIdTokenAttributeForBasketIdStep by lazy { UpdateIdTokenAttributeForBasketIdStep(commandGateway) }
+
+    @delegate:JsonIgnore
+    private val deleteBasketStep by lazy { DeleteBasketStep(commandGateway) }
+
+    @delegate:JsonIgnore
     private val deleteUserStep by lazy { DeleteUserStep(commandGateway) }
 
     @delegate:JsonIgnore
@@ -57,7 +70,7 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
-    fun on(event: AuthEvents.SignupConfirmed) {
+    fun on(event: SignupConfirmedEvent) {
         sagaState = UserSetupSagaState(event)
         logger.info { "UserSetupSaga開始 email:[${sagaState.emailAddress}]" }
 
@@ -67,7 +80,7 @@ class UserSetupSaga {
         createUserStep.handle(
             command = createUserCommand,
             onFail = {
-                val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
+                val deleteAuthUserCommand = DeleteAuthUserCommand(sagaState.emailAddress)
 
                 deleteAuthUserStep.handle(
                     command = deleteAuthUserCommand,
@@ -87,7 +100,7 @@ class UserSetupSaga {
         sagaState.associateUserCreatedEvent(event)
 
         val command =
-            AuthCommands.UpdateIdTokenAttributeForUserId(
+            UpdateIdTokenAttributeForUserIdCommand(
                 emailAddress = sagaState.emailAddress,
                 userId = sagaState.userId,
             )
@@ -111,7 +124,7 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
-    fun on(event: AuthEvents.IdTokenAttributeForUserIdUpdated) {
+    fun on(event: IdTokenAttributeForUserIdUpdatedEvent) {
         val basketId = BasketId()
         val createBasketCommand =
             CreateBasketCommand(
@@ -133,12 +146,40 @@ class UserSetupSaga {
         )
     }
 
-    @EndSaga
     @SagaEventHandler(
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
     fun on(event: BasketCreatedEvent) {
+        sagaState.associateBasketCreatedEvent(event)
+
+        val command =
+            UpdateIdTokenAttributeForBasketIdCommand(
+                emailAddress = sagaState.emailAddress,
+                basketId = sagaState.basketId,
+            )
+
+        updateIdTokenAttributeForBasketIdStep.handle(
+            command = command,
+            onFail = {
+                val deleteBasketCommand = DeleteBasketCommand(sagaState.basketId)
+
+                deleteBasketStep.handle(
+                    command = deleteBasketCommand,
+                    onFail = {
+                        fatalError()
+                    },
+                )
+            },
+        )
+    }
+
+    @EndSaga
+    @SagaEventHandler(
+        associationResolver = MetaDataAssociationResolver::class,
+        associationProperty = "traceId",
+    )
+    fun on(event: IdTokenAttributeForBasketIdUpdatedEvent) {
         logger.info { "UserSetupSaga正常終了 email:[${sagaState.emailAddress}]" }
     }
 
@@ -146,8 +187,23 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
+    fun on(event: BasketDeletedEvent) {
+        val deleteUserCommand = DeleteUserCommand(sagaState.userId)
+
+        deleteUserStep.handle(
+            command = deleteUserCommand,
+            onFail = {
+                fatalError()
+            }
+        )
+    }
+
+    @SagaEventHandler(
+        associationResolver = MetaDataAssociationResolver::class,
+        associationProperty = "traceId",
+    )
     fun on(event: UserDeletedEvent) {
-        val deleteAuthUserCommand = AuthCommands.DeleteAuthUser(sagaState.emailAddress)
+        val deleteAuthUserCommand = DeleteAuthUserCommand(sagaState.emailAddress)
 
         deleteAuthUserStep.handle(
             command = deleteAuthUserCommand,
@@ -162,7 +218,7 @@ class UserSetupSaga {
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
     )
-    fun on(event: AuthEvents.AuthUserDeleted) {
+    fun on(event: AuthUserDeletedEvent) {
         logger.warn { "UserSetupSaga補償終了 email:[${sagaState.emailAddress}]" }
     }
 

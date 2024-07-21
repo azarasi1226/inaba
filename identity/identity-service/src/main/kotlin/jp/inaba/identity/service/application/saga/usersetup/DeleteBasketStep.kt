@@ -3,13 +3,11 @@ package jp.inaba.identity.service.application.saga.usersetup
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.DeleteBasketCommand
 import jp.inaba.basket.api.domain.basket.deleteBasket
-import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 private val logger = KotlinLogging.logger {}
 
-class DeleteBasketSetup(
+class DeleteBasketStep(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(

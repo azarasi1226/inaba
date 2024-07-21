@@ -1,19 +1,30 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
+import jp.inaba.basket.api.domain.basket.BasketId
+import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
 import jp.inaba.identity.api.domain.user.UserCreatedEvent
 import jp.inaba.identity.api.domain.user.UserId
 
+// MEMO: これもしかしたらJsonのやつでprivate onにしないといけないかも
 class UserSetupSagaState private constructor(
     val emailAddress: String,
 ) {
     private var _userId: UserId? = null
     val userId: UserId
-        get() = _userId ?: throw IllegalStateException("userId が初期化されていません。")
+        get() = _userId ?: throw IllegalStateException("userId が初期化されていません。associateUserCreatedEventが呼ばれていません。")
 
-    constructor(event: AuthEvents.SignupConfirmed) : this(emailAddress = event.emailAddress)
+    private var _basketId: BasketId? = null
+    val basketId: BasketId
+        get() = _basketId ?: throw IllegalStateException("basketId が初期化されていません。associateBasketCreatedEventが呼ばれていません。")
+
+    constructor(event: SignupConfirmedEvent) : this(emailAddress = event.emailAddress)
 
     fun associateUserCreatedEvent(event: UserCreatedEvent) {
         _userId = UserId(event.id)
+    }
+
+    fun associateBasketCreatedEvent(event: BasketCreatedEvent) {
+        _basketId = BasketId(event.id)
     }
 }
