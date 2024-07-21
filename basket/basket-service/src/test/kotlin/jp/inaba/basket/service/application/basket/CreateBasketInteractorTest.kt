@@ -47,7 +47,7 @@ class CreateBasketInteractorTest {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Ok(Unit)
         every {
-            canCreateBasketVerifier.checkBasketExitsForUserid(userId)
+            canCreateBasketVerifier.checkUserHasNoBasket(userId)
         } returns Ok(Unit)
         every {
             commandGateway.sendAndWait<ActionCommandResult>(any())
@@ -101,7 +101,7 @@ class CreateBasketInteractorTest {
             canCreateBasketVerifier.checkUserExits(userId)
         } returns Ok(Unit)
         every {
-            canCreateBasketVerifier.checkBasketExitsForUserid(userId)
+            canCreateBasketVerifier.checkUserHasNoBasket(userId)
         } returns Err(CreateBasketError.BASKET_ALREADY_EXISTS)
 
         val result = sut.handle(command)

@@ -36,7 +36,7 @@ class CanCreateBasketVerifierImpl(
         )
     }
 
-    override fun checkBasketExitsForUserid(userId: UserId): Result<Unit, CreateBasketError> {
+    override fun checkUserHasNoBasket(userId: UserId): Result<Unit, CreateBasketError> {
         return if (lookupBasketRepository.existsByUserId(userId.value)) {
             Err(CreateBasketError.BASKET_ALREADY_EXISTS)
         } else {

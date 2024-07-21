@@ -18,7 +18,7 @@ class CreateBasketInteractor(
     fun handle(command: CreateBasketCommand): ActionCommandResult {
         canCreateBasketVerifier.checkUserExits(command.userId)
             .onFailure { return ActionCommandResult.error(it.errorCode) }
-        canCreateBasketVerifier.checkBasketExitsForUserid(command.userId)
+        canCreateBasketVerifier.checkUserHasNoBasket(command.userId)
             .onFailure { return ActionCommandResult.error(it.errorCode) }
 
         val internalCommand =
