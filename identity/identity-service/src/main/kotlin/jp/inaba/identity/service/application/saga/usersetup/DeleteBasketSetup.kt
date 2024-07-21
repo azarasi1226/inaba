@@ -1,23 +1,25 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import jp.inaba.basket.api.domain.basket.DeleteBasketCommand
+import jp.inaba.basket.api.domain.basket.deleteBasket
 import jp.inaba.identity.api.domain.external.auth.AuthCommands
-import jp.inaba.identity.api.domain.external.auth.updateIdTokenAttributeForUserId
+import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 private val logger = KotlinLogging.logger {}
 
-class UpdateIdTokenAttributeForUserIdStep(
+class DeleteBasketSetup(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(
-        command: AuthCommands.UpdateIdTokenAttributeForUserId,
+        command: DeleteBasketCommand,
         onFail: () -> Unit,
     ) {
         try {
-            commandGateway.updateIdTokenAttributeForUserId(command)
+            commandGateway.deleteBasket(command)
         } catch (e: Exception) {
-            logger.warn { "IdTokenの属性変更に失敗しました exception:[$e]" }
+            logger.warn { "買い物かごの削除に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

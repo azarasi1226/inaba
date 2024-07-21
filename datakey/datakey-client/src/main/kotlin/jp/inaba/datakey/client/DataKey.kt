@@ -6,7 +6,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class DataKey(private val dataKey: ByteArray) {
     companion object {
-        private const val cipherAlgorithm = "AES"
+        private const val CIPHER_ALGORITHM = "AES"
     }
 
     fun encrypt(planText: String): EncryptedText {
@@ -22,9 +22,9 @@ class DataKey(private val dataKey: ByteArray) {
     }
 
     private fun encrypt(planeValue: ByteArray): ByteArray {
-        return SecretKeySpec(dataKey, cipherAlgorithm)
+        return SecretKeySpec(dataKey, CIPHER_ALGORITHM)
             .let {
-                val cipher = Cipher.getInstance(cipherAlgorithm)
+                val cipher = Cipher.getInstance(CIPHER_ALGORITHM)
                 cipher.init(Cipher.ENCRYPT_MODE, it)
 
                 cipher
@@ -32,9 +32,9 @@ class DataKey(private val dataKey: ByteArray) {
     }
 
     private fun decrypt(encryptedValue: ByteArray): ByteArray {
-        return SecretKeySpec(dataKey, cipherAlgorithm)
+        return SecretKeySpec(dataKey, CIPHER_ALGORITHM)
             .let {
-                val cipher = Cipher.getInstance(cipherAlgorithm)
+                val cipher = Cipher.getInstance(CIPHER_ALGORITHM)
                 cipher.init(Cipher.DECRYPT_MODE, it)
 
                 cipher

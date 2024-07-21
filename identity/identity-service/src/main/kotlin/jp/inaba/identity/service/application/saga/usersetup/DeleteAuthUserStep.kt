@@ -12,7 +12,7 @@ class DeleteAuthUserStep(
 ) {
     fun handle(
         command: AuthCommands.DeleteAuthUser,
-        onFail: (() -> Unit),
+        onFail: () -> Unit,
     ) {
         try {
             commandGateway.deleteAuthUser(command)

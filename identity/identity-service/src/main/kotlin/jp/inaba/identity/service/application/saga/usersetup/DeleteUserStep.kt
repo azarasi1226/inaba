@@ -12,7 +12,7 @@ class DeleteUserStep(
 ) {
     fun handle(
         command: DeleteUserCommand,
-        onFail: (() -> Unit),
+        onFail: () -> Unit,
     ) {
         try {
             commandGateway.deleteUser(command)

@@ -12,7 +12,7 @@ class CreateBasketStep(
 ) {
     fun handle(
         command: CreateBasketCommand,
-        onFail: (() -> Unit),
+        onFail: () -> Unit,
     ) {
         try {
             val result = commandGateway.createBasket(command)

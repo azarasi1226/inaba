@@ -19,7 +19,7 @@ class CreateDataKeyInteractor(
     private val dataKeyJpaRepository: DataKeyJpaRepository
 ) {
     fun handle(input: CreateDataKeyInput): Result<CreateDataKeyOutput, CreateDataKeyError> {
-        canCreateDataKeyVerifier.checkDataKeyExits(input.relationId)
+        canCreateDataKeyVerifier.checkDataKeyNotExits(input.relationId)
             .onFailure { return Err(it) }
 
         val dataKey = dataKeyGenerator.handle()

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class CanCreateDataKeyVerifierImpl(
     private val dataKeyJpaRepository: DataKeyJpaRepository
 ) : CanCreateDataKeyVerifier {
-    override fun checkDataKeyExits(relationId: RelationId): Result<Unit, CreateDataKeyError> {
+    override fun checkDataKeyNotExits(relationId: RelationId): Result<Unit, CreateDataKeyError> {
         return if(dataKeyJpaRepository.existsById(relationId.value)){
             Err(CreateDataKeyError.DATAKEY_ALREADY_EXISTS)
         }

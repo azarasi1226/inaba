@@ -12,7 +12,7 @@ class CreateUserStep(
 ) {
     fun handle(
         command: CreateUserCommand,
-        onFail: (() -> Unit),
+        onFail: () -> Unit,
     ) {
         try {
             commandGateway.createUser(command)

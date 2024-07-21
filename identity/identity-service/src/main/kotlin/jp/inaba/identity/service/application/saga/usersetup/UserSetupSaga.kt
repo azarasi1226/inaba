@@ -89,13 +89,13 @@ class UserSetupSaga {
         val command =
             AuthCommands.UpdateIdTokenAttributeForUserId(
                 emailAddress = sagaState.emailAddress,
-                userId = sagaState.userId!!,
+                userId = sagaState.userId,
             )
 
         updateIdTokenAttributeForUserIdStep.handle(
             command = command,
             onFail = {
-                val deleteUserCommand = DeleteUserCommand(sagaState.userId!!)
+                val deleteUserCommand = DeleteUserCommand(sagaState.userId)
 
                 deleteUserStep.handle(
                     command = deleteUserCommand,
@@ -116,13 +116,13 @@ class UserSetupSaga {
         val createBasketCommand =
             CreateBasketCommand(
                 id = basketId,
-                userId = sagaState.userId!!,
+                userId = sagaState.userId,
             )
 
         createBasketStep.handle(
             command = createBasketCommand,
             onFail = {
-                val deleteUserCommand = DeleteUserCommand(sagaState.userId!!)
+                val deleteUserCommand = DeleteUserCommand(sagaState.userId)
                 deleteUserStep.handle(
                     command = deleteUserCommand,
                     onFail = {
