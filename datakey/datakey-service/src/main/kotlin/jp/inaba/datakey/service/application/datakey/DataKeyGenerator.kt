@@ -9,5 +9,5 @@ interface DataKeyGenerator {
 
 data class DataKeyPair(
     val planDataKey: PlanDataKey,
-    val encryptedDataKey: EncryptedDataKey
+    val encryptedDataKey: EncryptedDataKey,
 )

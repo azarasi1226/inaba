@@ -3,5 +3,5 @@ package jp.inaba.datakey.service.jp.inaba.datakey.service.application.datakey.cr
 import jp.inaba.datakey.service.jp.inaba.datakey.service.domain.datakey.Base64PlaneDataKey
 
 data class CreateDataKeyOutput(
-    val base64PlaneDataKey: Base64PlaneDataKey
+    val base64PlaneDataKey: Base64PlaneDataKey,
 )

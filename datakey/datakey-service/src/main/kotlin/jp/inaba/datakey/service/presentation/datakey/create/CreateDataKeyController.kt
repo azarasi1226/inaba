@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CreateDataKeyController(
-    private val createDataKeyInteractor: CreateDataKeyInteractor
+    private val createDataKeyInteractor: CreateDataKeyInteractor,
 ) : DataKeyController {
     @PostMapping
     fun handle(
         @RequestBody
-        request: CreateDataKeyRequest
+        request: CreateDataKeyRequest,
     ): ResponseEntity<Any> {
         val relationId = RelationId(request.relationId)
         val input = CreateDataKeyInput(relationId)
 
-        val result =  createDataKeyInteractor.handle(input)
+        val result = createDataKeyInteractor.handle(input)
 
         return result.mapBoth(
             success = {
@@ -34,13 +34,13 @@ class CreateDataKeyController(
                     .body(result.value)
             },
             failure = {
-                when(it) {
+                when (it) {
                     CreateDataKeyError.DATAKEY_ALREADY_EXISTS ->
                         ResponseEntity
                             .status(HttpStatus.BAD_REQUEST)
                             .body(ErrorResponse(it))
                 }
-            }
+            },
         )
     }
 }

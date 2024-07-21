@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.kms.model.GenerateDataKeyRequest
 class DataKeyGeneratorImpl(
     @Value("\${aws.kms.master-key.id}")
     private val masterKeyId: String,
-    private val kmsClient: KmsClient
+    private val kmsClient: KmsClient,
 ) : DataKeyGenerator {
     override fun handle(): DataKeyPair {
         val request =
@@ -27,7 +27,7 @@ class DataKeyGeneratorImpl(
 
         return DataKeyPair(
             planDataKey = PlanDataKey(response.plaintext().asByteArray()),
-            encryptedDataKey = EncryptedDataKey(response.ciphertextBlob().asByteArray())
+            encryptedDataKey = EncryptedDataKey(response.ciphertextBlob().asByteArray()),
         )
     }
 }

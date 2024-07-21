@@ -11,7 +11,7 @@ data class DataKeyJpaEntity(
     @Id
     val id: String = "",
     @Lob
-    val encryptedDataKey: ByteArray = byteArrayOf()
+    val encryptedDataKey: ByteArray = byteArrayOf(),
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

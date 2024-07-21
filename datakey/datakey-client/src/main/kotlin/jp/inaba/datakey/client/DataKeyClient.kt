@@ -6,7 +6,7 @@ class DataKeyClient() {
     fun getOrCreateDataKey(relationId: String): DataKey {
         // 存在していなかったら新規作成
         var base64DataKey = getDataKey()
-        if(base64DataKey == null) {
+        if (base64DataKey == null) {
             createDataKey(relationId)
             base64DataKey = getDataKey()
         }
@@ -16,11 +16,11 @@ class DataKeyClient() {
     }
 
     private fun createDataKey(relationId: String) {
-        //TODO(GRPC)
+        // TODO(GRPC)
     }
 
     private fun getDataKey(): String? {
-        //TODO(GRPC)
+        // TODO(GRPC)
         return null
     }
 }
