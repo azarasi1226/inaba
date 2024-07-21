@@ -1,6 +1,6 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
-import jp.inaba.identity.api.domain.external.auth.AuthEvents
+import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
 import jp.inaba.identity.api.domain.user.UserId
 import jp.inaba.identity.api.domain.user.UserIdFactory
 import org.axonframework.test.saga.SagaTestFixture
@@ -20,7 +20,7 @@ abstract class UserSetupSagaTestBase {
     val confirmCode = "A0001"
 
     val signupConfirmed =
-        AuthEvents.SignupConfirmed(
+        SignupConfirmedEvent(
             emailAddress = emailAddress,
             confirmCode = confirmCode,
         )
