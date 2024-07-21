@@ -14,10 +14,9 @@ class CanCreateDataKeyVerifierImpl(
     private val dataKeyJpaRepository: DataKeyJpaRepository,
 ) : CanCreateDataKeyVerifier {
     override fun checkDataKeyNotExits(relationId: RelationId): Result<Unit, CreateDataKeyError> {
-        return if (dataKeyJpaRepository.existsById(relationId.value))
-            {
-                Err(CreateDataKeyError.DATAKEY_ALREADY_EXISTS)
-            } else {
+        return if (dataKeyJpaRepository.existsById(relationId.value)) {
+            Err(CreateDataKeyError.DATAKEY_ALREADY_EXISTS)
+        } else {
             Ok(Unit)
         }
     }
