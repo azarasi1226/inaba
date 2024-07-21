@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CreateProductController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : ProductController {
     @PostMapping
     fun handle(
         @RequestBody
-        request: CreateProductRequest
+        request: CreateProductRequest,
     ) {
         val productId = ProductId()
         val productName = ProductName(request.name)
@@ -29,14 +29,15 @@ class CreateProductController(
         val productImageUrl = ProductImageURL(request.imageUrl)
         val productPrice = ProductPrice(request.price)
         val productQuantity = ProductQuantity(request.quantity)
-        val command = CreateProductCommand(
-            id = productId,
-            name = productName,
-            description = productDescription,
-            imageUrl = productImageUrl,
-            price = productPrice,
-            quantity = productQuantity,
-        )
+        val command =
+            CreateProductCommand(
+                id = productId,
+                name = productName,
+                description = productDescription,
+                imageUrl = productImageUrl,
+                price = productPrice,
+                quantity = productQuantity,
+            )
 
         commandGateway.createProduct(command)
     }

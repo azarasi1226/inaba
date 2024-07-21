@@ -19,7 +19,7 @@ class UpdateIdTokenAttributeInteractor(
         cognitoUpdateIdTokenAttributeService.handle(
             emailAddress = command.emailAddress,
             attributeName = IdTokenAttributeName.UserId.value,
-            attributeContent = command.userId.value
+            attributeContent = command.userId.value,
         )
 
         val event =
@@ -36,7 +36,7 @@ class UpdateIdTokenAttributeInteractor(
         cognitoUpdateIdTokenAttributeService.handle(
             emailAddress = command.emailAddress,
             attributeName = IdTokenAttributeName.BasketId.value,
-            attributeContent = command.basketId.value
+            attributeContent = command.basketId.value,
         )
 
         val event =

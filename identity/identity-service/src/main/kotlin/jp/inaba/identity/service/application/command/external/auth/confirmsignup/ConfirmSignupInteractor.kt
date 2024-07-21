@@ -15,7 +15,7 @@ class ConfirmSignupInteractor(
     fun handle(command: ConfirmSignupCommand) {
         cognitoConfirmSignupService.handle(
             emailAddress = command.emailAddress,
-            confirmCode = command.confirmCode
+            confirmCode = command.confirmCode,
         )
 
         val event =

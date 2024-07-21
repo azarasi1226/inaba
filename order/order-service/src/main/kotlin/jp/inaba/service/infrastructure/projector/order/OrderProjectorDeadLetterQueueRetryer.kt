@@ -1,6 +1,5 @@
 package jp.inaba.service.infrastructure.projector.order
 
-import jp.inaba.service.infrastructure.projector.order.OrderProjector
 import org.axonframework.config.EventProcessingConfiguration
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling

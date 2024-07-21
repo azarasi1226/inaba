@@ -10,7 +10,6 @@ import jp.inaba.catalog.api.domain.product.updateProduct
 import jp.inaba.catalog.service.presentation.product.ProductController
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -24,20 +23,21 @@ class UpdateProductController(
         @PathVariable("productId")
         rawProductId: String,
         @RequestBody
-        request: UpdateProductRequest
+        request: UpdateProductRequest,
     ) {
         val productId = ProductId(rawProductId)
         val productName = ProductName(request.name)
         val productDescription = ProductDescription(request.description)
         val productImageUrl = ProductImageURL(request.imageUrl)
         val productPrice = ProductPrice(request.price)
-        val command = UpdateProductCommand(
-            id = productId,
-            name = productName,
-            description = productDescription,
-            imageUrl = productImageUrl,
-            price = productPrice
-        )
+        val command =
+            UpdateProductCommand(
+                id = productId,
+                name = productName,
+                description = productDescription,
+                imageUrl = productImageUrl,
+                price = productPrice,
+            )
 
         commandGateway.updateProduct(command)
     }

@@ -4,6 +4,5 @@ dependencies {
     implementation(project(":basket:basket-api"))
     implementation(project(":catalog:catalog-api"))
 
-
     implementation("org.axonframework:axon-modelling")
 }

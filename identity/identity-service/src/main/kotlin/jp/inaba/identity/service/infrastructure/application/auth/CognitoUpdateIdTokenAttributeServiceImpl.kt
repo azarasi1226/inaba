@@ -13,7 +13,11 @@ class CognitoUpdateIdTokenAttributeServiceImpl(
     private val userPoolId: String,
     private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoUpdateIdTokenAttributeService {
-    override fun handle(emailAddress: String, attributeName: String, attributeContent: String) {
+    override fun handle(
+        emailAddress: String,
+        attributeName: String,
+        attributeContent: String,
+    ) {
         val request =
             AdminUpdateUserAttributesRequest.builder()
                 .userPoolId(userPoolId)

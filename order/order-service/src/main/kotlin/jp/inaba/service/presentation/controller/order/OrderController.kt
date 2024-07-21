@@ -35,12 +35,13 @@ class OrderController(
             IssueOrderCommand(
                 id = orderId,
                 userId = UserId(request.userId),
-                basketItems = request.basketItems.map {
-                    IssueOrderCommand.BasketItem(
-                        productId = ProductId(it.productId),
-                        productQuantity = ProductQuantity(it.productQuantity)
-                    )
-                }
+                basketItems =
+                    request.basketItems.map {
+                        IssueOrderCommand.BasketItem(
+                            productId = ProductId(it.productId),
+                            productQuantity = ProductQuantity(it.productQuantity),
+                        )
+                    },
             )
 
         commandGateway.sendAndWait<Any>(command)

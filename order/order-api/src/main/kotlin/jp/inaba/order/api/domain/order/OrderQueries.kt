@@ -1,7 +1,7 @@
 package jp.inaba.order.api.domain.order
 
 data class OrderFindByUserIdQuery(
-    val userId: String
+    val userId: String,
 )
 
 data class OrderFindByUserIdResult(

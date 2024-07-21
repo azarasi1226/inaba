@@ -1,11 +1,11 @@
 package jp.inaba.catalog.api.domain.product
 
-import org.axonframework.commandhandling.gateway.CommandGateway
-import org.axonframework.queryhandling.QueryGateway
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
+import org.axonframework.queryhandling.QueryGateway
 
 fun CommandGateway.createProduct(command: CreateProductCommand) {
     this.sendAndWait<Any>(command)

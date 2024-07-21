@@ -25,12 +25,13 @@ class OrderAggregate() {
             OrderIssuedEvent(
                 id = command.id.value,
                 userId = command.userId.value,
-                basketItems = command.basketItems.map{
-                    OrderIssuedEvent.BasketItem(
-                        productId = it.productId.value,
-                        productQuantity = it.productQuantity.value
-                    )
-                }
+                basketItems =
+                    command.basketItems.map {
+                        OrderIssuedEvent.BasketItem(
+                            productId = it.productId.value,
+                            productQuantity = it.productQuantity.value,
+                        )
+                    },
             )
 
         AggregateLifecycle.apply(event)
@@ -57,8 +58,6 @@ class OrderAggregate() {
         id = orderId
         status = OrderStatus.Issued
     }
-
-
 
     @EventSourcingHandler
     fun on(event: OrderCompletedEvent) {

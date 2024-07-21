@@ -13,7 +13,10 @@ class CognitoSignupServiceImpl(
     private val clientId: String,
     private val cognitoClient: CognitoIdentityProviderClient,
 ) : CognitoSignupService {
-    override fun handle(emailAddress: String, password: String) {
+    override fun handle(
+        emailAddress: String,
+        password: String,
+    ) {
         val request =
             SignUpRequest.builder()
                 .clientId(clientId)

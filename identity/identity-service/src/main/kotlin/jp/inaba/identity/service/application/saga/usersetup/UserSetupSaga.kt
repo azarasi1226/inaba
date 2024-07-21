@@ -194,7 +194,7 @@ class UserSetupSaga {
             command = deleteUserCommand,
             onFail = {
                 fatalError()
-            }
+            },
         )
     }
 

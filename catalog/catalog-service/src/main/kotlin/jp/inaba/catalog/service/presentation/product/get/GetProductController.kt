@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class GetProductController(
-    private val queryGateway: QueryGateway
+    private val queryGateway: QueryGateway,
 ) : ProductController {
     @GetMapping("/{productId}")
     fun handle(
         @PathVariable("productId")
-        rawProductId: String
+        rawProductId: String,
     ): ResponseEntity<Any> {
         val productId = ProductId(rawProductId)
         val query = FindProductByIdQuery(productId)
@@ -33,13 +33,13 @@ class GetProductController(
                         .body(it)
                 },
                 failure = {
-                    when(it) {
+                    when (it) {
                         FindProductByIdError.PRODUCT_NOT_FOUND ->
                             ResponseEntity
                                 .status(HttpStatus.NOT_FOUND)
                                 .body(it)
                     }
-                }
+                },
             )
     }
 }

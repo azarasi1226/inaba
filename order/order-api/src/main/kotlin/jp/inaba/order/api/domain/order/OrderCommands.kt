@@ -27,8 +27,9 @@ data class SecureBasketItemCommand(
 ) : OrderCommand {
     data class SecureBasketItemStatus(
         val productId: ProductId,
-        val status: BasketItemStatus
+        val status: BasketItemStatus,
     )
+
     enum class BasketItemStatus {
         SUCCESS,
         FAILED,
