@@ -7,17 +7,16 @@ apply(plugin = "kotlin-allopen")
 dependencies {
     implementation(project(":common"))
 
-    // spring
+    // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
     // other
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("software.amazon.awssdk:kms:2.26.21")
 }

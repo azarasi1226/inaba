@@ -16,4 +16,7 @@ include(
     "basket:basket-service",
 
     "datakey:datakey-service",
+    "datakey:datakey-client"
 )
+include("datakey:datakey-client")
+findProject(":datakey:datakey-client")?.name = "datakey-client"
