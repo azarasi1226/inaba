@@ -44,7 +44,12 @@ CognitoUserPoolClientId:[d14m44wivtx2lvonzzz7n8f4t]を作成しました
 <br>
 
 ### 3. KMSの初期セットアップ
-TODO()
+```bash
+./kms-setup.sh
+```
+```
+
+```
 
 <br>
 
@@ -104,7 +109,7 @@ AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
 AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 ```
 
-### DataKeyService環境変数
+#### DataKeyService環境変数
 ```
 SERVER_PORT=8085;
 SPRING_DATASOURCE_DATABASE=datakey;
