@@ -5,4 +5,4 @@ spring:
 
 logging:
   level:
-    jp.inaba.basket: INFO
+    jp.inaba: INFO

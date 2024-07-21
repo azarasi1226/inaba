@@ -1,6 +1,5 @@
 package jp.inaba.datakey.client
 
-import software.amazon.awssdk.services.kms.KmsClient
 import java.util.Base64
 
 class DataKeyClient() {
