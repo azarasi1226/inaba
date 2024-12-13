@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.presentation.basket.deletebasketitem
 
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.DeleteBasketItemCommand
+import jp.inaba.basket.share.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.command.DeleteBasketItemCommand
 import jp.inaba.basket.api.domain.basket.deleteBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.catalog.api.domain.product.ProductId

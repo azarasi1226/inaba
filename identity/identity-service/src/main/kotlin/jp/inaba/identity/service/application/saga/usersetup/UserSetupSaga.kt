@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
 import jp.inaba.basket.api.domain.basket.BasketDeletedEvent
-import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.CreateBasketCommand
 import jp.inaba.basket.api.domain.basket.DeleteBasketCommand
 import jp.inaba.identity.api.domain.external.auth.AuthUserDeletedEvent

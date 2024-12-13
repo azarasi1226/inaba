@@ -1,8 +1,8 @@
 package jp.inaba.basket.service.domain.basket
 
-import jp.inaba.basket.api.domain.basket.BasketAggregateCommand
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.BasketItemQuantity
+import jp.inaba.basket.api.domain.basket.command.BasketAggregateCommand
+import jp.inaba.basket.share.domain.basket.BasketId
+import jp.inaba.basket.share.domain.basket.BasketItemQuantity
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.identity.api.domain.user.UserId
 

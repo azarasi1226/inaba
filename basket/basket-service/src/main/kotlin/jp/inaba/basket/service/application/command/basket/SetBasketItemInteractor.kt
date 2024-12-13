@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.application.command.basket
 
 import com.github.michaelbull.result.onFailure
-import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
+import jp.inaba.basket.api.domain.basket.command.SetBasketItemCommand
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand
 import jp.inaba.common.domain.shared.ActionCommandResult

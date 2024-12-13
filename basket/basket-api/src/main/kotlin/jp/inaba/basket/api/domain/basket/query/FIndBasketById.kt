@@ -1,5 +1,6 @@
-package jp.inaba.basket.api.domain.basket
+package jp.inaba.basket.api.domain.basket.query
 
+import jp.inaba.basket.share.domain.basket.BasketId
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.PagingCondition
 

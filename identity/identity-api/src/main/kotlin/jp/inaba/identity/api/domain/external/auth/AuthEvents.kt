@@ -1,6 +1,5 @@
 package jp.inaba.identity.api.domain.external.auth
 
-import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.identity.api.domain.user.UserId
 
 interface AuthEvent {

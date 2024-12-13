@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.infrastructure.projector.lookupbasket
 
-import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
-import jp.inaba.basket.api.domain.basket.BasketDeletedEvent
+import jp.inaba.basket.api.domain.basket.event.BasketCreatedEvent
+import jp.inaba.basket.api.domain.basket.event.BasketDeletedEvent
 import jp.inaba.basket.service.infrastructure.jpa.lookupbasket.LookupBasketJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import org.axonframework.config.ProcessingGroup

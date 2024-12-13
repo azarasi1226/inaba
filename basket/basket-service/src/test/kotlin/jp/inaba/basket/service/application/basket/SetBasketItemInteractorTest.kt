@@ -1,5 +1,7 @@
 package jp.inaba.basket.service.application.basket
 
+import jp.inaba.basket.share.domain.basket.BasketId
+import jp.inaba.basket.share.domain.basket.BasketItemQuantity
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.mockk.MockKAnnotations
@@ -7,10 +9,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.BasketItemQuantity
-import jp.inaba.basket.api.domain.basket.SetBasketItemCommand
-import jp.inaba.basket.api.domain.basket.SetBasketItemError
+import jp.inaba.basket.api.domain.basket.command.SetBasketItemCommand
+import jp.inaba.basket.share.domain.basket.SetBasketItemError
 import jp.inaba.basket.service.application.command.basket.SetBasketItemInteractor
 import jp.inaba.basket.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.basket.service.domain.basket.InternalSetBasketItemCommand

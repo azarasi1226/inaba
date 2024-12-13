@@ -1,8 +1,8 @@
 package jp.inaba.basket.service.application.query.basket.findbyid
 
 import jakarta.persistence.EntityManager
-import jp.inaba.basket.api.domain.basket.FindBasketByIdQuery
-import jp.inaba.basket.api.domain.basket.FindBasketByIdResult
+import jp.inaba.basket.api.domain.basket.query.FindBasketByIdQuery
+import jp.inaba.basket.api.domain.basket.query.FindBasketByIdResult
 import jp.inaba.basket.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import jp.inaba.common.domain.shared.Page
 import jp.inaba.common.domain.shared.Paging

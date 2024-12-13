@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.basket.api.domain.basket.CreateBasketError
+import jp.inaba.basket.share.domain.basket.CreateBasketError
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.basket.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import jp.inaba.identity.api.domain.user.FindUserByIdError

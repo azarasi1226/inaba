@@ -1,7 +1,7 @@
 package jp.inaba.basket.service.domain.basket
 
 import com.github.michaelbull.result.Result
-import jp.inaba.basket.api.domain.basket.CreateBasketError
+import jp.inaba.basket.share.domain.basket.CreateBasketError
 import jp.inaba.identity.api.domain.user.UserId
 
 interface CanCreateBasketVerifier {

@@ -1,9 +1,9 @@
 package jp.inaba.basket.service.presentation.basket.get
 
+import jp.inaba.basket.share.domain.basket.BasketId
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.basket.api.domain.basket.BasketId
-import jp.inaba.basket.api.domain.basket.FindBasketByIdError
-import jp.inaba.basket.api.domain.basket.FindBasketByIdQuery
+import jp.inaba.basket.share.domain.basket.FindBasketByIdError
+import jp.inaba.basket.api.domain.basket.query.FindBasketByIdQuery
 import jp.inaba.basket.api.domain.basket.findBasketById
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.common.domain.shared.PagingCondition

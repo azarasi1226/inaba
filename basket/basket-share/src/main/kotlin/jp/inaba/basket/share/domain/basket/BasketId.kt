@@ -1,4 +1,4 @@
-package jp.inaba.basket.api.domain.basket
+package jp.inaba.basket.share.domain.basket
 
 import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.common.domain.shared.DomainException

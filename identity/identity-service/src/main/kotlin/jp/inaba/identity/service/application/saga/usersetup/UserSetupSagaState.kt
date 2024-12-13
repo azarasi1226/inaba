@@ -1,7 +1,6 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
-import jp.inaba.basket.api.domain.basket.BasketId
 import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
 import jp.inaba.identity.api.domain.user.UserCreatedEvent
 import jp.inaba.identity.api.domain.user.UserId
