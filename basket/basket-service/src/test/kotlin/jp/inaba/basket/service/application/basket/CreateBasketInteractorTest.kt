@@ -14,7 +14,7 @@ import jp.inaba.basket.service.application.command.basket.CreateBasketInteractor
 import jp.inaba.basket.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.basket.service.domain.basket.InternalCreateBasketCommand
 import jp.inaba.common.domain.shared.ActionCommandResult
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

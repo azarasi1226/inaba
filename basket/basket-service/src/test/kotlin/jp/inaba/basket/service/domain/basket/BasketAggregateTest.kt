@@ -11,7 +11,7 @@ import jp.inaba.basket.api.domain.basket.command.DeleteBasketItemCommand
 import jp.inaba.basket.share.domain.basket.SetBasketItemError
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.jupiter.api.BeforeEach

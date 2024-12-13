@@ -12,7 +12,7 @@ import jp.inaba.basket.service.presentation.basket.setbasketitem.SetBasketItemCo
 import jp.inaba.basket.service.presentation.basket.setbasketitem.SetBasketItemRequest
 import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.common.presentation.shared.ErrorResponse
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
