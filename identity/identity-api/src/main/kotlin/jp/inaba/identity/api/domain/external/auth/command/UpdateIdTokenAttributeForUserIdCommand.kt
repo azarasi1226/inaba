@@ -1,6 +1,5 @@
 package jp.inaba.identity.api.domain.external.auth.command
 
-import jp.inaba.identity.api.domain.external.auth.command.AuthCommand
 import jp.inaba.identity.share.domain.user.UserId
 
 data class UpdateIdTokenAttributeForUserIdCommand(

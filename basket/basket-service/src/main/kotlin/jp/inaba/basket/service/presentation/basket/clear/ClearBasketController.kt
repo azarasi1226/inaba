@@ -1,13 +1,13 @@
 package jp.inaba.basket.service.presentation.basket.clear
 
-import jp.inaba.basket.share.domain.basket.BasketId
 import jp.inaba.basket.api.domain.basket.clearBasket
+import jp.inaba.basket.api.domain.basket.command.ClearBasketCommand
 import jp.inaba.basket.service.presentation.basket.BasketController
+import jp.inaba.basket.share.domain.basket.BasketId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import jp.inaba.basket.api.domain.basket.command.ClearBasketCommand
 
 @RestController
 class ClearBasketController(

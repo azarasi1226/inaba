@@ -7,6 +7,7 @@ import jp.inaba.basket.api.domain.basket.command.CreateBasketCommand
 import jp.inaba.basket.api.domain.basket.command.DeleteBasketCommand
 import jp.inaba.basket.api.domain.basket.event.BasketCreatedEvent
 import jp.inaba.basket.api.domain.basket.event.BasketDeletedEvent
+import jp.inaba.basket.share.domain.basket.BasketId
 import jp.inaba.identity.api.domain.external.auth.command.DeleteAuthUserCommand
 import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForBasketIdCommand
 import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForUserIdCommand
@@ -18,7 +19,6 @@ import jp.inaba.identity.api.domain.user.command.CreateUserCommand
 import jp.inaba.identity.api.domain.user.command.DeleteUserCommand
 import jp.inaba.identity.api.domain.user.event.UserCreatedEvent
 import jp.inaba.identity.api.domain.user.event.UserDeletedEvent
-import jp.inaba.identity.service.domain.auth.IdTokenAttributeName
 import jp.inaba.identity.share.domain.user.UserIdFactory
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.saga.EndSaga
@@ -28,7 +28,6 @@ import org.axonframework.modelling.saga.SagaLifecycle
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.spring.stereotype.Saga
 import org.springframework.beans.factory.annotation.Autowired
-import jp.inaba.basket.share.domain.basket.BasketId
 
 private val logger = KotlinLogging.logger {}
 
