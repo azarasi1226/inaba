@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.command.external.auth.confirmsignup
 
-import jp.inaba.identity.api.domain.external.auth.ConfirmSignupCommand
-import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
+import jp.inaba.identity.api.domain.external.auth.command.ConfirmSignupCommand
+import jp.inaba.identity.api.domain.external.auth.event.SignupConfirmedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.stereotype.Component

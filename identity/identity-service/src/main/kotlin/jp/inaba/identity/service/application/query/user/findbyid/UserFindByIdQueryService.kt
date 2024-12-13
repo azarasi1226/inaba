@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.query.user.findbyid
 
-import jp.inaba.identity.api.domain.user.FindUserByIdQuery
-import jp.inaba.identity.api.domain.user.FindUserByIdResult
+import jp.inaba.identity.api.domain.user.query.FindUserByIdQuery
+import jp.inaba.identity.api.domain.user.query.FindUserByIdResult
 import jp.inaba.identity.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component

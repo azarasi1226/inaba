@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.identity.api.domain.user.CreateUserCommand
+import jp.inaba.identity.api.domain.user.command.CreateUserCommand
 import jp.inaba.identity.api.domain.user.createUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 

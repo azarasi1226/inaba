@@ -8,8 +8,9 @@ dependencies {
     // project
     implementation(project(":common"))
     implementation(project(":identity:identity-api"))
-    implementation(project(":basket:basket-share"))
+    implementation(project(":identity:identity-share"))
     implementation(project(":basket:basket-api"))
+    implementation(project(":basket:basket-share"))
     implementation(project(":catalog:catalog-api"))
 
     // spring bom

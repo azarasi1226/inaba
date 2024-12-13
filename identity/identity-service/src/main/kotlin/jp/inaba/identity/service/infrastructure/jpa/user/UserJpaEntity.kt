@@ -5,6 +5,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 // TODO("userテーブルだとH2でテーブル作れないんやけど....")
+// H2使ってないからもうええやろ☝
 @Entity
 @Table(name = "users")
 data class UserJpaEntity(

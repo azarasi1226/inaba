@@ -1,6 +1,6 @@
 package jp.inaba.identity.service.presentation.auth.resendconfirmcode
 
-import jp.inaba.identity.api.domain.external.auth.ResendConfirmCodeCommand
+import jp.inaba.identity.api.domain.external.auth.command.ResendConfirmCodeCommand
 import jp.inaba.identity.api.domain.external.auth.resendConfirmCode
 import jp.inaba.identity.service.presentation.auth.AuthController
 import org.axonframework.commandhandling.gateway.CommandGateway

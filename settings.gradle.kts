@@ -6,6 +6,7 @@ include(
     "catalog:catalog-service",
     "identity:identity-api",
     "identity:identity-service",
+    "identity:identity-share",
     "order:order-api",
     "order:order-service",
     "basket:basket-api",

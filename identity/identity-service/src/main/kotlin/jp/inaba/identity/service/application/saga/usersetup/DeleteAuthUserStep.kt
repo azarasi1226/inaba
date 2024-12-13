@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.identity.api.domain.external.auth.DeleteAuthUserCommand
+import jp.inaba.identity.api.domain.external.auth.command.DeleteAuthUserCommand
 import jp.inaba.identity.api.domain.external.auth.deleteAuthUser
 import org.axonframework.commandhandling.gateway.CommandGateway
 

@@ -1,8 +1,8 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
-import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
-import jp.inaba.identity.api.domain.user.UserId
-import jp.inaba.identity.api.domain.user.UserIdFactory
+import jp.inaba.identity.api.domain.external.auth.event.SignupConfirmedEvent
+import jp.inaba.identity.share.domain.user.UserId
+import jp.inaba.identity.share.domain.user.UserIdFactory
 import org.axonframework.test.saga.SagaTestFixture
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mock

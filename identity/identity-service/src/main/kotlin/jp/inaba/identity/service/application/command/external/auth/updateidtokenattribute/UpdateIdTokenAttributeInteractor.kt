@@ -1,9 +1,9 @@
 package jp.inaba.identity.service.application.command.external.auth.updateidtokenattribute
 
-import jp.inaba.identity.api.domain.external.auth.IdTokenAttributeForBasketIdUpdatedEvent
-import jp.inaba.identity.api.domain.external.auth.IdTokenAttributeForUserIdUpdatedEvent
-import jp.inaba.identity.api.domain.external.auth.UpdateIdTokenAttributeForBasketIdCommand
-import jp.inaba.identity.api.domain.external.auth.UpdateIdTokenAttributeForUserIdCommand
+import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForBasketIdCommand
+import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForUserIdCommand
+import jp.inaba.identity.api.domain.external.auth.event.IdTokenAttributeForBasketIdUpdatedEvent
+import jp.inaba.identity.api.domain.external.auth.event.IdTokenAttributeForUserIdUpdatedEvent
 import jp.inaba.identity.service.domain.auth.IdTokenAttributeName
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
@@ -25,7 +25,7 @@ class UpdateIdTokenAttributeInteractor(
         val event =
             IdTokenAttributeForUserIdUpdatedEvent(
                 emailAddress = command.emailAddress,
-                userId = command.userId,
+                userId = command.userId.value,
             )
 
         eventGateway.publish(event)
@@ -42,7 +42,7 @@ class UpdateIdTokenAttributeInteractor(
         val event =
             IdTokenAttributeForBasketIdUpdatedEvent(
                 emailAddress = command.emailAddress,
-                basketId = command.basketId,
+                basketId = command.basketId.value,
             )
 
         eventGateway.publish(event)

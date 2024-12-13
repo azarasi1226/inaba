@@ -1,4 +1,4 @@
-package jp.inaba.identity.api.domain.user
+package jp.inaba.identity.share.domain.user
 
 import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.common.domain.shared.DomainException

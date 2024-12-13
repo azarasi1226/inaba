@@ -1,9 +1,10 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
-import jp.inaba.basket.api.domain.basket.BasketCreatedEvent
-import jp.inaba.identity.api.domain.external.auth.SignupConfirmedEvent
-import jp.inaba.identity.api.domain.user.UserCreatedEvent
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.basket.share.domain.basket.BasketId
+import jp.inaba.basket.api.domain.basket.event.BasketCreatedEvent
+import jp.inaba.identity.api.domain.external.auth.event.SignupConfirmedEvent
+import jp.inaba.identity.api.domain.user.event.UserCreatedEvent
+import jp.inaba.identity.share.domain.user.UserId
 
 // MEMO: これもしかしたらJsonのやつでprivate onにしないといけないかも
 class UserSetupSagaState private constructor(

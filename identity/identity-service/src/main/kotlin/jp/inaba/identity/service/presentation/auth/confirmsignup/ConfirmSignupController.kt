@@ -1,6 +1,6 @@
 package jp.inaba.identity.service.presentation.auth.confirmsignup
 
-import jp.inaba.identity.api.domain.external.auth.ConfirmSignupCommand
+import jp.inaba.identity.api.domain.external.auth.command.ConfirmSignupCommand
 import jp.inaba.identity.api.domain.external.auth.confirmSignup
 import jp.inaba.identity.service.presentation.auth.AuthController
 import org.axonframework.commandhandling.gateway.CommandGateway

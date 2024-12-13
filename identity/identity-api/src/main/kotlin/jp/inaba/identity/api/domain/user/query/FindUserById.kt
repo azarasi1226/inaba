@@ -1,4 +1,6 @@
-package jp.inaba.identity.api.domain.user
+package jp.inaba.identity.api.domain.user.query
+
+import jp.inaba.identity.share.domain.user.UserId
 
 data class FindUserByIdQuery(
     val userId: UserId,

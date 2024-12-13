@@ -1,6 +1,6 @@
 package jp.inaba.identity.service.infrastructure.projector.user
 
-import jp.inaba.identity.api.domain.user.UserCreatedEvent
+import jp.inaba.identity.api.domain.user.event.UserCreatedEvent
 import jp.inaba.identity.service.infrastructure.jpa.user.UserJpaEntity
 import jp.inaba.identity.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.config.ProcessingGroup

@@ -1,10 +1,10 @@
 package jp.inaba.identity.service.domain.user
 
-import jp.inaba.identity.api.domain.user.CreateUserCommand
-import jp.inaba.identity.api.domain.user.DeleteUserCommand
-import jp.inaba.identity.api.domain.user.UserCreatedEvent
-import jp.inaba.identity.api.domain.user.UserDeletedEvent
-import jp.inaba.identity.api.domain.user.UserId
+import jp.inaba.identity.api.domain.user.command.CreateUserCommand
+import jp.inaba.identity.api.domain.user.command.DeleteUserCommand
+import jp.inaba.identity.api.domain.user.event.UserCreatedEvent
+import jp.inaba.identity.api.domain.user.event.UserDeletedEvent
+import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier

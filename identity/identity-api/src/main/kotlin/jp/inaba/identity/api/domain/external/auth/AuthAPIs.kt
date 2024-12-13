@@ -1,5 +1,11 @@
 package jp.inaba.identity.api.domain.external.auth
 
+import jp.inaba.identity.api.domain.external.auth.command.ConfirmSignupCommand
+import jp.inaba.identity.api.domain.external.auth.command.ResendConfirmCodeCommand
+import jp.inaba.identity.api.domain.external.auth.command.SignupCommand
+import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForUserIdCommand
+import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForBasketIdCommand
+import jp.inaba.identity.api.domain.external.auth.command.DeleteAuthUserCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 fun CommandGateway.signup(command: SignupCommand) {

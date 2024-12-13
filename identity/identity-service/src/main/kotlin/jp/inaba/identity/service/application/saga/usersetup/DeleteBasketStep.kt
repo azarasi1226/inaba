@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.basket.api.domain.basket.DeleteBasketCommand
+import jp.inaba.basket.api.domain.basket.command.DeleteBasketCommand
 import jp.inaba.basket.api.domain.basket.deleteBasket
 import org.axonframework.commandhandling.gateway.CommandGateway
 

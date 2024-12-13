@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.identity.api.domain.external.auth.UpdateIdTokenAttributeForBasketIdCommand
+import jp.inaba.identity.api.domain.external.auth.command.UpdateIdTokenAttributeForBasketIdCommand
 import jp.inaba.identity.api.domain.external.auth.updateIdTokenAttributeForBasketId
 import org.axonframework.commandhandling.gateway.CommandGateway
 

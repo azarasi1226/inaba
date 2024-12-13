@@ -1,7 +1,7 @@
 package jp.inaba.identity.service.application.command.external.auth.resendConfirmCode
 
-import jp.inaba.identity.api.domain.external.auth.ConfirmCodeResentEvent
-import jp.inaba.identity.api.domain.external.auth.ResendConfirmCodeCommand
+import jp.inaba.identity.api.domain.external.auth.command.ResendConfirmCodeCommand
+import jp.inaba.identity.api.domain.external.auth.event.ConfirmCodeResentEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.springframework.stereotype.Component

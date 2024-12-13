@@ -3,6 +3,11 @@ package jp.inaba.identity.api.domain.user
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import jp.inaba.identity.api.domain.user.command.CreateUserCommand
+import jp.inaba.identity.api.domain.user.command.DeleteUserCommand
+import jp.inaba.identity.api.domain.user.query.FindUserByIdQuery
+import jp.inaba.identity.api.domain.user.query.FindUserByIdResult
+import jp.inaba.identity.share.domain.user.FindUserByIdError
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway

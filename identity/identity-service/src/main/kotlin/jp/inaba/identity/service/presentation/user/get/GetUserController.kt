@@ -2,11 +2,11 @@ package jp.inaba.identity.service.presentation.user.get
 
 import com.github.michaelbull.result.mapBoth
 import jp.inaba.common.presentation.shared.ErrorResponse
-import jp.inaba.identity.api.domain.user.FindUserByIdError
-import jp.inaba.identity.api.domain.user.FindUserByIdQuery
-import jp.inaba.identity.api.domain.user.UserId
 import jp.inaba.identity.api.domain.user.findUserById
+import jp.inaba.identity.api.domain.user.query.FindUserByIdQuery
 import jp.inaba.identity.service.presentation.user.UserController
+import jp.inaba.identity.share.domain.user.FindUserByIdError
+import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
