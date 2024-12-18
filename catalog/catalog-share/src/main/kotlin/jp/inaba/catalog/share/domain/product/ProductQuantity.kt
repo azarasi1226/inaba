@@ -1,4 +1,4 @@
-package jp.inaba.catalog.api.domain.product
+package jp.inaba.catalog.share.domain.product
 
 import jp.inaba.common.domain.shared.DomainException
 

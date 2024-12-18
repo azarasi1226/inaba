@@ -4,6 +4,7 @@ include(
     "common",
     "catalog:catalog-api",
     "catalog:catalog-service",
+    "catalog:catalog-share",
     "identity:identity-api",
     "identity:identity-service",
     "identity:identity-share",

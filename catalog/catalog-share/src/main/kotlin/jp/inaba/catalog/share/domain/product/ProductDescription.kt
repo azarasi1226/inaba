@@ -1,4 +1,4 @@
-package jp.inaba.catalog.api.domain.product
+package jp.inaba.catalog.share.domain.product
 
 import jp.inaba.common.domain.shared.DomainException
 
@@ -10,7 +10,7 @@ data class ProductDescription(val value: String) {
 
     init {
         if (value.length !in MIN_LENGTH..MAX_LENGTH) {
-            throw DomainException("商品説明の長さは[${MIN_LENGTH} ~ ${MAX_LENGTH}]間です。value.length:[${value.length}]")
+            throw DomainException("商品説明の長さは[$MIN_LENGTH ~ $MAX_LENGTH]間です。value.length:[${value.length}]")
         }
     }
 }

@@ -1,4 +1,4 @@
-package jp.inaba.catalog.api.domain.product
+package jp.inaba.catalog.share.domain.product
 
 import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.common.domain.shared.DomainException

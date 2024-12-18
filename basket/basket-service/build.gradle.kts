@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":basket:basket-api"))
     implementation(project(":basket:basket-share"))
     implementation(project(":catalog:catalog-api"))
+    implementation(project(":catalog:catalog-share"))
 
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")

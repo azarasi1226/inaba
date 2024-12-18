@@ -1,7 +1,7 @@
 package jp.inaba.catalog.service.application.query.product
 
-import jp.inaba.catalog.api.domain.product.FindProductByIdQuery
-import jp.inaba.catalog.api.domain.product.FindProductByIdResult
+import jp.inaba.catalog.api.domain.product.query.FindProductByIdQuery
+import jp.inaba.catalog.api.domain.product.query.FindProductByIdResult
 import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component

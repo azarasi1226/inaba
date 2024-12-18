@@ -1,7 +1,7 @@
 package jp.inaba.catalog.service.infrastructure.projector.product
 
-import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
-import jp.inaba.catalog.api.domain.product.ProductUpdatedEvent
+import jp.inaba.catalog.api.domain.product.event.ProductCreatedEvent
+import jp.inaba.catalog.api.domain.product.event.ProductUpdatedEvent
 import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.catalog.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup

@@ -3,6 +3,12 @@ package jp.inaba.catalog.api.domain.product
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import jp.inaba.catalog.api.domain.product.command.CreateProductCommand
+import jp.inaba.catalog.api.domain.product.command.DeleteProductCommand
+import jp.inaba.catalog.api.domain.product.command.UpdateProductCommand
+import jp.inaba.catalog.api.domain.product.query.FindProductByIdQuery
+import jp.inaba.catalog.api.domain.product.query.FindProductByIdResult
+import jp.inaba.catalog.share.domain.product.FindProductByIdError
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway

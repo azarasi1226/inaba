@@ -1,11 +1,6 @@
 package jp.inaba.catalog.service.presentation.product.update
 
-import jp.inaba.catalog.api.domain.product.ProductDescription
-import jp.inaba.catalog.api.domain.product.ProductId
-import jp.inaba.catalog.api.domain.product.ProductImageURL
-import jp.inaba.catalog.api.domain.product.ProductName
-import jp.inaba.catalog.api.domain.product.ProductPrice
-import jp.inaba.catalog.api.domain.product.UpdateProductCommand
+import jp.inaba.catalog.api.domain.product.command.UpdateProductCommand
 import jp.inaba.catalog.api.domain.product.updateProduct
 import jp.inaba.catalog.service.presentation.product.ProductController
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -13,6 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import jp.inaba.catalog.share.domain.product.ProductDescription
+import jp.inaba.catalog.share.domain.product.ProductId
+import jp.inaba.catalog.share.domain.product.ProductImageURL
+import jp.inaba.catalog.share.domain.product.ProductName
+import jp.inaba.catalog.share.domain.product.ProductPrice
 
 @RestController
 class UpdateProductController(

@@ -4,7 +4,7 @@ import jp.inaba.basket.api.domain.basket.command.DeleteBasketItemCommand
 import jp.inaba.basket.api.domain.basket.deleteBasketItem
 import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.basket.share.domain.basket.BasketId
-import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.share.domain.product.ProductId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable

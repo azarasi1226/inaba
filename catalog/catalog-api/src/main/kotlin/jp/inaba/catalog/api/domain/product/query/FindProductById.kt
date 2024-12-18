@@ -1,4 +1,6 @@
-package jp.inaba.catalog.api.domain.product
+package jp.inaba.catalog.api.domain.product.query
+
+import jp.inaba.catalog.share.domain.product.ProductId
 
 data class FindProductByIdQuery(
     val id: ProductId,

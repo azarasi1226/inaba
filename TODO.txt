@@ -1,0 +1,18 @@
+* basketがない時は404にしたいから、basketだけのテーブルがはやり必要。
+> いらねー！ LookupTable作ったから
+
+* 冪等性の実装が必要
+> これ全部外部コマンドとInteractorの組み合わせで実現できるよな
+
+* Dockerfile or Docker-composeのlatest運用をやめたい。
+
+
+* AggregateのIDに使うやつ、 toStringとか実装必須ならば基底クラスみたいなのもってそこで管理したくね?
+
+
+* Aggregateの基底クラス作って、そこで冪等性の管理したくね?
+
+
+* GRPCだれかほってくれ....
+
+* H2消そうぜもう使わないし

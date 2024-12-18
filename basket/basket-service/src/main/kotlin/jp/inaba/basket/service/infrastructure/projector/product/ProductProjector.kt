@@ -3,9 +3,9 @@ package jp.inaba.basket.service.infrastructure.projector.product
 import jp.inaba.basket.service.infrastructure.jpa.basket.BasketJpaRepository
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.basket.service.infrastructure.jpa.product.ProductJpaRepository
-import jp.inaba.catalog.api.domain.product.ProductCreatedEvent
-import jp.inaba.catalog.api.domain.product.ProductDeletedEvent
-import jp.inaba.catalog.api.domain.product.ProductUpdatedEvent
+import jp.inaba.catalog.api.domain.product.event.ProductCreatedEvent
+import jp.inaba.catalog.api.domain.product.event.ProductDeletedEvent
+import jp.inaba.catalog.api.domain.product.event.ProductUpdatedEvent
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component

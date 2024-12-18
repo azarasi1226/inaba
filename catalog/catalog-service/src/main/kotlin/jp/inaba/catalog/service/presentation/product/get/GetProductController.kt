@@ -1,11 +1,11 @@
 package jp.inaba.catalog.service.presentation.product.get
 
 import com.github.michaelbull.result.mapBoth
-import jp.inaba.catalog.api.domain.product.FindProductByIdError
-import jp.inaba.catalog.api.domain.product.FindProductByIdQuery
-import jp.inaba.catalog.api.domain.product.ProductId
 import jp.inaba.catalog.api.domain.product.findProductById
+import jp.inaba.catalog.api.domain.product.query.FindProductByIdQuery
 import jp.inaba.catalog.service.presentation.product.ProductController
+import jp.inaba.catalog.share.domain.product.FindProductByIdError
+import jp.inaba.catalog.share.domain.product.ProductId
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

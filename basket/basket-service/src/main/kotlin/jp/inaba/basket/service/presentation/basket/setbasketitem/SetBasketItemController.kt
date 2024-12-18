@@ -7,7 +7,7 @@ import jp.inaba.basket.service.presentation.basket.BasketController
 import jp.inaba.basket.share.domain.basket.BasketId
 import jp.inaba.basket.share.domain.basket.BasketItemQuantity
 import jp.inaba.basket.share.domain.basket.SetBasketItemError
-import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.share.domain.product.ProductId
 import jp.inaba.common.presentation.shared.ErrorResponse
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.http.HttpStatus
