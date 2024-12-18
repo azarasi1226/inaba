@@ -1,18 +1,18 @@
 package jp.inaba.catalog.service.presentation.product.create
 
+import jp.inaba.catalog.api.domain.product.command.CreateProductCommand
 import jp.inaba.catalog.api.domain.product.createProduct
 import jp.inaba.catalog.service.presentation.product.ProductController
-import org.axonframework.commandhandling.gateway.CommandGateway
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 import jp.inaba.catalog.share.domain.product.ProductDescription
 import jp.inaba.catalog.share.domain.product.ProductId
 import jp.inaba.catalog.share.domain.product.ProductImageURL
 import jp.inaba.catalog.share.domain.product.ProductName
 import jp.inaba.catalog.share.domain.product.ProductPrice
 import jp.inaba.catalog.share.domain.product.ProductQuantity
-import jp.inaba.catalog.api.domain.product.command.CreateProductCommand
+import org.axonframework.commandhandling.gateway.CommandGateway
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CreateProductController(

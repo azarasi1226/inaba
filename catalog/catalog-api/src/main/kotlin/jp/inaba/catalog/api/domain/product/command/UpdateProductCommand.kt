@@ -6,7 +6,6 @@ import jp.inaba.catalog.share.domain.product.ProductImageURL
 import jp.inaba.catalog.share.domain.product.ProductName
 import jp.inaba.catalog.share.domain.product.ProductPrice
 
-
 data class UpdateProductCommand(
     override val id: ProductId,
     val name: ProductName,
