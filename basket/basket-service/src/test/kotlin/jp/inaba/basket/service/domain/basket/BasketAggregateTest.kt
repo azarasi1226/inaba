@@ -9,7 +9,7 @@ import jp.inaba.basket.api.domain.basket.event.BasketItemSetEvent
 import jp.inaba.basket.share.domain.basket.BasketId
 import jp.inaba.basket.share.domain.basket.BasketItemQuantity
 import jp.inaba.basket.share.domain.basket.SetBasketItemError
-import jp.inaba.catalog.api.domain.product.ProductId
+import jp.inaba.catalog.share.domain.product.ProductId
 import jp.inaba.common.domain.shared.ActionCommandResult
 import jp.inaba.identity.share.domain.user.UserId
 import org.axonframework.test.aggregate.AggregateTestFixture
