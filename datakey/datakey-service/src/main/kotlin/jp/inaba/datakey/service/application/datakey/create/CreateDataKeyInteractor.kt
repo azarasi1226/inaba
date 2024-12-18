@@ -22,16 +22,16 @@ class CreateDataKeyInteractor(
         canCreateDataKeyVerifier.checkDataKeyNotExits(input.relationId)
             .onFailure { return Err(it) }
 
-        val dataKey = dataKeyGenerator.handle()
+        val (planDataKey, encryptedDataKey) = dataKeyGenerator.handle()
 
         val entity =
             DataKeyJpaEntity(
                 id = input.relationId.value,
-                encryptedDataKey = dataKey.encryptedDataKey.value,
+                encryptedDataKey = encryptedDataKey.value,
             )
         dataKeyJpaRepository.save(entity)
 
-        val base64PlaneDataKey = Base64PlaneDataKey.create(dataKey.planDataKey)
+        val base64PlaneDataKey = Base64PlaneDataKey.create(planDataKey)
         return Ok(CreateDataKeyOutput(base64PlaneDataKey))
     }
 }
