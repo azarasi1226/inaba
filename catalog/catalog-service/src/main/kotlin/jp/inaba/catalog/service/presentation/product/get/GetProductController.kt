@@ -30,7 +30,7 @@ class GetProductController(
                 success = {
                     ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(it)
+                        .body(GetProductResponse.create(it))
                 },
                 failure = {
                     when (it) {

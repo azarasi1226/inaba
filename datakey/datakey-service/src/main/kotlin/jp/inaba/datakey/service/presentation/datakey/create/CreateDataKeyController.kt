@@ -31,7 +31,7 @@ class CreateDataKeyController(
             success = {
                 ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(result.value)
+                    .body(CreateDataKeyResponse.create(it))
             },
             failure = {
                 when (it) {
