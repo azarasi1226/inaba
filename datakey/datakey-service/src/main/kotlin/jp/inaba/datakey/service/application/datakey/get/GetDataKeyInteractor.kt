@@ -22,7 +22,8 @@ class GetDataKeyInteractor(
             return Err(GetDataKeyError.DATAKEY_NOT_FOUND)
         }
 
-        val planDataKey = encryptedDataKeyDecrypter.handle(EncryptedDataKey(maybeEntity.get().encryptedDataKey))
+        val encryptedDataKey = EncryptedDataKey(maybeEntity.get().encryptedDataKey)
+        val planDataKey = encryptedDataKeyDecrypter.handle(encryptedDataKey)
 
         val base64PlaneDataKey = Base64PlaneDataKey.create(planDataKey)
         return Ok(GetDataKeyOutput(base64PlaneDataKey))
