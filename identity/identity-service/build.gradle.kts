@@ -9,8 +9,8 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":identity:identity-api"))
     implementation(project(":identity:identity-share"))
-    implementation(project(":basket:basket-api"))
-    implementation(project(":basket:basket-share"))
+//    implementation(project(":basket:basket-api"))
+ //   implementation(project(":basket:basket-share"))
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-actuator")

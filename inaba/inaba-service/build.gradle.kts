@@ -7,6 +7,7 @@ apply(plugin = "kotlin-allopen")
 dependencies {
     // project
     implementation(project(":inaba:inaba-core"))
+    implementation(project(":inaba:inaba-message"))
 
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
