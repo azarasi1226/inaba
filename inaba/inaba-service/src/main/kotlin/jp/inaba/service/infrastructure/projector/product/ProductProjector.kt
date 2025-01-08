@@ -1,52 +1,49 @@
 package jp.inaba.service.infrastructure.projector.product
 
-import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
+import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductUpdatedEvent
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
-import jp.inaba.message.product.event.ProductCreatedEvent
-import jp.inaba.message.product.event.ProductUpdatedEvent
-import jp.inaba.message.product.event.ProductDeletedEvent
 
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
 class ProductProjector(
-    private val productRepository: ProductJpaRepository,
-    private val basketRepository: BasketJpaRepository,
+    private val productJpaRepository: ProductJpaRepository,
 ) {
     @EventHandler
     fun on(event: ProductCreatedEvent) {
-        val product =
+        val entity =
             ProductJpaEntity(
                 id = event.id,
                 name = event.name,
+                description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
+                quantity = event.quantity,
             )
 
-        productRepository.save(product)
+        productJpaRepository.save(entity)
     }
 
     @EventHandler
     fun on(event: ProductUpdatedEvent) {
-        productRepository.findById(event.id)
-            .ifPresent {
-                val updatedProduct =
-                    it.copy(
-                        name = event.name,
-                        imageUrl = event.imageUrl,
-                        price = event.price,
-                    )
+        val maybeEntity = productJpaRepository.findById(event.id)
 
-                productRepository.save(updatedProduct)
-            }
-    }
+        if (maybeEntity.isPresent) {
+            val entity = maybeEntity.get()
+            val updatedEntity =
+                entity.copy(
+                    name = event.name,
+                    description = event.description,
+                    imageUrl = event.imageUrl,
+                    price = event.price,
+                )
 
-    @EventHandler
-    fun on(event: ProductDeletedEvent) {
-        basketRepository.deleteByProductId(event.id)
-        productRepository.deleteById(event.id)
+            productJpaRepository.save(updatedEntity)
+        }
     }
 }
+

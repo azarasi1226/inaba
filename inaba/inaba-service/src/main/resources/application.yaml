@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local:
+        - app-common
+        - app-local
+        - axon-server
+        - datastore-mysql
+      test:
+        - app-common
+        - app-test
+        - axon-server
+        - datastore-mysql
+      prod:
+        - app-common
+        - app-prod
+        - axon-server
+        - datastore-mysql

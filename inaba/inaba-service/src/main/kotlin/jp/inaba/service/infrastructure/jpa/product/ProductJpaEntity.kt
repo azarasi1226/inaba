@@ -10,6 +10,8 @@ data class ProductJpaEntity(
     @Id
     val id: String = "",
     val name: String = "",
+    val description: String = "",
     val imageUrl: String? = null,
     val price: Int = 0,
+    val quantity: Int = 0,
 )

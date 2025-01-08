@@ -12,7 +12,6 @@
       <env name="SPRING_PROFILES_ACTIVE" value="local" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="jp.inaba.basket.service.BasketApplicationKt" />
-    <module name="inaba.basket.basket-service.main" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />
