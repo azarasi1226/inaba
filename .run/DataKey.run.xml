@@ -3,7 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AWS_KMS_MASTER-KEY_ID" value="7b41919b-29de-4eb1-90df-9e80c56abbfa" />
+      <env name="AWS_KMS_MASTER-KEY_ID" value="2fbd0efb-3cac-4004-ab3a-50c1c9bd2eb5" />
       <env name="SERVER_PORT" value="8085" />
       <env name="SPRING_DATASOURCE_DATABASE" value="datakey" />
       <env name="SPRING_DATASOURCE_HOST" value="localhost" />

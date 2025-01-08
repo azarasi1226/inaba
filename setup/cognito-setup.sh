@@ -4,6 +4,7 @@
 export AWS_ACCESS_KEY_ID="Dummy"
 export AWS_SECRET_ACCESS_KEY="Dummy"
 export AWS_SESSION_TOKEN="Dummy"
+export AWS_DEFAULT_REGION="ap-northeast-1"
 
 # jqがインストールされているかどうかをチェック
 if ! command -v jq &> /dev/null; then
