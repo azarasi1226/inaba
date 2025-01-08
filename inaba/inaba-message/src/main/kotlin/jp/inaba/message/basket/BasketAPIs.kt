@@ -7,6 +7,13 @@ import jp.inaba.core.domain.basket.CreateBasketError
 import jp.inaba.core.domain.basket.FindBasketByIdError
 import jp.inaba.core.domain.basket.SetBasketItemError
 import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.message.basket.command.ClearBasketCommand
+import jp.inaba.message.basket.command.CreateBasketCommand
+import jp.inaba.message.basket.command.DeleteBasketCommand
+import jp.inaba.message.basket.command.DeleteBasketItemCommand
+import jp.inaba.message.basket.command.SetBasketItemCommand
+import jp.inaba.message.basket.query.FindBasketByIdQuery
+import jp.inaba.message.basket.query.FindBasketByIdResult
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
