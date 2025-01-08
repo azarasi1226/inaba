@@ -1,4 +1,4 @@
-rootProject.name = "inaba"
+rootProject.name = "inaba-root"
 
 include(
     "common",
@@ -15,5 +15,10 @@ include(
     "basket:basket-share",
     "datakey:datakey-service",
     "datakey:datakey-client",
-    "datakey:datakey-grpc"
+    "datakey:datakey-grpc",
+
+    "inaba:inaba-message",
+    "inaba:inaba-grpc",
+    "inaba:inaba-service",
+    "inaba:inaba-core",
 )
