@@ -13,4 +13,5 @@ axon:
 
 aws:
   cognito:
+    user-pool-id: ${AWS_COGNITO_USER-POOL-ID}
     client-id: ${AWS_COGNITO_CLIENT-ID}
