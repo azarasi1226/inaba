@@ -6,7 +6,7 @@ apply(plugin = "kotlin-allopen")
 
 dependencies {
     implementation(project(":order:order-api"))
-    implementation(project(":catalog:catalog-api"))
+//    implementation(project(":catalog:catalog-api"))
     implementation(project(":identity:identity-api"))
 
     // spring bom
