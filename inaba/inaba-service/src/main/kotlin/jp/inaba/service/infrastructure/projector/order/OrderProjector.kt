@@ -1,6 +1,7 @@
 package jp.inaba.service.infrastructure.projector.order
 
 import jp.inaba.message.order.event.OrderCompletedEvent
+import jp.inaba.message.order.event.OrderFailedEvent
 import jp.inaba.message.order.event.OrderIssuedEvent
 import jp.inaba.service.domain.order.OrderStatus
 import jp.inaba.service.infrastructure.jpa.order.OrderEntity
@@ -31,6 +32,15 @@ class OrderProjector(
         val entity = orderJpaRepository.findById(event.id).orElseThrow()
 
         entity.status = OrderStatus.Completed
+
+        orderJpaRepository.save(entity)
+    }
+
+    @EventHandler
+    fun on(event: OrderFailedEvent) {
+        val entity = orderJpaRepository.findById(event.id).orElseThrow()
+
+        entity.status = OrderStatus.Failed
 
         orderJpaRepository.save(entity)
     }
