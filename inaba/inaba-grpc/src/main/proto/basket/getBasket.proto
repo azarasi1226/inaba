@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package basket;
+
+import "common/Paging.proto";
+import "common/PagingCondition.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.basket";
+
+service GetBasket {
+  rpc handle (GetBasketRequest) returns (GetBasketResponse);
+}
+
+message GetBasketRequest {
+  string id = 1;
+  common.PagingCondition pagingCondition = 2;
+}
+
+message GetBasketResponse {
+  repeated BasketItem basketItems = 1;
+  common.Paging paging = 2;
+}
+
+message BasketItem {
+    string productId = 1;
+    string productName = 2;
+    int32 productPrice = 3;
+    string productImageUrl = 4;
+    int32 productQuantity = 5;
+}

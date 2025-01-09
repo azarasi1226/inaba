@@ -7,6 +7,7 @@ apply(plugin = "kotlin-allopen")
 dependencies {
     // project
     implementation(project(":inaba:inaba-core"))
+    implementation(project(":inaba:inaba-grpc"))
     implementation(project(":inaba:inaba-message"))
 
     // spring bom
@@ -15,7 +16,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.retry:spring-retry:2.0.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
+    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
     // identity
     implementation("software.amazon.awssdk:sso:2.21.20")

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package basket;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.basket";
+
+service SetBasketItem {
+  rpc handle (SetBasketItemRequest) returns (google.protobuf.Empty);
+}
+
+message SetBasketItemRequest {
+  string basketId = 1;
+  string productId = 2;
+  string itemQuantity = 3;
+}
