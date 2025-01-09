@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+package auth;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.auth";
+
+service ConfirmSignup {
+  rpc handle (ConfirmSignupRequest) returns (google.protobuf.Empty);
+}
+
+message ConfirmSignupRequest {
+  string emailAddress = 1;
+  string confirmCode = 2;
+}
