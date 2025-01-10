@@ -10,7 +10,7 @@ data class ProductName(val value: String) {
 
     init {
         if (value.length !in MIN_LENGTH..MAX_LENGTH) {
-            throw DomainException("商品名の長さは[$MIN_LENGTH~$MAX_LENGTH]の間です。value.length[${value.length}]")
+            throw DomainException("商品名の長さは[$MIN_LENGTH~$MAX_LENGTH]の間です。length[${value.length}]")
         }
     }
 }

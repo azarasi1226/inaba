@@ -1,10 +1,10 @@
-package jp.inaba.core.domain.user
+package jp.inaba.core.domain.basket
 
 import jp.inaba.core.domain.common.DomainError
 
-enum class FindUserByIdError(
+enum class FindBasketByIdError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : DomainError {
-    USER_NOT_FOUND("1", "ユーザーが存在しません"),
+    BASKET_NOT_FOUND("1", "買い物かごが見つかりません"),
 }
