@@ -20,9 +20,8 @@ class CreateProductGrpcService(
     private val commandGateway: CommandGateway
 ) : CreateProductGrpc.CreateProductImplBase() {
     override fun handle(request: CreateProductRequest, responseObserver: StreamObserver<Empty>) {
-        val id = ProductId()
         val command = CreateProductCommand(
-            id = id,
+            id = ProductId(),
             name = ProductName(request.name),
             description = ProductDescription(request.description),
             imageUrl = ProductImageURL(request.imageUrl),

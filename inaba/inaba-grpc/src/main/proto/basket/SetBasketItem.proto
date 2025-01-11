@@ -14,5 +14,5 @@ service SetBasketItem {
 message SetBasketItemRequest {
   string basketId = 1;
   string productId = 2;
-  string itemQuantity = 3;
+  int32 itemQuantity = 3;
 }
