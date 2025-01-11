@@ -1,8 +1,6 @@
 package jp.inaba.service.infrastructure.jpa.basket
 
 import jakarta.transaction.Transactional
-import jp.inaba.service.infrastructure.jpa.basket.BasketItemId
-import jp.inaba.service.infrastructure.jpa.basket.BasketJpaEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

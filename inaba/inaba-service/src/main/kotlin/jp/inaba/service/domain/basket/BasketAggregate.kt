@@ -5,13 +5,13 @@ import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.basket.SetBasketItemError
 import jp.inaba.core.domain.common.ActionCommandResult
 import jp.inaba.core.domain.product.ProductId
+import jp.inaba.message.basket.command.*
+import jp.inaba.message.basket.event.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
-import jp.inaba.message.basket.command.*
-import jp.inaba.message.basket.event.*
 
 @Aggregate
 class BasketAggregate() {

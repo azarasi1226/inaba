@@ -12,12 +12,12 @@ import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.basket.SetBasketItemError
 import jp.inaba.core.domain.common.ActionCommandResult
 import jp.inaba.core.domain.product.ProductId
+import jp.inaba.message.basket.command.SetBasketItemCommand
 import jp.inaba.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.service.domain.basket.InternalSetBasketItemCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import jp.inaba.message.basket.command.SetBasketItemCommand
 
 class SetBasketItemInteractorTest {
     @MockK

@@ -11,12 +11,16 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class ResendConfirmCodeGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : ResendConfirmCodeGrpc.ResendConfirmCodeImplBase() {
-    override fun handle(request: ResendConfirmCodeRequest, responseObserver: StreamObserver<Empty>) {
-        val command = ResendConfirmCodeCommand(
-            emailAddress = request.emailAddress
-        )
+    override fun handle(
+        request: ResendConfirmCodeRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            ResendConfirmCodeCommand(
+                emailAddress = request.emailAddress,
+            )
 
         commandGateway.resendConfirmCode(command)
 

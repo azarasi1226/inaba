@@ -15,7 +15,7 @@ class TestConfiguration {
         return CognitoIdentityProviderClient.builder()
             .region(Region.AP_NORTHEAST_1)
             .credentialsProvider(
-                DefaultCredentialsProvider.create()
+                DefaultCredentialsProvider.create(),
             )
             .build()
     }

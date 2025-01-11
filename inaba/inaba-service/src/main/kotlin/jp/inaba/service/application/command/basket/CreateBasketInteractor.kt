@@ -2,12 +2,12 @@ package jp.inaba.service.application.command.basket
 
 import com.github.michaelbull.result.onFailure
 import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.message.basket.command.CreateBasketCommand
 import jp.inaba.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.service.domain.basket.InternalCreateBasketCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Component
-import jp.inaba.message.basket.command.CreateBasketCommand
 
 @Component
 class CreateBasketInteractor(

@@ -6,13 +6,13 @@ import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
 import jp.inaba.core.domain.product.ProductQuantity
+import jp.inaba.message.product.command.*
+import jp.inaba.message.product.event.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
-import jp.inaba.message.product.event.*
-import jp.inaba.message.product.command.*
 
 @Aggregate
 class ProductAggregate() {

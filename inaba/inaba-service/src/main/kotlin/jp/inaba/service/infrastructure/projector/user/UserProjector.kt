@@ -1,11 +1,11 @@
 package jp.inaba.service.infrastructure.projector.user
 
+import jp.inaba.message.user.event.UserCreatedEvent
+import jp.inaba.service.infrastructure.jpa.user.UserJpaEntity
 import jp.inaba.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
-import jp.inaba.message.user.event.UserCreatedEvent
-import jp.inaba.service.infrastructure.jpa.user.UserJpaEntity
 
 @Component
 @ProcessingGroup(UserProjectorEventProcessor.PROCESSOR_NAME)

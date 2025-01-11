@@ -16,7 +16,7 @@ class LocalConfiguration {
         return CognitoIdentityProviderClient.builder()
             .region(Region.AP_NORTHEAST_1)
             .credentialsProvider(
-                AnonymousCredentialsProvider.create()
+                AnonymousCredentialsProvider.create(),
             )
             .endpointOverride(URI.create("http://localhost:9229"))
             .build()

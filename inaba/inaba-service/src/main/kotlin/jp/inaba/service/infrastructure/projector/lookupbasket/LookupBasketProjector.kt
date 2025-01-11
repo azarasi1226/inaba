@@ -1,12 +1,12 @@
 package jp.inaba.service.infrastructure.projector.lookupbasket
 
+import jp.inaba.message.basket.event.BasketCreatedEvent
+import jp.inaba.message.basket.event.BasketDeletedEvent
 import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaEntity
 import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
-import jp.inaba.message.basket.event.BasketCreatedEvent
-import jp.inaba.message.basket.event.BasketDeletedEvent
 
 @Component
 @ProcessingGroup(LookupBasketProjectorEventProcessor.PROCESSOR_NAME)

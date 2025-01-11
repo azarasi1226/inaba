@@ -1,9 +1,9 @@
 package jp.inaba.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.axonframework.commandhandling.gateway.CommandGateway
 import jp.inaba.message.basket.command.DeleteBasketCommand
 import jp.inaba.message.basket.deleteBasket
+import org.axonframework.commandhandling.gateway.CommandGateway
 
 private val logger = KotlinLogging.logger {}
 

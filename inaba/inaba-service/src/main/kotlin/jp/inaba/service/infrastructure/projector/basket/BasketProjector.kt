@@ -1,5 +1,6 @@
 package jp.inaba.service.infrastructure.projector.basket
 
+import jp.inaba.message.basket.event.*
 import jp.inaba.service.infrastructure.jpa.basket.BasketItemId
 import jp.inaba.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
@@ -7,7 +8,6 @@ import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
-import jp.inaba.message.basket.event.*
 
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)

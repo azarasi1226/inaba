@@ -17,19 +17,23 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class SetBasketItemGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : SetBasketItemGrpc.SetBasketItemImplBase() {
-    override fun handle(request: SetBasketItemRequest, responseObserver: StreamObserver<Empty>) {
-        val command = SetBasketItemCommand(
-            id = BasketId(request.basketId),
-            productId = ProductId(request.productId),
-            basketItemQuantity = BasketItemQuantity(request.itemQuantity)
-        )
+    override fun handle(
+        request: SetBasketItemRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            SetBasketItemCommand(
+                id = BasketId(request.basketId),
+                productId = ProductId(request.productId),
+                basketItemQuantity = BasketItemQuantity(request.itemQuantity),
+            )
 
         commandGateway.setBasketItem(command)
             .mapBoth(
                 success = { success(responseObserver) },
-                failure = { failure(it, responseObserver) }
+                failure = { failure(it, responseObserver) },
             )
     }
 
@@ -38,12 +42,16 @@ class SetBasketItemGrpcService(
         responseObserver.onCompleted()
     }
 
-    private fun failure(error: SetBasketItemError, responseObserver: StreamObserver<Empty>) {
-        val status = when(error) {
-            SetBasketItemError.BASKET_DELETED -> Status.NOT_FOUND
-            SetBasketItemError.PRODUCT_NOT_FOUND -> Status.NOT_FOUND
-            SetBasketItemError.PRODUCT_MAX_KIND_OVER -> Status.OUT_OF_RANGE
-        }
+    private fun failure(
+        error: SetBasketItemError,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val status =
+            when (error) {
+                SetBasketItemError.BASKET_DELETED -> Status.NOT_FOUND
+                SetBasketItemError.PRODUCT_NOT_FOUND -> Status.NOT_FOUND
+                SetBasketItemError.PRODUCT_MAX_KIND_OVER -> Status.OUT_OF_RANGE
+            }
         responseObserver.onError(status.asException())
     }
- }
+}

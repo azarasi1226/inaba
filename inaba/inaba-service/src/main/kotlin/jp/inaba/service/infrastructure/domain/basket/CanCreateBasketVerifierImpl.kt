@@ -7,12 +7,12 @@ import com.github.michaelbull.result.mapBoth
 import jp.inaba.core.domain.basket.CreateBasketError
 import jp.inaba.core.domain.user.FindUserByIdError
 import jp.inaba.core.domain.user.UserId
+import jp.inaba.message.user.findUserById
+import jp.inaba.message.user.query.FindUserByIdQuery
 import jp.inaba.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.stereotype.Service
-import jp.inaba.message.user.query.FindUserByIdQuery
-import jp.inaba.message.user.findUserById
 
 @Service
 class CanCreateBasketVerifierImpl(

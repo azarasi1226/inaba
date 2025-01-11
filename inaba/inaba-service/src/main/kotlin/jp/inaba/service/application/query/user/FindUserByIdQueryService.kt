@@ -1,11 +1,11 @@
 package jp.inaba.service.application.query.user
 
+import jp.inaba.message.user.query.FindUserByIdQuery
+import jp.inaba.message.user.query.FindUserByIdResult
 import jp.inaba.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 import java.util.Optional
-import jp.inaba.message.user.query.FindUserByIdQuery
-import jp.inaba.message.user.query.FindUserByIdResult
 
 @Component
 class FindUserByIdQueryService(

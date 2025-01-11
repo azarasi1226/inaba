@@ -4,8 +4,8 @@ import jp.inaba.service.application.external.auth.signup.CognitoSignupService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
-import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
+import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest
 
 @Service
 class CognitoSignupServiceImpl(

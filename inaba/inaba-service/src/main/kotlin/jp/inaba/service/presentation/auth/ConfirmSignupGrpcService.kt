@@ -11,13 +11,17 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class ConfirmSignupGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : ConfirmSignupGrpc.ConfirmSignupImplBase() {
-    override fun handle(request: ConfirmSignupRequest, responseObserver: StreamObserver<Empty>) {
-        val command = ConfirmSignupCommand(
-            emailAddress = request.emailAddress,
-            confirmCode = request.confirmCode
-        )
+    override fun handle(
+        request: ConfirmSignupRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            ConfirmSignupCommand(
+                emailAddress = request.emailAddress,
+                confirmCode = request.confirmCode,
+            )
 
         commandGateway.confirmSignup(command)
 
