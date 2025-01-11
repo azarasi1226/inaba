@@ -1,6 +1,8 @@
 package jp.inaba.service.infrastructure.projector.basket
 
-import jp.inaba.message.basket.event.*
+import jp.inaba.message.basket.event.BasketClearedEvent
+import jp.inaba.message.basket.event.BasketItemDeletedEvent
+import jp.inaba.message.basket.event.BasketItemSetEvent
 import jp.inaba.service.infrastructure.jpa.basket.BasketItemId
 import jp.inaba.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
