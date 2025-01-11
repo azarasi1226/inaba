@@ -2,7 +2,6 @@ package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.DomainException
 import java.net.URI
-import java.net.URL
 
 data class ProductImageURL(val value: String?) {
     init {

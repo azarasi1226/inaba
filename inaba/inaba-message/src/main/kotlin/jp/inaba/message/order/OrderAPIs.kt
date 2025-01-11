@@ -7,7 +7,7 @@ fun CommandGateway.issueOrder(command: IssueOrderCommand) {
     this.sendAndWait<Any>(command)
 }
 
-//fun QueryGateway.findOrderByUserId(query: FindBasketByIdQuery): Result<FindBasketByIdResult, FindBasketByIdError> {
+// fun QueryGateway.findOrderByUserId(query: FindBasketByIdQuery): Result<FindBasketByIdResult, FindBasketByIdError> {
 //    val maybeResult =
 //        this.query(query, ResponseTypes.optionalInstanceOf(FindBasketByIdResult::class.java))
 //            .get()
@@ -17,4 +17,4 @@ fun CommandGateway.issueOrder(command: IssueOrderCommand) {
 //    } else {
 //        Err(FindBasketByIdError.BASKET_NOT_FOUND)
 //    }
-//}
+// }
