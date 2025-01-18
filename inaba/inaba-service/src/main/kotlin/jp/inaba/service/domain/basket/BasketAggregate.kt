@@ -53,6 +53,7 @@ class BasketAggregate() {
                 productId = command.productId.value,
                 basketItemQuantity = command.basketItemQuantity.value,
             )
+
         AggregateLifecycle.apply(event)
 
         return ActionCommandResult.ok()
@@ -72,14 +73,12 @@ class BasketAggregate() {
     @CommandHandler
     fun handle(command: ClearBasketCommand) {
         val event = BasketClearedEvent(command.id.value)
-
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: DeleteBasketCommand) {
         val event = BasketClearedEvent(command.id.value)
-
         AggregateLifecycle.apply(event)
     }
 
@@ -98,9 +97,7 @@ class BasketAggregate() {
 
     @EventSourcingHandler
     fun on(event: BasketItemDeletedEvent) {
-        val productId = ProductId(event.productId)
-
-        items.remove(productId)
+        items.remove(ProductId(event.productId))
     }
 
     @EventSourcingHandler

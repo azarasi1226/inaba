@@ -1,11 +1,11 @@
 package jp.inaba.service.domain.product
 
-import jp.inaba.core.domain.product.ProductDescription
+import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.common.IdempotenceChecker
+import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.core.domain.product.ProductImageURL
-import jp.inaba.core.domain.product.ProductName
-import jp.inaba.core.domain.product.ProductPrice
 import jp.inaba.core.domain.product.ProductQuantity
+import jp.inaba.core.domain.product.ShipmentProductError
 import jp.inaba.message.product.command.CreateProductCommand
 import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.command.InboundProductCommand
@@ -26,11 +26,9 @@ import org.axonframework.spring.stereotype.Aggregate
 class ProductAggregate() {
     @AggregateIdentifier
     private lateinit var id: ProductId
-    private lateinit var name: ProductName
-    private lateinit var description: ProductDescription
-    private var imageUrl: ProductImageURL? = null
-    private lateinit var price: ProductPrice
     private lateinit var quantity: ProductQuantity
+
+    private var idempotenceChecker = IdempotenceChecker()
 
     @CommandHandler
     constructor(command: CreateProductCommand) : this() {
@@ -62,10 +60,16 @@ class ProductAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: ShipmentProductCommand) {
+    fun handle(command: InboundProductCommand) {
+        // 冪等性チェック
+        if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
+            return
+        }
+
         val event =
-            ProductShippedEvent(
+            ProductInboundedEvent(
                 id = command.id.value,
+                idempotencyId = command.idempotencyId.value,
                 quantity = command.quantity.value,
             )
 
@@ -73,14 +77,27 @@ class ProductAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: InboundProductCommand) {
+    fun handle(command: ShipmentProductCommand) : ActionCommandResult {
+        // 冪等性チェック
+        if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
+            return ActionCommandResult.ok()
+        }
+
+        // 出荷数量分の在庫はある？
+        if (quantity.value >= command.quantity.value) {
+            return ActionCommandResult.error(ShipmentProductError.OutOfStock.errorCode)
+        }
+
         val event =
-            ProductInboundedEvent(
+            ProductShippedEvent(
                 id = command.id.value,
+                idempotencyId = command.idempotencyId.value,
                 quantity = command.quantity.value,
             )
 
         AggregateLifecycle.apply(event)
+
+        return ActionCommandResult.ok()
     }
 
     @CommandHandler
@@ -93,29 +110,23 @@ class ProductAggregate() {
     @EventSourcingHandler
     fun on(event: ProductCreatedEvent) {
         id = ProductId(event.id)
-        name = ProductName(event.name)
-        description = ProductDescription(event.description)
-        imageUrl = ProductImageURL(event.imageUrl)
-        price = ProductPrice(event.price)
         quantity = ProductQuantity(event.quantity)
     }
 
     @EventSourcingHandler
     fun on(event: ProductUpdatedEvent) {
-        name = ProductName(event.name)
-        description = ProductDescription(event.description)
-        imageUrl = ProductImageURL(event.imageUrl)
-        price = ProductPrice(event.price)
-    }
-
-    @EventSourcingHandler
-    fun on(event: ProductShippedEvent) {
-        quantity = ProductQuantity(event.quantity)
     }
 
     @EventSourcingHandler
     fun on(event: ProductInboundedEvent) {
         quantity = ProductQuantity(event.quantity)
+        idempotenceChecker.register(IdempotencyId(event.idempotencyId))
+    }
+
+    @EventSourcingHandler
+    fun on(event: ProductShippedEvent) {
+        quantity = ProductQuantity(event.quantity)
+        idempotenceChecker.register(IdempotencyId(event.idempotencyId))
     }
 
     @EventSourcingHandler
