@@ -26,13 +26,13 @@ dependencies {
     implementation("org.axonframework.extensions.kotlin:axon-kotlin")
     testImplementation("org.axonframework:axon-test")
 
-    // other
+    // other-common
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.retry:spring-retry:2.0.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
-    // identity
+    // other-identity
     implementation("software.amazon.awssdk:sso:2.21.20")
     implementation("software.amazon.awssdk:cognitoidentityprovider:2.21.20")
 }
