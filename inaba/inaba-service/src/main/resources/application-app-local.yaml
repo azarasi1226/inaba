@@ -6,3 +6,7 @@ spring:
 logging:
   level:
     jp.inaba: DEBUG
+
+aws:
+  cognito:
+    endpoint: http://localhost:9229

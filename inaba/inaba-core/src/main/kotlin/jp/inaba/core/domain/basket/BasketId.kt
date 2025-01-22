@@ -1,8 +1,8 @@
 package jp.inaba.core.domain.basket
 
-import jp.inaba.core.domain.common.ULIDBaseId
+import jp.inaba.core.domain.common.ULIDIdBase
 
-class BasketId : ULIDBaseId {
+class BasketId : ULIDIdBase {
     constructor() : super()
     constructor(value: String) : super(value)
 }

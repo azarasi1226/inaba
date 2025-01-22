@@ -1,6 +1,10 @@
 server:
   port: ${SERVER_PORT:8083}
 
+grpc:
+  server:
+    port: ${GRPC_PORT:8183}
+
 spring:
   application:
     name: inaba-service

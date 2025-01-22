@@ -2,7 +2,7 @@ package jp.inaba.core.domain.common
 
 import de.huxhorn.sulky.ulid.ULID
 
-abstract class ULIDBaseId(val value: String) {
+abstract class ULIDIdBase(val value: String) {
     constructor() : this(ULID().nextULID())
 
     init {
@@ -19,7 +19,7 @@ abstract class ULIDBaseId(val value: String) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is ULIDBaseId) return false
+        if (other !is ULIDIdBase) return false
         return value == other.value
     }
 

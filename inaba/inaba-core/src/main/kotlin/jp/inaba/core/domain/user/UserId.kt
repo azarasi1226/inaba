@@ -1,8 +1,8 @@
 package jp.inaba.core.domain.user
 
-import jp.inaba.core.domain.common.ULIDBaseId
+import jp.inaba.core.domain.common.ULIDIdBase
 
-class UserId : ULIDBaseId {
+class UserId : ULIDIdBase {
     constructor() : super()
     constructor(value: String) : super(value)
 }
