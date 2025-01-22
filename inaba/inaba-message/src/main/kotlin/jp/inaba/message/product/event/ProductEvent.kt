@@ -1,5 +1,5 @@
 package jp.inaba.message.product.event
 
-sealed interface ProductEvent {
+interface ProductEvent {
     val id: String
 }
