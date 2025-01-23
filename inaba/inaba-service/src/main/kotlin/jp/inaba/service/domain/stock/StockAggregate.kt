@@ -31,8 +31,7 @@ class StockAggregate() {
         val event =
             StockCreatedEvent(
                 id = command.id.value,
-                productId = command.productId.value,
-                quantity = command.quantity.value,
+                productId = command.productId.value
             )
 
         AggregateLifecycle.apply(event)
@@ -86,7 +85,7 @@ class StockAggregate() {
     @EventSourcingHandler
     fun on(event: StockCreatedEvent) {
         id = StockId(event.id)
-        quantity = StockQuantity(event.quantity)
+        quantity = StockQuantity(0)
     }
 
     @EventSourcingHandler

@@ -7,7 +7,6 @@ import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
-import jp.inaba.core.domain.product.ProductQuantity
 import jp.inaba.grpc.product.CreateProductGrpc
 import jp.inaba.grpc.product.CreateProductRequest
 import jp.inaba.message.product.command.CreateProductCommand
@@ -30,7 +29,6 @@ class CreateProductGrpcService(
                 description = ProductDescription(request.description),
                 imageUrl = ProductImageURL(request.imageUrl),
                 price = ProductPrice(request.price),
-                quantity = ProductQuantity(request.quantity),
             )
 
         commandGateway.createProduct(command)

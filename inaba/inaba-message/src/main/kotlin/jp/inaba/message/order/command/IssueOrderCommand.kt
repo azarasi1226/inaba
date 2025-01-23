@@ -2,7 +2,7 @@ package jp.inaba.message.order.command
 
 import jp.inaba.core.domain.order.OrderId
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.core.domain.product.ProductQuantity
+import jp.inaba.core.domain.stock.StockQuantity
 import jp.inaba.core.domain.user.UserId
 
 data class IssueOrderCommand(
@@ -12,6 +12,6 @@ data class IssueOrderCommand(
 ) : OrderAggregateCommand {
     data class BasketItem(
         val productId: ProductId,
-        val productQuantity: ProductQuantity,
+        val stockQuantity: StockQuantity,
     )
 }

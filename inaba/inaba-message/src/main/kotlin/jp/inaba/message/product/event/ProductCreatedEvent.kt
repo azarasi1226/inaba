@@ -6,5 +6,4 @@ data class ProductCreatedEvent(
     val description: String,
     val imageUrl: String?,
     val price: Int,
-    val quantity: Int,
 ) : ProductEvent

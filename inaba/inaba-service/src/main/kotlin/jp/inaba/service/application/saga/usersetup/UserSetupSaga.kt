@@ -42,6 +42,7 @@ class UserSetupSaga {
     @JsonIgnore
     private lateinit var userIdFactory: UserIdFactory
 
+    //TODO: ここでインスタンス化する意味なくね..?普通に使うところでしたほうがすっきりする気がするんやが...
     @delegate:JsonIgnore
     private val createUserStep by lazy { CreateUserStep(commandGateway) }
 

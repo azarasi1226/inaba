@@ -29,7 +29,7 @@ class OrderAggregate() {
                     command.basketItems.map {
                         OrderIssuedEvent.BasketItem(
                             productId = it.productId.value,
-                            productQuantity = it.productQuantity.value,
+                            stockQuantity = it.stockQuantity.value,
                         )
                     },
             )

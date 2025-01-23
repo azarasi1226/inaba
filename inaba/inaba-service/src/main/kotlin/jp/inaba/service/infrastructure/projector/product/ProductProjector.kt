@@ -22,7 +22,6 @@ class ProductProjector(
                 description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
-                quantity = event.quantity,
             )
 
         productJpaRepository.save(entity)

@@ -7,6 +7,6 @@ data class OrderIssuedEvent(
 ) : OrderEvent {
     data class BasketItem(
         val productId: String,
-        val productQuantity: Int,
+        val stockQuantity: Int,
     )
 }
