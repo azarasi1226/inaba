@@ -11,6 +11,7 @@ class ActionCommandResult private constructor(
             return ActionCommandResult()
         }
 
+        //TODO: ここDomainエラーを受け取るように。
         fun error(errorCode: String): ActionCommandResult {
             return ActionCommandResult(errorCode)
         }
