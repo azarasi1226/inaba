@@ -33,14 +33,14 @@ class StockAggregate() {
         val event =
             StockCreatedEvent(
                 id = command.id.value,
-                productId = command.productId.value
+                productId = command.productId.value,
             )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
-    fun handle(command: IncreaseStockCommand) : ActionCommandResult {
+    fun handle(command: IncreaseStockCommand): ActionCommandResult {
         // 冪等性チェック
         if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
             return ActionCommandResult.ok()
@@ -64,7 +64,7 @@ class StockAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: DecreaseStockCommand) : ActionCommandResult {
+    fun handle(command: DecreaseStockCommand): ActionCommandResult {
         // 冪等性チェック
         if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
             return ActionCommandResult.ok()
@@ -76,11 +76,11 @@ class StockAggregate() {
 
         val event =
             StockDecreasedEvent(
-            id = command.id.value,
-            productId = productId.value,
-            idempotencyId = command.idempotencyId.value,
-            decreaseCount = command.decreaseCount.value,
-        )
+                id = command.id.value,
+                productId = productId.value,
+                idempotencyId = command.idempotencyId.value,
+                decreaseCount = command.decreaseCount.value,
+            )
 
         AggregateLifecycle.apply(event)
 

@@ -15,7 +15,7 @@ class LocalConfiguration {
     @Bean
     fun cognitoClient(
         @Value("\${aws.cognito.endpoint}")
-        endpoint: String
+        endpoint: String,
     ): CognitoIdentityProviderClient {
         return CognitoIdentityProviderClient.builder()
             .region(Region.AP_NORTHEAST_1)

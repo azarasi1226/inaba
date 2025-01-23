@@ -6,4 +6,3 @@ class BasketId : ULIDIdBase {
     constructor() : super()
     constructor(value: String) : super(value)
 }
-

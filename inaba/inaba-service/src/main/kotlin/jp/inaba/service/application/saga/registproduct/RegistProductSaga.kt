@@ -31,7 +31,7 @@ class RegistProductSaga {
     @delegate:JsonIgnore
     private val createStockStep by lazy { CreateStockStep(commandGateway) }
 
-    @delegate: JsonIgnore
+    @delegate:JsonIgnore
     private val deleteProductStep by lazy { DeleteProductStep(commandGateway) }
 
     @StartSaga
@@ -40,10 +40,11 @@ class RegistProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: ProductCreatedEvent) {
-        val createStockCommand = CreateStockCommand(
-            id = StockId(),
-            productId = ProductId(event.id)
-        )
+        val createStockCommand =
+            CreateStockCommand(
+                id = StockId(),
+                productId = ProductId(event.id),
+            )
 
         createStockStep.handle(
             command = createStockCommand,
@@ -54,16 +55,16 @@ class RegistProductSaga {
                     command = deleteProductCommand,
                     onFail = {
                         fatalError()
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
     @EndSaga
     @SagaEventHandler(
         associationResolver = MetaDataAssociationResolver::class,
-        associationProperty = "traceId"
+        associationProperty = "traceId",
     )
     fun on(event: StockCreatedEvent) {
         logger.info { "RegistProductSaga正常終了" }
@@ -72,7 +73,7 @@ class RegistProductSaga {
     @EndSaga
     @SagaEventHandler(
         associationResolver = MetaDataAssociationResolver::class,
-        associationProperty = "traceId"
+        associationProperty = "traceId",
     )
     fun on(event: ProductDeletedEvent) {
         logger.warn { "RegistProductSaga補償終了" }

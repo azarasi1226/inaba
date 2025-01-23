@@ -4,7 +4,7 @@ import jp.inaba.core.domain.common.DomainError
 
 enum class DecreaseStockError(
     override val errorCode: String,
-    override val errorMessage: String
+    override val errorMessage: String,
 ) : DomainError {
-    InsufficientStock("1", "在庫を確保できませんでした")
+    InsufficientStock("1", "在庫を確保できませんでした"),
 }

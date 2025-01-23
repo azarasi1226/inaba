@@ -29,7 +29,7 @@ class ProductProjector(
         productJpaRepository.save(entity)
     }
 
-    //TODO: 冪等性死んでるから！！！対策して！！！
+    // TODO: 冪等性死んでるから！！！対策して！！！
     @EventHandler
     fun on(event: StockIncreasedEvent) {
         val maybeEntity = productJpaRepository.findById(event.productId)
@@ -38,14 +38,14 @@ class ProductProjector(
             val entity = maybeEntity.get()
             val updatedEntity =
                 entity.copy(
-                    quantity = entity.quantity + event.increaseCount
+                    quantity = entity.quantity + event.increaseCount,
                 )
 
-            productJpaRepository.save(entity)
+            productJpaRepository.save(updatedEntity)
         }
     }
 
-    //TODO: 冪等性死んでるから！！！対策して！！！
+    // TODO: 冪等性死んでるから！！！対策して！！！
     @EventHandler
     fun on(event: StockDecreasedEvent) {
         val maybeEntity = productJpaRepository.findById(event.productId)
@@ -54,13 +54,12 @@ class ProductProjector(
             val entity = maybeEntity.get()
             val updatedEntity =
                 entity.copy(
-                    quantity = entity.quantity - event.decreaseCount
+                    quantity = entity.quantity - event.decreaseCount,
                 )
 
-            productJpaRepository.save(entity)
+            productJpaRepository.save(updatedEntity)
         }
     }
-
 
     @EventHandler
     fun on(event: ProductUpdatedEvent) {

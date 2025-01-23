@@ -16,7 +16,7 @@ class DeleteProductStep(
     ) {
         try {
             commandGateway.deleteProduct(command)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             logger.warn { "Productの削除に失敗しました　exception:[$e]" }
             onFail.invoke()
         }

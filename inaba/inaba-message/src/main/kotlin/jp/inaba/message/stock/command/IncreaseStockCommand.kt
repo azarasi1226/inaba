@@ -7,5 +7,5 @@ import jp.inaba.core.domain.stock.StockQuantity
 data class IncreaseStockCommand(
     override val id: StockId,
     val idempotencyId: IdempotencyId,
-    val increaseCount: StockQuantity
+    val increaseCount: StockQuantity,
 ) : StockAggregateCommand

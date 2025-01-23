@@ -8,7 +8,7 @@ import jp.inaba.message.auth.event.SignupConfirmedEvent
 import jp.inaba.message.basket.event.BasketCreatedEvent
 import jp.inaba.message.user.event.UserCreatedEvent
 
-//TODO: これもしかしていらない疑惑ある。
+// TODO: これもしかしていらない疑惑ある。
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class UserSetupSagaState private constructor(
     val emailAddress: String,

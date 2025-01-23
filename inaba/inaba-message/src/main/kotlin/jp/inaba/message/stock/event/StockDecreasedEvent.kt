@@ -4,5 +4,5 @@ data class StockDecreasedEvent(
     override val id: String,
     val productId: String,
     val idempotencyId: String,
-    val decreaseCount: Int
+    val decreaseCount: Int,
 ) : StockEvent
