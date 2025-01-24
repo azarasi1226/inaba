@@ -2,7 +2,6 @@ package jp.inaba.service.domain.stock
 
 import jp.inaba.core.domain.common.ActionCommandResult
 import jp.inaba.core.domain.common.IdempotenceChecker
-import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.stock.DecreaseStockError
 import jp.inaba.core.domain.stock.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
@@ -23,13 +22,12 @@ import org.axonframework.spring.stereotype.Aggregate
 class StockAggregate() {
     @AggregateIdentifier
     private lateinit var id: StockId
-    private lateinit var productId: ProductId
     private lateinit var quantity: StockQuantity
 
     private var idempotenceChecker = IdempotenceChecker()
 
     @CommandHandler
-    constructor(command: CreateStockCommand) : this() {
+    constructor(command: InternalCreateStockCommand) : this() {
         val event =
             StockCreatedEvent(
                 id = command.id.value,
@@ -53,7 +51,6 @@ class StockAggregate() {
         val event =
             StockIncreasedEvent(
                 id = command.id.value,
-                productId = productId.value,
                 idempotencyId = command.idempotencyId.value,
                 increaseCount = command.increaseCount.value,
             )
@@ -77,7 +74,6 @@ class StockAggregate() {
         val event =
             StockDecreasedEvent(
                 id = command.id.value,
-                productId = productId.value,
                 idempotencyId = command.idempotencyId.value,
                 decreaseCount = command.decreaseCount.value,
             )
@@ -90,7 +86,6 @@ class StockAggregate() {
     @EventSourcingHandler
     fun on(event: StockCreatedEvent) {
         id = StockId(event.id)
-        productId = ProductId(event.productId)
         quantity = StockQuantity(0)
     }
 

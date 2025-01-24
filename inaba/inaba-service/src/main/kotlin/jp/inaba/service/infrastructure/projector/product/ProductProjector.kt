@@ -2,6 +2,7 @@ package jp.inaba.service.infrastructure.projector.product
 
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
+import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.message.stock.event.StockDecreasedEvent
 import jp.inaba.message.stock.event.StockIncreasedEvent
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaEntity
@@ -29,10 +30,24 @@ class ProductProjector(
         productJpaRepository.save(entity)
     }
 
+    @EventHandler
+    fun on(event: StockCreatedEvent) {
+        val maybeEntity = productJpaRepository.findById(event.productId)
+
+        if (maybeEntity.isPresent) {
+            val entity = maybeEntity.get()
+            val updatedEntity = entity.copy(
+                stockId = event.id
+            )
+
+            productJpaRepository.save(updatedEntity)
+        }
+    }
+
     // TODO: 冪等性死んでるから！！！対策して！！！
     @EventHandler
     fun on(event: StockIncreasedEvent) {
-        val maybeEntity = productJpaRepository.findById(event.productId)
+        val maybeEntity = productJpaRepository.findByStockId(event.id)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
@@ -48,7 +63,7 @@ class ProductProjector(
     // TODO: 冪等性死んでるから！！！対策して！！！
     @EventHandler
     fun on(event: StockDecreasedEvent) {
-        val maybeEntity = productJpaRepository.findById(event.productId)
+        val maybeEntity = productJpaRepository.findByStockId(event.id)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
