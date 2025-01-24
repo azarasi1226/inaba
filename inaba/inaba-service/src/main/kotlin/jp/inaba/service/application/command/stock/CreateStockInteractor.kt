@@ -12,17 +12,18 @@ import org.springframework.stereotype.Component
 @Component
 class CreateStockInteractor(
     private val canCreateStockVerifier: CanCreateStockVerifier,
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
     fun handle(command: CreateStockCommand): ActionCommandResult {
         canCreateStockVerifier.checkProductExits(command.productId)
             .onFailure { return ActionCommandResult.error(it.errorCode) }
 
-        val internalCommand = InternalCreateStockCommand(
-            id = command.id,
-            productId = command.productId
-        )
+        val internalCommand =
+            InternalCreateStockCommand(
+                id = command.id,
+                productId = command.productId,
+            )
 
         commandGateway.sendAndWait<Any>(internalCommand)
 

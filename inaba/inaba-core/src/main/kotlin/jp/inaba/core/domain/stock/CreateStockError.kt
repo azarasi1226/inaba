@@ -6,5 +6,5 @@ enum class CreateStockError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : DomainError {
-    ProductNotExits("1", "商品が存在しませんでした。")
+    ProductNotExits("1", "商品が存在しませんでした。"),
 }

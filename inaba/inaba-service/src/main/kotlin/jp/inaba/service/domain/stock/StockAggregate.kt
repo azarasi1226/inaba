@@ -6,7 +6,6 @@ import jp.inaba.core.domain.stock.DecreaseStockError
 import jp.inaba.core.domain.stock.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
 import jp.inaba.core.domain.stock.StockQuantity
-import jp.inaba.message.stock.command.CreateStockCommand
 import jp.inaba.message.stock.command.DecreaseStockCommand
 import jp.inaba.message.stock.command.IncreaseStockCommand
 import jp.inaba.message.stock.event.StockCreatedEvent

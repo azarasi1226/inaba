@@ -14,7 +14,7 @@ class CanCreateStockVerifierImpl(
     private val productJpaRepository: ProductJpaRepository,
 ) : CanCreateStockVerifier {
     override fun checkProductExits(productId: ProductId): Result<Unit, CreateStockError> {
-        return if(productJpaRepository.existsById(productId.value)) {
+        return if (productJpaRepository.existsById(productId.value)) {
             Ok(Unit)
         } else {
             Err(CreateStockError.ProductNotExits)
