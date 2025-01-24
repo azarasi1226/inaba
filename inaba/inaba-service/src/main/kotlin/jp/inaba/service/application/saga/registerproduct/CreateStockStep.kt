@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.registproduct
+package jp.inaba.service.application.saga.registerproduct
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.message.stock.command.CreateStockCommand

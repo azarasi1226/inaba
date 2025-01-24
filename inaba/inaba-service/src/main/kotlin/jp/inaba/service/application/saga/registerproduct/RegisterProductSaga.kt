@@ -1,10 +1,10 @@
-package jp.inaba.service.application.saga.registproduct
+package jp.inaba.service.application.saga.registerproduct
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.core.domain.stock.StockId
+import jp.inaba.core.domain.stock.StockIdFactory
 import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
@@ -23,10 +23,14 @@ private val logger = KotlinLogging.logger {}
 
 @Saga
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-class RegistProductSaga {
+class RegisterProductSaga {
     @Autowired
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
+
+    @Autowired
+    @JsonIgnore
+    private lateinit var stockIdFactory: StockIdFactory
 
     @delegate:JsonIgnore
     private val createStockStep by lazy { CreateStockStep(commandGateway) }
@@ -42,7 +46,7 @@ class RegistProductSaga {
     fun on(event: ProductCreatedEvent) {
         val createStockCommand =
             CreateStockCommand(
-                id = StockId(),
+                id = stockIdFactory.handle(),
                 productId = ProductId(event.id),
             )
 
@@ -67,7 +71,7 @@ class RegistProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: StockCreatedEvent) {
-        logger.info { "RegistProductSaga正常終了" }
+        logger.info { "正常終了" }
     }
 
     @EndSaga
@@ -76,11 +80,11 @@ class RegistProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: ProductDeletedEvent) {
-        logger.warn { "RegistProductSaga補償終了" }
+        logger.warn { "補償終了" }
     }
 
     private fun fatalError() {
-        logger.error { "致命的なエラーが発生したため補償もできませんでした。データの整合性を確認してください。" }
+        logger.error { "致命的なエラーが発生しました。データの整合性を確認してください。" }
         SagaLifecycle.end()
     }
 }
