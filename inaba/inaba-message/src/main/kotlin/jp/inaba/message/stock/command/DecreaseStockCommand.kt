@@ -6,6 +6,8 @@ import jp.inaba.core.domain.stock.StockQuantity
 
 data class DecreaseStockCommand(
     override val id: StockId,
-    val idempotencyId: IdempotencyId,
     val decreaseCount: StockQuantity,
+
+    //　冪等性対策
+    val idempotencyId: IdempotencyId,
 ) : StockAggregateCommand

@@ -52,6 +52,7 @@ class StockAggregate() {
                 id = command.id.value,
                 idempotencyId = command.idempotencyId.value,
                 increaseCount = command.increaseCount.value,
+                stockQuantity = quantity.value
             )
 
         AggregateLifecycle.apply(event)
@@ -75,6 +76,7 @@ class StockAggregate() {
                 id = command.id.value,
                 idempotencyId = command.idempotencyId.value,
                 decreaseCount = command.decreaseCount.value,
+                stockQuantity = quantity.value
             )
 
         AggregateLifecycle.apply(event)
