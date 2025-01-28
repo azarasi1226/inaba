@@ -15,7 +15,12 @@ class CreateStockStep(
         onFail: () -> Unit,
     ) {
         try {
-            commandGateway.createStock(command)
+            val result = commandGateway.createStock(command)
+
+            if (result.isErr) {
+                logger.warn { "Stockの作成に失敗しました error:[${result.error}]" }
+                onFail.invoke()
+            }
         } catch (e: Exception) {
             logger.warn { "Stockの作成に失敗しました exception:[$e]" }
             onFail.invoke()
