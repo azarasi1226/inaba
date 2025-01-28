@@ -8,6 +8,7 @@ data class FindProductByIdQuery(
 
 data class FindProductByIdResult(
     val id: String,
+    val stockId: String,
     val name: String,
     val description: String,
     val imageUrl: String?,

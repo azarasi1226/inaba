@@ -22,6 +22,8 @@ class FindProductByIdQueryService(
             Optional.of(
                 FindProductByIdResult(
                     id = entity.id,
+                    //TODO (nullableだけど、ない場合とかあるか？後で考えよう。)
+                    stockId = entity.stockId!!,
                     name = entity.name,
                     description = entity.description,
                     imageUrl = entity.imageUrl,

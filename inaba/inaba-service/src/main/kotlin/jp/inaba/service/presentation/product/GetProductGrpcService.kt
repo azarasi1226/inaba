@@ -41,6 +41,7 @@ class GetProductGrpcService(
         val response =
             GetProductResponse.newBuilder()
                 .setName(result.name)
+                .setStockId(result.stockId)
                 .setDescription(result.description)
                 .setImageUrl(result.imageUrl)
                 .setPrice(result.price)
