@@ -9,6 +9,8 @@ import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.command.UpdateProductCommand
 import jp.inaba.message.product.query.FindProductByIdQuery
 import jp.inaba.message.product.query.FindProductByIdResult
+import jp.inaba.message.product.query.SearchProductQuery
+import jp.inaba.message.product.query.SearchProductResult
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
@@ -35,4 +37,9 @@ fun QueryGateway.findProductById(query: FindProductByIdQuery): Result<FindProduc
     } else {
         Err(FindProductByIdError.PRODUCT_NOT_FOUND)
     }
+}
+
+fun QueryGateway.searchProduct(query: SearchProductQuery): SearchProductResult {
+    return this.query(query, ResponseTypes.instanceOf(SearchProductResult::class.java))
+        .get()
 }

@@ -22,6 +22,7 @@ class GetProductGrpcService(
         request: GetProductRequest,
         responseObserver: StreamObserver<GetProductResponse>,
     ) {
+        // TODO(QUEryだろ)
         val command =
             FindProductByIdQuery(
                 id = ProductId(request.id),

@@ -1,6 +1,6 @@
 package jp.inaba.service.application.query.basket
 
-class FindBasketByIdSqlResult(
+data class FindBasketByIdSqlResult(
     val productId: String,
     val productName: String,
     val productPrice: Int,

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package product;
+
+import "common/Paging.proto";
+import "common/PagingCondition.proto";
+import "common/SortCondition.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.product";
+
+service SearchProduct {
+  rpc handle (SearchProductRequest) returns (SearchProductResponse);
+}
+
+message SearchProductRequest {
+  string name = 1;
+  common.PagingCondition pagingCondition = 2;
+  common.SortCondition sortCondition = 3;
+}
+
+//TODO(プロパティのネーミング)
+message SearchProductResponse {
+  repeated Summary items = 1;
+  common.Paging paging = 2;
+}
+
+message Summary {
+  string id = 1;
+  string name = 2;
+  string imageUrl = 3;
+  int32 price = 4;
+  int32 quantity = 5;
+}

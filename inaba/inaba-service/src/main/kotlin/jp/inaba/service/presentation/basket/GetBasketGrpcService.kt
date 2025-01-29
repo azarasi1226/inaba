@@ -52,7 +52,8 @@ class GetBasketGrpcService(
                     Paging.newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
                         .setPageSize(result.page.paging.pageSize)
-                        .setPageNumber(result.page.paging.pageNumber),
+                        .setPageNumber(result.page.paging.pageNumber)
+                        .build()
                 )
                 .addAllBasketItems(
                     result.page.items.map {
