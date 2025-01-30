@@ -14,18 +14,18 @@ class SearchProductQueryService(
     private val entityManager: EntityManager
 ) {
     companion object {
+        //TODO (WHERない)
         private val QUERY =
 """
 SELECT
     p.id AS ${SearchProductSqlResult::id.name},
     p.name AS ${SearchProductSqlResult::name.name},
-    p.imageUrl AS ${SearchProductSqlResult::imageUrl.name}
-    p.price AS ${SearchProductSqlResult::imageUrl.name}
+    p.image_url AS ${SearchProductSqlResult::imageUrl.name},
+    p.price AS ${SearchProductSqlResult::price.name},
     p.quantity AS ${SearchProductSqlResult::quantity.name},
     COUNT(*) OVER() AS ${SearchProductSqlResult::totalCount.name}
 FROM product p
-WHERE 
-    p.name LIKE '%:name%'
+
 ORDER BY :sortProperty :sortDirection
 LIMIT :offset, :pageSize
 """
@@ -35,11 +35,11 @@ LIMIT :offset, :pageSize
     fun handle(query: SearchProductQuery) : SearchProductResult {
        val nativeQuery =
            entityManager.createNativeQuery(QUERY, SearchProductSqlResult::class.java)
-               .setParameter("name", query.productName.value)
+              // .setParameter("name", query.productName.value)
                .setParameter("offset", query.pagingCondition.offset)
                .setParameter("pageSize", query.pagingCondition.pageSize)
-               .setParameter("sortProperty", query.sortCondition.property)
-               .setParameter("sortDirection", query.sortCondition.direction)
+               .setParameter("sortProperty", query.sortCondition.property.name)
+               .setParameter("sortDirection", query.sortCondition.direction.name)
         @Suppress("UNCHECKED_CAST")
         val result =
             convertToQueryResult(

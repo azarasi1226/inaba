@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:8085}
+
+spring:
+  application:
+    name: inaba-service
+
+grpc:
+  client:
+    global:
+      address: 'dns:///localhost:8184'
+      enableKeepAlive: true
+      negotiationType: plaintext

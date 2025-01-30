@@ -10,4 +10,5 @@ include(
     "inaba:inaba-grpc",
     "inaba:inaba-service",
     "inaba:inaba-core",
+    "inaba:inaba-apigateway"
 )

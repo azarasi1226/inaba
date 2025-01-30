@@ -29,7 +29,7 @@ class SearchProductGrpcService(
             ),
             sortCondition = SortCondition(
                 property = ProductSortProperty.valueOf(request.sortCondition.property),
-                direction = SortDirection.valueOf(request.sortCondition.property)
+                direction = SortDirection.valueOf(request.sortCondition.direction)
             )
         )
 
