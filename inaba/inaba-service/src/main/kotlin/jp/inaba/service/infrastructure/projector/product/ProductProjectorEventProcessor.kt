@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration
 class ProductProjectorEventProcessor {
     companion object {
         const val PROCESSOR_NAME = "product-projector"
-        private const val PROCESSOR_COUNT = 5
+        private const val PROCESSOR_COUNT = 2
         private const val DEAD_LETTER_QUEUE_SEQUENCE = 256
     }
 
@@ -22,7 +22,6 @@ class ProductProjectorEventProcessor {
         epc.registerTrackingEventProcessorConfiguration(PROCESSOR_NAME) {
             TrackingEventProcessorConfiguration
                 .forParallelProcessing(PROCESSOR_COUNT)
-                .andInitialSegmentsCount(PROCESSOR_COUNT)
         }
             .registerDeadLetterQueue(PROCESSOR_NAME) {
                 JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()

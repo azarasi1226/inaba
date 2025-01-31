@@ -1,6 +1,7 @@
 package jp.inaba.service.infrastructure.projector.product
 
 import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
 import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.message.stock.event.StockDecreasedEvent
@@ -90,6 +91,17 @@ class ProductProjector(
                 )
 
             productJpaRepository.save(updatedEntity)
+        }
+    }
+
+    @EventHandler
+    fun on(event: ProductDeletedEvent) {
+        val maybeEntity = productJpaRepository.findById(event.id)
+
+        if(maybeEntity.isPresent) {
+            val entity = maybeEntity.get()
+
+            productJpaRepository.delete(entity)
         }
     }
 }
