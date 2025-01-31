@@ -1,6 +1,6 @@
 package jp.inaba.core.domain.common
 
-interface DomainError {
+interface UseCaseError {
     val errorCode: String
     val errorMessage: String
 }
