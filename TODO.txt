@@ -20,3 +20,21 @@
 * region情報も環境変数で入れたら？ Localの接続先も
 
 * SQLの間違いをJPAの機能で防げないかな？　JPA独自のSQLとかなんかあった気がするけど
+
+
+
+## リトライ条件
+RuntimeExceptionの場合リトライされる。
+でもAxonServerを使用すると、ExecuteExceptionになるから全部リトライされる...?
+ * 集約のコマンドハンドラがーない　→　リトライ
+ * 集約のコマンドハンドラー内でException→ リトライ
+ * 集約のコマンドハンドラナーないでRuntimeException → リトライ
+ * 集約のコマンドハンドラー内で, UseCaseException。　除外登録　→　リトライされず。
+
+ * 外部コマンドハンドラー内で Excetion → リトライ
+ * 外部コマンドハンドラー内で RuntimeException →　リトライ
+
+
+ ##
+ TODO()
+ * リトライ不許可例外を出して、それ以外はリトライさせるようにしよう。

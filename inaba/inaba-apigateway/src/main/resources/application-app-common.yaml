@@ -9,5 +9,4 @@ grpc:
   client:
     global:
       address: 'dns:///localhost:8184'
-      enableKeepAlive: true
       negotiationType: plaintext
