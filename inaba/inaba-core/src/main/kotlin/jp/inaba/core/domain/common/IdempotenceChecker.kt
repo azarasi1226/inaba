@@ -2,8 +2,7 @@ package jp.inaba.core.domain.common
 
 class IdempotenceChecker {
     companion object {
-        // 最高100個のCommandHandlerを持つAggregateに対応できる。
-        // あまり増えすぎてもメモリを圧迫するのでとりあえず、100..!!
+        // さすがに100あれば足りるやろ...
         private const val MAX_ID_COUNT = 100
     }
 
