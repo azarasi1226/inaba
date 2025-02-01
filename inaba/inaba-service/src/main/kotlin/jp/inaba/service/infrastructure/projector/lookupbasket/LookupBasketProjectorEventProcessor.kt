@@ -14,7 +14,7 @@ class LookupBasketProjectorEventProcessor {
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
         epc.registerSubscribingEventProcessor(PROCESSOR_NAME)
-            //TODO(きいてなくね?? てかSubscriptionの時ってなくていいはずでは...)
+            // LookupTableの書き込みに失敗した場合、Eventが発行されたこともなかったことにする。
             .registerListenerInvocationErrorHandler(PROCESSOR_NAME){ PropagatingErrorHandler.INSTANCE }
     }
 }
