@@ -3,14 +3,12 @@ package jp.inaba.service.presentation
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.grpc.Status
 import jp.inaba.core.domain.common.DomainException
-import jp.inaba.core.domain.common.UseCaseError
 import jp.inaba.service.utlis.getWrapUseCaseError
 import jp.inaba.service.utlis.isWrapUseCaseError
 import net.devh.boot.grpc.server.advice.GrpcAdvice
 import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
 import org.axonframework.commandhandling.CommandExecutionException
 import org.axonframework.queryhandling.QueryExecutionException
-import kotlin.jvm.optionals.getOrElse
 
 private val logger = KotlinLogging.logger {}
 

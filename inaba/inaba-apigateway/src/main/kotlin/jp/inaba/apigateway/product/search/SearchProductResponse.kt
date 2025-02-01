@@ -1,10 +1,9 @@
 package jp.inaba.apigateway.product.search
 
 import jp.inaba.apigateway.common.Page
-import jp.inaba.apigateway.common.Paging
 
 data class SearchProductResponse(
-    val page : Page<Summary>
+    val page: Page<Summary>,
 ) {
     data class Summary(
         val name: String,

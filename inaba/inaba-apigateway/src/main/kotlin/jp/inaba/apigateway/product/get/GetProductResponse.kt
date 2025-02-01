@@ -10,13 +10,13 @@ data class GetProductResponse(
     val price: Int,
 ) {
     companion object {
-        fun fromGrpcResponse(response: GetProductResponse) : jp.inaba.apigateway.product.get.GetProductResponse {
+        fun fromGrpcResponse(response: GetProductResponse): jp.inaba.apigateway.product.get.GetProductResponse {
             return GetProductResponse(
                 stockId = response.stockId,
                 name = response.name,
                 description = response.description,
                 imageUrl = response.imageUrl,
-                price = response.price
+                price = response.price,
             )
         }
     }

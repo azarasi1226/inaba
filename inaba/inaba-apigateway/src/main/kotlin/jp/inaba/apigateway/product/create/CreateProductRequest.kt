@@ -8,7 +8,7 @@ data class CreateProductRequest(
     var imageUrl: String,
     var price: Int,
 ) {
-    fun toGrpcRequest(): CreateProductRequest{
+    fun toGrpcRequest(): CreateProductRequest  {
         return CreateProductRequest.newBuilder()
             .setName(name)
             .setDescription(description)
@@ -17,4 +17,3 @@ data class CreateProductRequest(
             .build()
     }
 }
-

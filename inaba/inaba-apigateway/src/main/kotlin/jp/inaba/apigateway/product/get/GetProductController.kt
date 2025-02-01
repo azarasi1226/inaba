@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class GetProductController(
     @GrpcClient("global")
-    private val grpcService: GetProductGrpc.GetProductBlockingStub
+    private val grpcService: GetProductGrpc.GetProductBlockingStub,
 ) : ProductController {
     @GetMapping("/api/product/{id}")
     fun handle(
         @PathVariable("id")
-        id: String
-    ) : GetProductResponse {
-        val grpcRequest = jp.inaba.grpc.product.GetProductRequest.newBuilder()
-            .setId(id)
-            .build()
+        id: String,
+    ): GetProductResponse {
+        val grpcRequest =
+            jp.inaba.grpc.product.GetProductRequest.newBuilder()
+                .setId(id)
+                .build()
 
         val response = grpcService.handle(grpcRequest)
 

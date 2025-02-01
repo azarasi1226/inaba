@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class CreateProductController(
     @GrpcClient("global")
-    private val grpcService: CreateProductGrpc.CreateProductBlockingStub
+    private val grpcService: CreateProductGrpc.CreateProductBlockingStub,
 ) : ProductController {
     @PostMapping("/api/product")
     fun handle(
         @RequestBody
-        request: CreateProductRequest
+        request: CreateProductRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
         grpcService.handle(grpcRequest)

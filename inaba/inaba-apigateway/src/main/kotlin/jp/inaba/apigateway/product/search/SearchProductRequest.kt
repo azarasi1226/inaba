@@ -9,20 +9,20 @@ data class SearchProductRequest(
     val pagingCondition: PagingCondition,
     val sortCondition: jp.inaba.apigateway.common.SortCondition,
 ) {
-    fun toGrpcRequest() : SearchProductRequest {
+    fun toGrpcRequest(): SearchProductRequest {
         return SearchProductRequest.newBuilder()
             .setName(name)
             .setPagingCondition(
                 jp.inaba.grpc.common.PagingCondition.newBuilder()
                     .setPageSize(pagingCondition.pageSize)
                     .setPageNumber(pagingCondition.pageNumber)
-                    .build()
+                    .build(),
             )
             .setSortCondition(
                 SortCondition.newBuilder()
                     .setProperty(sortCondition.property)
                     .setDirection(sortCondition.direction.name)
-                    .build()
+                    .build(),
             )
             .build()
     }
