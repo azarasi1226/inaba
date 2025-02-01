@@ -9,22 +9,31 @@ import jp.inaba.message.product.query.SearchProductResult
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
+data class SqlResult(
+    val id: String,
+    val name: String,
+    val imageUrl: String?,
+    val price: Int,
+    val quantity: Int,
+    val totalCount: Long,
+)
+
 @Component
 class SearchProductQueryService(
     private val entityManager: EntityManager
 ) {
     companion object {
-        //TODO (WHERない)
         private val QUERY =
 """
 SELECT
-    p.id AS ${SearchProductSqlResult::id.name},
-    p.name AS ${SearchProductSqlResult::name.name},
-    p.image_url AS ${SearchProductSqlResult::imageUrl.name},
-    p.price AS ${SearchProductSqlResult::price.name},
-    p.quantity AS ${SearchProductSqlResult::quantity.name},
-    COUNT(*) OVER() AS ${SearchProductSqlResult::totalCount.name}
+    p.id AS ${SqlResult::id.name},
+    p.name AS ${SqlResult::name.name},
+    p.image_url AS ${SqlResult::imageUrl.name},
+    p.price AS ${SqlResult::price.name},
+    p.quantity AS ${SqlResult::quantity.name},
+    COUNT(*) OVER() AS ${SqlResult::totalCount.name}
 FROM product p
+WHERE ${SqlResult::name.name} LIKE :likeName
 ORDER BY :sortProperty :sortDirection
 LIMIT :offset, :pageSize
 """
@@ -33,24 +42,23 @@ LIMIT :offset, :pageSize
     @QueryHandler
     fun handle(query: SearchProductQuery) : SearchProductResult {
        val nativeQuery =
-           entityManager.createNativeQuery(QUERY, SearchProductSqlResult::class.java)
-              // .setParameter("name", query.productName.value)
+           entityManager.createNativeQuery(QUERY, SqlResult::class.java)
+               .setParameter("likeName", "%${query.likeProductName}%")
                .setParameter("offset", query.pagingCondition.offset)
                .setParameter("pageSize", query.pagingCondition.pageSize)
-               .setParameter("sortProperty", query.sortCondition.property.name)
+               .setParameter("sortProperty", query.sortCondition.property.propertyName)
                .setParameter("sortDirection", query.sortCondition.direction.name)
-        @Suppress("UNCHECKED_CAST")
-        val result =
-            convertToQueryResult(
-                results = nativeQuery.resultList as List<SearchProductSqlResult>,
-                pagingCondition = query.pagingCondition
-            )
 
-        return result
+        val results = nativeQuery.resultList.filterIsInstance<SqlResult>()
+
+        return convertToQueryResult(
+            results = results,
+            pagingCondition = query.pagingCondition
+        )
     }
 
     private fun convertToQueryResult(
-        results: List<SearchProductSqlResult>,
+        results: List<SqlResult>,
         pagingCondition: PagingCondition,
     ): SearchProductResult {
         val totalCount =

@@ -4,7 +4,6 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.common.PagingCondition
 import jp.inaba.core.domain.common.SortCondition
 import jp.inaba.core.domain.common.SortDirection
-import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductSortProperty
 import jp.inaba.grpc.common.Paging
 import jp.inaba.grpc.product.SearchProductGrpc
@@ -23,7 +22,7 @@ class SearchProductGrpcService(
 ) : SearchProductGrpc.SearchProductImplBase() {
     override fun handle(request: SearchProductRequest, responseObserver: StreamObserver<SearchProductResponse>) {
         val query = SearchProductQuery(
-            productName = ProductName(request.name),
+            likeProductName = request.name,
             pagingCondition = PagingCondition(
                 pageSize = request.pagingCondition.pageSize,
                 pageNumber = request.pagingCondition.pageNumber
