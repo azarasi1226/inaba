@@ -10,6 +10,6 @@ class CanCreateStockVerifierImpl(
     private val repository: LookupProductJpaRepository,
 ) : CanCreateStockVerifier {
     override fun isProductNotFound(productId: ProductId): Boolean {
-        return !repository.existsById(productId.value)
+        return repository.findById(productId.value).isEmpty
     }
 }

@@ -44,3 +44,5 @@ RuntimeExceptionの場合リトライされる。
 * JPAのEnittyってkotlinのdataclass使わないほうがいいらしいぜ。
 
 * projectorない、対象がなかったら例外出す？それともスルーする？
+
+* lookupTableでproduct登録してるのに、stock Craetするときに読みだせないことがある。 Subscirptionになってなくね?
