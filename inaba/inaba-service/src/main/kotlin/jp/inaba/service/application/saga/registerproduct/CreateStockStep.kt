@@ -17,7 +17,7 @@ class CreateStockStep(
         try {
             commandGateway.sendAndWait<Any>(command)
         } catch (e: Exception) {
-            logger.warn { "Stockの作成に失敗しました exception:[${e}]" }
+            logger.error { "Stockの作成に失敗しました exception:[${e}]" }
             onFail.invoke()
         }
     }

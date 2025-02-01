@@ -31,8 +31,6 @@ class ProductAggregate() {
                 price = command.price.value,
             )
 
-        //throw UseCaseException(ShipmentProductError.OutOfStock)
-
         AggregateLifecycle.apply(event)
     }
 
@@ -60,11 +58,6 @@ class ProductAggregate() {
     @EventSourcingHandler
     fun on(event: ProductCreatedEvent) {
         id = ProductId(event.id)
-    }
-
-    @EventSourcingHandler
-    fun on(event: ProductUpdatedEvent) {
-        // 何もすることがねぇ....
     }
 
     @EventSourcingHandler

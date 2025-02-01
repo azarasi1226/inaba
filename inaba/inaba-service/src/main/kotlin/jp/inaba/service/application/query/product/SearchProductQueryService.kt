@@ -25,7 +25,6 @@ SELECT
     p.quantity AS ${SearchProductSqlResult::quantity.name},
     COUNT(*) OVER() AS ${SearchProductSqlResult::totalCount.name}
 FROM product p
-
 ORDER BY :sortProperty :sortDirection
 LIMIT :offset, :pageSize
 """

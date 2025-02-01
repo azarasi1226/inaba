@@ -71,7 +71,7 @@ class RegisterProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: StockCreatedEvent) {
-        logger.info { "正常終了" }
+        logger.info { "RegisterProductSaga正常終了" }
     }
 
     @EndSaga
@@ -80,11 +80,11 @@ class RegisterProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: ProductDeletedEvent) {
-        logger.warn { "補償終了" }
+        logger.info { "RegisterProductSaga補償終了" }
     }
 
     private fun fatalError() {
-        logger.error { "致命的なエラーが発生しました。データの整合性を確認してください。" }
+        logger.error { "RegisterProductSagaにて致命的なエラーが発生しました。データの整合性を確認してください。" }
         SagaLifecycle.end()
     }
 }
