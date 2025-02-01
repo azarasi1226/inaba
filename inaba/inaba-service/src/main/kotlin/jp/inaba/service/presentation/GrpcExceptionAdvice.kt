@@ -17,14 +17,14 @@ private val logger = KotlinLogging.logger {}
 class GrpcExceptionAdvice {
     @GrpcExceptionHandler
     fun handleDomainException(e: DomainException) : Status {
-        logger.error { "handle DomainException" }
+        logger.warn { "handle DomainException" }
         return Status.INVALID_ARGUMENT.withDescription(e.errorMessage).withCause(e)
     }
 
     @GrpcExceptionHandler
     fun handleCommandUseCaseException(e: CommandExecutionException) : Status {
         if(e.isWrapUseCaseError()) {
-            logger.error { "handle Command UseCaseException" }
+            logger.warn { "handle Command UseCaseException" }
             val error = e.getWrapUseCaseError()
             return Status.INVALID_ARGUMENT.withDescription(error.errorMessage).withCause(e)
         }
@@ -32,14 +32,15 @@ class GrpcExceptionAdvice {
         return handleUnknownException(e)
     }
 
-    //TODO: CompletableFutureの中で発生する例外はExecutionExceptionにラップされてしまうので、一回むく。
+    // TODO: CompletableFutureの中で発生する例外はExecutionExceptionにラップされて元の例外がわからないので一回判定を挟んでいる。
+    // そのままの例外をキャッチできるようにQueryの問い合わせの部分工夫できないかな？
     @GrpcExceptionHandler
     fun handleQueryUseCaseException(e: ExecutionException) : Status {
         if (e.cause is QueryExecutionException){
             val exception = e.cause as QueryExecutionException
 
             if(exception.isWrapUseCaseError()) {
-                logger.error { "handle QueryUseCaseException" }
+                logger.warn { "handle QueryUseCaseException" }
                 val error = exception.getWrapUseCaseError()
                 return Status.INVALID_ARGUMENT.withDescription(error.errorMessage).withCause(e)
             }

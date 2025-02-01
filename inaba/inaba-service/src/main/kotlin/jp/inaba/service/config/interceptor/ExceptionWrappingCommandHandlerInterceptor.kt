@@ -33,7 +33,7 @@ class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<Com
             is UseCaseException -> {
                 e.error
             }
-            // CommandHandler → CommandHandler...　→　呼び出し元
+            // CommandHandler → CommandHandler(n)　→　呼び出し元
             is CommandExecutionException -> {
                 if (e.isWrapUseCaseError()) {
                     logger.warn { "CommandHandlerからの例外を受け取りましたが、Detailsが取得できませんでした。" }
