@@ -12,8 +12,9 @@ import jp.inaba.grpc.product.SearchProductRequest
 import jp.inaba.grpc.product.SearchProductResponse
 import jp.inaba.grpc.product.Summary
 import jp.inaba.message.product.query.SearchProductQuery
-import jp.inaba.message.product.searchProduct
+import jp.inaba.message.product.query.SearchProductResult
 import net.devh.boot.grpc.server.service.GrpcService
+import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 
 @GrpcService
@@ -33,29 +34,28 @@ class SearchProductGrpcService(
             )
         )
 
-        val result = queryGateway.searchProduct(query)
+        val result = queryGateway.query<SearchProductResult, SearchProductQuery>(query).get()
 
-        val response =
-            SearchProductResponse.newBuilder()
-                .setPaging(
-                    Paging.newBuilder()
-                        .setTotalCount(result.page.paging.totalCount)
-                        .setPageSize(result.page.paging.pageSize)
-                        .setPageNumber(result.page.paging.pageNumber)
+        val response = SearchProductResponse.newBuilder()
+            .setPaging(
+                Paging.newBuilder()
+                    .setTotalCount(result.page.paging.totalCount)
+                    .setPageSize(result.page.paging.pageSize)
+                    .setPageNumber(result.page.paging.pageNumber)
+                    .build()
+            )
+            .addAllItems(
+                result.page.items.map {
+                    Summary.newBuilder()
+                        .setId(it.id)
+                        .setName(it.name)
+                        .setImageUrl(it.imageUrl)
+                        .setPrice(it.price)
+                        .setQuantity(it.quantity)
                         .build()
-                )
-                .addAllItems(
-                    result.page.items.map {
-                        Summary.newBuilder()
-                            .setId(it.id)
-                            .setName(it.name)
-                            .setImageUrl(it.imageUrl)
-                            .setPrice(it.price)
-                            .setQuantity(it.quantity)
-                            .build()
-                    }
-                )
-                .build()
+                }
+            )
+            .build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

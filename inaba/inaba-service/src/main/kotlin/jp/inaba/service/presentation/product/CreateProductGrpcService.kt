@@ -2,19 +2,14 @@ package jp.inaba.service.presentation.product
 
 import com.google.protobuf.Empty
 import io.grpc.stub.StreamObserver
-import jp.inaba.core.domain.common.DomainException
 import jp.inaba.core.domain.product.ProductDescription
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
-import jp.inaba.core.domain.stock.StockId
 import jp.inaba.grpc.product.CreateProductGrpc
 import jp.inaba.grpc.product.CreateProductRequest
 import jp.inaba.message.product.command.CreateProductCommand
-import jp.inaba.message.product.createProduct
-import jp.inaba.message.stock.command.CreateStockCommand
-import jp.inaba.message.stock.createStock
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
 

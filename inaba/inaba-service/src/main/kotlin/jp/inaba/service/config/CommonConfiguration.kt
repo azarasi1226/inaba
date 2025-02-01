@@ -5,6 +5,7 @@ import jp.inaba.core.domain.stock.StockIdFactoryImpl
 import jp.inaba.core.domain.user.UserIdFactory
 import jp.inaba.core.domain.user.UserIdFactoryImpl
 import jp.inaba.service.config.interceptor.ExceptionWrappingCommandHandlerInterceptor
+import jp.inaba.service.config.interceptor.ExceptionWrappingQueryHandlerInterceptor
 import jp.inaba.service.config.interceptor.LoggingCommandDispatchInterceptor
 import jp.inaba.service.utlis.isWrapUseCaseError
 import org.axonframework.commandhandling.CommandBus
@@ -13,6 +14,7 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway
 import org.axonframework.commandhandling.gateway.ExponentialBackOffIntervalRetryScheduler
 import org.axonframework.commandhandling.gateway.RetryScheduler
+import org.axonframework.queryhandling.QueryBus
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -35,6 +37,11 @@ class CommonConfiguration {
     fun commandBus(commandBus: CommandBus) {
         commandBus.registerHandlerInterceptor(ExceptionWrappingCommandHandlerInterceptor())
         commandBus.registerDispatchInterceptor(LoggingCommandDispatchInterceptor())
+    }
+
+    @Autowired
+    fun queryBus(queryBus :QueryBus) {
+        queryBus.registerHandlerInterceptor(ExceptionWrappingQueryHandlerInterceptor())
     }
 
     @Bean

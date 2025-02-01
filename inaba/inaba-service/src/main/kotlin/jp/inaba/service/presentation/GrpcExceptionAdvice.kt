@@ -9,6 +9,7 @@ import net.devh.boot.grpc.server.advice.GrpcAdvice
 import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
 import org.axonframework.commandhandling.CommandExecutionException
 import org.axonframework.queryhandling.QueryExecutionException
+import java.util.concurrent.ExecutionException
 
 private val logger = KotlinLogging.logger {}
 
@@ -16,12 +17,14 @@ private val logger = KotlinLogging.logger {}
 class GrpcExceptionAdvice {
     @GrpcExceptionHandler
     fun handleDomainException(e: DomainException) : Status {
+        logger.error { "handle DomainException" }
         return Status.INVALID_ARGUMENT.withDescription(e.errorMessage).withCause(e)
     }
 
     @GrpcExceptionHandler
-    fun handleUseCaseException(e: CommandExecutionException) : Status {
+    fun handleCommandUseCaseException(e: CommandExecutionException) : Status {
         if(e.isWrapUseCaseError()) {
+            logger.error { "handle Command UseCaseException" }
             val error = e.getWrapUseCaseError()
             return Status.INVALID_ARGUMENT.withDescription(error.errorMessage).withCause(e)
         }
@@ -29,11 +32,17 @@ class GrpcExceptionAdvice {
         return handleUnknownException(e)
     }
 
+    //TODO: CompletableFutureの中で発生する例外はExecutionExceptionにラップされてしまうので、一回むく。
     @GrpcExceptionHandler
-    fun handleUseCaseException(e: QueryExecutionException) : Status {
-        if(e.isWrapUseCaseError()) {
-            val error = e.getWrapUseCaseError()
-            return Status.INVALID_ARGUMENT.withDescription(error.errorMessage).withCause(e)
+    fun handleQueryUseCaseException(e: ExecutionException) : Status {
+        if (e.cause is QueryExecutionException){
+            val exception = e.cause as QueryExecutionException
+
+            if(exception.isWrapUseCaseError()) {
+                logger.error { "handle QueryUseCaseException" }
+                val error = exception.getWrapUseCaseError()
+                return Status.INVALID_ARGUMENT.withDescription(error.errorMessage).withCause(e)
+            }
         }
 
         return handleUnknownException(e)
@@ -41,7 +50,7 @@ class GrpcExceptionAdvice {
 
     @GrpcExceptionHandler
     fun handleUnknownException(e: Exception) : Status {
-        logger.error { "想定外のエラーが発生しました。" }
+        logger.error { "handle UnknownException" }
         logger.error { e.stackTraceToString() }
         return Status.INTERNAL.withDescription("想定外のエラーが発生しました。").withCause(e)
     }
