@@ -38,3 +38,9 @@ RuntimeExceptionの場合リトライされる。
  ##
  TODO()
  * リトライ不許可例外を出して、それ以外はリトライさせるようにしよう。
+
+
+
+* JPAのEnittyってkotlinのdataclass使わないほうがいいらしいぜ。
+
+* projectorない、対象がなかったら例外出す？それともスルーする？

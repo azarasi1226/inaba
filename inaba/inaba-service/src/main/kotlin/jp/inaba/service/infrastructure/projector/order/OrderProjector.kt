@@ -4,7 +4,7 @@ import jp.inaba.message.order.event.OrderCompletedEvent
 import jp.inaba.message.order.event.OrderFailedEvent
 import jp.inaba.message.order.event.OrderIssuedEvent
 import jp.inaba.service.domain.order.OrderStatus
-import jp.inaba.service.infrastructure.jpa.order.OrderEntity
+import jp.inaba.service.infrastructure.jpa.order.OrderJpaEntity
 import jp.inaba.service.infrastructure.jpa.order.OrderJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
@@ -18,7 +18,7 @@ class OrderProjector(
     @EventHandler
     fun on(event: OrderIssuedEvent) {
         val entity =
-            OrderEntity(
+            OrderJpaEntity(
                 id = event.id,
                 status = OrderStatus.Issued,
                 userId = event.userId,
