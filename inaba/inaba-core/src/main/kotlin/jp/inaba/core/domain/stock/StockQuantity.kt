@@ -14,33 +14,33 @@ data class StockQuantity(val value: Int) {
         }
     }
 
-    fun canNotAdd(amount: StockQuantity): Boolean {
-        val newValue = value + amount.value
+    fun canNotAdd(increaseCount: IncreaseCount): Boolean {
+        val newValue = value + increaseCount.value
 
         return newValue > MAX
     }
 
-    fun add(amount: StockQuantity): StockQuantity {
-        if (canNotAdd(amount)) {
+    fun add(increaseCount: IncreaseCount): StockQuantity {
+        if (canNotAdd(increaseCount)) {
             throw DomainException("在庫数の上限は[$MAX]です。")
         }
 
-        val newValue = value + amount.value
+        val newValue = value + increaseCount.value
         return StockQuantity(newValue)
     }
 
-    fun canNotSubtract(amount: StockQuantity): Boolean {
-        val newValue = value - amount.value
+    fun canNotSubtract(decreaseCount: DecreaseCount): Boolean {
+        val newValue = value - decreaseCount.value
 
         return newValue < MIN
     }
 
-    fun subtract(amount: StockQuantity): StockQuantity {
-        if (canNotSubtract(amount)) {
+    fun subtract(decreaseCount: DecreaseCount): StockQuantity {
+        if (canNotSubtract(decreaseCount)) {
             throw DomainException("在庫数は[$MIN]以下にできません。")
         }
 
-        val newValue = value - amount.value
+        val newValue = value - decreaseCount.value
         return StockQuantity(newValue)
     }
 }
