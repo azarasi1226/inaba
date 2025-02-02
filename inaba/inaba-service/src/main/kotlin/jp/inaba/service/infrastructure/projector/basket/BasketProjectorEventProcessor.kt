@@ -14,7 +14,6 @@ class BasketProjectorEventProcessor {
     companion object {
         const val PROCESSOR_NAME = "basket-projector"
         private const val PROCESSOR_COUNT = 2
-        private const val DEAD_LETTER_QUEUE_SEQUENCE = 256
     }
 
     @Autowired
@@ -26,8 +25,6 @@ class BasketProjectorEventProcessor {
             .registerDeadLetterQueue(PROCESSOR_NAME) {
                 JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()
                     .processingGroup(PROCESSOR_NAME)
-                    .maxSequences(DEAD_LETTER_QUEUE_SEQUENCE)
-                    .maxSequenceSize(DEAD_LETTER_QUEUE_SEQUENCE)
                     .entityManagerProvider(it.getComponent(EntityManagerProvider::class.java))
                     .transactionManager(it.getComponent((TransactionManager::class.java)))
                     .serializer(it.serializer())
