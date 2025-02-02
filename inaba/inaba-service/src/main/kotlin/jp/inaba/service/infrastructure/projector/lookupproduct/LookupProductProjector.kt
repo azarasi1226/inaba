@@ -15,7 +15,8 @@ class LookupProductProjector(
 ) {
     @EventHandler
     fun on(event: ProductCreatedEvent) {
-        val entity = LookupProductJpaEntity(
+        val entity =
+            LookupProductJpaEntity(
             id = event.id,
             name = event.name,
         )
