@@ -13,7 +13,7 @@ class IncreaseStockController(
     @GrpcClient("global")
     private val grpcService: IncreaseStockGrpc.IncreaseStockBlockingStub,
 ): StockController {
-    @PatchMapping("/api/stock/{id}/increase")
+    @PatchMapping("/api/stocks/{id}/increase")
     fun handle(
         @PathVariable("id")
         id: String,
