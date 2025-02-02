@@ -1,15 +1,17 @@
 package jp.inaba.service.domain.stock
 
-import jp.inaba.core.domain.common.ActionCommandResult
 import jp.inaba.core.domain.common.IdempotenceChecker
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.stock.DecreaseStockError
 import jp.inaba.core.domain.stock.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
 import jp.inaba.core.domain.stock.StockQuantity
 import jp.inaba.message.stock.command.DecreaseStockCommand
+import jp.inaba.message.stock.command.DeleteStockCommand
 import jp.inaba.message.stock.command.IncreaseStockCommand
 import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.message.stock.event.StockDecreasedEvent
+import jp.inaba.message.stock.event.StockDeletedEvent
 import jp.inaba.message.stock.event.StockIncreasedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -37,14 +39,14 @@ class StockAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: IncreaseStockCommand): ActionCommandResult {
+    fun handle(command: IncreaseStockCommand) {
         // 冪等性チェック
         if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
-            return ActionCommandResult.ok()
+            return
         }
         // 在庫増やせる？
         if (!quantity.canAdd(command.increaseCount)) {
-            return ActionCommandResult.error(IncreaseStockError.OutOfStock.errorCode)
+            throw UseCaseException(IncreaseStockError.OutOfStock)
         }
 
         val event =
@@ -56,19 +58,17 @@ class StockAggregate() {
             )
 
         AggregateLifecycle.apply(event)
-
-        return ActionCommandResult.ok()
     }
 
     @CommandHandler
-    fun handle(command: DecreaseStockCommand): ActionCommandResult {
+    fun handle(command: DecreaseStockCommand) {
         // 冪等性チェック
         if (idempotenceChecker.isIdempotent(command.idempotencyId)) {
-            return ActionCommandResult.ok()
+            return
         }
         // 在庫減らせる？
         if (!quantity.canSubtract(command.decreaseCount)) {
-            return ActionCommandResult.error(DecreaseStockError.InsufficientStock.errorCode)
+            throw UseCaseException(DecreaseStockError.InsufficientStock)
         }
 
         val event =
@@ -80,8 +80,16 @@ class StockAggregate() {
             )
 
         AggregateLifecycle.apply(event)
+    }
 
-        return ActionCommandResult.ok()
+    @CommandHandler
+    fun handle(command: DeleteStockCommand) {
+        val event =
+            StockDeletedEvent(
+                id = command.id.value
+            )
+
+        AggregateLifecycle.apply(event)
     }
 
     @EventSourcingHandler
@@ -100,5 +108,10 @@ class StockAggregate() {
     fun on(event: StockDecreasedEvent) {
         val decreaseCount = StockQuantity(event.decreaseCount)
         quantity = quantity.subtract(decreaseCount)
+    }
+
+    @EventSourcingHandler
+    fun on(event: StockDeletedEvent) {
+        AggregateLifecycle.markDeleted()
     }
 }

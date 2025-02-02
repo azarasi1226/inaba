@@ -1,22 +1,22 @@
-package jp.inaba.service.application.saga.registerproduct
+package jp.inaba.service.application.saga.unregisterproduct
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jp.inaba.message.stock.command.CreateStockCommand
+import jp.inaba.message.product.command.DeleteProductCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 private val logger = KotlinLogging.logger {}
 
-class CreateStockStep(
+class DeleteProductStep(
     private val commandGateway: CommandGateway,
 ) {
     fun handle(
-        command: CreateStockCommand,
+        command: DeleteProductCommand,
         onFail: () -> Unit,
     ) {
         try {
             commandGateway.sendAndWait<Any>(command)
         } catch (e: Exception) {
-            logger.error { "Stockの作成に失敗しました exception:[${e}]" }
+            logger.error { "Productの削除に失敗しました exception:[${e}]" }
             onFail.invoke()
         }
     }
