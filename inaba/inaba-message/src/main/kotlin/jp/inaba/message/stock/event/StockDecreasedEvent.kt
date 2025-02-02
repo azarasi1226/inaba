@@ -6,5 +6,5 @@ data class StockDecreasedEvent(
 
     //　冪等性対策
     val idempotencyId: String,
-    val stockQuantity: Int,
+    val decreasedStockQuantity: Int,
 ) : StockEvent

@@ -54,7 +54,7 @@ class ProductProjector(
             val entity = maybeEntity.get()
             val updatedEntity =
                 entity.copy(
-                    quantity = event.stockQuantity,
+                    quantity = event.increasedStockQuantity,
                 )
 
             productJpaRepository.save(updatedEntity)
@@ -69,7 +69,7 @@ class ProductProjector(
             val entity = maybeEntity.get()
             val updatedEntity =
                 entity.copy(
-                    quantity = event.stockQuantity,
+                    quantity = event.decreasedStockQuantity,
                 )
 
             productJpaRepository.save(updatedEntity)

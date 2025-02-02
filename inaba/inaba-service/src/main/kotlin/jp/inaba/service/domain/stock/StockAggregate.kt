@@ -1,6 +1,7 @@
 package jp.inaba.service.domain.stock
 
 import jp.inaba.core.domain.common.IdempotenceChecker
+import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.stock.DecreaseStockError
 import jp.inaba.core.domain.stock.IncreaseStockError
@@ -45,16 +46,18 @@ class StockAggregate() {
             return
         }
         // 在庫増やせる？
-        if (!quantity.canAdd(command.increaseCount)) {
+        if (quantity.canNotAdd(command.increaseCount)) {
             throw UseCaseException(IncreaseStockError.OutOfStock)
         }
+
+        val increasedStockQuantity = quantity.add(command.increaseCount)
 
         val event =
             StockIncreasedEvent(
                 id = command.id.value,
-                idempotencyId = command.idempotencyId.value,
                 increaseCount = command.increaseCount.value,
-                stockQuantity = quantity.value
+                idempotencyId = command.idempotencyId.value,
+                increasedStockQuantity = increasedStockQuantity.value
             )
 
         AggregateLifecycle.apply(event)
@@ -67,16 +70,18 @@ class StockAggregate() {
             return
         }
         // 在庫減らせる？
-        if (!quantity.canSubtract(command.decreaseCount)) {
+        if (quantity.canNotSubtract(command.decreaseCount)) {
             throw UseCaseException(DecreaseStockError.InsufficientStock)
         }
+
+        val decreasedStockQuantity = quantity.add(command.decreaseCount)
 
         val event =
             StockDecreasedEvent(
                 id = command.id.value,
-                idempotencyId = command.idempotencyId.value,
                 decreaseCount = command.decreaseCount.value,
-                stockQuantity = quantity.value
+                idempotencyId = command.idempotencyId.value,
+                decreasedStockQuantity = decreasedStockQuantity.value
             )
 
         AggregateLifecycle.apply(event)
@@ -101,13 +106,19 @@ class StockAggregate() {
     @EventSourcingHandler
     fun on(event: StockIncreasedEvent) {
         val increaseCount = StockQuantity(event.increaseCount)
+        val idempotencyId = IdempotencyId(event.idempotencyId)
+
         quantity = quantity.add(increaseCount)
+        idempotenceChecker.register(idempotencyId)
     }
 
     @EventSourcingHandler
     fun on(event: StockDecreasedEvent) {
         val decreaseCount = StockQuantity(event.decreaseCount)
+        val idempotencyId = IdempotencyId(event.idempotencyId)
+
         quantity = quantity.subtract(decreaseCount)
+        idempotenceChecker.register(idempotencyId)
     }
 
     @EventSourcingHandler
