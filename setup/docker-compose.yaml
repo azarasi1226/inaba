@@ -8,7 +8,6 @@ services:
       - 8024:8024
       - 8124:8124
 
-  # 本来であればサービスごとにDBを立てるがlocal環境なのでまとめる
   common-datastore:
     image: mysql:latest
     container_name: common-datastore
