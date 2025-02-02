@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "lookup_product")
-class LookupProductJpaEntity(
+data class LookupProductJpaEntity(
     @Id
     val id: String = "",
     val name: String = "",
