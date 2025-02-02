@@ -1,7 +1,5 @@
 package jp.inaba.service.application.command.basket
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -9,7 +7,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.basket.CreateBasketError
-import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.basket.command.CreateBasketCommand
 import jp.inaba.service.domain.basket.CanCreateBasketVerifier
@@ -17,6 +15,7 @@ import jp.inaba.service.domain.basket.InternalCreateBasketCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class CreateBasketInteractorTest {
     @MockK
@@ -34,7 +33,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun `ユーザーが存在_買い物かごを作成_InternalCommandが配送`() {
+    fun `ユーザーが存在_買い物かごを作成_Command発行`() {
         // Arrange
         val basketId = BasketId()
         val userId = UserId()
@@ -45,19 +44,18 @@ class CreateBasketInteractorTest {
             )
         every {
             canCreateBasketVerifier.isUserNotFound(userId)
-        } returns Ok(Unit)
+        } returns false
         every {
             canCreateBasketVerifier.isBasketLinkedToUser(userId)
-        } returns Ok(Unit)
+        } returns false
         every {
-            commandGateway.sendAndWait<ActionCommandResult>(any())
-        } returns ActionCommandResult.ok()
+            commandGateway.sendAndWait<Any>(any())
+        } returns Unit
 
         // Act
-        val result = sut.handle(command)
+        sut.handle(command)
 
         // Assert
-        assert(result.isOk())
         val expectCommand =
             InternalCreateBasketCommand(
                 id = basketId,
@@ -69,7 +67,7 @@ class CreateBasketInteractorTest {
     }
 
     @Test
-    fun `ユーザーが存在しない_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
+    fun `ユーザーが存在しない_買い物かごを作成_Commandが発行されずException`() {
         // Arrange
         val basketId = BasketId()
         val userId = UserId()
@@ -80,21 +78,22 @@ class CreateBasketInteractorTest {
             )
         every {
             canCreateBasketVerifier.isUserNotFound(userId)
-        } returns Err(CreateBasketError.USER_NOT_FOUND)
+        } returns true
 
         // Act
-        val result = sut.handle(command)
+        val exception = assertThrows<UseCaseException> {
+            sut.handle(command)
+        }
 
         // Assert
-        assert(!result.isOk())
-        assert(result.errorCode == CreateBasketError.USER_NOT_FOUND.errorCode)
+        assert(exception.error == CreateBasketError.USER_NOT_FOUND)
         verify(exactly = 0) {
             commandGateway.sendAndWait<Any>(any())
         }
     }
 
     @Test
-    fun `ユーザーが存在しており、すでに買い物かごが登録されている_買い物かごを作成_InternalCommandが配送されずエラーが返る`() {
+    fun `登録したいUserIdで買い物かごが作成されている_買い物かごを作成_Commandが発行されずException`() {
         // Arrange
         val basketId = BasketId()
         val userId = UserId()
@@ -105,17 +104,18 @@ class CreateBasketInteractorTest {
             )
         every {
             canCreateBasketVerifier.isUserNotFound(userId)
-        } returns Ok(Unit)
+        } returns false
         every {
             canCreateBasketVerifier.isBasketLinkedToUser(userId)
-        } returns Err(CreateBasketError.BASKET_ALREADY_EXISTS)
+        } returns true
 
         // Act
-        val result = sut.handle(command)
+        val exception = assertThrows<UseCaseException> {
+            sut.handle(command)
+        }
 
         // Assert
-        assert(!result.isOk())
-        assert(result.errorCode == CreateBasketError.BASKET_ALREADY_EXISTS.errorCode)
+        assert(exception.error == CreateBasketError.BASKET_ALREADY_EXISTS)
         verify(exactly = 0) {
             commandGateway.sendAndWait<Any>(any())
         }

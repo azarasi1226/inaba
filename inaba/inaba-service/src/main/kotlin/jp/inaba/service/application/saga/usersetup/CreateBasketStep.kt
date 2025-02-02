@@ -2,7 +2,6 @@ package jp.inaba.service.application.saga.usersetup
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.message.basket.command.CreateBasketCommand
-import jp.inaba.message.basket.createBasket
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 private val logger = KotlinLogging.logger {}
@@ -15,12 +14,7 @@ class CreateBasketStep(
         onFail: () -> Unit,
     ) {
         try {
-            val result = commandGateway.createBasket(command)
-
-            if (result.isErr) {
-                logger.warn { "買い物かご作成に失敗しました error:[${result.error}]" }
-                onFail.invoke()
-            }
+            val result = commandGateway.sendAndWait<Any>(command)
         } catch (e: Exception) {
             logger.warn { "買い物かご作成に失敗しました exception:[$e]" }
             onFail.invoke()

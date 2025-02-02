@@ -1,7 +1,5 @@
 package jp.inaba.service.application.command.basket
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -10,7 +8,7 @@ import io.mockk.verify
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.basket.SetBasketItemError
-import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.message.basket.command.SetBasketItemCommand
 import jp.inaba.service.domain.basket.CanSetBasketItemVerifier
@@ -18,6 +16,7 @@ import jp.inaba.service.domain.basket.InternalSetBasketItemCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class SetBasketItemInteractorTest {
     @MockK
@@ -35,7 +34,8 @@ class SetBasketItemInteractorTest {
     }
 
     @Test
-    fun `商品が存在_商品を買い物かごに入れる_InternalCommandが配送`() {
+    fun `商品が存在_買い物かごに商品を入れる_Command発行`() {
+        // Arrange
         val basketId = BasketId()
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
@@ -46,15 +46,16 @@ class SetBasketItemInteractorTest {
                 basketItemQuantity = basketItemQuantity,
             )
         every {
-            canSetBasketItemVerifier.checkProductExits(productId)
-        } returns Ok(Unit)
+            canSetBasketItemVerifier.isProductNotFound(productId)
+        } returns false
         every {
-            commandGateway.sendAndWait<ActionCommandResult>(any())
-        } returns ActionCommandResult.ok()
+            commandGateway.sendAndWait<Any>(any())
+        } returns Unit
 
-        val result = sut.handle(command)
+        // Act
+        sut.handle(command)
 
-        assert(result.isOk())
+        // Assert
         val expectCommand =
             InternalSetBasketItemCommand(
                 id = basketId,
@@ -62,12 +63,13 @@ class SetBasketItemInteractorTest {
                 basketItemQuantity = basketItemQuantity,
             )
         verify(exactly = 1) {
-            commandGateway.sendAndWait<ActionCommandResult>(expectCommand)
+            commandGateway.sendAndWait<Any>(expectCommand)
         }
     }
 
     @Test
-    fun `商品が存在しない_商品を買い物かごに入れる_InternalCommandが配送されずエラーが返る`() {
+    fun `商品が存在しない_買い物かごに商品を入れる_Commandが配送されずException`() {
+        // Arrange
         val basketId = BasketId()
         val productId = ProductId()
         val basketItemQuantity = BasketItemQuantity(1)
@@ -78,21 +80,18 @@ class SetBasketItemInteractorTest {
                 basketItemQuantity = basketItemQuantity,
             )
         every {
-            canSetBasketItemVerifier.checkProductExits(productId)
-        } returns Err(SetBasketItemError.PRODUCT_NOT_FOUND)
+            canSetBasketItemVerifier.isProductNotFound(productId)
+        } returns true
 
-        val result = sut.handle(command)
+        // Act
+        val exception = assertThrows<UseCaseException> {
+            sut.handle(command)
+        }
 
-        assert(!result.isOk())
-        assert(result.errorCode == SetBasketItemError.PRODUCT_NOT_FOUND.errorCode)
-        val expectCommand =
-            InternalSetBasketItemCommand(
-                id = basketId,
-                productId = productId,
-                basketItemQuantity = basketItemQuantity,
-            )
+        // Assert
+        assert(exception.error == SetBasketItemError.PRODUCT_NOT_FOUND)
         verify(exactly = 0) {
-            commandGateway.sendAndWait<ActionCommandResult>(expectCommand)
+            commandGateway.sendAndWait<Any>(any())
         }
     }
 }
