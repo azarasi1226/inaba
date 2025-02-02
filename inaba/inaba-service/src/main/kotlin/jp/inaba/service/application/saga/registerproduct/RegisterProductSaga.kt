@@ -71,7 +71,7 @@ class RegisterProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: StockCreatedEvent) {
-        logger.info { "RegisterProductSaga正常終了" }
+        logger.debug { "RegisterProductSaga正常終了" }
     }
 
     @EndSaga
