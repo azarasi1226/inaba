@@ -3,10 +3,11 @@ package jp.inaba.service.domain.stock
 import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.ProductId
+import jp.inaba.core.domain.stock.DecreaseCount
 import jp.inaba.core.domain.stock.DecreaseStockError
+import jp.inaba.core.domain.stock.IncreaseCount
 import jp.inaba.core.domain.stock.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
-import jp.inaba.core.domain.stock.StockQuantity
 import jp.inaba.message.stock.command.DecreaseStockCommand
 import jp.inaba.message.stock.command.IncreaseStockCommand
 import jp.inaba.message.stock.event.StockCreatedEvent
@@ -55,7 +56,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = StockQuantity(1000)
+        val increaseCount = IncreaseCount(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -90,7 +91,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = StockQuantity(1000)
+        val increaseCount = IncreaseCount(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -123,7 +124,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = StockQuantity(1_000_000)
+        val increaseCount = IncreaseCount(1_000_000)
         val idempotencyId1 = IdempotencyId()
         val idempotencyId2 = IdempotencyId()
 
@@ -143,7 +144,7 @@ class StockAggregateTest {
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
-                    increaseCount = StockQuantity(1),
+                    increaseCount = IncreaseCount(1),
                     idempotencyId = idempotencyId2,
                 )
             )
@@ -161,7 +162,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = StockQuantity(1)
+        val decreaseCount = DecreaseCount(1)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -201,7 +202,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = StockQuantity(1000)
+        val decreaseCount = DecreaseCount(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -226,7 +227,7 @@ class StockAggregateTest {
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
-                    decreaseCount = StockQuantity(10),
+                    decreaseCount = decreaseCount,
                     idempotencyId = idempotencyId,
                 )
             )
@@ -240,7 +241,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = StockQuantity(1_000_000)
+        val decreaseCount = DecreaseCount(1_000_000)
         val idempotencyId1 = IdempotencyId()
         val idempotencyId2 = IdempotencyId()
 
@@ -254,7 +255,7 @@ class StockAggregateTest {
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
-                    decreaseCount = StockQuantity(1),
+                    decreaseCount = decreaseCount,
                     idempotencyId = idempotencyId2,
                 )
             )

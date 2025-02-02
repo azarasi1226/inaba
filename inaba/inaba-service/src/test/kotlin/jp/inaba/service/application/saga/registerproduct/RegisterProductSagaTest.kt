@@ -35,8 +35,8 @@ class RegisterProductSagaTest {
             stockIdFactory.handle()
         } returns stockId
         every {
-            commandGateway.sendAndWait<ActionCommandResult>(any())
-        } returns ActionCommandResult.ok()
+            commandGateway.sendAndWait<Any>(any())
+        } returns Unit
 
         fixture = SagaTestFixture(RegisterProductSaga::class.java)
         fixture.withTransienceCheckDisabled()
