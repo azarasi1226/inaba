@@ -1,8 +1,7 @@
 package jp.inaba.apigateway.product.search
 
-import jp.inaba.apigateway.common.Page
-import jp.inaba.apigateway.common.Paging
 import jp.inaba.apigateway.product.ProductController
+import jp.inaba.grpc.common.PagingCondition
 import jp.inaba.grpc.common.SortCondition
 import jp.inaba.grpc.product.SearchProductGrpc
 import jp.inaba.grpc.product.SearchProductRequest
@@ -16,7 +15,7 @@ class SearchProductController(
     @GrpcClient("global")
     private val grpcService: SearchProductGrpc.SearchProductBlockingStub,
 ) : ProductController {
-    @GetMapping("/api/product")
+    @GetMapping("/api/products")
     fun handle(
         @RequestParam("name")
         name: String,
@@ -28,12 +27,12 @@ class SearchProductController(
         sortProperty: String,
         @RequestParam("sortDirection")
         sortDirection: String,
-    ): SearchProductResponse {
+    ): SearchProductHttpResponse {
         val grpcRequest =
             SearchProductRequest.newBuilder()
                 .setName(name)
                 .setPagingCondition(
-                    jp.inaba.grpc.common.PagingCondition.newBuilder()
+                    PagingCondition.newBuilder()
                         .setPageSize(pageSize)
                         .setPageNumber(pageNumber)
                         .build(),
@@ -48,24 +47,6 @@ class SearchProductController(
 
         val grpcResponse = grpcService.handle(grpcRequest)
 
-        return SearchProductResponse(
-            page =
-                Page(
-                    items =
-                        grpcResponse.itemsList.map {
-                            SearchProductResponse.Summary(
-                                name = it.name,
-                                quantity = it.quantity,
-                                imageUrl = it.imageUrl,
-                            )
-                        },
-                    paging =
-                        Paging(
-                            totalCount = grpcResponse.paging.totalCount,
-                            pageSize = grpcResponse.paging.pageSize,
-                            pageNumber = grpcResponse.paging.pageNumber,
-                        ),
-                ),
-        )
+        return SearchProductHttpResponse.fromGrpcResponse(grpcResponse)
     }
 }

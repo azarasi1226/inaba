@@ -2,6 +2,7 @@ package jp.inaba.apigateway.product.get
 
 import jp.inaba.apigateway.product.ProductController
 import jp.inaba.grpc.product.GetProductGrpc
+import jp.inaba.grpc.product.GetProductRequest
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,18 +13,18 @@ class GetProductController(
     @GrpcClient("global")
     private val grpcService: GetProductGrpc.GetProductBlockingStub,
 ) : ProductController {
-    @GetMapping("/api/product/{id}")
+    @GetMapping("/api/products/{id}")
     fun handle(
         @PathVariable("id")
         id: String,
-    ): GetProductResponse {
+    ): GetProductHttpResponse {
         val grpcRequest =
-            jp.inaba.grpc.product.GetProductRequest.newBuilder()
+            GetProductRequest.newBuilder()
                 .setId(id)
                 .build()
 
-        val response = grpcService.handle(grpcRequest)
+        val grpcResponse = grpcService.handle(grpcRequest)
 
-        return GetProductResponse.fromGrpcResponse(response)
+        return GetProductHttpResponse.fromGrpcResponse(grpcResponse)
     }
 }

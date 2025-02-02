@@ -2,7 +2,7 @@ package jp.inaba.apigateway.product.create
 
 import jp.inaba.grpc.product.CreateProductRequest
 
-data class CreateProductRequest(
+data class CreateProductHttpRequest(
     var name: String,
     var description: String,
     var imageUrl: String,

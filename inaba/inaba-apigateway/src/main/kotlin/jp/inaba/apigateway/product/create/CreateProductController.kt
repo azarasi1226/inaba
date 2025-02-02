@@ -12,12 +12,13 @@ class CreateProductController(
     @GrpcClient("global")
     private val grpcService: CreateProductGrpc.CreateProductBlockingStub,
 ) : ProductController {
-    @PostMapping("/api/product")
+    @PostMapping("/api/products")
     fun handle(
         @RequestBody
-        request: CreateProductRequest,
+        request: CreateProductHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
+
         grpcService.handle(grpcRequest)
     }
 }
