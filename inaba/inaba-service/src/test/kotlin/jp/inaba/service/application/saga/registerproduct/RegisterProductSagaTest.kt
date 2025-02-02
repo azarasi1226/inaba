@@ -4,7 +4,6 @@ import com.github.michaelbull.result.Err
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import jp.inaba.core.domain.common.ActionCommandResult
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.stock.CreateStockError
 import jp.inaba.core.domain.stock.StockId
