@@ -3,6 +3,7 @@ package jp.inaba.service.config
 import jp.inaba.service.config.interceptor.ExceptionWrappingCommandHandlerInterceptor
 import jp.inaba.service.config.interceptor.ExceptionWrappingQueryHandlerInterceptor
 import jp.inaba.service.config.interceptor.LoggingCommandDispatchInterceptor
+import jp.inaba.service.config.interceptor.LoggingQueryDispatchInterceptor
 import jp.inaba.service.utlis.isWrapUseCaseError
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.CommandExecutionException
@@ -27,6 +28,7 @@ class AxonConfiguration {
     @Autowired
     fun queryBus(queryBus : QueryBus) {
         queryBus.registerHandlerInterceptor(ExceptionWrappingQueryHandlerInterceptor())
+        queryBus.registerDispatchInterceptor(LoggingQueryDispatchInterceptor())
     }
 
     @Bean
@@ -36,10 +38,11 @@ class AxonConfiguration {
             ExponentialBackOffIntervalRetryScheduler
                 .builder()
                 .retryExecutor(scheduledExecutorService)
+                //失敗時、1s, 2s, 4s...みたいな感じでリトライする。
                 .maxRetryCount(3)
                 .backoffFactor(1000)
                 // AxonServerを使用した場合、CommandHandler内で起きた例外はすべてCommandExecutionExceptionにラップされる。
-                // これはそのままだとRuntimeExceptionであり、ビジネス例外でもリトライが走ってしまう。
+                // そのままだとすべての例外がRuntimeExceptionであり、ビジネス例外でもリトライが走ってしまうため、以下で制御する。
                 .addNonTransientFailurePredicate {
                     if (it is CommandExecutionException) {
                         // UseCase例外の場合はリトライしても成功しないのでリトライ停止

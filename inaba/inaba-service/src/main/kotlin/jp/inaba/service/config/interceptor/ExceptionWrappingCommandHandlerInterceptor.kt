@@ -33,7 +33,8 @@ class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<Com
             is UseCaseException -> {
                 e.error
             }
-            // CommandHandler → CommandHandler(n)　→　呼び出し元
+            // CommandHandler → CommandHandler　→　呼び出し元
+            // 集約のCommandHandler内で外部システムにアクセスしたくない場合などにこのパターンを通る。
             is CommandExecutionException -> {
                 if (e.isWrapUseCaseError()) {
                     logger.warn { "CommandHandlerからの例外を受け取りましたが、Detailsが取得できませんでした。" }

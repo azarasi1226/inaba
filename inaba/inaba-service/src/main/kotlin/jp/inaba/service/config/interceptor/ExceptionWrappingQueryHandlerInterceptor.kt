@@ -3,9 +3,6 @@ package jp.inaba.service.config.interceptor
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.core.domain.common.UseCaseError
 import jp.inaba.core.domain.common.UseCaseException
-import jp.inaba.service.utlis.getWrapUseCaseError
-import jp.inaba.service.utlis.isWrapUseCaseError
-import org.axonframework.commandhandling.CommandExecutionException
 import org.axonframework.messaging.InterceptorChain
 import org.axonframework.messaging.MessageHandlerInterceptor
 import org.axonframework.messaging.unitofwork.UnitOfWork

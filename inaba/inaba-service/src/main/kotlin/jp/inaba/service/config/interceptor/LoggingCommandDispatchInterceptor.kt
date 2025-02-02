@@ -10,9 +10,8 @@ private val logger = KotlinLogging.logger {}
 class LoggingCommandDispatchInterceptor : MessageDispatchInterceptor<CommandMessage<*>> {
     override fun handle(messages: List<CommandMessage<*>>): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> {
         return BiFunction { _, command ->
-            //TODO("表示形式もっとわかりやすくきれいにしたい。)
-            logger.info { "dispatch the ${command.payloadType}" }
-            logger.info { "dispatch the ${command.payload}" }
+            // TODO:もっときれいな表示形式にしたいね('ω')
+            logger.debug { "コマンド発行：${command.payload}" }
 
             command
         }
