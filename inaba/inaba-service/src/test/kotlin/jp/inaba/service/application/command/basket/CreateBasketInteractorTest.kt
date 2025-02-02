@@ -44,10 +44,10 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.checkUserExits(userId)
+            canCreateBasketVerifier.isUserNotFound(userId)
         } returns Ok(Unit)
         every {
-            canCreateBasketVerifier.checkUserHasNoBasket(userId)
+            canCreateBasketVerifier.isBasketLinkedToUser(userId)
         } returns Ok(Unit)
         every {
             commandGateway.sendAndWait<ActionCommandResult>(any())
@@ -79,7 +79,7 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.checkUserExits(userId)
+            canCreateBasketVerifier.isUserNotFound(userId)
         } returns Err(CreateBasketError.USER_NOT_FOUND)
 
         // Act
@@ -104,10 +104,10 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.checkUserExits(userId)
+            canCreateBasketVerifier.isUserNotFound(userId)
         } returns Ok(Unit)
         every {
-            canCreateBasketVerifier.checkUserHasNoBasket(userId)
+            canCreateBasketVerifier.isBasketLinkedToUser(userId)
         } returns Err(CreateBasketError.BASKET_ALREADY_EXISTS)
 
         // Act

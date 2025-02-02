@@ -1,7 +1,7 @@
 package jp.inaba.service.application.command.basket
 
-import com.github.michaelbull.result.onFailure
-import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.basket.CreateBasketError
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.message.basket.command.CreateBasketCommand
 import jp.inaba.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.service.domain.basket.InternalCreateBasketCommand
@@ -15,11 +15,13 @@ class CreateBasketInteractor(
     private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
-    fun handle(command: CreateBasketCommand): ActionCommandResult {
-        canCreateBasketVerifier.checkUserExits(command.userId)
-            .onFailure { return ActionCommandResult.error(it.errorCode) }
-        canCreateBasketVerifier.checkUserHasNoBasket(command.userId)
-            .onFailure { return ActionCommandResult.error(it.errorCode) }
+    fun handle(command: CreateBasketCommand) {
+        if(canCreateBasketVerifier.isUserNotFound(command.userId)) {
+            throw UseCaseException(CreateBasketError.USER_NOT_FOUND)
+        }
+        if(canCreateBasketVerifier.isBasketLinkedToUser(command.userId)) {
+            throw UseCaseException(CreateBasketError.BASKET_ALREADY_EXISTS)
+        }
 
         val internalCommand =
             InternalCreateBasketCommand(
@@ -28,7 +30,5 @@ class CreateBasketInteractor(
             )
 
         commandGateway.sendAndWait<Any>(internalCommand)
-
-        return ActionCommandResult.ok()
     }
 }

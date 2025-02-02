@@ -1,7 +1,7 @@
 package jp.inaba.service.application.command.basket
 
-import com.github.michaelbull.result.onFailure
-import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.basket.SetBasketItemError
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.message.basket.command.SetBasketItemCommand
 import jp.inaba.service.domain.basket.CanSetBasketItemVerifier
 import jp.inaba.service.domain.basket.InternalSetBasketItemCommand
@@ -15,9 +15,10 @@ class SetBasketItemInteractor(
     private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
-    fun handle(command: SetBasketItemCommand): ActionCommandResult {
-        canSetBasketItemVerifier.checkProductExits(command.productId)
-            .onFailure { return ActionCommandResult.error(it.errorCode) }
+    fun handle(command: SetBasketItemCommand) {
+        if(canSetBasketItemVerifier.isProductNotFound(command.productId)) {
+            throw UseCaseException(SetBasketItemError.PRODUCT_NOT_FOUND)
+        }
 
         val internalCommand =
             InternalSetBasketItemCommand(
@@ -26,6 +27,6 @@ class SetBasketItemInteractor(
                 basketItemQuantity = command.basketItemQuantity,
             )
 
-        return commandGateway.sendAndWait(internalCommand)
+        commandGateway.sendAndWait<Any>(internalCommand)
     }
 }

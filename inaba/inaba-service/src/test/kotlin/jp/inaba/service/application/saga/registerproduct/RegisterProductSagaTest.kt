@@ -12,7 +12,6 @@ import jp.inaba.core.domain.stock.StockIdFactory
 import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.stock.command.CreateStockCommand
-import jp.inaba.message.stock.createStock
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.test.saga.SagaTestFixture
 import org.junit.jupiter.api.BeforeEach
@@ -80,7 +79,7 @@ class RegisterProductSagaTest {
         )
 
         every {
-            commandGateway.createStock(any())
+            commandGateway.sendAndWait<Any>(any())
         } returns Err(CreateStockError.ProductNotExits)
 
         fixture.givenNoPriorActivity()

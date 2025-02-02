@@ -3,7 +3,7 @@ package jp.inaba.service.domain.basket
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.basket.SetBasketItemError
-import jp.inaba.core.domain.common.ActionCommandResult
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.message.basket.command.ClearBasketCommand
 import jp.inaba.message.basket.command.DeleteBasketCommand
@@ -41,10 +41,10 @@ class BasketAggregate() {
     }
 
     @CommandHandler
-    fun handle(command: InternalSetBasketItemCommand): ActionCommandResult {
+    fun handle(command: InternalSetBasketItemCommand) {
         // 買い物かごの中のアイテムが最大種類に達している？
         if (items.size >= MAX_ITEM_KIND_COUNT) {
-            return ActionCommandResult.error(SetBasketItemError.PRODUCT_MAX_KIND_OVER.errorCode)
+            throw UseCaseException(SetBasketItemError.PRODUCT_MAX_KIND_OVER)
         }
 
         val event =
@@ -55,8 +55,6 @@ class BasketAggregate() {
             )
 
         AggregateLifecycle.apply(event)
-
-        return ActionCommandResult.ok()
     }
 
     @CommandHandler
