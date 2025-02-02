@@ -74,7 +74,7 @@ class StockAggregate() {
             throw UseCaseException(DecreaseStockError.InsufficientStock)
         }
 
-        val decreasedStockQuantity = quantity.add(command.decreaseCount)
+        val decreasedStockQuantity = quantity.subtract(command.decreaseCount)
 
         val event =
             StockDecreasedEvent(
