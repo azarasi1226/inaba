@@ -3,9 +3,7 @@ package jp.inaba.service.domain.stock
 import jp.inaba.core.domain.common.IdempotenceChecker
 import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.common.UseCaseException
-import jp.inaba.core.domain.stock.DecreaseCount
 import jp.inaba.core.domain.stock.DecreaseStockError
-import jp.inaba.core.domain.stock.IncreaseCount
 import jp.inaba.core.domain.stock.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
 import jp.inaba.core.domain.stock.StockQuantity
@@ -107,13 +105,13 @@ class StockAggregate() {
 
     @EventSourcingHandler
     fun on(event: StockIncreasedEvent) {
-        quantity = quantity.add(IncreaseCount(event.increaseCount))
+        quantity = StockQuantity(event.increasedStockQuantity)
         idempotenceChecker.register(IdempotencyId(event.idempotencyId))
     }
 
     @EventSourcingHandler
     fun on(event: StockDecreasedEvent) {
-        quantity = quantity.subtract(DecreaseCount(event.decreaseCount))
+        quantity = StockQuantity(event.decreasedStockQuantity)
         idempotenceChecker.register(IdempotencyId(event.idempotencyId))
     }
 
