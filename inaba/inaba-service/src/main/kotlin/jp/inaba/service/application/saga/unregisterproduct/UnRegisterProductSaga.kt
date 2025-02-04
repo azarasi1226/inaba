@@ -34,9 +34,11 @@ class UnRegisterProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: ProductDeletedEvent) {
+        logger.debug { "UnRegisterProductSaga開始" }
+
         val deleteStockCommand =
             DeleteStockCommand(
-                id = StockId(TODO("どうやってStockIDとるか考えて")),
+                id = StockId(TODO("どうやってStockIDとるか考えてや！！今中でRepositoryで検索かけたろうかな！")),
             )
 
         deleteStockStep.handle(

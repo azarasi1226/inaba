@@ -14,9 +14,9 @@ class CreateBasketStep(
         onFail: () -> Unit,
     ) {
         try {
-            val result = commandGateway.sendAndWait<Any>(command)
+            commandGateway.sendAndWait<Any>(command)
         } catch (e: Exception) {
-            logger.warn { "買い物かご作成に失敗しました exception:[$e]" }
+            logger.error { "買い物かご作成に失敗しました exception:[$e]" }
             onFail.invoke()
         }
     }

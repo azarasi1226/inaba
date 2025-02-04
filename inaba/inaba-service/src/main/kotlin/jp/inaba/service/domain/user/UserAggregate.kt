@@ -9,12 +9,16 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
+import org.axonframework.modelling.command.AggregateMember
 import org.axonframework.spring.stereotype.Aggregate
 
 @Aggregate
 class UserAggregate() {
     @AggregateIdentifier
     private lateinit var id: UserId
+
+    @AggregateMember
+    private var metadata = UserMetadata()
 
     @CommandHandler
     constructor(command: CreateUserCommand) : this() {

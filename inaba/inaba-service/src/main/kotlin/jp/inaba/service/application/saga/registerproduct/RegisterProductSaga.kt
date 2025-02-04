@@ -44,6 +44,8 @@ class RegisterProductSaga {
         associationProperty = "traceId",
     )
     fun on(event: ProductCreatedEvent) {
+        logger.debug { "RegisterProductSaga開始" }
+
         val createStockCommand =
             CreateStockCommand(
                 id = stockIdFactory.handle(),

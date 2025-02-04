@@ -49,3 +49,5 @@ RuntimeExceptionの場合リトライされる。
 
 
 * 商品消すときの安全確認
+
+* sagaのstep共通化できるだろ。

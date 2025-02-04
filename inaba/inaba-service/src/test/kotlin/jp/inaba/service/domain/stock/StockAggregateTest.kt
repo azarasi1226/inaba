@@ -19,6 +19,7 @@ import org.axonframework.test.matchers.Matchers
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+// TODO(テストの定数が多すぎる気がする。もっとスマートに)
 class StockAggregateTest {
     private lateinit var fixture: FixtureConfiguration<StockAggregate>
 
