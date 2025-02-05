@@ -22,12 +22,13 @@ import jp.inaba.message.user.event.BasketIdLinkedEvent
 import jp.inaba.message.user.event.SubjectLinkedEvent
 import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.message.user.event.UserDeletedEvent
+import jp.inaba.service.application.saga.SagaBase
+import jp.inaba.service.application.saga.SagaStep
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.extensions.kotlin.query
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.MetaDataAssociationResolver
 import org.axonframework.modelling.saga.SagaEventHandler
-import org.axonframework.modelling.saga.SagaLifecycle
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.queryhandling.QueryGateway
 import org.axonframework.spring.stereotype.Saga
@@ -37,7 +38,7 @@ private val logger = KotlinLogging.logger {}
 
 @Saga
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-class UserSetupSaga {
+class UserSetupSaga : SagaBase() {
     @Autowired
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
@@ -51,25 +52,25 @@ class UserSetupSaga {
     private lateinit var userIdFactory: UserIdFactory
 
     @delegate:JsonIgnore
-    private val createUserStep by lazy { CreateUserStep(commandGateway) }
+    private val createUserStep by lazy { SagaStep(commandGateway, CreateUserCommand::class) }
 
     @delegate:JsonIgnore
-    private val createBasketStep by lazy { CreateBasketStep(commandGateway) }
+    private val createBasketStep by lazy { SagaStep(commandGateway, CreateBasketCommand::class) }
 
     @delegate:JsonIgnore
-    private val linkSubjectStep by lazy { LinkSubjectStep(commandGateway) }
+    private val linkSubjectStep by lazy { SagaStep(commandGateway, LinkSubjectCommand::class) }
 
     @delegate:JsonIgnore
-    private val linkBasketIdStep by lazy { LinkBasketIdStep(commandGateway) }
+    private val linkBasketIdStep by lazy { SagaStep(commandGateway, LinkBasketIdCommand::class) }
 
     @delegate:JsonIgnore
-    private val deleteBasketStep by lazy { DeleteBasketStep(commandGateway) }
+    private val deleteBasketStep by lazy { SagaStep(commandGateway, DeleteBasketCommand::class) }
 
     @delegate:JsonIgnore
-    private val deleteUserStep by lazy { DeleteUserStep(commandGateway) }
+    private val deleteUserStep by lazy { SagaStep(commandGateway, DeleteUserCommand::class) }
 
     @delegate:JsonIgnore
-    private val deleteAuthUserStep by lazy { DeleteAuthUserStep(commandGateway) }
+    private val deleteAuthUserStep by lazy { SagaStep(commandGateway, DeleteAuthUserCommand::class) }
 
     private lateinit var sagaState: UserSetupSagaState
 
@@ -79,7 +80,7 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: SignupConfirmedEvent) {
-        logger.debug { "UserSetupSaga開始 email:[${sagaState.emailAddress}]" }
+        logger.debug { "saga: [${this::class.simpleName}]開始" }
 
         sagaState = UserSetupSagaState(event)
 
@@ -193,12 +194,13 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: BasketIdLinkedEvent) {
-        logger.debug { "UserSetupSaga正常終了 email:[${sagaState.emailAddress}]" }
+        logger.debug { "saga: [${this::class.simpleName}]正常終了" }
     }
 
-    // -----------------------------------------------------------------
+
+    // -------------------------------------------------------------------
     // -----------------------↓補償フェーズ↓--------------------------------
-    // -----------------------------------------------------------------
+    // -------------------------------------------------------------------
     @SagaEventHandler(
         associationResolver = MetaDataAssociationResolver::class,
         associationProperty = "traceId",
@@ -235,12 +237,6 @@ class UserSetupSaga {
         associationProperty = "traceId",
     )
     fun on(event: AuthUserDeletedEvent) {
-        logger.info { "UserSetupSaga補償終了 email:[${sagaState.emailAddress}]" }
-    }
-
-    private fun fatalError() {
-        logger.error { "UserSetupSaga強制終了 email:[${sagaState.emailAddress}]" }
-        logger.error { "保障トランザクションが最後まで実行されませんでした。データの整合性を確認してください。" }
-        SagaLifecycle.end()
+        logger.info { "saga: [${this::class.simpleName}]補償トランザクション終了" }
     }
 }
