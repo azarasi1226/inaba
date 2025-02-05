@@ -5,7 +5,6 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.grpc.auth.ResendConfirmCodeGrpc
 import jp.inaba.grpc.auth.ResendConfirmCodeRequest
 import jp.inaba.message.auth.command.ResendConfirmCodeCommand
-import jp.inaba.message.auth.resendConfirmCode
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
 
@@ -22,7 +21,7 @@ class ResendConfirmCodeGrpcService(
                 emailAddress = request.emailAddress,
             )
 
-        commandGateway.resendConfirmCode(command)
+        commandGateway.sendAndWait<Any>(command)
 
         responseObserver.onNext(Empty.getDefaultInstance())
         responseObserver.onCompleted()

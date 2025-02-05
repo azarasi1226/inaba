@@ -5,7 +5,6 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.grpc.auth.SignupGrpc
 import jp.inaba.grpc.auth.SignupRequest
 import jp.inaba.message.auth.command.SignupCommand
-import jp.inaba.message.auth.signup
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
 
@@ -23,7 +22,7 @@ class SignupGrpcService(
                 password = request.password,
             )
 
-        commandGateway.signup(command)
+        commandGateway.sendAndWait<Any>(command)
 
         responseObserver.onNext(Empty.getDefaultInstance())
         responseObserver.onCompleted()

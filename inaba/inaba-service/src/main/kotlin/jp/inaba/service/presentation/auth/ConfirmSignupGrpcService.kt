@@ -5,7 +5,6 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.grpc.auth.ConfirmSignupGrpc
 import jp.inaba.grpc.auth.ConfirmSignupRequest
 import jp.inaba.message.auth.command.ConfirmSignupCommand
-import jp.inaba.message.auth.confirmSignup
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
 
@@ -23,7 +22,7 @@ class ConfirmSignupGrpcService(
                 confirmCode = request.confirmCode,
             )
 
-        commandGateway.confirmSignup(command)
+        commandGateway.sendAndWait<Any>(command)
 
         responseObserver.onNext(Empty.getDefaultInstance())
         responseObserver.onCompleted()
