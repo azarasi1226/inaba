@@ -16,6 +16,6 @@ class CanCreateBasketVerifierImpl(
     }
 
     override fun isBasketLinkedToUser(userId: UserId): Boolean {
-        return !lookupBasketRepository.existsByUserId(userId.value)
+        return lookupBasketRepository.existsByUserId(userId.value)
     }
 }
