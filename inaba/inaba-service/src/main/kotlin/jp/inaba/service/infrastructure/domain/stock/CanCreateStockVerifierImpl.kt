@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class CanCreateStockVerifierImpl(
-    private val repository: LookupProductJpaRepository,
+    private val lookupProductJpaRepository: LookupProductJpaRepository,
 ) : CanCreateStockVerifier {
     override fun isProductNotFound(productId: ProductId): Boolean {
         // DB書き込みが追いついてない場合があるのでスリープして待機。
         // TODO:ぶっちゃけこのやり方よくないだろ...てかリードレプリカがあるようなDBでも同じような問題あるよな...どうすんだ？
         Thread.sleep(50)
-        return repository.findById(productId.value).isEmpty
+        return lookupProductJpaRepository.findById(productId.value).isEmpty
     }
 }

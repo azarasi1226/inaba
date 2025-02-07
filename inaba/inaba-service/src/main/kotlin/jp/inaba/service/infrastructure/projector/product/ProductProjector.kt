@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
 class ProductProjector(
-    private val productJpaRepository: ProductJpaRepository,
+    private val repository: ProductJpaRepository,
 ) {
     @EventHandler
     fun on(event: ProductCreatedEvent) {
@@ -28,12 +28,12 @@ class ProductProjector(
                 price = event.price,
             )
 
-        productJpaRepository.save(entity)
+        repository.save(entity)
     }
 
     @EventHandler
     fun on(event: StockCreatedEvent) {
-        val maybeEntity = productJpaRepository.findById(event.productId)
+        val maybeEntity = repository.findById(event.productId)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
@@ -42,13 +42,13 @@ class ProductProjector(
                     stockId = event.id,
                 )
 
-            productJpaRepository.save(updatedEntity)
+            repository.save(updatedEntity)
         }
     }
 
     @EventHandler
     fun on(event: StockIncreasedEvent) {
-        val maybeEntity = productJpaRepository.findByStockId(event.id)
+        val maybeEntity = repository.findByStockId(event.id)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
@@ -57,13 +57,13 @@ class ProductProjector(
                     quantity = event.increasedStockQuantity,
                 )
 
-            productJpaRepository.save(updatedEntity)
+            repository.save(updatedEntity)
         }
     }
 
     @EventHandler
     fun on(event: StockDecreasedEvent) {
-        val maybeEntity = productJpaRepository.findByStockId(event.id)
+        val maybeEntity = repository.findByStockId(event.id)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
@@ -72,13 +72,13 @@ class ProductProjector(
                     quantity = event.decreasedStockQuantity,
                 )
 
-            productJpaRepository.save(updatedEntity)
+            repository.save(updatedEntity)
         }
     }
 
     @EventHandler
     fun on(event: ProductUpdatedEvent) {
-        val maybeEntity = productJpaRepository.findById(event.id)
+        val maybeEntity = repository.findById(event.id)
 
         if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
@@ -90,18 +90,18 @@ class ProductProjector(
                     price = event.price,
                 )
 
-            productJpaRepository.save(updatedEntity)
+            repository.save(updatedEntity)
         }
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        val maybeEntity = productJpaRepository.findById(event.id)
+        val maybeEntity = repository.findById(event.id)
 
         if(maybeEntity.isPresent) {
             val entity = maybeEntity.get()
 
-            productJpaRepository.delete(entity)
+            repository.delete(entity)
         }
     }
 }

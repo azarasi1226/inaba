@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(LookupProductProjectorEventProcessor.PROCESSOR_NAME)
 class LookupProductProjector(
-    private val lookupProductJpaRepository: LookupProductJpaRepository,
+    private val repository: LookupProductJpaRepository,
 ) {
     @EventHandler
     fun on(event: ProductCreatedEvent) {
@@ -21,11 +21,11 @@ class LookupProductProjector(
             name = event.name,
         )
 
-        lookupProductJpaRepository.save(entity)
+        repository.save(entity)
     }
 
     @EventHandler
     fun on(event: BasketDeletedEvent) {
-        lookupProductJpaRepository.deleteById(event.id)
+        repository.deleteById(event.id)
     }
 }

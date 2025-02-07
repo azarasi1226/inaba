@@ -14,13 +14,14 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
 class BasketProjector(
-    private val productRepository: ProductJpaRepository,
-    private val basketRepository: BasketJpaRepository,
+    private val productJpaRepository: ProductJpaRepository,
+    private val basketJpaRepository: BasketJpaRepository,
 ) {
     @EventHandler
     fun on(event: BasketItemSetEvent) {
+        //TODO(JPAの制約のおかげでこのIFいらないかも)
         val productJpaEntity =
-            productRepository.findById(event.productId)
+            productJpaRepository.findById(event.productId)
                 .orElseThrow { Exception("Productが存在しませんでした。event:[$event]") }
 
         val id =
@@ -37,12 +38,12 @@ class BasketProjector(
                 itemQuantity = event.basketItemQuantity,
             )
 
-        basketRepository.save(basketItemJpaEntity)
+        basketJpaRepository.save(basketItemJpaEntity)
     }
 
     @EventHandler
     fun on(event: BasketItemDeletedEvent) {
-        basketRepository.deleteByBasketIdAndProductId(
+        basketJpaRepository.deleteByBasketIdAndProductId(
             basketId = event.id,
             productId = event.productId,
         )
@@ -50,6 +51,6 @@ class BasketProjector(
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
-        basketRepository.deleteByBasketId(event.id)
+        basketJpaRepository.deleteByBasketId(event.id)
     }
 }

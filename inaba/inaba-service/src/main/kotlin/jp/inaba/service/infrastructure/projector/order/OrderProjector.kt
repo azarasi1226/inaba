@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(OrderProjectorEventProcessor.PROCESSOR_NAME)
 class OrderProjector(
-    private val orderJpaRepository: OrderJpaRepository,
+    private val repository: OrderJpaRepository,
 ) {
     @EventHandler
     fun on(event: OrderIssuedEvent) {
@@ -24,24 +24,24 @@ class OrderProjector(
                 userId = event.userId,
             )
 
-        orderJpaRepository.save(entity)
+        repository.save(entity)
     }
 
     @EventHandler
     fun on(event: OrderCompletedEvent) {
-        val entity = orderJpaRepository.findById(event.id).orElseThrow()
+        val entity = repository.findById(event.id).orElseThrow()
 
         entity.status = OrderStatus.Completed
 
-        orderJpaRepository.save(entity)
+        repository.save(entity)
     }
 
     @EventHandler
     fun on(event: OrderFailedEvent) {
-        val entity = orderJpaRepository.findById(event.id).orElseThrow()
+        val entity = repository.findById(event.id).orElseThrow()
 
         entity.status = OrderStatus.Failed
 
-        orderJpaRepository.save(entity)
+        repository.save(entity)
     }
 }

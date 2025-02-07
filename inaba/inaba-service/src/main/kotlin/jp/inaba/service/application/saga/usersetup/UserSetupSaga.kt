@@ -25,6 +25,7 @@ import jp.inaba.message.user.event.UserDeletedEvent
 import jp.inaba.service.application.saga.SagaBase
 import jp.inaba.service.application.saga.SagaStep
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.extensions.kotlin.query
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.MetaDataAssociationResolver
@@ -37,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired
 private val logger = KotlinLogging.logger {}
 
 @Saga
+@ProcessingGroup(UserSetupSagaEventProcessor.PROCESSOR_NAME)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class UserSetupSaga : SagaBase() {
     @Autowired

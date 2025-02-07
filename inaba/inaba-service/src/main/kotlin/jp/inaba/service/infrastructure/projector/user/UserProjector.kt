@@ -17,7 +17,7 @@ class UserProjector(
         val entity =
             UserJpaEntity(
                 id = event.id,
-                userName = "ふｌえええ",
+                userName = "ふｌえええつよい",
             )
 
         repository.save(entity)
