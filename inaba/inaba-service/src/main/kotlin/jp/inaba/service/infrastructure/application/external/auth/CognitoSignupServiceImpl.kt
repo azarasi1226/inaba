@@ -1,11 +1,14 @@
 package jp.inaba.service.infrastructure.application.external.auth
 
+import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.service.application.external.auth.signup.CognitoSignupService
+import jp.inaba.service.application.external.auth.signup.SignupError
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UsernameExistsException
 
 @Service
 class CognitoSignupServiceImpl(
@@ -32,6 +35,10 @@ class CognitoSignupServiceImpl(
                 )
                 .build()
 
-        cognitoClient.signUp(request)
+        try {
+            cognitoClient.signUp(request)
+        } catch (e: UsernameExistsException) {
+            throw UseCaseException(SignupError.UserNameExists)
+        }
     }
 }
