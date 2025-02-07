@@ -14,12 +14,17 @@ private val logger = KotlinLogging.logger {}
 class ExceptionWrappingQueryHandlerInterceptor : MessageHandlerInterceptor<QueryMessage<*, *>> {
     // https://discuss.axoniq.io/t/interceptorchain-proceed-must-not-be-null/4908
     // 戻り値はnullを許容しなくてはいけない。
-    override fun handle(unitOfWork: UnitOfWork<out QueryMessage<*, *>>, interceptorChain: InterceptorChain): Any? {
+    override fun handle(
+        unitOfWork: UnitOfWork<out QueryMessage<*, *>>,
+        interceptorChain: InterceptorChain,
+    ): Any? {
         try {
             return interceptorChain.proceed()
         } catch (e: Throwable) {
             throw QueryExecutionException(
-                e.message, e, exceptionDetails(e)
+                e.message,
+                e,
+                exceptionDetails(e),
             )
         }
     }

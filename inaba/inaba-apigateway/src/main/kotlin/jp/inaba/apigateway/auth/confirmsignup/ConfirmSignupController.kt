@@ -15,7 +15,7 @@ class ConfirmSignupController(
     @PostMapping("/api/auth/confirm-signup")
     fun handle(
         @RequestBody
-        request: ConfirmSignupHttpRequest
+        request: ConfirmSignupHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
 

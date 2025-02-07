@@ -26,14 +26,15 @@ class GetProductGrpcService(
 
         val result = queryGateway.query<FindProductByIdResult, FindProductByIdQuery>(query).get()
 
-        val response = GetProductResponse.newBuilder()
-            .setName(result.name)
-            .setStockId(result.stockId)
-            .setDescription(result.description)
-            .setImageUrl(result.imageUrl)
-            .setPrice(result.price)
-            .setQuantity(result.quantity)
-            .build()
+        val response =
+            GetProductResponse.newBuilder()
+                .setName(result.name)
+                .setStockId(result.stockId)
+                .setDescription(result.description)
+                .setImageUrl(result.imageUrl)
+                .setPrice(result.price)
+                .setQuantity(result.quantity)
+                .build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

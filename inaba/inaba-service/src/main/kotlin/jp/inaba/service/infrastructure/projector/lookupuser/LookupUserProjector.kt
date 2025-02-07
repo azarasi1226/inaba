@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(LookupUserProjectorEventProcessor.PROCESSOR_NAME)
 class LookupUserProjector(
-    private val repository: LookupUserJpaRepository
+    private val repository: LookupUserJpaRepository,
 ) {
     @EventHandler
     fun on(event: UserCreatedEvent) {
-        val entity = LookupUserJpaEntity(
-            id = event.id
-        )
+        val entity =
+            LookupUserJpaEntity(
+                id = event.id,
+            )
 
         repository.save(entity)
     }

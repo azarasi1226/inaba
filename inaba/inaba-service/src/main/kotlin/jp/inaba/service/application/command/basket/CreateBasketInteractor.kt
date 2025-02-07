@@ -16,10 +16,10 @@ class CreateBasketInteractor(
 ) {
     @CommandHandler
     fun handle(command: CreateBasketCommand) {
-        if(canCreateBasketVerifier.isUserNotFound(command.userId)) {
+        if (canCreateBasketVerifier.isUserNotFound(command.userId)) {
             throw UseCaseException(CreateBasketError.USER_NOT_FOUND)
         }
-        if(canCreateBasketVerifier.isBasketLinkedToUser(command.userId)) {
+        if (canCreateBasketVerifier.isBasketLinkedToUser(command.userId)) {
             throw UseCaseException(CreateBasketError.BASKET_ALREADY_EXISTS)
         }
 

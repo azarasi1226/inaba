@@ -98,7 +98,7 @@ class ProductProjector(
     fun on(event: ProductDeletedEvent) {
         val maybeEntity = repository.findById(event.id)
 
-        if(maybeEntity.isPresent) {
+        if (maybeEntity.isPresent) {
             val entity = maybeEntity.get()
 
             repository.delete(entity)

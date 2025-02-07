@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController
 class IncreaseStockController(
     @GrpcClient("global")
     private val grpcService: IncreaseStockGrpc.IncreaseStockBlockingStub,
-): StockController {
+) : StockController {
     @PatchMapping("/api/stocks/{id}/increase")
     fun handle(
         @PathVariable("id")
         id: String,
         @RequestBody
-        request: IncreaseStockHttpRequest
+        request: IncreaseStockHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest(id)
 

@@ -16,18 +16,23 @@ private val logger = KotlinLogging.logger {}
 class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<CommandMessage<*>> {
     // https://discuss.axoniq.io/t/interceptorchain-proceed-must-not-be-null/4908
     // 戻り値はnullを許容しなくてはいけない。
-    override fun handle(unitOfWork: UnitOfWork<out CommandMessage<*>>, interceptorChain: InterceptorChain): Any? {
+    override fun handle(
+        unitOfWork: UnitOfWork<out CommandMessage<*>>,
+        interceptorChain: InterceptorChain,
+    ): Any? {
         try {
             return interceptorChain.proceed()
         } catch (e: Throwable) {
             throw CommandExecutionException(
-                e.message, e, exceptionDetails(e)
+                e.message,
+                e,
+                exceptionDetails(e),
             )
         }
     }
 
     private fun exceptionDetails(e: Throwable): UseCaseError {
-        //TODO("リトライ可能例外が出た場合は詰め替える処理を書いたほうがいいかも")
+        // TODO("リトライ可能例外が出た場合は詰め替える処理を書いたほうがいいかも")
         return when (e) {
             // CommandHandler → 呼び出し元
             is UseCaseException -> {

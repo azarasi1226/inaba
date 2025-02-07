@@ -1,8 +1,6 @@
 package jp.inaba.service.domain.product
 
-import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.core.domain.product.ShipmentProductError
 import jp.inaba.message.product.command.CreateProductCommand
 import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.command.UpdateProductCommand

@@ -84,9 +84,10 @@ class SetBasketItemInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == SetBasketItemError.PRODUCT_NOT_FOUND)

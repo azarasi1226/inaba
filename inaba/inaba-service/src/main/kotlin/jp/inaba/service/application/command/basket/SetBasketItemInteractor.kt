@@ -16,7 +16,7 @@ class SetBasketItemInteractor(
 ) {
     @CommandHandler
     fun handle(command: SetBasketItemCommand) {
-        if(canSetBasketItemVerifier.isProductNotFound(command.productId)) {
+        if (canSetBasketItemVerifier.isProductNotFound(command.productId)) {
             throw UseCaseException(SetBasketItemError.PRODUCT_NOT_FOUND)
         }
 

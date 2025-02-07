@@ -26,7 +26,7 @@ class AxonConfiguration {
     }
 
     @Autowired
-    fun queryBus(queryBus : QueryBus) {
+    fun queryBus(queryBus: QueryBus) {
         queryBus.registerHandlerInterceptor(ExceptionWrappingQueryHandlerInterceptor())
         queryBus.registerDispatchInterceptor(LoggingQueryDispatchInterceptor())
     }
@@ -38,7 +38,7 @@ class AxonConfiguration {
             ExponentialBackOffIntervalRetryScheduler
                 .builder()
                 .retryExecutor(scheduledExecutorService)
-                //失敗時、1s, 2s, 4s...みたいな感じでリトライする。
+                // 失敗時、1s, 2s, 4s...みたいな感じでリトライする。
                 .maxRetryCount(3)
                 .backoffFactor(1000)
                 // AxonServerを使用した場合、CommandHandler内で起きた例外はすべてCommandExecutionExceptionにラップされる。

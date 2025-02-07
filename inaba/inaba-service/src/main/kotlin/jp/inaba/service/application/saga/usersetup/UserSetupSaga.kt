@@ -146,7 +146,7 @@ class UserSetupSaga : SagaBase() {
         val command =
             LinkSubjectCommand(
                 id = sagaState.userId,
-                subject = result.subject
+                subject = result.subject,
             )
 
         linkSubjectStep.handle(
@@ -172,7 +172,7 @@ class UserSetupSaga : SagaBase() {
         val command =
             LinkBasketIdCommand(
                 id = sagaState.userId,
-                basketId = sagaState.basketId
+                basketId = sagaState.basketId,
             )
 
         linkBasketIdStep.handle(
@@ -198,7 +198,6 @@ class UserSetupSaga : SagaBase() {
     fun on(event: BasketIdLinkedEvent) {
         logger.debug { "saga: [${this::class.simpleName}]正常終了" }
     }
-
 
     // -------------------------------------------------------------------
     // -----------------------↓補償フェーズ↓--------------------------------

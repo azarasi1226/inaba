@@ -9,8 +9,8 @@ data class DecreaseCount(val value: Int) {
     }
 
     init {
-        if (value !in MIN .. MAX) {
-            throw DomainException("減少値は[${MIN}~${MAX}]の間です。value:[$value]")
+        if (value !in MIN..MAX) {
+            throw DomainException("減少値は[$MIN~$MAX]の間です。value:[$value]")
         }
     }
 }

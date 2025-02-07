@@ -18,7 +18,7 @@ class UpdateProductController(
         @PathVariable("id")
         id: String,
         @RequestBody
-        request: UpdateProductHttpRequest
+        request: UpdateProductHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest(id)
 

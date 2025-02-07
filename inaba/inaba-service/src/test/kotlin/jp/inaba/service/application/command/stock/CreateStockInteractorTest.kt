@@ -40,7 +40,7 @@ class CreateStockInteractorTest {
         val command =
             CreateStockCommand(
                 id = stockId,
-                productId = productId
+                productId = productId,
             )
         every {
             canCreateStockVerifier.isProductNotFound(productId)
@@ -56,7 +56,7 @@ class CreateStockInteractorTest {
         val expectCommand =
             InternalCreateStockCommand(
                 id = stockId,
-                productId = productId
+                productId = productId,
             )
         verify(exactly = 1) {
             commandGateway.sendAndWait<Any>(expectCommand)
@@ -71,7 +71,7 @@ class CreateStockInteractorTest {
         val command =
             CreateStockCommand(
                 id = stockId,
-                productId = productId
+                productId = productId,
             )
         every {
             canCreateStockVerifier.isProductNotFound(productId)
@@ -81,9 +81,10 @@ class CreateStockInteractorTest {
         } returns Unit
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CreateStockError.ProductNotExits)

@@ -14,7 +14,10 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 class DeleteBasketItemGrpcService(
     private val commandGateway: CommandGateway,
 ) : DeleteBasketItemGrpc.DeleteBasketItemImplBase() {
-    override fun handle(request: DeleteBasketItemRequest, responseObserver: StreamObserver<Empty>) {
+    override fun handle(
+        request: DeleteBasketItemRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
         val command =
             DeleteBasketItemCommand(
                 id = BasketId(request.id),

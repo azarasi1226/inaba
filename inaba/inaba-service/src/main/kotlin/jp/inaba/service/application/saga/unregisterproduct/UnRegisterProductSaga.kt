@@ -4,9 +4,9 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-//@Saga
-//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-//class UnRegisterProductSaga : SagaBase() {
+// @Saga
+// @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+// class UnRegisterProductSaga : SagaBase() {
 //    @Autowired
 //    @JsonIgnore
 //    private lateinit var commandGateway: CommandGateway
@@ -44,4 +44,4 @@ private val logger = KotlinLogging.logger {}
 //    fun on(event: StockDeletedEvent) {
 //        logger.debug { "saga: [${this::class.simpleName}]正常終了" }
 //    }
-//}
+// }

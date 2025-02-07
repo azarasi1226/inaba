@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class SignupController(
     @GrpcClient("global")
-    private val grpcService: SignupGrpc.SignupBlockingStub
+    private val grpcService: SignupGrpc.SignupBlockingStub,
 ) : AuthController {
     @PostMapping("/api/auth/signup")
     fun handle(
         @RequestBody
-        request: SignupHttpRequest
+        request: SignupHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
 

@@ -19,7 +19,7 @@ class BasketProjector(
 ) {
     @EventHandler
     fun on(event: BasketItemSetEvent) {
-        //TODO(JPAの制約のおかげでこのIFいらないかも)
+        // TODO(JPAの制約のおかげでこのIFいらないかも)
         val productJpaEntity =
             productJpaRepository.findById(event.productId)
                 .orElseThrow { Exception("Productが存在しませんでした。event:[$event]") }

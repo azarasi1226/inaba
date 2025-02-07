@@ -57,7 +57,7 @@ class StockAggregate() {
                 id = command.id.value,
                 increaseCount = command.increaseCount.value,
                 idempotencyId = command.idempotencyId.value,
-                increasedStockQuantity = increasedStockQuantity.value
+                increasedStockQuantity = increasedStockQuantity.value,
             )
 
         AggregateLifecycle.apply(event)
@@ -81,7 +81,7 @@ class StockAggregate() {
                 id = command.id.value,
                 decreaseCount = command.decreaseCount.value,
                 idempotencyId = command.idempotencyId.value,
-                decreasedStockQuantity = decreasedStockQuantity.value
+                decreasedStockQuantity = decreasedStockQuantity.value,
             )
 
         AggregateLifecycle.apply(event)
@@ -91,7 +91,7 @@ class StockAggregate() {
     fun handle(command: DeleteStockCommand) {
         val event =
             StockDeletedEvent(
-                id = command.id.value
+                id = command.id.value,
             )
 
         AggregateLifecycle.apply(event)

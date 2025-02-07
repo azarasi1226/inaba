@@ -15,7 +15,7 @@ class ResendConfirmCodeController(
     @PostMapping("/api/auth/resend-confirm-code")
     fun handle(
         @RequestBody
-        request: ResendConfirmCodeHttpRequest
+        request: ResendConfirmCodeHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
 

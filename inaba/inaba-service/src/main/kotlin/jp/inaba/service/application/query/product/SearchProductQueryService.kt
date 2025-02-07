@@ -20,7 +20,7 @@ data class SqlResult(
 
 @Component
 class SearchProductQueryService(
-    private val entityManager: EntityManager
+    private val entityManager: EntityManager,
 ) {
     companion object {
         private val QUERY =
@@ -40,20 +40,20 @@ LIMIT :offset, :pageSize
     }
 
     @QueryHandler
-    fun handle(query: SearchProductQuery) : SearchProductResult {
-       val nativeQuery =
-           entityManager.createNativeQuery(QUERY, SqlResult::class.java)
-               .setParameter("likeName", "%${query.likeProductName}%")
-               .setParameter("offset", query.pagingCondition.offset)
-               .setParameter("pageSize", query.pagingCondition.pageSize)
-               .setParameter("sortProperty", query.sortCondition.property.propertyName)
-               .setParameter("sortDirection", query.sortCondition.direction.name)
+    fun handle(query: SearchProductQuery): SearchProductResult {
+        val nativeQuery =
+            entityManager.createNativeQuery(QUERY, SqlResult::class.java)
+                .setParameter("likeName", "%${query.likeProductName}%")
+                .setParameter("offset", query.pagingCondition.offset)
+                .setParameter("pageSize", query.pagingCondition.pageSize)
+                .setParameter("sortProperty", query.sortCondition.property.propertyName)
+                .setParameter("sortDirection", query.sortCondition.direction.name)
 
         val results = nativeQuery.resultList.filterIsInstance<SqlResult>()
 
         return convertToQueryResult(
             results = results,
-            pagingCondition = query.pagingCondition
+            pagingCondition = query.pagingCondition,
         )
     }
 

@@ -39,8 +39,8 @@ class StockAggregateTest {
             .`when`(
                 InternalCreateStockCommand(
                     id = stockId,
-                    productId = productId
-                )
+                    productId = productId,
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -48,7 +48,7 @@ class StockAggregateTest {
                 StockCreatedEvent(
                     id = stockId.value,
                     productId = productId.value,
-                )
+                ),
             )
     }
 
@@ -65,14 +65,14 @@ class StockAggregateTest {
             StockCreatedEvent(
                 id = stockId.value,
                 productId = productId.value,
-            )
+            ),
         )
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
                     increaseCount = increaseCount,
                     idempotencyId = idempotencyId,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -82,8 +82,8 @@ class StockAggregateTest {
                     increaseCount = increaseCount.value,
                     idempotencyId = idempotencyId.value,
                     // 在庫がないのだから入庫した分のはず
-                    increasedStockQuantity = 1000
-                )
+                    increasedStockQuantity = 1000,
+                ),
             )
     }
 
@@ -105,15 +105,15 @@ class StockAggregateTest {
                 id = stockId.value,
                 increaseCount = increaseCount.value,
                 idempotencyId = idempotencyId.value,
-                increasedStockQuantity = 1000
-            )
+                increasedStockQuantity = 1000,
+            ),
         )
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
                     increaseCount = increaseCount,
                     idempotencyId = idempotencyId,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -139,22 +139,22 @@ class StockAggregateTest {
                 id = stockId.value,
                 increaseCount = increaseCount.value,
                 idempotencyId = idempotencyId1.value,
-                increasedStockQuantity = 1_000_000
-            )
+                increasedStockQuantity = 1_000_000,
+            ),
         )
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
                     increaseCount = IncreaseCount(1),
                     idempotencyId = idempotencyId2,
-                )
+                ),
             )
             // Assert
             .expectNoEvents()
             .expectException(
                 Matchers.predicate<UseCaseException> {
                     it.error == IncreaseStockError.OutOfStock
-                }
+                },
             )
     }
 
@@ -177,14 +177,14 @@ class StockAggregateTest {
                 increaseCount = 1,
                 idempotencyId = IdempotencyId().value,
                 increasedStockQuantity = 1,
-            )
+            ),
         )
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
                     decreaseCount = decreaseCount,
                     idempotencyId = idempotencyId,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -193,8 +193,8 @@ class StockAggregateTest {
                     id = stockId.value,
                     decreaseCount = decreaseCount.value,
                     idempotencyId = idempotencyId.value,
-                    decreasedStockQuantity = 0
-                )
+                    decreasedStockQuantity = 0,
+                ),
             )
     }
 
@@ -222,15 +222,15 @@ class StockAggregateTest {
                 id = stockId.value,
                 decreaseCount = 10,
                 idempotencyId = idempotencyId.value,
-                decreasedStockQuantity = 90
-            )
+                decreasedStockQuantity = 90,
+            ),
         )
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
                     decreaseCount = decreaseCount,
                     idempotencyId = idempotencyId,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -251,21 +251,21 @@ class StockAggregateTest {
             StockCreatedEvent(
                 id = stockId.value,
                 productId = productId.value,
-            )
+            ),
         )
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
                     decreaseCount = decreaseCount,
                     idempotencyId = idempotencyId2,
-                )
+                ),
             )
             // Assert
             .expectNoEvents()
             .expectException(
                 Matchers.predicate<UseCaseException> {
                     it.error == DecreaseStockError.InsufficientStock
-                }
+                },
             )
     }
 }

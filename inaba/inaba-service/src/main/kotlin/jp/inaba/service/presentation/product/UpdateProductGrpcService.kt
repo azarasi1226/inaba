@@ -17,14 +17,18 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 class UpdateProductGrpcService(
     private val commandGateway: CommandGateway,
 ) : UpdateProductGrpc.UpdateProductImplBase() {
-    override fun handle(request: UpdateProductRequest, responseObserver: StreamObserver<Empty>) {
-        val command = UpdateProductCommand(
-            id = ProductId(request.id),
-            name = ProductName(request.name),
-            description = ProductDescription(request.description),
-            imageUrl = ProductImageURL(request.imageUrl),
-            price = ProductPrice(request.price)
-        )
+    override fun handle(
+        request: UpdateProductRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            UpdateProductCommand(
+                id = ProductId(request.id),
+                name = ProductName(request.name),
+                description = ProductDescription(request.description),
+                imageUrl = ProductImageURL(request.imageUrl),
+                price = ProductPrice(request.price),
+            )
 
         commandGateway.sendAndWait<Any>(command)
 

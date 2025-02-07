@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ControllerAdvice {
     @ExceptionHandler(StatusRuntimeException::class)
     fun handle(e: StatusRuntimeException): ResponseEntity<Any> {
-        return if(e.status.code == Status.INVALID_ARGUMENT.code) {
+        return if (e.status.code == Status.INVALID_ARGUMENT.code) {
             ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.message)
-        }
-        else {
+        } else {
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("原因不明")

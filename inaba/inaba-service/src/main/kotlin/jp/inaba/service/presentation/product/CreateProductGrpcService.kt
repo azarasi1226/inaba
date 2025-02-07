@@ -30,7 +30,7 @@ class CreateProductGrpcService(
                 price = ProductPrice(request.price),
             )
 
-       commandGateway.sendAndWait<Any>(command)
+        commandGateway.sendAndWait<Any>(command)
 
         responseObserver.onNext(Empty.getDefaultInstance())
         responseObserver.onCompleted()

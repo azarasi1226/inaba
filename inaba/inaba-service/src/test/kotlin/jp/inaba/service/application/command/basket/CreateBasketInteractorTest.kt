@@ -81,9 +81,10 @@ class CreateBasketInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CreateBasketError.USER_NOT_FOUND)
@@ -110,9 +111,10 @@ class CreateBasketInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CreateBasketError.BASKET_ALREADY_EXISTS)

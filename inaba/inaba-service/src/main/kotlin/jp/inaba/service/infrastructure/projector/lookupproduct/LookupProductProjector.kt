@@ -17,9 +17,9 @@ class LookupProductProjector(
     fun on(event: ProductCreatedEvent) {
         val entity =
             LookupProductJpaEntity(
-            id = event.id,
-            name = event.name,
-        )
+                id = event.id,
+                name = event.name,
+            )
 
         repository.save(entity)
     }

@@ -13,10 +13,14 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 class DeleteProductGrpcService(
     private val commandGateway: CommandGateway,
 ) : DeleteProductGrpc.DeleteProductImplBase() {
-    override fun handle(request: DeleteProductRequest, responseObserver: StreamObserver<Empty>) {
-        val command = DeleteProductCommand(
-            id = ProductId(request.id)
-        )
+    override fun handle(
+        request: DeleteProductRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            DeleteProductCommand(
+                id = ProductId(request.id),
+            )
 
         commandGateway.sendAndWait<Any>(command)
 

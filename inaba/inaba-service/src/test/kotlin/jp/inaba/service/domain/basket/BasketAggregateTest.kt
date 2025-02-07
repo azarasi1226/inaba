@@ -128,7 +128,7 @@ class BasketAggregateTest {
             .expectException(
                 Matchers.predicate<UseCaseException> {
                     it.error == SetBasketItemError.PRODUCT_MAX_KIND_OVER
-                }
+                },
             )
     }
 

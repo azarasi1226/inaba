@@ -30,15 +30,15 @@ class UserAggregateTest {
         fixture.givenNoPriorActivity()
             .`when`(
                 CreateUserCommand(
-                    id = userId
-                )
+                    id = userId,
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
             .expectEvents(
                 UserCreatedEvent(
-                    id = userId.value
-                )
+                    id = userId.value,
+                ),
             )
     }
 
@@ -50,21 +50,21 @@ class UserAggregateTest {
 
         // Act
         fixture.given(
-            UserCreatedEvent(id = userId.value)
+            UserCreatedEvent(id = userId.value),
         )
             .`when`(
                 LinkSubjectCommand(
                     id = userId,
-                    subject = subject
-                )
+                    subject = subject,
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
             .expectEvents(
                 SubjectLinkedEvent(
                     id = userId.value,
-                    subject = subject
-                )
+                    subject = subject,
+                ),
             )
     }
 
@@ -76,22 +76,21 @@ class UserAggregateTest {
 
         // Act
         fixture.given(
-            UserCreatedEvent(id = userId.value)
+            UserCreatedEvent(id = userId.value),
         )
             .`when`(
                 LinkBasketIdCommand(
                     id = userId,
-                    basketId = basketId
-                )
+                    basketId = basketId,
+                ),
             )
-            //Assert
+            // Assert
             .expectSuccessfulHandlerExecution()
             .expectEvents(
                 BasketIdLinkedEvent(
                     id = userId.value,
                     basketId = basketId.value,
-                )
+                ),
             )
     }
-
 }

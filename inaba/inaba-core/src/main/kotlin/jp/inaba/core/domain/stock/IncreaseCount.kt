@@ -9,8 +9,8 @@ data class IncreaseCount(val value: Int) {
     }
 
     init {
-        if (value !in MIN .. MAX) {
-            throw DomainException("増減値は[${MIN}~${MAX}]の間です。value:[$value]")
+        if (value !in MIN..MAX) {
+            throw DomainException("増減値は[$MIN~$MAX]の間です。value:[$value]")
         }
     }
 }

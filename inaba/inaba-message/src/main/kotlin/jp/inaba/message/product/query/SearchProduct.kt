@@ -8,11 +8,11 @@ import jp.inaba.core.domain.product.ProductSortProperty
 data class SearchProductQuery(
     val likeProductName: String,
     val pagingCondition: PagingCondition,
-    val sortCondition: SortCondition<ProductSortProperty>
+    val sortCondition: SortCondition<ProductSortProperty>,
 )
 
 data class SearchProductResult(
-    val page: Page<Summary>
+    val page: Page<Summary>,
 ) {
     data class Summary(
         val id: String,
@@ -22,5 +22,3 @@ data class SearchProductResult(
         val quantity: Int,
     )
 }
-
-

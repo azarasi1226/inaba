@@ -47,13 +47,14 @@ class RegisterProductSagaTest {
     @Test
     fun `商品が作られた_在庫を作成する_在庫作成コマンド発行`() {
         val productId = ProductId()
-        val productCreatedEvent = ProductCreatedEvent(
-            id = productId.value,
-            name = "",
-            description = "",
-            imageUrl = "",
-            price = 0
-        )
+        val productCreatedEvent =
+            ProductCreatedEvent(
+                id = productId.value,
+                name = "",
+                description = "",
+                imageUrl = "",
+                price = 0,
+            )
 
         fixture.givenNoPriorActivity()
             .whenPublishingA(productCreatedEvent)
@@ -61,21 +62,22 @@ class RegisterProductSagaTest {
             .expectDispatchedCommands(
                 CreateStockCommand(
                     id = stockId,
-                    productId = productId
-                )
+                    productId = productId,
+                ),
             )
     }
 
     @Test
     fun `商品が作られた_在庫を作成できなかった_商品削除コマンド発行`() {
         val productId = ProductId()
-        val productCreatedEvent = ProductCreatedEvent(
-            id = productId.value,
-            name = "",
-            description = "",
-            imageUrl = "",
-            price = 0
-        )
+        val productCreatedEvent =
+            ProductCreatedEvent(
+                id = productId.value,
+                name = "",
+                description = "",
+                imageUrl = "",
+                price = 0,
+            )
 
         every {
             commandGateway.sendAndWait<Any>(any())
@@ -86,8 +88,8 @@ class RegisterProductSagaTest {
             .expectActiveSagas(1)
             .expectDispatchedCommands(
                 DeleteProductCommand(
-                    id = productId
-                )
+                    id = productId,
+                ),
             )
     }
 }

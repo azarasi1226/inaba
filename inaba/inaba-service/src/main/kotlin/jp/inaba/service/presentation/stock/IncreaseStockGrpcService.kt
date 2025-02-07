@@ -13,14 +13,18 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class IncreaseStockGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : IncreaseStockGrpc.IncreaseStockImplBase() {
-    override fun handle(request: IncreaseStockRequest, responseObserver: StreamObserver<Empty>) {
-        val command = IncreaseStockCommand(
-            id = StockId(request.id),
-            increaseCount = IncreaseCount(request.increaseCount),
-            idempotencyId = IdempotencyId(request.idempotencyId)
-        )
+    override fun handle(
+        request: IncreaseStockRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            IncreaseStockCommand(
+                id = StockId(request.id),
+                increaseCount = IncreaseCount(request.increaseCount),
+                idempotencyId = IdempotencyId(request.idempotencyId),
+            )
 
         commandGateway.sendAndWait<Any>(command)
 

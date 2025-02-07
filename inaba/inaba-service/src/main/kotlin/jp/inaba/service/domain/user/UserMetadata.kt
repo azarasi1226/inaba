@@ -15,20 +15,22 @@ class UserMetadata {
 
     @CommandHandler
     fun handle(command: LinkSubjectCommand) {
-        val event = SubjectLinkedEvent(
-            id = command.id.value,
-            subject = command.subject,
-        )
+        val event =
+            SubjectLinkedEvent(
+                id = command.id.value,
+                subject = command.subject,
+            )
 
         AggregateLifecycle.apply(event)
     }
 
     @CommandHandler
     fun handle(command: LinkBasketIdCommand) {
-        val event = BasketIdLinkedEvent(
-            id = command.id.value,
-            basketId = command.basketId.value,
-        )
+        val event =
+            BasketIdLinkedEvent(
+                id = command.id.value,
+                basketId = command.basketId.value,
+            )
 
         AggregateLifecycle.apply(event)
     }

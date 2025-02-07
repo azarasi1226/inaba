@@ -16,7 +16,7 @@ class CreateStockInteractor(
 ) {
     @CommandHandler
     fun handle(command: CreateStockCommand) {
-        if(canCreateStockVerifier.isProductNotFound(command.productId)) {
+        if (canCreateStockVerifier.isProductNotFound(command.productId)) {
             throw UseCaseException(CreateStockError.ProductNotExits)
         }
 

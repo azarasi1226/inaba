@@ -8,7 +8,7 @@ private val logger = KotlinLogging.logger {}
 
 class SagaStep<C : Any>(
     private val commandGateway: CommandGateway,
-    private val commandClass: KClass<C>
+    private val commandClass: KClass<C>,
 ) {
     fun handle(
         command: C,
@@ -18,7 +18,7 @@ class SagaStep<C : Any>(
             commandGateway.sendAndWait<Any>(command)
         } catch (e: Exception) {
             logger.error { "command:[${commandClass.simpleName}]が失敗しました。" }
-            logger.error { "reason :[${e.message}]"}
+            logger.error { "reason :[${e.message}]" }
             logger.error { "補償トランザクションを開始します。" }
             onFail.invoke()
         }

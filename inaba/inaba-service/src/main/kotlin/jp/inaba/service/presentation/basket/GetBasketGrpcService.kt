@@ -34,26 +34,27 @@ class GetBasketGrpcService(
 
         val result = queryGateway.query<FindBasketByIdResult, FindBasketByIdQuery>(query).get()
 
-        val response = GetBasketResponse.newBuilder()
-            .setPaging(
-                Paging.newBuilder()
-                    .setTotalCount(result.page.paging.totalCount)
-                    .setPageSize(result.page.paging.pageSize)
-                    .setPageNumber(result.page.paging.pageNumber)
-                    .build()
-            )
-            .addAllBasketItems(
-                result.page.items.map {
-                    BasketItem.newBuilder()
-                        .setProductId(it.productId)
-                        .setProductName(it.productName)
-                        .setProductPrice(it.productPrice)
-                        .setProductImageUrl(it.productImageUrl)
-                        .setProductQuantity(it.productQuantity)
-                        .build()
-                },
-            )
-            .build()
+        val response =
+            GetBasketResponse.newBuilder()
+                .setPaging(
+                    Paging.newBuilder()
+                        .setTotalCount(result.page.paging.totalCount)
+                        .setPageSize(result.page.paging.pageSize)
+                        .setPageNumber(result.page.paging.pageNumber)
+                        .build(),
+                )
+                .addAllBasketItems(
+                    result.page.items.map {
+                        BasketItem.newBuilder()
+                            .setProductId(it.productId)
+                            .setProductName(it.productName)
+                            .setProductPrice(it.productPrice)
+                            .setProductImageUrl(it.productImageUrl)
+                            .setProductQuantity(it.productQuantity)
+                            .build()
+                    },
+                )
+                .build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

@@ -20,41 +20,48 @@ import org.axonframework.queryhandling.QueryGateway
 class SearchProductGrpcService(
     private val queryGateway: QueryGateway,
 ) : SearchProductGrpc.SearchProductImplBase() {
-    override fun handle(request: SearchProductRequest, responseObserver: StreamObserver<SearchProductResponse>) {
-        val query = SearchProductQuery(
-            likeProductName = request.name,
-            pagingCondition = PagingCondition(
-                pageSize = request.pagingCondition.pageSize,
-                pageNumber = request.pagingCondition.pageNumber
-            ),
-            sortCondition = SortCondition(
-                property = ProductSortProperty.valueOf(request.sortCondition.property),
-                direction = SortDirection.valueOf(request.sortCondition.direction)
+    override fun handle(
+        request: SearchProductRequest,
+        responseObserver: StreamObserver<SearchProductResponse>,
+    ) {
+        val query =
+            SearchProductQuery(
+                likeProductName = request.name,
+                pagingCondition =
+                    PagingCondition(
+                        pageSize = request.pagingCondition.pageSize,
+                        pageNumber = request.pagingCondition.pageNumber,
+                    ),
+                sortCondition =
+                    SortCondition(
+                        property = ProductSortProperty.valueOf(request.sortCondition.property),
+                        direction = SortDirection.valueOf(request.sortCondition.direction),
+                    ),
             )
-        )
 
         val result = queryGateway.query<SearchProductResult, SearchProductQuery>(query).get()
 
-        val response = SearchProductResponse.newBuilder()
-            .setPaging(
-                Paging.newBuilder()
-                    .setTotalCount(result.page.paging.totalCount)
-                    .setPageSize(result.page.paging.pageSize)
-                    .setPageNumber(result.page.paging.pageNumber)
-                    .build()
-            )
-            .addAllItems(
-                result.page.items.map {
-                    Summary.newBuilder()
-                        .setId(it.id)
-                        .setName(it.name)
-                        .setImageUrl(it.imageUrl)
-                        .setPrice(it.price)
-                        .setQuantity(it.quantity)
-                        .build()
-                }
-            )
-            .build()
+        val response =
+            SearchProductResponse.newBuilder()
+                .setPaging(
+                    Paging.newBuilder()
+                        .setTotalCount(result.page.paging.totalCount)
+                        .setPageSize(result.page.paging.pageSize)
+                        .setPageNumber(result.page.paging.pageNumber)
+                        .build(),
+                )
+                .addAllItems(
+                    result.page.items.map {
+                        Summary.newBuilder()
+                            .setId(it.id)
+                            .setName(it.name)
+                            .setImageUrl(it.imageUrl)
+                            .setPrice(it.price)
+                            .setQuantity(it.quantity)
+                            .build()
+                    },
+                )
+                .build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

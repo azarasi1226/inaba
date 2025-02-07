@@ -20,16 +20,16 @@ class FindProductByIdQueryService(
             throw UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
         } else {
             val entity = maybeEntity.get()
-                FindProductByIdResult(
-                    id = entity.id,
-                    //TODO (nullableだけど、ない場合とかあるか？後で考えよう。)
-                    stockId = entity.stockId!!,
-                    name = entity.name,
-                    description = entity.description,
-                    imageUrl = entity.imageUrl,
-                    price = entity.price,
-                    quantity = entity.quantity,
-                )
+            FindProductByIdResult(
+                id = entity.id,
+                // TODO (nullableだけど、ない場合とかあるか？後で考えよう。)
+                stockId = entity.stockId!!,
+                name = entity.name,
+                description = entity.description,
+                imageUrl = entity.imageUrl,
+                price = entity.price,
+                quantity = entity.quantity,
+            )
         }
     }
 }
