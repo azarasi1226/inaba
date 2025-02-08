@@ -86,5 +86,5 @@ BACKEND_SERVER=dns:///localhost:8091;
 <br>
 
 ## 起動したら下のリンクでチェック！
-* [API Gateway Swagger](http://localhost:8082)
+* [API Gateway Swagger](http://localhost:8082/swagger-ui/index.html)
 * [AxonServer Console](http://localhost:8024/)
