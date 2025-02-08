@@ -13,7 +13,8 @@
 
 ### 追加したい
 * リトライ不許可例外を出して、それ以外はリトライさせるようにしよう。基本的にUsecaseExcpetion、DomainExcpedtionはリトライさせない。
-
+* LookupTableの実装周り見直したい。　DB消されたときSubsciption`rocessero反応しないから、Trakingも付け足したほうがいいのかな?
+* 
 
 
 # memo
