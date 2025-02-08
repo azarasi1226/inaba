@@ -8,5 +8,5 @@ spring:
 grpc:
   client:
     global:
-      address: 'dns:///localhost:8184'
+      address: ${BACKEND_SERVER}
       negotiationType: plaintext

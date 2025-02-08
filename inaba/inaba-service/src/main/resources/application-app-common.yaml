@@ -15,12 +15,6 @@ axon:
     events: jackson
     messages: jackson
 
-axoniq:
-  console:
-    application-name: ${APPLICATION_NAME}
-    credentials: ${AXONIQ_CONSOLE_CREDENTIALS}
-    dlq-mode: FULL
-
 aws:
   cognito:
     user-pool-id: ${AWS_COGNITO_USER-POOL-ID}
