@@ -8,6 +8,7 @@ data class GetProductHttpResponse(
     val description: String,
     val imageUrl: String?,
     val price: Int,
+    val quantity: Int,
 ) {
     companion object {
         fun fromGrpcResponse(grpcResponse: GetProductResponse): GetProductHttpResponse {
@@ -17,6 +18,7 @@ data class GetProductHttpResponse(
                 description = grpcResponse.description,
                 imageUrl = grpcResponse.imageUrl,
                 price = grpcResponse.price,
+                quantity = grpcResponse.quantity,
             )
         }
     }
