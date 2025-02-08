@@ -33,75 +33,53 @@ class ProductProjector(
 
     @EventHandler
     fun on(event: StockCreatedEvent) {
-        val maybeEntity = repository.findById(event.productId)
+        val entity = repository.findById(event.productId).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                stockId = event.id,
+            )
 
-        if (maybeEntity.isPresent) {
-            val entity = maybeEntity.get()
-            val updatedEntity =
-                entity.copy(
-                    stockId = event.id,
-                )
-
-            repository.save(updatedEntity)
-        }
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: StockIncreasedEvent) {
-        val maybeEntity = repository.findByStockId(event.id)
+        val entity = repository.findByStockId(event.id).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                quantity = event.increasedStockQuantity,
+            )
 
-        if (maybeEntity.isPresent) {
-            val entity = maybeEntity.get()
-            val updatedEntity =
-                entity.copy(
-                    quantity = event.increasedStockQuantity,
-                )
-
-            repository.save(updatedEntity)
-        }
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: StockDecreasedEvent) {
-        val maybeEntity = repository.findByStockId(event.id)
+        val entity = repository.findByStockId(event.id).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                quantity = event.decreasedStockQuantity,
+            )
 
-        if (maybeEntity.isPresent) {
-            val entity = maybeEntity.get()
-            val updatedEntity =
-                entity.copy(
-                    quantity = event.decreasedStockQuantity,
-                )
-
-            repository.save(updatedEntity)
-        }
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: ProductUpdatedEvent) {
-        val maybeEntity = repository.findById(event.id)
+        val entity = repository.findById(event.id).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                name = event.name,
+                description = event.description,
+                imageUrl = event.imageUrl,
+                price = event.price,
+            )
 
-        if (maybeEntity.isPresent) {
-            val entity = maybeEntity.get()
-            val updatedEntity =
-                entity.copy(
-                    name = event.name,
-                    description = event.description,
-                    imageUrl = event.imageUrl,
-                    price = event.price,
-                )
-
-            repository.save(updatedEntity)
-        }
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        val maybeEntity = repository.findById(event.id)
-
-        if (maybeEntity.isPresent) {
-            val entity = maybeEntity.get()
-
-            repository.delete(entity)
-        }
+        repository.deleteById(event.id)
     }
 }

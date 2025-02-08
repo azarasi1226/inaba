@@ -30,18 +30,16 @@ class OrderProjector(
     @EventHandler
     fun on(event: OrderCompletedEvent) {
         val entity = repository.findById(event.id).orElseThrow()
+        val updatedEntity = entity.copy(status = OrderStatus.Completed)
 
-        entity.status = OrderStatus.Completed
-
-        repository.save(entity)
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: OrderFailedEvent) {
         val entity = repository.findById(event.id).orElseThrow()
+        val updatedEntity = entity.copy(status = OrderStatus.Failed)
 
-        entity.status = OrderStatus.Failed
-
-        repository.save(entity)
+        repository.save(updatedEntity)
     }
 }
