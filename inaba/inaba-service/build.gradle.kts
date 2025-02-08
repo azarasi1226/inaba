@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry:2.0.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
+    implementation("io.axoniq.console:console-framework-client-spring-boot-starter:1.9.0")
 
     // other-identity
     implementation("software.amazon.awssdk:sso:2.21.20")

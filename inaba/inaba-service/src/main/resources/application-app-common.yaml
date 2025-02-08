@@ -7,13 +7,19 @@ grpc:
 
 spring:
   application:
-    name: inaba-service
+    name: ${APPLICATION_NAME}
 
 axon:
   serializer:
     general: jackson
     events: jackson
     messages: jackson
+
+axoniq:
+  console:
+    application-name: ${APPLICATION_NAME}
+    credentials: ${AXONIQ_CONSOLE_CREDENTIALS}
+    dlq-mode: FULL
 
 aws:
   cognito:
