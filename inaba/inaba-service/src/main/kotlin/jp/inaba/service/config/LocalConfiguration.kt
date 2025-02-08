@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityPr
 import java.net.URI
 
 @Configuration
-@Profile("local")
+@Profile("local", "local-with-axoniq")
 class LocalConfiguration {
     @Bean
     fun cognitoClient(
