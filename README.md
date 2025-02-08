@@ -56,10 +56,12 @@ AWS_COGNITO_USER-POOL-ID={さっきコピーした奴};
 AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 ```
 
-#### AxonIQConsoleを使用する場合
+#### AxonIQConsoleを使用する場合 (わからない場合はスキップ)
+AxonIQってのはマイクロサービスの間の状態確認とかやってくるれる無料サービスのこと。  
+登録もGithubアカウントあるとすぐできるので調べてみるといい感じかも
 ```
 APPLICATION_NAME=inaba;
-AXONIQ_CONSOLE_CREDENTIALS={};
+AXONIQ_CONSOLE_CREDENTIALS={自分で登録して作ったAXONIQの認証情報};
 SERVER_PORT=8081;
 GRPC_PORT=8091;
 SPRING_DATASOURCE_DATABASE=order;
@@ -76,10 +78,13 @@ AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 以下の環境変数をセットし、`inaba-apigateway`モジュールを起動します。
 
 ```
-BACKEND_SERVER-ID={dns:///localhost:8091};
+SPRING_PROFILES_ACTIVE=local;
+SERVER_PORT:8082;
+BACKEND_SERVER-ID=dns:///localhost:8091;
 ```
 
 <br>
 
-## 起動したら下のリンクでチェックしよう
+## 起動したら下のリンクでチェック！
+* [API Gateway Swagger](http://localhost:8082)
 * [AxonServer Console](http://localhost:8024/)
