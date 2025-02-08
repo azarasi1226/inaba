@@ -1,9 +1,9 @@
 server:
-  port: ${SERVER_PORT:8083}
+  port: ${SERVER_PORT}
 
 grpc:
   server:
-    port: ${GRPC_PORT:8183}
+    port: ${GRPC_PORT}
 
 spring:
   application:
