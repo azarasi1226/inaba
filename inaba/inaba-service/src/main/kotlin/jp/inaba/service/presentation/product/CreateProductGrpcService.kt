@@ -23,7 +23,7 @@ class CreateProductGrpcService(
     ) {
         val command =
             CreateProductCommand(
-                id = ProductId(),
+                id = ProductId(request.id),
                 name = ProductName(request.name),
                 description = ProductDescription(request.description),
                 imageUrl = ProductImageURL(request.imageUrl),

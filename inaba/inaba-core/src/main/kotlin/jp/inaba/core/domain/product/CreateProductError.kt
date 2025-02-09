@@ -2,9 +2,9 @@ package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.UseCaseError
 
-enum class ShipmentProductError(
+enum class CreateProductError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    OutOfStock("1", "在庫を確保できませんでした"),
+    PRODUCT_EXISTS("1", "同じIDで商品が登録済みです。"),
 }
