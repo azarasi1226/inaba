@@ -18,7 +18,7 @@ class ControllerAdvice {
         } else {
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("原因不明")
+                .body("原因不明: [${e.message}]")
         }
     }
 }
