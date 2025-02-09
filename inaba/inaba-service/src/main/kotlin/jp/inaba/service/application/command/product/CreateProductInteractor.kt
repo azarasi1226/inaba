@@ -30,21 +30,4 @@ class CreateProductInteractor(
 
         commandGateway.sendAndWait<Any>(internalCommand)
     }
-
-    @CommandHandler
-    fun handle2(command: CreateProductCommand) {
-        if(canCreateProductVerifier.isProductExists(command.id)) {
-            throw UseCaseException(CreateProductError.PRODUCT_EXISTS)
-        }
-
-        val internalCommand = InternalCreateProductCommand(
-            id = command.id,
-            name = command.name,
-            description = command.description,
-            imageUrl = command.imageUrl,
-            price = command.price
-        )
-
-        commandGateway.sendAndWait<Any>(internalCommand)
-    }
 }
