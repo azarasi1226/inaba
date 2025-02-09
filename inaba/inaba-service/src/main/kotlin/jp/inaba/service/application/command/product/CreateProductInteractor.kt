@@ -9,6 +9,8 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Component
 
+//MEMO: なぜCreateProductだけ存在確認エラーを返してるかというと、フロントエンドからコールするから。
+// すべての作成系のUsecaseで存在確認エラーを返すかは今考え中
 @Component
 class CreateProductInteractor(
     private val canCreateProductVerifier: CanCreateProductVerifier,
