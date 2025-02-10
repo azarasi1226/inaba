@@ -9,4 +9,4 @@ logging:
 
 aws:
   cognito:
-    endpoint: http://localhost:9229
+    endpoint: http://localhost:5050

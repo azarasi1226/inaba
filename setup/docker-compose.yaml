@@ -1,29 +1,52 @@
 services:
+  # AxonServer
+  # イベントストアとメッセージバスの役目
   axon-server:
     image: axoniq/axonserver:latest
-    container_name: axon-server
     healthcheck:
       test: curl -f http://localhost:8024/actuator/health || exit 1;
     ports:
       - 8024:8024
       - 8124:8124
 
+  # 本当だったらサービスごとにDB作るけど、今はまとめる。
   common-datastore:
     image: mysql:latest
-    container_name: common-datastore
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: passw0rd
 
-  cognito:
-    image: jagregory/cognito-local:latest
-    container_name: cognito
+  # Cognitoのエミュレーター
+  magnito:
+    image: frourio/magnito:latest
     ports:
-      - 9229:9229
+      - 5050:5050 # Cognito API
+      - 5051:5051 # web interface
+      - 5052:5052 # OAuth2 SSL endpoint
+    environment:
+      COGNITO_USER_POOL_ID: ap-northeast-1_example
+      COGNITO_USER_POOL_CLIENT_ID: example-client-name
+      COGNITO_ACCESS_KEY: magnito-access-key
+      COGNITO_SECRET_KEY: magnito-secret-key
+      COGNITO_REGION: ap-northeast-1
+      SMTP_HOST: inbucket
+      SMTP_PORT: 2500
+      SMTP_USER: fake_mail_user
+      SMTP_PASS: fake_mail_password
+    volumes:
+      - magnito:/usr/src/app/data
 
-  kms:
-    image: nsmithuk/local-kms:latest
-    container_name: kms
+  inbucket:
+    image: inbucket/inbucket:3.0.3
     ports:
-      - 8080:8080
+      - 2500:2500 # SMTP
+      - 9000:9000 # web interface
+    volumes:
+      - inbucket:/storage
+
+volumes:
+  magnito:
+    driver: local
+  inbucket:
+    driver: local
