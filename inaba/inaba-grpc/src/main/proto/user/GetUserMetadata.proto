@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package product;
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.user";
+
+service GetUserMetadata {
+  rpc handle (GetUserMetadataRequest) returns (GetUserMetadataResponse);
+}
+
+message GetUserMetadataRequest {
+  string subject = 1;
+}
+
+message GetUserMetadataResponse {
+  string userId = 1;
+  string basketId = 2;
+}
