@@ -13,6 +13,7 @@ import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.service.application.saga.SagaBase
 import jp.inaba.service.application.saga.SagaStep
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.MetaDataAssociationResolver
 import org.axonframework.modelling.saga.SagaEventHandler
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired
 private val logger = KotlinLogging.logger {}
 
 @Saga
+@ProcessingGroup(RegisterProductSagaEventProcessor.PROCESSOR_NAME)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class RegisterProductSaga : SagaBase() {
     @Autowired
