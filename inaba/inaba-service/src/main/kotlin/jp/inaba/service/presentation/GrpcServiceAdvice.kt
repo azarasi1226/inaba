@@ -67,31 +67,30 @@ class GrpcServiceAdvice {
     // TODO:そのままの例外をキャッチできるようにQueryの問い合わせの部分工夫できないかな？
     @GrpcExceptionHandler
     fun handleQueryUseCaseException(e: ExecutionException): StatusException {
-        if (e.cause is QueryExecutionException)
-            {
-                val exception = e.cause as QueryExecutionException
+        if (e.cause is QueryExecutionException) {
+            val exception = e.cause as QueryExecutionException
 
-                if (exception.isWrapUseCaseError()) {
-                    val error = exception.getWrapUseCaseError()
-                    logger.warn { "handle QueryUseCaseException:[${error.errorMessage}]" }
+            if (exception.isWrapUseCaseError()) {
+                val error = exception.getWrapUseCaseError()
+                logger.warn { "handle QueryUseCaseException:[${error.errorMessage}]" }
 
-                    val status =
-                        Status.INVALID_ARGUMENT.withDescription(error.errorMessage)
-                            .withCause(e)
+                val status =
+                    Status.INVALID_ARGUMENT.withDescription(error.errorMessage)
+                        .withCause(e)
 
-                    val errorTypeKey = Metadata.Key.of("error-type", Metadata.ASCII_STRING_MARSHALLER)
-                    val errorCodeKey = Metadata.Key.of("error-code", Metadata.ASCII_STRING_MARSHALLER)
-                    val errorMessageKey = Metadata.Key.of("error-message", Metadata.ASCII_STRING_MARSHALLER)
-                    val metadata =
-                        Metadata().apply {
-                            put(errorTypeKey, "inaba")
-                            put(errorCodeKey, error.errorCode)
-                            put(errorMessageKey, error.errorMessage)
-                        }
+                val errorTypeKey = Metadata.Key.of("error-type", Metadata.ASCII_STRING_MARSHALLER)
+                val errorCodeKey = Metadata.Key.of("error-code", Metadata.ASCII_STRING_MARSHALLER)
+                val errorMessageKey = Metadata.Key.of("error-message", Metadata.ASCII_STRING_MARSHALLER)
+                val metadata =
+                    Metadata().apply {
+                        put(errorTypeKey, "inaba")
+                        put(errorCodeKey, error.errorCode)
+                        put(errorMessageKey, error.errorMessage)
+                    }
 
-                    return status.asException(metadata)
-                }
+                return status.asException(metadata)
             }
+        }
 
         return handleUnknownException(e)
     }

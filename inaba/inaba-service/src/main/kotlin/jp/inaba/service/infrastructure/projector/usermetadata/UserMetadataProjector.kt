@@ -1,7 +1,7 @@
 package jp.inaba.service.infrastructure.projector.usermetadata
 
-import jp.inaba.message.user.event.BasketIdLinkedEvent
-import jp.inaba.message.user.event.SubjectLinkedEvent
+import jp.inaba.message.basket.event.BasketCreatedEvent
+import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaEntity
 import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -14,19 +14,23 @@ class UserMetadataProjector(
     private val repository: UserMetadataJpaRepository,
 ) {
     @EventHandler
-    fun on(event: SubjectLinkedEvent) {
-        val entity = UserMetadataJpaEntity(
-            subject = event.subject,
-            userId = event.id,
-        )
+    fun on(event: UserCreatedEvent) {
+        val entity =
+            UserMetadataJpaEntity(
+                subject = event.subject,
+                userId = event.id,
+            )
 
         repository.save(entity)
     }
 
     @EventHandler
-    fun on(event: BasketIdLinkedEvent) {
-        val entity = repository.findByUserId(event.id).orElseThrow()
-        val updatedEntity = entity.copy(basketId = event.basketId)
+    fun on(event: BasketCreatedEvent) {
+        val entity = repository.findByUserId(event.userId).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                basketId = event.id,
+            )
 
         repository.save(updatedEntity)
     }

@@ -30,11 +30,11 @@ class CognitoConfirmSignupServiceImpl(
 
         try {
             cognitoClient.confirmSignUp(request)
-        }catch (e: CodeMismatchException) {
+        } catch (e: CodeMismatchException) {
             throw UseCaseException(ConfirmSignupError.ConfirmCodeMismatch)
-        }catch (e: ExpiredCodeException) {
+        } catch (e: ExpiredCodeException) {
             throw UseCaseException(ConfirmSignupError.ExpiredCode)
-        }catch (e: NotAuthorizedException) {
+        } catch (e: NotAuthorizedException) {
             throw UseCaseException(ConfirmSignupError.NotAuthorized)
         }
     }

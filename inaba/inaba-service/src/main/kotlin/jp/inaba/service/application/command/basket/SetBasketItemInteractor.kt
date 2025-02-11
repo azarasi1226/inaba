@@ -19,6 +19,13 @@ class SetBasketItemInteractor(
         if (canSetBasketItemVerifier.isProductNotFound(command.productId)) {
             throw UseCaseException(SetBasketItemError.PRODUCT_NOT_FOUND)
         }
+        if (canSetBasketItemVerifier.isOutOfStock(
+                productId = command.productId,
+                basketItemQuantity = command.basketItemQuantity,
+            )
+        ) {
+            throw UseCaseException(SetBasketItemError.OUT_OF_STOCK)
+        }
 
         val internalCommand =
             InternalSetBasketItemCommand(

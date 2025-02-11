@@ -11,19 +11,20 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class DeleteBasketItemController(
     @GrpcClient("global")
-    private val grpcService: DeleteBasketItemGrpc.DeleteBasketItemBlockingStub
+    private val grpcService: DeleteBasketItemGrpc.DeleteBasketItemBlockingStub,
 ) : BasketController {
     @DeleteMapping("/api/baskets/{id}/items/{productId}")
     fun handle(
         @PathVariable("id")
         id: String,
         @PathVariable("productId")
-        productId: String
+        productId: String,
     ) {
-        val grpcRequest = DeleteBasketItemRequest.newBuilder()
-            .setId(id)
-            .setProductId(productId)
-            .build()
+        val grpcRequest =
+            DeleteBasketItemRequest.newBuilder()
+                .setId(id)
+                .setProductId(productId)
+                .build()
 
         grpcService.handle(grpcRequest)
     }

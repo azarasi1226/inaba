@@ -18,23 +18,25 @@ data class GetBasketHttpResponse(
     companion object {
         fun formGrpcResponse(grpcResponse: GetBasketResponse): GetBasketHttpResponse {
             return GetBasketHttpResponse(
-                page = Page(
-                    items = grpcResponse.basketItemsList.map {
-                        Summary(
-                            productId = it.productId,
-                            productName = it.productName,
-                            productPrice = it.productPrice,
-                            productImageUrl = it.productImageUrl,
-                            productQuantity = it.productQuantity
-                        )
-                    },
-                    paging =
-                        Paging(
-                            totalCount = grpcResponse.paging.totalCount,
-                            pageSize = grpcResponse.paging.pageSize,
-                            pageNumber = grpcResponse.paging.pageNumber
-                        )
-                )
+                page =
+                    Page(
+                        items =
+                            grpcResponse.basketItemsList.map {
+                                Summary(
+                                    productId = it.productId,
+                                    productName = it.productName,
+                                    productPrice = it.productPrice,
+                                    productImageUrl = it.productImageUrl,
+                                    productQuantity = it.productQuantity,
+                                )
+                            },
+                        paging =
+                            Paging(
+                                totalCount = grpcResponse.paging.totalCount,
+                                pageSize = grpcResponse.paging.pageSize,
+                                pageNumber = grpcResponse.paging.pageNumber,
+                            ),
+                    ),
             )
         }
     }

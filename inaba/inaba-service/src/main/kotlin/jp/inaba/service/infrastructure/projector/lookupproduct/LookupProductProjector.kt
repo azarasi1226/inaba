@@ -1,7 +1,7 @@
 package jp.inaba.service.infrastructure.projector.lookupproduct
 
-import jp.inaba.message.basket.event.BasketDeletedEvent
 import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -18,14 +18,13 @@ class LookupProductProjector(
         val entity =
             LookupProductJpaEntity(
                 id = event.id,
-                name = event.name,
             )
 
         repository.save(entity)
     }
 
     @EventHandler
-    fun on(event: BasketDeletedEvent) {
+    fun on(event: ProductDeletedEvent) {
         repository.deleteById(event.id)
     }
 }

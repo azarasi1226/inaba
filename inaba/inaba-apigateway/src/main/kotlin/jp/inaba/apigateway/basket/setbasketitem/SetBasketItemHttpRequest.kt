@@ -4,9 +4,9 @@ import jp.inaba.grpc.basket.SetBasketItemRequest
 
 data class SetBasketItemHttpRequest(
     val productId: String,
-    val quantity: Int
+    val quantity: Int,
 ) {
-    fun toGrpcRequest(id: String) : SetBasketItemRequest {
+    fun toGrpcRequest(id: String): SetBasketItemRequest {
         return SetBasketItemRequest.newBuilder()
             .setBasketId(id)
             .setProductId(productId)

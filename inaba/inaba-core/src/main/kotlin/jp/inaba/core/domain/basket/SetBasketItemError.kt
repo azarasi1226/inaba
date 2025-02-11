@@ -6,7 +6,7 @@ enum class SetBasketItemError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    BASKET_DELETED("1", "削除済みの買い物かごです"),
-    PRODUCT_NOT_FOUND("2", "商品が見つかりませんでした"),
+    PRODUCT_NOT_FOUND("1", "商品が存在しませんでした"),
+    OUT_OF_STOCK("2", "在庫を確保できません"),
     PRODUCT_MAX_KIND_OVER("3", "商品種類の上限数に到達しました"),
 }

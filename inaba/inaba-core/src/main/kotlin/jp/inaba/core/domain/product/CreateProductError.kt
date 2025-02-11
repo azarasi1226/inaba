@@ -6,5 +6,5 @@ enum class CreateProductError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    PRODUCT_EXISTS("1", "同じIDで商品が登録済みです。"),
+    PRODUCT_ALREADY_EXISTS("1", "同じIDで商品が存在しています"),
 }

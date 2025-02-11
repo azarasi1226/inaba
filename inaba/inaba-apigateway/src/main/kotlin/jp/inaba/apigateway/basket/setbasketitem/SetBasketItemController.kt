@@ -18,7 +18,7 @@ class SetBasketItemController(
         @PathVariable("id")
         id: String,
         @RequestBody
-        request: SetBasketItemHttpRequest
+        request: SetBasketItemHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest(id)
 

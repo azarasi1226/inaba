@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CanCreateProductVerifierImpl(
-    private val repository: LookupProductJpaRepository
+    private val repository: LookupProductJpaRepository,
 ) : CanCreateProductVerifier {
     override fun isProductExists(productId: ProductId): Boolean {
         return repository.existsById(productId.value)

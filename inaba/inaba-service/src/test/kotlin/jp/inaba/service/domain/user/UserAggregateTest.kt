@@ -3,10 +3,6 @@ package jp.inaba.service.domain.user
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.user.command.CreateUserCommand
-import jp.inaba.message.user.command.LinkBasketIdCommand
-import jp.inaba.message.user.command.LinkSubjectCommand
-import jp.inaba.message.user.event.BasketIdLinkedEvent
-import jp.inaba.message.user.event.SubjectLinkedEvent
 import jp.inaba.message.user.event.UserCreatedEvent
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration

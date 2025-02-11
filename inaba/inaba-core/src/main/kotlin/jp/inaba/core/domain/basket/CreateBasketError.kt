@@ -6,6 +6,7 @@ enum class CreateBasketError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    USER_NOT_FOUND("1", "ユーザーが存在しませんでした"),
-    BASKET_ALREADY_EXISTS("2", "指定のユーザーIDですでにバスケットが登録されています"),
+    BASKET_ALREADY_EXISTS("1", "同じIDで買い物かごが存在しています"),
+    USER_NOT_FOUND("2", "ユーザーが存在しませんでした"),
+    BASKET_ALREADY_LINKED_TO_USER("3", "別の買い物かごとすでにリンクされたユーザーです"),
 }

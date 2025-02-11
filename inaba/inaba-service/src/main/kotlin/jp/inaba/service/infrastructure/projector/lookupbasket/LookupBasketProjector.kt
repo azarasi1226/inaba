@@ -17,7 +17,7 @@ class LookupBasketProjector(
     fun on(event: BasketCreatedEvent) {
         val lookupBasket =
             LookupBasketJpaEntity(
-                basketId = event.id,
+                id = event.id,
                 userId = event.userId,
             )
 

@@ -16,8 +16,14 @@ class CreateStockInteractor(
 ) {
     @CommandHandler
     fun handle(command: CreateStockCommand) {
+        if (canCreateStockVerifier.isStockExists(command.id)) {
+            throw UseCaseException(CreateStockError.STOCK_ALREADY_EXISTS)
+        }
         if (canCreateStockVerifier.isProductNotFound(command.productId)) {
-            throw UseCaseException(CreateStockError.ProductNotExits)
+            throw UseCaseException(CreateStockError.PRODUCT_NOT_FOUND)
+        }
+        if (canCreateStockVerifier.isLinkedProduct(command.productId)) {
+            throw UseCaseException(CreateStockError.STOCK_ALREADY_LINKED_TO_PRODUCT)
         }
 
         val internalCommand =

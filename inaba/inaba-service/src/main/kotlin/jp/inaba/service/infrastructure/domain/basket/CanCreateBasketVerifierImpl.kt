@@ -1,5 +1,6 @@
 package jp.inaba.service.infrastructure.domain.basket
 
+import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.service.domain.basket.CanCreateBasketVerifier
 import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
@@ -11,11 +12,15 @@ class CanCreateBasketVerifierImpl(
     private val lookupUserJpaRepository: LookupUserJpaRepository,
     private val lookupBasketRepository: LookupBasketJpaRepository,
 ) : CanCreateBasketVerifier {
+    override fun isBasketExits(basketId: BasketId): Boolean {
+        return lookupBasketRepository.existsById(basketId.value)
+    }
+
     override fun isUserNotFound(userId: UserId): Boolean {
         return !lookupUserJpaRepository.existsById(userId.value)
     }
 
-    override fun isBasketLinkedToUser(userId: UserId): Boolean {
+    override fun isLinkedToUser(userId: UserId): Boolean {
         return lookupBasketRepository.existsByUserId(userId.value)
     }
 }

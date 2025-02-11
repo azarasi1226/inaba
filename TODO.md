@@ -14,7 +14,9 @@
 ### 追加したい
 * リトライ不許可例外を出して、それ以外はリトライさせるようにしよう。基本的にUsecaseExcpetion、DomainExcpedtionはリトライさせない。
 * LookupTableの実装周り見直したい。　DB消されたときSubsciption`rocessero反応しないから、Trakingも付け足したほうがいいのかな?
-* 
+
+### 修正したい
+* JPAのEntityのID値オブジェクトにしたんだけどできないのかな？
 
 
 # memo
@@ -27,3 +29,7 @@ RuntimeExceptionであろうが、Axonサーバーを使ってる限りすべて
  * 集約のコマンドハンドラー内で, UseCaseException。　除外登録　→　リトライされず。
  * 外部コマンドハンドラー内で Excetion → リトライ
  * 外部コマンドハンドラー内で RuntimeException →　リトライ
+
+* cognito修正するべし。
+
+https://localhost:5052/oauth2/authorize?response_type=token&client_id=example-client-name&redirect_uri=http://localhost:8082

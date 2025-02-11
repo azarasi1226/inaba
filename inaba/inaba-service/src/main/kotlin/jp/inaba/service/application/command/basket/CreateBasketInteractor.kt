@@ -16,11 +16,14 @@ class CreateBasketInteractor(
 ) {
     @CommandHandler
     fun handle(command: CreateBasketCommand) {
+        if (canCreateBasketVerifier.isBasketExits(command.id)) {
+            throw UseCaseException(CreateBasketError.BASKET_ALREADY_EXISTS)
+        }
         if (canCreateBasketVerifier.isUserNotFound(command.userId)) {
             throw UseCaseException(CreateBasketError.USER_NOT_FOUND)
         }
-        if (canCreateBasketVerifier.isBasketLinkedToUser(command.userId)) {
-            throw UseCaseException(CreateBasketError.BASKET_ALREADY_EXISTS)
+        if (canCreateBasketVerifier.isLinkedToUser(command.userId)) {
+            throw UseCaseException(CreateBasketError.BASKET_ALREADY_LINKED_TO_USER)
         }
 
         val internalCommand =

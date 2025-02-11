@@ -46,7 +46,7 @@ class CreateBasketInteractorTest {
             canCreateBasketVerifier.isUserNotFound(userId)
         } returns false
         every {
-            canCreateBasketVerifier.isBasketLinkedToUser(userId)
+            canCreateBasketVerifier.isLinkedToUser(userId)
         } returns false
         every {
             commandGateway.sendAndWait<Any>(any())
@@ -107,7 +107,7 @@ class CreateBasketInteractorTest {
             canCreateBasketVerifier.isUserNotFound(userId)
         } returns false
         every {
-            canCreateBasketVerifier.isBasketLinkedToUser(userId)
+            canCreateBasketVerifier.isLinkedToUser(userId)
         } returns true
 
         // Act

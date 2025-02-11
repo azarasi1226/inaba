@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class GetBasketController(
     @GrpcClient("global")
-    private val grpcService: GetBasketGrpc.GetBasketBlockingStub
+    private val grpcService: GetBasketGrpc.GetBasketBlockingStub,
 ) : BasketController {
     @GetMapping("/api/baskets/{id}")
     fun handle(
@@ -22,7 +22,7 @@ class GetBasketController(
         @RequestParam("pageSize")
         pageSize: Int,
         @RequestParam("pageNumber")
-        pageNumber: Int
+        pageNumber: Int,
     ): GetBasketHttpResponse {
         val grpcRequest =
             GetBasketRequest.newBuilder()
@@ -30,7 +30,7 @@ class GetBasketController(
                     PagingCondition.newBuilder()
                         .setPageSize(pageSize)
                         .setPageNumber(pageNumber)
-                        .build()
+                        .build(),
                 )
                 .setId(id)
                 .build()

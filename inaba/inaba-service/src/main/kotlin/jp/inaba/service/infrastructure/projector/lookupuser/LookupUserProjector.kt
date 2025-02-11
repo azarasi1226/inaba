@@ -18,6 +18,7 @@ class LookupUserProjector(
         val entity =
             LookupUserJpaEntity(
                 id = event.id,
+                subject = event.subject,
             )
 
         repository.save(entity)
