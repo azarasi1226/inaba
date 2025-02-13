@@ -8,6 +8,6 @@ import jakarta.persistence.Table
 @Table(name = "user")
 data class UserJpaEntity(
     @Id
-    var id: String = "",
-    var userName: String = "",
+    val id: String = "",
+    val userName: String = "",
 )
