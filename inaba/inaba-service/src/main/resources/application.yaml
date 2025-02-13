@@ -9,16 +9,19 @@ spring:
         - datastore-mysql
       local-with-axoniq:
         - app-common
-        - app-local-with-axoniq
+        - app-local
         - axon-server
+        - axoniq-console
         - datastore-mysql
       test:
         - app-common
         - app-test
         - axon-server
+        - axoniq-console
         - datastore-mysql
       prod:
         - app-common
         - app-prod
         - axon-server
+        - axoniq-console
         - datastore-mysql
