@@ -1,5 +1,7 @@
 package jp.inaba.apigateway.basket.deletebasketitem
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jp.inaba.apigateway.basket.BasketController
 import jp.inaba.grpc.basket.DeleteBasketItemGrpc
 import jp.inaba.grpc.basket.DeleteBasketItemRequest
@@ -14,6 +16,11 @@ class DeleteBasketItemController(
     private val grpcService: DeleteBasketItemGrpc.DeleteBasketItemBlockingStub,
 ) : BasketController {
     @DeleteMapping("/api/baskets/{id}/items/{productId}")
+    @Operation(
+        security = [
+            SecurityRequirement(name = "openid")
+        ]
+    )
     fun handle(
         @PathVariable("id")
         id: String,

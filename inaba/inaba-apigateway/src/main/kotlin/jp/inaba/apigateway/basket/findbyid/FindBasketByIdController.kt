@@ -1,5 +1,7 @@
 package jp.inaba.apigateway.basket.findbyid
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jp.inaba.apigateway.basket.BasketController
 import jp.inaba.grpc.basket.FindBasketByIdGrpc
 import jp.inaba.grpc.basket.FindBasketByIdRequest
@@ -16,6 +18,11 @@ class FindBasketByIdController(
     private val grpcService: FindBasketByIdGrpc.FindBasketByIdBlockingStub,
 ) : BasketController {
     @GetMapping("/api/baskets/{id}")
+    @Operation(
+        security = [
+            SecurityRequirement(name = "openid")
+        ]
+    )
     fun handle(
         @PathVariable("id")
         id: String,
