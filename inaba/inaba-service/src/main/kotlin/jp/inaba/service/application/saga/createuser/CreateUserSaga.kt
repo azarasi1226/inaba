@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.usersetup
+package jp.inaba.service.application.saga.createuser
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired
 private val logger = KotlinLogging.logger {}
 
 @Saga
-@ProcessingGroup(UserSetupSagaEventProcessor.PROCESSOR_NAME)
+@ProcessingGroup(CreateUserSagaEventProcessor.PROCESSOR_NAME)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-class UserSetupSaga : SagaBase() {
+class CreateUserSaga : SagaBase() {
     @Autowired
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
@@ -55,21 +55,13 @@ class UserSetupSaga : SagaBase() {
             userId = UserId(event.id)
         )
 
-        createBasketStep.handle(
-            command = createBasketCommand,
-            onFail = {
-                val deleteUserCommand = DeleteUserCommand(
-                    id = UserId(event.id)
-                )
+        createBasketStep.handle(createBasketCommand) {
+            val deleteUserCommand = DeleteUserCommand(UserId(event.id))
 
-                deleteUserStep.handle(
-                    command = deleteUserCommand,
-                    onFail = {
-                        fatalError()
-                    },
-                )
-            },
-        )
+            deleteUserStep.handle(deleteUserCommand) {
+                fatalError()
+            }
+        }
     }
 
     @EndSaga
@@ -81,9 +73,6 @@ class UserSetupSaga : SagaBase() {
         logger.debug { "saga: [${this::class.simpleName}]正常終了" }
     }
 
-    // -------------------------------------------------------------------
-    // -----------------------↓補償フェーズ↓--------------------------------
-    // -------------------------------------------------------------------
     @EndSaga
     @SagaEventHandler(
         associationResolver = MetaDataAssociationResolver::class,

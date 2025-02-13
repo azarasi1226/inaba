@@ -9,17 +9,8 @@ import jp.inaba.message.product.query.SearchProductsResult
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
-data class SqlResult(
-    val id: String,
-    val name: String,
-    val imageUrl: String?,
-    val price: Int,
-    val quantity: Int,
-    val totalCount: Long,
-)
-
 @Component
-class SearchProductQueryService(
+class SearchProductsQueryService(
     private val entityManager: EntityManager,
 ) {
     companion object {
@@ -33,7 +24,7 @@ SELECT
     p.quantity AS ${SqlResult::quantity.name},
     COUNT(*) OVER() AS ${SqlResult::totalCount.name}
 FROM product p
-WHERE ${SqlResult::name.name} LIKE :likeName
+WHERE p.name LIKE :likeName
 ORDER BY :sortProperty :sortDirection
 LIMIT :offset, :pageSize
 """
@@ -90,4 +81,13 @@ LIMIT :offset, :pageSize
                 ),
         )
     }
+
+    private data class SqlResult(
+        val id: String,
+        val name: String,
+        val imageUrl: String?,
+        val price: Int,
+        val quantity: Int,
+        val totalCount: Long,
+    )
 }

@@ -1,7 +1,7 @@
 package jp.inaba.service.application.query.user
 
 import jp.inaba.core.domain.common.UseCaseException
-import jp.inaba.core.domain.user.GetUserMetadataError
+import jp.inaba.core.domain.user.FindUserMetadataBySubjectError
 import jp.inaba.message.user.query.FindUserMetadataBySubjectQuery
 import jp.inaba.message.user.query.FindUserMetadataBySubjectResult
 import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaRepository
@@ -15,7 +15,7 @@ class FindUserMetadataBySubjectQueryService(
     @QueryHandler
     fun handle(query: FindUserMetadataBySubjectQuery): FindUserMetadataBySubjectResult {
         val entity = repository.findById(query.subject).orElseThrow {
-            UseCaseException(GetUserMetadataError.USER_METADATA_NOT_FOUND)
+            UseCaseException(FindUserMetadataBySubjectError.USER_METADATA_NOT_FOUND)
         }
 
         return FindUserMetadataBySubjectResult(

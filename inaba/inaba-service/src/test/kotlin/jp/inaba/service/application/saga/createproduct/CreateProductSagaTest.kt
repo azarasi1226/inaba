@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.registerproduct
+package jp.inaba.service.application.saga.createproduct
 
 import com.github.michaelbull.result.Err
 import io.mockk.MockKAnnotations
@@ -16,8 +16,8 @@ import org.axonframework.test.saga.SagaTestFixture
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class RegisterProductSagaTest {
-    private lateinit var fixture: SagaTestFixture<RegisterProductSaga>
+class CreateProductSagaTest {
+    private lateinit var fixture: SagaTestFixture<CreateProductSaga>
 
     @MockK
     private lateinit var stockIdFactory: StockIdFactory
@@ -38,7 +38,7 @@ class RegisterProductSagaTest {
             commandGateway.sendAndWait<Any>(any())
         } returns Unit
 
-        fixture = SagaTestFixture(RegisterProductSaga::class.java)
+        fixture = SagaTestFixture(CreateProductSaga::class.java)
         fixture.withTransienceCheckDisabled()
         fixture.registerResource(stockIdFactory)
         fixture.registerCommandGateway(CommandGateway::class.java, commandGateway)

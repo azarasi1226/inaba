@@ -12,15 +12,6 @@ import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepositor
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
-data class SqlResult(
-    val productId: String,
-    val productName: String,
-    val productPrice: Int,
-    val productPictureUrl: String,
-    val quantity: Int,
-    val totalCount: Long,
-)
-
 @Component
 class FindBasketByIdQueryService(
     private val entityManager: EntityManager,
@@ -96,4 +87,13 @@ LIMIT :offset, :pageSize
                 ),
         )
     }
+
+    private data class SqlResult(
+        val productId: String,
+        val productName: String,
+        val productPrice: Int,
+        val productPictureUrl: String,
+        val quantity: Int,
+        val totalCount: Long,
+    )
 }

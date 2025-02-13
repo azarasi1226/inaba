@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.registerproduct
+package jp.inaba.service.application.saga.createproduct
 
 import org.axonframework.config.EventProcessingConfigurer
 import org.axonframework.eventhandling.PropagatingErrorHandler
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RegisterProductSagaEventProcessor {
+class CreateProductSagaEventProcessor {
     companion object {
-        const val PROCESSOR_NAME = "register-product-saga"
+        const val PROCESSOR_NAME = "create-product-saga"
         private const val PROCESSOR_COUNT = 2
     }
 

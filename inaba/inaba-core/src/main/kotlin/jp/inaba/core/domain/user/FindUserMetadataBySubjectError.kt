@@ -2,7 +2,7 @@ package jp.inaba.core.domain.user
 
 import jp.inaba.core.domain.common.UseCaseError
 
-enum class GetUserMetadataError(
+enum class FindUserMetadataBySubjectError(
     override val errorCode: String,
     override val errorMessage: String,
 ): UseCaseError {

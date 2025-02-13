@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.registerproduct
+package jp.inaba.service.application.saga.createproduct
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired
 private val logger = KotlinLogging.logger {}
 
 @Saga
-@ProcessingGroup(RegisterProductSagaEventProcessor.PROCESSOR_NAME)
+@ProcessingGroup(CreateProductSagaEventProcessor.PROCESSOR_NAME)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-class RegisterProductSaga : SagaBase() {
+class CreateProductSaga : SagaBase() {
     @Autowired
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
@@ -49,25 +49,18 @@ class RegisterProductSaga : SagaBase() {
     fun on(event: ProductCreatedEvent) {
         logger.debug { "saga: [${this::class.simpleName}]開始" }
 
-        val createStockCommand =
-            CreateStockCommand(
+        val createStockCommand = CreateStockCommand(
                 id = stockIdFactory.handle(),
                 productId = ProductId(event.id),
             )
 
-        createStockStep.handle(
-            command = createStockCommand,
-            onFail = {
-                val deleteProductCommand = DeleteProductCommand(ProductId(event.id))
+        createStockStep.handle(createStockCommand) {
+            val deleteProductCommand = DeleteProductCommand(ProductId(event.id))
 
-                deleteProductStep.handle(
-                    command = deleteProductCommand,
-                    onFail = {
-                        fatalError()
-                    },
-                )
-            },
-        )
+            deleteProductStep.handle(deleteProductCommand){
+                fatalError()
+            }
+        }
     }
 
     @EndSaga

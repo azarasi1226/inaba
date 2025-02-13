@@ -1,4 +1,4 @@
-package jp.inaba.service.application.saga.usersetup
+package jp.inaba.service.application.saga.createuser
 
 import org.axonframework.config.EventProcessingConfigurer
 import org.axonframework.eventhandling.PropagatingErrorHandler
@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class UserSetupSagaEventProcessor {
+class
+CreateUserSagaEventProcessor {
     companion object {
-        const val PROCESSOR_NAME = "user-setup-saga"
+        const val PROCESSOR_NAME = "create-user-saga"
         private const val PROCESSOR_COUNT = 2
     }
 

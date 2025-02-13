@@ -38,7 +38,7 @@ https://localhost:5052/oauth2/authorize?response_type=token&client_id=example-cl
 
 
 
-package jp.inaba.service.application.saga.usersetup
+package jp.inaba.service.application.saga.createuser
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
