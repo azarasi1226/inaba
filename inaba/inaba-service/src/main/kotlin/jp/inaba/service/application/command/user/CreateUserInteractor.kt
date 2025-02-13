@@ -3,7 +3,7 @@ package jp.inaba.service.application.command.user
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.user.CreateUserError
 import jp.inaba.message.user.command.CreateUserCommand
-import jp.inaba.service.domain.user.CanCreateUserVerifier
+import jp.inaba.service.domain.user.CreateUserVerifier
 import jp.inaba.service.domain.user.InternalCreateUserCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class CreateUserInteractor(
-    private val canCreateUserVerifier: CanCreateUserVerifier,
+    private val verifier: CreateUserVerifier,
     private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
     fun handle(command: CreateUserCommand) {
-        if (canCreateUserVerifier.isUserExists(command.id)) {
+        if (verifier.isUserExists(command.id)) {
             throw UseCaseException(CreateUserError.USER_ALREADY_EXISTS)
         }
-        if (canCreateUserVerifier.isLinkedSubject(command.subject)) {
+        if (verifier.isLinkedSubject(command.subject)) {
             throw UseCaseException(CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT)
         }
 

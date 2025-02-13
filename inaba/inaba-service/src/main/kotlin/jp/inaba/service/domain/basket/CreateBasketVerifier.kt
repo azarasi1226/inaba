@@ -3,7 +3,7 @@ package jp.inaba.service.domain.basket
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.user.UserId
 
-interface CanCreateBasketVerifier {
+interface CreateBasketVerifier {
     fun isBasketExits(basketId: BasketId): Boolean
 
     fun isUserNotFound(userId: UserId): Boolean

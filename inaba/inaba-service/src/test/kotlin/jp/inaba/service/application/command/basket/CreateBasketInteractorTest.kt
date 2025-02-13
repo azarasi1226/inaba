@@ -10,7 +10,7 @@ import jp.inaba.core.domain.basket.CreateBasketError
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.basket.command.CreateBasketCommand
-import jp.inaba.service.domain.basket.CanCreateBasketVerifier
+import jp.inaba.service.domain.basket.CreateBasketVerifier
 import jp.inaba.service.domain.basket.InternalCreateBasketCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.assertThrows
 
 class CreateBasketInteractorTest {
     @MockK
-    private lateinit var canCreateBasketVerifier: CanCreateBasketVerifier
+    private lateinit var canCreateBasketVerifier: CreateBasketVerifier
 
     @MockK
     private lateinit var commandGateway: CommandGateway

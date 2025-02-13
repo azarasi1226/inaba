@@ -10,7 +10,7 @@ import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.stock.CreateStockError
 import jp.inaba.core.domain.stock.StockId
 import jp.inaba.message.stock.command.CreateStockCommand
-import jp.inaba.service.domain.stock.CanCreateStockVerifier
+import jp.inaba.service.domain.stock.CreateStockVerifier
 import jp.inaba.service.domain.stock.InternalCreateStockCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.BeforeEach
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.assertThrows
 
 class CreateStockInteractorTest {
     @MockK
-    private lateinit var canCreateStockVerifier: CanCreateStockVerifier
+    private lateinit var canCreateStockVerifier: CreateStockVerifier
 
     @MockK
     private lateinit var commandGateway: CommandGateway

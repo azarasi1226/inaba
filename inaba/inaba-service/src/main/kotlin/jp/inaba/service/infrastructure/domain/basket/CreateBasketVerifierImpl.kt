@@ -2,16 +2,16 @@ package jp.inaba.service.infrastructure.domain.basket
 
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.user.UserId
-import jp.inaba.service.domain.basket.CanCreateBasketVerifier
+import jp.inaba.service.domain.basket.CreateBasketVerifier
 import jp.inaba.service.infrastructure.jpa.lookupbasket.LookupBasketJpaRepository
 import jp.inaba.service.infrastructure.jpa.lookupuser.LookupUserJpaRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CanCreateBasketVerifierImpl(
+class CreateBasketVerifierImpl(
     private val lookupUserJpaRepository: LookupUserJpaRepository,
     private val lookupBasketRepository: LookupBasketJpaRepository,
-) : CanCreateBasketVerifier {
+) : CreateBasketVerifier {
     override fun isBasketExits(basketId: BasketId): Boolean {
         return lookupBasketRepository.existsById(basketId.value)
     }

@@ -1,14 +1,14 @@
 package jp.inaba.service.infrastructure.domain.user
 
 import jp.inaba.core.domain.user.UserId
-import jp.inaba.service.domain.user.CanCreateUserVerifier
+import jp.inaba.service.domain.user.CreateUserVerifier
 import jp.inaba.service.infrastructure.jpa.lookupuser.LookupUserJpaRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CanCreateUserVerifierImpl(
+class CreateUserVerifierImpl(
     private val repository: LookupUserJpaRepository,
-) : CanCreateUserVerifier {
+) : CreateUserVerifier {
     override fun isUserExists(userId: UserId): Boolean {
         return repository.existsById(userId.value)
     }
