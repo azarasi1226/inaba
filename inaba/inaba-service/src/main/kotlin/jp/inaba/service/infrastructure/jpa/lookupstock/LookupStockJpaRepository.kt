@@ -7,5 +7,6 @@ import java.util.Optional
 @Repository
 interface LookupStockJpaRepository : JpaRepository<LookupStockJpaEntity, String> {
     fun existsByProductId(productId: String): Boolean
+
     fun findByProductId(productId: String): Optional<LookupStockJpaEntity>
 }

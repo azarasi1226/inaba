@@ -1,4 +1,3 @@
 package jp.inaba.datakey.service.application.datakey
 
-class DeleteDataKeyInteractorTest {
-}
+class DeleteDataKeyInteractorTest

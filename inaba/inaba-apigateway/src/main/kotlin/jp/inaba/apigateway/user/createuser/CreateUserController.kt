@@ -15,7 +15,7 @@ class CreateUserController(
     @PostMapping("/api/users")
     fun handle(
         @RequestBody
-        request: CreateUserHttpRequest
+        request: CreateUserHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
 

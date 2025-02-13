@@ -15,9 +15,12 @@ import net.devh.boot.grpc.server.service.GrpcService
 
 @GrpcService
 class GetDataKeyGrpcService(
-    private val getDataKeyInteractor: GetDataKeyInteractor
+    private val getDataKeyInteractor: GetDataKeyInteractor,
 ) : GetDataKeyGrpc.GetDataKeyImplBase() {
-     override fun handle(request: GetDataKeyRequest, responseObserver: StreamObserver<GetDataKeyResponse>) {
+    override fun handle(
+        request: GetDataKeyRequest,
+        responseObserver: StreamObserver<GetDataKeyResponse>,
+    ) {
         val relationId = RelationId(request.relationId)
         val input = GetDataKeyInput(relationId)
 
@@ -25,22 +28,24 @@ class GetDataKeyGrpcService(
 
         result.mapBoth(
             success = {
-                val response = GetDataKeyResponse
-                    .newBuilder()
-                    .setBase64PlaneDataKey(result.value.base64PlaneDataKey.value)
-                    .build()
+                val response =
+                    GetDataKeyResponse
+                        .newBuilder()
+                        .setBase64PlaneDataKey(result.value.base64PlaneDataKey.value)
+                        .build()
 
                 responseObserver.onNext(response)
             },
             failure = {
-                when(it) {
+                when (it) {
                     GetDataKeyError.DATAKEY_NOT_FOUND -> {
-                        val status = Status.NOT_FOUND
-                            .withDescription(it.errorMessage)
+                        val status =
+                            Status.NOT_FOUND
+                                .withDescription(it.errorMessage)
                         responseObserver.onError(StatusRuntimeException(status))
                     }
                 }
-            }
+            },
         )
         responseObserver.onCompleted()
     }

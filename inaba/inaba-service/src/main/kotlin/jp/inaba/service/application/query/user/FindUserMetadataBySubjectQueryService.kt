@@ -10,17 +10,18 @@ import org.springframework.stereotype.Component
 
 @Component
 class FindUserMetadataBySubjectQueryService(
-    private val repository: UserMetadataJpaRepository
+    private val repository: UserMetadataJpaRepository,
 ) {
     @QueryHandler
     fun handle(query: FindUserMetadataBySubjectQuery): FindUserMetadataBySubjectResult {
-        val entity = repository.findById(query.subject).orElseThrow {
-            UseCaseException(FindUserMetadataBySubjectError.USER_METADATA_NOT_FOUND)
-        }
+        val entity =
+            repository.findById(query.subject).orElseThrow {
+                UseCaseException(FindUserMetadataBySubjectError.USER_METADATA_NOT_FOUND)
+            }
 
         return FindUserMetadataBySubjectResult(
             userId = entity.userId,
-            basketId = entity.basketId
+            basketId = entity.basketId,
         )
     }
 }

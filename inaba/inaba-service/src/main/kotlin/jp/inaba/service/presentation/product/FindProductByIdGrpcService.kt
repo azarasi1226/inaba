@@ -2,9 +2,9 @@ package jp.inaba.service.presentation.product
 
 import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.grpc.product.GetProductGrpc
-import jp.inaba.grpc.product.GetProductRequest
-import jp.inaba.grpc.product.GetProductResponse
+import jp.inaba.grpc.product.FindProductByIdGrpc
+import jp.inaba.grpc.product.FindProductByIdRequest
+import jp.inaba.grpc.product.FindProductByIdResponse
 import jp.inaba.message.product.query.FindProductByIdQuery
 import jp.inaba.message.product.query.FindProductByIdResult
 import net.devh.boot.grpc.server.service.GrpcService
@@ -12,12 +12,13 @@ import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 
 @GrpcService
-class GetProductGrpcService(
+class
+FindProductByIdGrpcService(
     private val queryGateway: QueryGateway,
-) : GetProductGrpc.GetProductImplBase() {
+) : FindProductByIdGrpc.FindProductByIdImplBase() {
     override fun handle(
-        request: GetProductRequest,
-        responseObserver: StreamObserver<GetProductResponse>,
+        request: FindProductByIdRequest,
+        responseObserver: StreamObserver<FindProductByIdResponse>,
     ) {
         val query =
             FindProductByIdQuery(
@@ -27,7 +28,7 @@ class GetProductGrpcService(
         val result = queryGateway.query<FindProductByIdResult, FindProductByIdQuery>(query).get()
 
         val response =
-            GetProductResponse.newBuilder()
+            FindProductByIdResponse.newBuilder()
                 .setName(result.name)
                 .setStockId(result.stockId)
                 .setDescription(result.description)

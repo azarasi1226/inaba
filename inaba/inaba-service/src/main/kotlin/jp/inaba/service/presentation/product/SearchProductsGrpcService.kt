@@ -6,9 +6,9 @@ import jp.inaba.core.domain.common.SortCondition
 import jp.inaba.core.domain.common.SortDirection
 import jp.inaba.core.domain.product.ProductSortProperty
 import jp.inaba.grpc.common.Paging
-import jp.inaba.grpc.product.SearchProductGrpc
-import jp.inaba.grpc.product.SearchProductRequest
-import jp.inaba.grpc.product.SearchProductResponse
+import jp.inaba.grpc.product.SearchProductsGrpc
+import jp.inaba.grpc.product.SearchProductsRequest
+import jp.inaba.grpc.product.SearchProductsResponse
 import jp.inaba.grpc.product.Summary
 import jp.inaba.message.product.query.SearchProductsQuery
 import jp.inaba.message.product.query.SearchProductsResult
@@ -17,12 +17,12 @@ import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 
 @GrpcService
-class SearchProductGrpcService(
+class SearchProductsGrpcService(
     private val queryGateway: QueryGateway,
-) : SearchProductGrpc.SearchProductImplBase() {
+) : SearchProductsGrpc.SearchProductsImplBase() {
     override fun handle(
-        request: SearchProductRequest,
-        responseObserver: StreamObserver<SearchProductResponse>,
+        request: SearchProductsRequest,
+        responseObserver: StreamObserver<SearchProductsResponse>,
     ) {
         val query =
             SearchProductsQuery(
@@ -42,7 +42,7 @@ class SearchProductGrpcService(
         val result = queryGateway.query<SearchProductsResult, SearchProductsQuery>(query).get()
 
         val response =
-            SearchProductResponse.newBuilder()
+            SearchProductsResponse.newBuilder()
                 .setPaging(
                     Paging.newBuilder()
                         .setTotalCount(result.page.paging.totalCount)

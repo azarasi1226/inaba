@@ -2,15 +2,15 @@ package jp.inaba.apigateway.product.search
 
 import jp.inaba.apigateway.common.PagingCondition
 import jp.inaba.grpc.common.SortCondition
-import jp.inaba.grpc.product.SearchProductRequest
+import jp.inaba.grpc.product.SearchProductsRequest
 
-data class SearchProductRequest(
+data class SearchProductsHttpRequest(
     val name: String,
     val pagingCondition: PagingCondition,
     val sortCondition: jp.inaba.apigateway.common.SortCondition,
 ) {
-    fun toGrpcRequest(): SearchProductRequest {
-        return SearchProductRequest.newBuilder()
+    fun toGrpcRequest(): SearchProductsRequest {
+        return SearchProductsRequest.newBuilder()
             .setName(name)
             .setPagingCondition(
                 jp.inaba.grpc.common.PagingCondition.newBuilder()

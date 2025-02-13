@@ -49,7 +49,8 @@ class CreateProductSaga : SagaBase() {
     fun on(event: ProductCreatedEvent) {
         logger.debug { "saga: [${this::class.simpleName}]開始" }
 
-        val createStockCommand = CreateStockCommand(
+        val createStockCommand =
+            CreateStockCommand(
                 id = stockIdFactory.handle(),
                 productId = ProductId(event.id),
             )
@@ -57,7 +58,7 @@ class CreateProductSaga : SagaBase() {
         createStockStep.handle(createStockCommand) {
             val deleteProductCommand = DeleteProductCommand(ProductId(event.id))
 
-            deleteProductStep.handle(deleteProductCommand){
+            deleteProductStep.handle(deleteProductCommand) {
                 fatalError()
             }
         }

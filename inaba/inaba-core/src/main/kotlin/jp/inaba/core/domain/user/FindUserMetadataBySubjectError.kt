@@ -5,6 +5,6 @@ import jp.inaba.core.domain.common.UseCaseError
 enum class FindUserMetadataBySubjectError(
     override val errorCode: String,
     override val errorMessage: String,
-): UseCaseError {
-    USER_METADATA_NOT_FOUND("1", "ユーザーメタデータが存在しません")
+) : UseCaseError {
+    USER_METADATA_NOT_FOUND("1", "ユーザーメタデータが存在しません"),
 }

@@ -9,18 +9,17 @@ import "common/SortCondition.proto";
 option java_multiple_files = true;
 option java_package = "jp.inaba.grpc.product";
 
-service SearchProduct {
-  rpc handle (SearchProductRequest) returns (SearchProductResponse);
+service SearchProducts {
+  rpc handle (SearchProductsRequest) returns (SearchProductsResponse);
 }
 
-message SearchProductRequest {
+message SearchProductsRequest {
   string name = 1;
   common.PagingCondition pagingCondition = 2;
   common.SortCondition sortCondition = 3;
 }
 
-//TODO(プロパティのネーミング)
-message SearchProductResponse {
+message SearchProductsResponse {
   repeated Summary items = 1;
   common.Paging paging = 2;
 }

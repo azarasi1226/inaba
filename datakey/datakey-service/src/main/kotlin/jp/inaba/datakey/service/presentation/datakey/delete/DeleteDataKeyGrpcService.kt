@@ -17,7 +17,10 @@ import net.devh.boot.grpc.server.service.GrpcService
 class DeleteDataKeyGrpcService(
     private val deleteDataKeyInteractor: DeleteDataKeyInteractor,
 ) : DeleteDataKeyGrpc.DeleteDataKeyImplBase() {
-    override fun handle(request: DeleteDataKeyRequest, responseObserver: StreamObserver<Empty>) {
+    override fun handle(
+        request: DeleteDataKeyRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
         val relationId = RelationId(request.relationId)
         val input = DeleteDataKeyInput(relationId)
 
@@ -29,14 +32,15 @@ class DeleteDataKeyGrpcService(
                 responseObserver.onNext(response)
             },
             failure = {
-                when(it) {
+                when (it) {
                     DeleteDataKeyError.DATAKEY_NOT_FOUND -> {
-                        val status = Status.NOT_FOUND
-                            .withDescription(it.errorMessage)
+                        val status =
+                            Status.NOT_FOUND
+                                .withDescription(it.errorMessage)
                         responseObserver.onError(StatusRuntimeException(status))
                     }
                 }
-            }
+            },
         )
         responseObserver.onCompleted()
     }

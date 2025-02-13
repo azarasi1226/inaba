@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteDataKeyInteractor(
-    private val dataKeyJpaRepository: DataKeyJpaRepository
+    private val dataKeyJpaRepository: DataKeyJpaRepository,
 ) {
     fun handle(input: DeleteDataKeyInput): Result<Unit, DeleteDataKeyError> {
         val maybeEntity = dataKeyJpaRepository.findById(input.relationId.value)
 
-        if(maybeEntity.isEmpty) {
+        if (maybeEntity.isEmpty) {
             return Err(DeleteDataKeyError.DATAKEY_NOT_FOUND)
         }
 

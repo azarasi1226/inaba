@@ -3,17 +3,17 @@ package jp.inaba.apigateway.product.search
 import jp.inaba.apigateway.product.ProductController
 import jp.inaba.grpc.common.PagingCondition
 import jp.inaba.grpc.common.SortCondition
-import jp.inaba.grpc.product.SearchProductGrpc
-import jp.inaba.grpc.product.SearchProductRequest
+import jp.inaba.grpc.product.SearchProductsGrpc
+import jp.inaba.grpc.product.SearchProductsRequest
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class SearchProductController(
+class SearchProductsController(
     @GrpcClient("global")
-    private val grpcService: SearchProductGrpc.SearchProductBlockingStub,
+    private val grpcService: SearchProductsGrpc.SearchProductsBlockingStub,
 ) : ProductController {
     @GetMapping("/api/products")
     fun handle(
@@ -27,9 +27,9 @@ class SearchProductController(
         sortProperty: String,
         @RequestParam("sortDirection")
         sortDirection: String,
-    ): SearchProductHttpResponse {
+    ): SearchProductsHttpResponse {
         val grpcRequest =
-            SearchProductRequest.newBuilder()
+            SearchProductsRequest.newBuilder()
                 .setName(name)
                 .setPagingCondition(
                     PagingCondition.newBuilder()
@@ -47,6 +47,6 @@ class SearchProductController(
 
         val grpcResponse = grpcService.handle(grpcRequest)
 
-        return SearchProductHttpResponse.fromGrpcResponse(grpcResponse)
+        return SearchProductsHttpResponse.fromGrpcResponse(grpcResponse)
     }
 }

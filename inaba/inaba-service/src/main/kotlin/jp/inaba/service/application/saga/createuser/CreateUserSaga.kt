@@ -50,10 +50,11 @@ class CreateUserSaga : SagaBase() {
         logger.debug { "saga: [${this::class.simpleName}]開始" }
 
         val basketId = basketIdFactory.handle()
-        val createBasketCommand = CreateBasketCommand(
-            id = basketId,
-            userId = UserId(event.id)
-        )
+        val createBasketCommand =
+            CreateBasketCommand(
+                id = basketId,
+                userId = UserId(event.id),
+            )
 
         createBasketStep.handle(createBasketCommand) {
             val deleteUserCommand = DeleteUserCommand(UserId(event.id))

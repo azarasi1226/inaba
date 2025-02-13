@@ -20,11 +20,12 @@ class StockProjector(
     fun on(event: StockCreatedEvent) {
         val product = productJpaRepository.findById(event.productId).orElseThrow()
 
-        val entity = StockJpaEntity(
-            id = event.id,
-            product = product,
-            quantity = 0
-        )
+        val entity =
+            StockJpaEntity(
+                id = event.id,
+                product = product,
+                quantity = 0,
+            )
 
         stockJpaRepository.save(entity)
     }

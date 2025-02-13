@@ -8,16 +8,16 @@ import "common/PagingCondition.proto";
 option java_multiple_files = true;
 option java_package = "jp.inaba.grpc.basket";
 
-service GetBasket {
-  rpc handle (GetBasketRequest) returns (GetBasketResponse);
+service FindBasketById {
+  rpc handle (FindBasketByIdRequest) returns (FindBasketByIdResponse);
 }
 
-message GetBasketRequest {
+message FindBasketByIdRequest {
   string id = 1;
   common.PagingCondition pagingCondition = 2;
 }
 
-message GetBasketResponse {
+message FindBasketByIdResponse {
   repeated BasketItem basketItems = 1;
   common.Paging paging = 2;
 }

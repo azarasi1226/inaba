@@ -1,7 +1,7 @@
 package jp.inaba.message.user.query
 
 data class FindUserMetadataBySubjectQuery(
-    val subject: String
+    val subject: String,
 )
 
 data class FindUserMetadataBySubjectResult(

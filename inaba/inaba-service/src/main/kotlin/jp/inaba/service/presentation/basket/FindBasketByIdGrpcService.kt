@@ -4,9 +4,9 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.common.PagingCondition
 import jp.inaba.grpc.basket.BasketItem
-import jp.inaba.grpc.basket.GetBasketGrpc
-import jp.inaba.grpc.basket.GetBasketRequest
-import jp.inaba.grpc.basket.GetBasketResponse
+import jp.inaba.grpc.basket.FindBasketByIdGrpc
+import jp.inaba.grpc.basket.FindBasketByIdRequest
+import jp.inaba.grpc.basket.FindBasketByIdResponse
 import jp.inaba.grpc.common.Paging
 import jp.inaba.message.basket.query.FindBasketByIdQuery
 import jp.inaba.message.basket.query.FindBasketByIdResult
@@ -15,12 +15,12 @@ import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
 
 @GrpcService
-class GetBasketGrpcService(
+class FindBasketByIdGrpcService(
     private val queryGateway: QueryGateway,
-) : GetBasketGrpc.GetBasketImplBase() {
+) : FindBasketByIdGrpc.FindBasketByIdImplBase() {
     override fun handle(
-        request: GetBasketRequest,
-        responseObserver: StreamObserver<GetBasketResponse>,
+        request: FindBasketByIdRequest,
+        responseObserver: StreamObserver<FindBasketByIdResponse>,
     ) {
         val query =
             FindBasketByIdQuery(
@@ -35,7 +35,7 @@ class GetBasketGrpcService(
         val result = queryGateway.query<FindBasketByIdResult, FindBasketByIdQuery>(query).get()
 
         val response =
-            GetBasketResponse.newBuilder()
+            FindBasketByIdResponse.newBuilder()
                 .setPaging(
                     Paging.newBuilder()
                         .setTotalCount(result.page.paging.totalCount)

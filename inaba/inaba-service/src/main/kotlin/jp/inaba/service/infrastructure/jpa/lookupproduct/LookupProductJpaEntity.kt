@@ -8,5 +8,5 @@ import jakarta.persistence.Table
 @Table(name = "lookup_product")
 data class LookupProductJpaEntity(
     @Id
-    val id: String = ""
+    val id: String = "",
 )

@@ -11,13 +11,17 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class CreateUserGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : CreateUserGrpc.CreateUserImplBase() {
-    override fun handle(request: CreateUserRequest, responseObserver: StreamObserver<Empty>) {
-        val command = CreateUserCommand(
-            id = UserId(request.id),
-            subject = request.subject,
-        )
+    override fun handle(
+        request: CreateUserRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
+        val command =
+            CreateUserCommand(
+                id = UserId(request.id),
+                subject = request.subject,
+            )
 
         commandGateway.sendAndWait<Any>(command)
 

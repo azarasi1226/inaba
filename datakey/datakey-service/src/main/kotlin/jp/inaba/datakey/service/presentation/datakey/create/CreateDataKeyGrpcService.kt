@@ -17,7 +17,10 @@ import net.devh.boot.grpc.server.service.GrpcService
 class CreateDataKeyGrpcService(
     private val createDataKeyInteractor: CreateDataKeyInteractor,
 ) : CreateDataKeyGrpc.CreateDataKeyImplBase() {
-    override fun handle(request: CreateDataKeyRequest, responseObserver: StreamObserver<CreateDataKeyResponse>) {
+    override fun handle(
+        request: CreateDataKeyRequest,
+        responseObserver: StreamObserver<CreateDataKeyResponse>,
+    ) {
         val relationId = RelationId(request.relationId)
         val input = CreateDataKeyInput(relationId)
 
@@ -25,21 +28,23 @@ class CreateDataKeyGrpcService(
 
         result.mapBoth(
             success = {
-                val response = CreateDataKeyResponse
-                    .newBuilder()
-                    .setBase64PlaneDataKey(result.value.base64PlaneDataKey.value)
-                    .build()
+                val response =
+                    CreateDataKeyResponse
+                        .newBuilder()
+                        .setBase64PlaneDataKey(result.value.base64PlaneDataKey.value)
+                        .build()
                 responseObserver.onNext(response)
             },
             failure = {
-                when(it) {
+                when (it) {
                     CreateDataKeyError.DATAKEY_ALREADY_EXISTS -> {
-                        val status = Status.ALREADY_EXISTS
-                            .withDescription(it.errorMessage)
+                        val status =
+                            Status.ALREADY_EXISTS
+                                .withDescription(it.errorMessage)
                         responseObserver.onError(StatusRuntimeException(status))
                     }
                 }
-            }
+            },
         )
         responseObserver.onCompleted()
     }

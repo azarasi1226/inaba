@@ -15,5 +15,5 @@ data class StockJpaEntity(
     @ManyToOne
     @JoinColumn(name = "product_id")
     val product: ProductJpaEntity = ProductJpaEntity(),
-    val quantity: Int = 0
+    val quantity: Int = 0,
 )

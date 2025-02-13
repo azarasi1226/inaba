@@ -1,8 +1,8 @@
-package jp.inaba.apigateway.basket.getbasket
+package jp.inaba.apigateway.basket.findbyid
 
 import jp.inaba.apigateway.basket.BasketController
-import jp.inaba.grpc.basket.GetBasketGrpc
-import jp.inaba.grpc.basket.GetBasketRequest
+import jp.inaba.grpc.basket.FindBasketByIdGrpc
+import jp.inaba.grpc.basket.FindBasketByIdRequest
 import jp.inaba.grpc.common.PagingCondition
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class GetBasketController(
+class FindBasketByIdController(
     @GrpcClient("global")
-    private val grpcService: GetBasketGrpc.GetBasketBlockingStub,
+    private val grpcService: FindBasketByIdGrpc.FindBasketByIdBlockingStub,
 ) : BasketController {
     @GetMapping("/api/baskets/{id}")
     fun handle(
@@ -23,9 +23,9 @@ class GetBasketController(
         pageSize: Int,
         @RequestParam("pageNumber")
         pageNumber: Int,
-    ): GetBasketHttpResponse {
+    ): FindBasketByIdHttpResponse {
         val grpcRequest =
-            GetBasketRequest.newBuilder()
+            FindBasketByIdRequest.newBuilder()
                 .setPagingCondition(
                     PagingCondition.newBuilder()
                         .setPageSize(pageSize)
@@ -37,6 +37,6 @@ class GetBasketController(
 
         val grpcResponse = grpcService.handle(grpcRequest)
 
-        return GetBasketHttpResponse.formGrpcResponse(grpcResponse)
+        return FindBasketByIdHttpResponse.formGrpcResponse(grpcResponse)
     }
 }

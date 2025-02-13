@@ -4,6 +4,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":datakey:datakey-grpc"))
 
-    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
-    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("io.grpc:grpc-stub:$grpcVersion")
 }

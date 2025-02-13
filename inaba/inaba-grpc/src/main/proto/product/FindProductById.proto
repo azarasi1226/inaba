@@ -5,15 +5,15 @@ package product;
 option java_multiple_files = true;
 option java_package = "jp.inaba.grpc.product";
 
-service GetProduct {
-  rpc handle (GetProductRequest) returns (GetProductResponse);
+service FindProductById {
+  rpc handle (FindProductByIdRequest) returns (FindProductByIdResponse);
 }
 
-message GetProductRequest {
+message FindProductByIdRequest {
   string id = 1;
 }
 
-message GetProductResponse {
+message FindProductByIdResponse {
   string stockId = 1;
   string name = 2;
   string description = 3;

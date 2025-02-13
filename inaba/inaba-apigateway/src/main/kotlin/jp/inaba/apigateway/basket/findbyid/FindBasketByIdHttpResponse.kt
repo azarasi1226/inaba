@@ -1,10 +1,10 @@
-package jp.inaba.apigateway.basket.getbasket
+package jp.inaba.apigateway.basket.findbyid
 
 import jp.inaba.apigateway.common.Page
 import jp.inaba.apigateway.common.Paging
-import jp.inaba.grpc.basket.GetBasketResponse
+import jp.inaba.grpc.basket.FindBasketByIdResponse
 
-data class GetBasketHttpResponse(
+data class FindBasketByIdHttpResponse(
     val page: Page<Summary>,
 ) {
     data class Summary(
@@ -16,8 +16,8 @@ data class GetBasketHttpResponse(
     )
 
     companion object {
-        fun formGrpcResponse(grpcResponse: GetBasketResponse): GetBasketHttpResponse {
-            return GetBasketHttpResponse(
+        fun formGrpcResponse(grpcResponse: FindBasketByIdResponse): FindBasketByIdHttpResponse {
+            return FindBasketByIdHttpResponse(
                 page =
                     Page(
                         items =
