@@ -5,13 +5,13 @@ import jp.inaba.core.domain.common.PagingCondition
 import jp.inaba.core.domain.common.SortCondition
 import jp.inaba.core.domain.product.ProductSortProperty
 
-data class SearchProductQuery(
+data class SearchProductsQuery(
     val likeProductName: String,
     val pagingCondition: PagingCondition,
     val sortCondition: SortCondition<ProductSortProperty>,
 )
 
-data class SearchProductResult(
+data class SearchProductsResult(
     val page: Page<Summary>,
 ) {
     data class Summary(

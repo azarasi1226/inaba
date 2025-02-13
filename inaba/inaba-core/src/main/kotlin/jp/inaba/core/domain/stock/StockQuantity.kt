@@ -1,6 +1,6 @@
 package jp.inaba.core.domain.stock
 
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 
 data class StockQuantity(val value: Int) {
     companion object {
@@ -10,7 +10,7 @@ data class StockQuantity(val value: Int) {
 
     init {
         if (value !in MIN..MAX) {
-            throw DomainException("在庫数は[$MIN~$MAX]の間です。value:[$value]")
+            throw ValueObjectException("在庫数は[$MIN~$MAX]の間です。value:[$value]")
         }
     }
 
@@ -22,7 +22,7 @@ data class StockQuantity(val value: Int) {
 
     fun add(increaseCount: IncreaseCount): StockQuantity {
         if (canNotAdd(increaseCount)) {
-            throw DomainException("在庫数の上限は[$MAX]です。")
+            throw ValueObjectException("在庫数の上限は[$MAX]です。")
         }
 
         val newValue = value + increaseCount.value
@@ -37,7 +37,7 @@ data class StockQuantity(val value: Int) {
 
     fun subtract(decreaseCount: DecreaseCount): StockQuantity {
         if (canNotSubtract(decreaseCount)) {
-            throw DomainException("在庫数は[$MIN]以下にできません。")
+            throw ValueObjectException("在庫数は[$MIN]以下にできません。")
         }
 
         val newValue = value - decreaseCount.value

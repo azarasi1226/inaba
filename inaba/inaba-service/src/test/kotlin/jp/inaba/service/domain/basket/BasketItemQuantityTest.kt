@@ -1,7 +1,7 @@
 package jp.inaba.service.domain.basket
 
 import jp.inaba.core.domain.basket.BasketItemQuantity
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -11,7 +11,7 @@ class BasketItemQuantityTest {
     @ParameterizedTest
     @ValueSource(ints = [0, 100])
     fun `不正な値でBasketItemQuantity生成_例外`(value: Int) {
-        assertThrows<DomainException> {
+        assertThrows<ValueObjectException> {
             BasketItemQuantity(value)
         }
     }

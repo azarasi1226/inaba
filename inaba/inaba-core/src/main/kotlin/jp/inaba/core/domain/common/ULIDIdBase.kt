@@ -9,7 +9,7 @@ abstract class ULIDIdBase(val value: String) {
         try {
             ULID.parseULID(value)
         } catch (_: Exception) {
-            throw DomainException("${this::class.simpleName}はULIDの形式である必要があります。value:[$value]")
+            throw ValueObjectException("${this::class.simpleName}はULIDの形式である必要があります。value:[$value]")
         }
     }
 

@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusException
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 import jp.inaba.service.utlis.getWrapUseCaseError
 import jp.inaba.service.utlis.isWrapUseCaseError
 import net.devh.boot.grpc.server.advice.GrpcAdvice
@@ -19,7 +19,7 @@ private val logger = KotlinLogging.logger {}
 @GrpcAdvice
 class GrpcServiceAdvice {
     @GrpcExceptionHandler
-    fun handleDomainException(e: DomainException): StatusException {
+    fun handleDomainException(e: ValueObjectException): StatusException {
         logger.warn { "handle DomainException:[${e.errorMessage}]" }
 
         val status = Status.INVALID_ARGUMENT.withDescription(e.errorMessage).withCause(e)

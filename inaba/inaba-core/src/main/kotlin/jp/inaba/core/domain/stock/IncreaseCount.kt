@@ -1,6 +1,6 @@
 package jp.inaba.core.domain.stock
 
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 
 data class IncreaseCount(val value: Int) {
     companion object {
@@ -10,7 +10,7 @@ data class IncreaseCount(val value: Int) {
 
     init {
         if (value !in MIN..MAX) {
-            throw DomainException("増減値は[$MIN~$MAX]の間です。value:[$value]")
+            throw ValueObjectException("増減値は[$MIN~$MAX]の間です。value:[$value]")
         }
     }
 }

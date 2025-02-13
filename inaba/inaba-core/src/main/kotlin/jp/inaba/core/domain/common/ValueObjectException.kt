@@ -1,5 +1,5 @@
 package jp.inaba.core.domain.common
 
-class DomainException(
+class ValueObjectException(
     val errorMessage: String,
 ) : Exception(errorMessage)

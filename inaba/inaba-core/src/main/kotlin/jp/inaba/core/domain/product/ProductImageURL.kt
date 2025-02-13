@@ -1,6 +1,6 @@
 package jp.inaba.core.domain.product
 
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 import java.net.URI
 
 data class ProductImageURL(val value: String?) {
@@ -10,7 +10,7 @@ data class ProductImageURL(val value: String?) {
             try {
                 URI(value).toURL()
             } catch (ex: Exception) {
-                throw DomainException("ProductImageURLはURLの形式である必要があります。value:[$value]")
+                throw ValueObjectException("ProductImageURLはURLの形式である必要があります。value:[$value]")
             }
         }
     }

@@ -4,8 +4,8 @@ import jakarta.persistence.EntityManager
 import jp.inaba.core.domain.common.Page
 import jp.inaba.core.domain.common.Paging
 import jp.inaba.core.domain.common.PagingCondition
-import jp.inaba.message.product.query.SearchProductQuery
-import jp.inaba.message.product.query.SearchProductResult
+import jp.inaba.message.product.query.SearchProductsQuery
+import jp.inaba.message.product.query.SearchProductsResult
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
@@ -40,7 +40,7 @@ LIMIT :offset, :pageSize
     }
 
     @QueryHandler
-    fun handle(query: SearchProductQuery): SearchProductResult {
+    fun handle(query: SearchProductsQuery): SearchProductsResult {
         val nativeQuery =
             entityManager.createNativeQuery(QUERY, SqlResult::class.java)
                 .setParameter("likeName", "%${query.likeProductName}%")
@@ -60,7 +60,7 @@ LIMIT :offset, :pageSize
     private fun convertToQueryResult(
         results: List<SqlResult>,
         pagingCondition: PagingCondition,
-    ): SearchProductResult {
+    ): SearchProductsResult {
         val totalCount =
             if (results.isNotEmpty()) {
                 results.first().totalCount
@@ -68,12 +68,12 @@ LIMIT :offset, :pageSize
                 0
             }
 
-        return SearchProductResult(
+        return SearchProductsResult(
             page =
                 Page(
                     items =
                         results.map {
-                            SearchProductResult.Summary(
+                            SearchProductsResult.Summary(
                                 id = it.id,
                                 name = it.name,
                                 imageUrl = it.imageUrl,

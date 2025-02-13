@@ -1,7 +1,7 @@
 package jp.inaba.service.domain.basket
 
 import jp.inaba.core.domain.basket.BasketId
-import jp.inaba.core.domain.common.DomainException
+import jp.inaba.core.domain.common.ValueObjectException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.assertThrows
 class BasketIdTest {
     @Test
     fun `不正な値でBasketId作成_例外`() {
-        assertThrows<DomainException> {
+        assertThrows<ValueObjectException> {
             BasketId("")
         }
     }

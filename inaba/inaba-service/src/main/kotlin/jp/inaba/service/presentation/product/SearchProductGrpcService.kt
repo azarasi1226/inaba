@@ -10,8 +10,8 @@ import jp.inaba.grpc.product.SearchProductGrpc
 import jp.inaba.grpc.product.SearchProductRequest
 import jp.inaba.grpc.product.SearchProductResponse
 import jp.inaba.grpc.product.Summary
-import jp.inaba.message.product.query.SearchProductQuery
-import jp.inaba.message.product.query.SearchProductResult
+import jp.inaba.message.product.query.SearchProductsQuery
+import jp.inaba.message.product.query.SearchProductsResult
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.extensions.kotlin.query
 import org.axonframework.queryhandling.QueryGateway
@@ -25,7 +25,7 @@ class SearchProductGrpcService(
         responseObserver: StreamObserver<SearchProductResponse>,
     ) {
         val query =
-            SearchProductQuery(
+            SearchProductsQuery(
                 likeProductName = request.name,
                 pagingCondition =
                     PagingCondition(
@@ -39,7 +39,7 @@ class SearchProductGrpcService(
                     ),
             )
 
-        val result = queryGateway.query<SearchProductResult, SearchProductQuery>(query).get()
+        val result = queryGateway.query<SearchProductsResult, SearchProductsQuery>(query).get()
 
         val response =
             SearchProductResponse.newBuilder()
