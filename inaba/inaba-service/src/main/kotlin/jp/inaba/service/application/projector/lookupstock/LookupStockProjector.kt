@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupstock
+package jp.inaba.service.application.projector.lookupstock
 
 import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.message.stock.event.StockDeletedEvent

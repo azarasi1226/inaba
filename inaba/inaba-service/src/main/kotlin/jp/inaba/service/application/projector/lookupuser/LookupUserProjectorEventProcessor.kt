@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupuser
+package jp.inaba.service.application.projector.lookupuser
 
 import org.axonframework.config.EventProcessingConfigurer
 import org.axonframework.eventhandling.PropagatingErrorHandler

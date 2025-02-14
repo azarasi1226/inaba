@@ -21,8 +21,8 @@ class FindBasketByIdController(
     @GetMapping("/api/baskets")
     @Operation(
         security = [
-            SecurityRequirement(name = "OIDC")
-        ]
+            SecurityRequirement(name = "OIDC"),
+        ],
     )
     fun handle(
         @RequestParam("pageSize")

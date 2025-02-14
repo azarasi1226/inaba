@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.order
+package jp.inaba.service.application.projector.order
 
 import jp.inaba.message.order.event.OrderCompletedEvent
 import jp.inaba.message.order.event.OrderFailedEvent

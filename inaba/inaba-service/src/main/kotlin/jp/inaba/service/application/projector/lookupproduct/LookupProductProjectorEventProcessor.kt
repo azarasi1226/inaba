@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupproduct
+package jp.inaba.service.application.projector.lookupproduct
 
 import org.axonframework.config.EventProcessingConfigurer
 import org.axonframework.eventhandling.PropagatingErrorHandler
@@ -13,8 +13,14 @@ class LookupProductProjectorEventProcessor {
 
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
-        epc.registerSubscribingEventProcessor(PROCESSOR_NAME)
+        epc.registerSubscribingEventProcessor(
+            jp.inaba.service.application.projector.lookupproduct.LookupProductProjectorEventProcessor.Companion.PROCESSOR_NAME,
+        )
             // LookupTableの書き込みに失敗した場合、Eventが発行されたこともなかったことにする。
-            .registerListenerInvocationErrorHandler(PROCESSOR_NAME) { PropagatingErrorHandler.INSTANCE }
+            .registerListenerInvocationErrorHandler(
+                jp.inaba.service.application.projector.lookupproduct.LookupProductProjectorEventProcessor.Companion.PROCESSOR_NAME,
+            ) {
+                PropagatingErrorHandler.INSTANCE
+            }
     }
 }

@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.user
+package jp.inaba.service.application.projector.order
 
 import org.axonframework.common.jpa.EntityManagerProvider
 import org.axonframework.common.transaction.TransactionManager
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class UserProjectorEventProcessor {
+class OrderProjectorEventProcessor {
     companion object {
-        const val PROCESSOR_NAME = "user-projector"
+        const val PROCESSOR_NAME = "order-projector"
         private const val PROCESSOR_COUNT = 2
     }
 

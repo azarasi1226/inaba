@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupbasket
+package jp.inaba.service.application.projector.lookupbasket
 
 import jp.inaba.message.basket.event.BasketCreatedEvent
 import jp.inaba.message.basket.event.BasketDeletedEvent

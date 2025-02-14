@@ -11,19 +11,22 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class OpenAPIConfiguration {
     @Bean
-    fun openApi(@Value("\${OIDC_ISSUER}") oidcIssuer: String): OpenAPI {
+    fun openApi(
+        @Value("\${OIDC_ISSUER}") oidcIssuer: String,
+    ): OpenAPI {
         return OpenAPI()
             .components(
                 Components()
-                    .addSecuritySchemes("OIDC", SecurityScheme()
-                        .type(SecurityScheme.Type.OPENIDCONNECT)
-                        .openIdConnectUrl("${oidcIssuer}/.well-known/openid-configuration")
-                    )
+                    .addSecuritySchemes(
+                        "OIDC",
+                        SecurityScheme()
+                            .type(SecurityScheme.Type.OPENIDCONNECT)
+                            .openIdConnectUrl("$oidcIssuer/.well-known/openid-configuration"),
+                    ),
             )
             .info(
                 Info().title("Inaba")
-                    .version("0.0.1")
+                    .version("0.0.1"),
             )
-
     }
 }

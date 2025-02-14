@@ -13,17 +13,16 @@ class SecurityConfiguration {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }
             .authorizeHttpRequests {
-            it
-                // 認証したいAPI
-                .requestMatchers("/api/baskets/**").authenticated()
-                // 上記以外はすべて認証を必要としない。
-                .anyRequest().permitAll()
-        }
+                it
+                    // 認証したいAPI
+                    .requestMatchers("/api/baskets/**").authenticated()
+                    // 上記以外はすべて認証を必要としない。
+                    .anyRequest().permitAll()
+            }
             .oauth2ResourceServer {
                 // JWTをトークンの方式とする
                 it.jwt { }
             }
-
 
         return http.build()
     }

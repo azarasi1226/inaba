@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.product
+package jp.inaba.service.application.projector.product
 
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
@@ -22,7 +22,10 @@ class ProductProjector(
     private val repository: ProductJpaRepository,
 ) {
     @EventHandler
-    fun on(event: ProductCreatedEvent, @Timestamp timestamp: Instant) {
+    fun on(
+        event: ProductCreatedEvent,
+        @Timestamp timestamp: Instant,
+    ) {
         val entity =
             ProductJpaEntity(
                 id = event.id,
@@ -31,7 +34,7 @@ class ProductProjector(
                 imageUrl = event.imageUrl,
                 price = event.price,
                 createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo"))
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
 
         repository.save(entity)
@@ -71,7 +74,10 @@ class ProductProjector(
     }
 
     @EventHandler
-    fun on(event: ProductUpdatedEvent, @Timestamp timestamp: Instant) {
+    fun on(
+        event: ProductUpdatedEvent,
+        @Timestamp timestamp: Instant,
+    ) {
         val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity =
             entity.copy(
@@ -79,7 +85,7 @@ class ProductProjector(
                 description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo"))
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
 
         repository.save(updatedEntity)

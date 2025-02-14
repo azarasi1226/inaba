@@ -20,8 +20,8 @@ class DeleteBasketItemController(
     @DeleteMapping("/api/baskets/items/{productId}")
     @Operation(
         security = [
-            SecurityRequirement(name = "OIDC")
-        ]
+            SecurityRequirement(name = "OIDC"),
+        ],
     )
     fun handle(
         @PathVariable("productId")

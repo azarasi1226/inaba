@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.basket
+package jp.inaba.service.application.projector.basket
 
 import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemDeletedEvent

@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupuser
+package jp.inaba.service.application.projector.lookupuser
 
 import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.message.user.event.UserDeletedEvent

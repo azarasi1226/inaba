@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.usermetadata
+package jp.inaba.service.application.projector.usermetadata
 
 import jp.inaba.message.basket.event.BasketCreatedEvent
 import jp.inaba.message.user.event.UserCreatedEvent
@@ -9,7 +9,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-@ProcessingGroup(UserMetadataProjectorEventProcessor.PROCESSOR_NAME)
+@ProcessingGroup(jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.PROCESSOR_NAME)
 class UserMetadataProjector(
     private val repository: UserMetadataJpaRepository,
 ) {

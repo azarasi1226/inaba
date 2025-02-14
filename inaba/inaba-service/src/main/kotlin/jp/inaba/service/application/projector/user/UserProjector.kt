@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.user
+package jp.inaba.service.application.projector.user
 
 import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.service.infrastructure.jpa.user.UserJpaEntity
@@ -17,7 +17,10 @@ class UserProjector(
     private val repository: UserJpaRepository,
 ) {
     @EventHandler
-    fun on(event: UserCreatedEvent, @Timestamp timestamp: Instant) {
+    fun on(
+        event: UserCreatedEvent,
+        @Timestamp timestamp: Instant,
+    ) {
         val entity =
             UserJpaEntity(
                 id = event.id,

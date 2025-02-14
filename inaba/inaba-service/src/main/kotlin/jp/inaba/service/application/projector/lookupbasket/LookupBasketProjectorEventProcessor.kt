@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.lookupbasket
+package jp.inaba.service.application.projector.lookupbasket
 
 import org.axonframework.config.EventProcessingConfigurer
 import org.axonframework.eventhandling.PropagatingErrorHandler

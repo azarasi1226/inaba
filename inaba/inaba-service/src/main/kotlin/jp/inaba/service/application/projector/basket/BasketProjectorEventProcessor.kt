@@ -1,4 +1,4 @@
-package jp.inaba.service.infrastructure.projector.usermetadata
+package jp.inaba.service.application.projector.basket
 
 import org.axonframework.common.jpa.EntityManagerProvider
 import org.axonframework.common.transaction.TransactionManager
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class UserMetadataProjectorEventProcessor {
+class BasketProjectorEventProcessor {
     companion object {
-        const val PROCESSOR_NAME = "user-metadata-projector"
+        const val PROCESSOR_NAME = "basket-projector"
         private const val PROCESSOR_COUNT = 2
     }
 
