@@ -27,7 +27,6 @@ class SetBasketItemController(
         request: SetBasketItemHttpRequest,
     ) {
         val basketId = authenticatedUserService.getUserMetadata().basketId
-
         val grpcRequest = request.toGrpcRequest(basketId)
 
         grpcService.handle(grpcRequest)

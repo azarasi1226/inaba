@@ -31,7 +31,6 @@ class FindBasketByIdController(
         pageNumber: Int,
     ): FindBasketByIdHttpResponse {
         val basketId = authenticatedUserService.getUserMetadata().basketId
-
         val grpcRequest =
             FindBasketByIdRequest.newBuilder()
                 .setPagingCondition(

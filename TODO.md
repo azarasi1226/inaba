@@ -17,6 +17,7 @@
 * findをgetに
 ### 修正したい
 * JPAのEntityのID値オブジェクトにしたんだけどできないのかな？
+* LookupTableのdelete処理消しちゃダメじゃね？ IDがイベントストアに残り続けてるのでは。
 
 # memo
 ## リトライ条件
