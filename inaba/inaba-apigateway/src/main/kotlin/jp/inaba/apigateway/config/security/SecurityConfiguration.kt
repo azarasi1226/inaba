@@ -11,7 +11,8 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.authorizeHttpRequests {
+        http.csrf { it.disable() }
+            .authorizeHttpRequests {
             it
                 // 認証したいAPI
                 .requestMatchers("/api/baskets/**").authenticated()

@@ -2,6 +2,7 @@ package jp.inaba.apigateway.basket.deletebasketitem
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import jp.inaba.apigateway.AuthenticatedUserService
 import jp.inaba.apigateway.basket.BasketController
 import jp.inaba.grpc.basket.DeleteBasketItemGrpc
 import jp.inaba.grpc.basket.DeleteBasketItemRequest
@@ -14,22 +15,23 @@ import org.springframework.web.bind.annotation.RestController
 class DeleteBasketItemController(
     @GrpcClient("global")
     private val grpcService: DeleteBasketItemGrpc.DeleteBasketItemBlockingStub,
+    private val authenticatedUserService: AuthenticatedUserService,
 ) : BasketController {
-    @DeleteMapping("/api/baskets/{id}/items/{productId}")
+    @DeleteMapping("/api/baskets/items/{productId}")
     @Operation(
         security = [
             SecurityRequirement(name = "OIDC")
         ]
     )
     fun handle(
-        @PathVariable("id")
-        id: String,
         @PathVariable("productId")
         productId: String,
     ) {
+        val basketId = authenticatedUserService.getUserMetadata().basketId
+
         val grpcRequest =
             DeleteBasketItemRequest.newBuilder()
-                .setId(id)
+                .setId(basketId)
                 .setProductId(productId)
                 .build()
 
