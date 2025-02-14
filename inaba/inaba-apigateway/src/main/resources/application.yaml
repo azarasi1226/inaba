@@ -5,9 +5,12 @@ spring:
       local:
         - app-common
         - app-local
+        - security-oidc
       test:
         - app-common
         - app-test
+        - security-oidc
       prod:
         - app-common
         - app-prod
+        - security-oidc
