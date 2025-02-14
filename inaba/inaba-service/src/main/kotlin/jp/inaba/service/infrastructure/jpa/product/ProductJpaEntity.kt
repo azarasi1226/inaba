@@ -3,6 +3,7 @@ package jp.inaba.service.infrastructure.jpa.product
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "product")
@@ -15,4 +16,6 @@ data class ProductJpaEntity(
     val imageUrl: String? = null,
     val price: Int = 0,
     val quantity: Int = 0,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
 )

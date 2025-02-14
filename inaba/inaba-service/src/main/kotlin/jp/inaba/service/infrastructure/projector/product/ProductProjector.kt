@@ -10,7 +10,11 @@ import jp.inaba.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.Timestamp
 import org.springframework.stereotype.Component
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
@@ -18,7 +22,7 @@ class ProductProjector(
     private val repository: ProductJpaRepository,
 ) {
     @EventHandler
-    fun on(event: ProductCreatedEvent) {
+    fun on(event: ProductCreatedEvent, @Timestamp timestamp: Instant) {
         val entity =
             ProductJpaEntity(
                 id = event.id,
@@ -26,6 +30,8 @@ class ProductProjector(
                 description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
+                createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo"))
             )
 
         repository.save(entity)
@@ -65,7 +71,7 @@ class ProductProjector(
     }
 
     @EventHandler
-    fun on(event: ProductUpdatedEvent) {
+    fun on(event: ProductUpdatedEvent, @Timestamp timestamp: Instant) {
         val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity =
             entity.copy(
@@ -73,6 +79,7 @@ class ProductProjector(
                 description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo"))
             )
 
         repository.save(updatedEntity)
