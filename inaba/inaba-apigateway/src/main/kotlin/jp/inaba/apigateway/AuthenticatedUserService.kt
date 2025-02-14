@@ -51,6 +51,7 @@ class AuthenticatedUserService(
                     .setSubject(sub)
                     .build()
                 crateUserGrpcService.handle(createUserGrpcRequest)
+                // ユーザー作成は非同期的なので、早く問い合わせてもない場合がある！！！！
                 Thread.sleep(100)
                 val grpcResponse = grpcService.handle(grpcRequest)
 
