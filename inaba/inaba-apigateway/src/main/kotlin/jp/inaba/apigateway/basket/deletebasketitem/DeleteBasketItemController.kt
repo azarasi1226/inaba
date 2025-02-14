@@ -18,7 +18,7 @@ class DeleteBasketItemController(
     @DeleteMapping("/api/baskets/{id}/items/{productId}")
     @Operation(
         security = [
-            SecurityRequirement(name = "openid")
+            SecurityRequirement(name = "OIDC")
         ]
     )
     fun handle(

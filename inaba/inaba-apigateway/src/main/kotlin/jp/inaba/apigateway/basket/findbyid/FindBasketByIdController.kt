@@ -20,7 +20,7 @@ class FindBasketByIdController(
     @GetMapping("/api/baskets/{id}")
     @Operation(
         security = [
-            SecurityRequirement(name = "openid")
+            SecurityRequirement(name = "OIDC")
         ]
     )
     fun handle(

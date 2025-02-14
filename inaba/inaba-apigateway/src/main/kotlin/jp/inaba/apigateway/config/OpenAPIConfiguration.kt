@@ -14,9 +14,10 @@ class OpenAPIConfiguration {
         return OpenAPI()
             .components(
                 Components()
-                    .addSecuritySchemes("openid", SecurityScheme()
+                    .addSecuritySchemes("OIDC", SecurityScheme()
                         .type(SecurityScheme.Type.OPENIDCONNECT)
-                        .openIdConnectUrl("")
+                        //TODO(環境変数から)
+                        .openIdConnectUrl("https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_rXbtLxdoU/.well-known/openid-configuration")
                     )
             )
             .info(

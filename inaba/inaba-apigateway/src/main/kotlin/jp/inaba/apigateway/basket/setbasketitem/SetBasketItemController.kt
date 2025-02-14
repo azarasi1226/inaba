@@ -18,7 +18,7 @@ class SetBasketItemController(
     @PostMapping("/api/baskets/{id}")
     @Operation(
         security = [
-            SecurityRequirement(name = "openid")
+            SecurityRequirement(name = "OIDCC")
         ]
     )
     fun handle(
