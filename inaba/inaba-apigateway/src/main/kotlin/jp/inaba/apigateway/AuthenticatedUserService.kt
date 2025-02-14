@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 
 
 //TODO("適当すぎるし、ダメダメなので後でちゃんと書こう")
+//毎回UserMetadata問い合わせるのやばいからRedisとかでキャッシュするようにしようね。
 @Service
 class AuthenticatedUserService(
     @GrpcClient("global")
