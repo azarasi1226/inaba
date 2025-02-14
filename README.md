@@ -17,20 +17,11 @@ docker compose up -d
 <br>
 
 ### 2. Cognitoの初期セットアップ
-シェルスクリプトを叩いてDockerで構築したCognitoに対してUserPoolとUserPoolClientを作成します。
-```bash
-./cognito-setup.sh
-```
+※ OIDCをサポートするIDプロバイダーだったらぶっちゃけCognitoじゃなくてもOK
 
->CognitoUserPoolを作成します...  
-CognitoUserPoolId:[local_2nKkO2sg]を作成しました  
-CognitoUserPoolClientを作成します...  
-CognitoUserPoolClientId:[d14m44wivtx2lvonzzz7n8f4t]を作成しました  
+すんません...時間なくてLocalで構築できなかった..
+Cognitoで適当にアプリケーションクライアントつくってください....
 
-* CognitoUserPoolId *(例 : local_2nKk02sg)*
-* CognitoUserPoolClientId *(例 : d14m44wivtx2lvonzzz7n8f4t)*
-
-上記二つのIDは後で使うからどこかに保存するべし！
 <br>
 
 ### 3. AxonServerの起動
@@ -81,6 +72,7 @@ AWS_COGNITO_CLIENT-ID={さっきコピーした奴};
 SPRING_PROFILES_ACTIVE=local;
 SERVER_PORT=8082;
 BACKEND_SERVER=dns:///localhost:8091;
+OIDC_ISSUER={自分で作ったOIDCのISSUER_URL};
 ```
 
 <br>

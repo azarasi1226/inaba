@@ -3,5 +3,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          #TODO(環境変数に)
-          issuer-uri: https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_rXbtLxdoU
+          issuer-uri: ${OIDC_ISSUER}
