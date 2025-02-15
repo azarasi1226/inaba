@@ -22,6 +22,7 @@ class ProductAggregate() {
         val event =
             ProductCreatedEvent(
                 id = command.id.value,
+                brandId = command.brandId.value,
                 name = command.name.value,
                 description = command.description.value,
                 imageUrl = command.imageUrl?.value,

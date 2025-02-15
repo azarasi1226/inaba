@@ -7,4 +7,5 @@ enum class CreateProductError(
     override val errorMessage: String,
 ) : UseCaseError {
     PRODUCT_ALREADY_EXISTS("1", "同じIDで商品が存在しています"),
+    BRAND_NOT_FOUND("2", "ブランドが存在しません")
 }

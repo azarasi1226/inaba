@@ -19,10 +19,14 @@ class CreateProductInteractor(
         if (verifier.isProductExists(command.id)) {
             throw UseCaseException(CreateProductError.PRODUCT_ALREADY_EXISTS)
         }
+        if(verifier.isBrandNotFound(command.brandId)) {
+            throw UseCaseException(CreateProductError.BRAND_NOT_FOUND)
+        }
 
         val internalCommand =
             InternalCreateProductCommand(
                 id = command.id,
+                brandId = command.brandId,
                 name = command.name,
                 description = command.description,
                 imageUrl = command.imageUrl,

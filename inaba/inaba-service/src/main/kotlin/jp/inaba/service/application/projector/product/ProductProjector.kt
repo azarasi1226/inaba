@@ -29,6 +29,7 @@ class ProductProjector(
         val entity =
             ProductJpaEntity(
                 id = event.id,
+                brandId = event.brandId,
                 name = event.name,
                 description = event.description,
                 imageUrl = event.imageUrl,

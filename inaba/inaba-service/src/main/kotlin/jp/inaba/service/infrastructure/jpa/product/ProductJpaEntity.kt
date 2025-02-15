@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 data class ProductJpaEntity(
     @Id
     val id: String = "",
+    val brandId: String = "",
     val stockId: String? = null,
     val name: String = "",
     val description: String = "",

@@ -2,6 +2,7 @@ package jp.inaba.service.presentation.product
 
 import com.google.protobuf.Empty
 import io.grpc.stub.StreamObserver
+import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.core.domain.product.ProductDescription
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.product.ProductImageURL
@@ -24,6 +25,7 @@ class CreateProductGrpcService(
         val command =
             CreateProductCommand(
                 id = ProductId(request.id),
+                brandId = BrandId(request.brandId),
                 name = ProductName(request.name),
                 description = ProductDescription(request.description),
                 imageUrl = ProductImageURL(request.imageUrl),
