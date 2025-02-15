@@ -15,11 +15,12 @@ class BrandAggregate() {
     private lateinit var id: BrandId
 
     @CommandHandler
-    constructor(command: InternalCreateBrandCommand): this() {
-        val event = BrandCreatedEvent(
-            id = command.id.value,
-            name = command.name.value
-        )
+    constructor(command: InternalCreateBrandCommand) : this() {
+        val event =
+            BrandCreatedEvent(
+                id = command.id.value,
+                name = command.name.value,
+            )
 
         AggregateLifecycle.apply(event)
     }

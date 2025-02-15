@@ -6,5 +6,5 @@ import jp.inaba.message.brand.command.BrandAggregateCommand
 
 data class InternalCreateBrandCommand(
     override val id: BrandId,
-    val name: BrandName
+    val name: BrandName,
 ) : BrandAggregateCommand

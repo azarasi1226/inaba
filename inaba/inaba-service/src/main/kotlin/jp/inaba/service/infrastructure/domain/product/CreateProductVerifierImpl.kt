@@ -11,21 +11,22 @@ import org.springframework.stereotype.Service
 @Service
 class CreateProductVerifierImpl(
     private val repository: LookupProductJpaRepository,
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : CreateProductVerifier {
     override fun isProductExists(productId: ProductId): Boolean {
         return repository.existsById(productId.value)
     }
 
     override fun isBrandNotFound(brandId: BrandId): Boolean {
-        val command = VerifyBrandExistenceCommand(
-            id = brandId
-        )
+        val command =
+            VerifyBrandExistenceCommand(
+                id = brandId,
+            )
 
         return try {
             commandGateway.sendAndWait<Any>(command)
             false
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             true
         }
     }

@@ -12,13 +12,16 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
 class CreateBrandGrpcService(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : CreateBrandGrpc.CreateBrandImplBase() {
-    override fun handle(request: CreateBrandRequest, responseObserver: StreamObserver<Empty>) {
+    override fun handle(
+        request: CreateBrandRequest,
+        responseObserver: StreamObserver<Empty>,
+    ) {
         val command =
             CreateBrandCommand(
                 id = BrandId(request.id),
-                name = BrandName(request.name)
+                name = BrandName(request.name),
             )
 
         commandGateway.sendAndWait<Any>(command)

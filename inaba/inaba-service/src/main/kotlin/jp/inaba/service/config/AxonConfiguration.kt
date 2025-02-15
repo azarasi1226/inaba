@@ -33,6 +33,13 @@ class AxonConfiguration {
 
     @Bean
     fun commandGateway(commandBus: CommandBus): CommandGateway {
+        return DefaultCommandGateway.builder()
+            .commandBus(commandBus)
+            .build()
+    }
+
+    @Bean(name = ["exponentialBackoff"])
+    fun exponentialBackOffCommandGateway(commandBus: CommandBus): CommandGateway {
         val scheduledExecutorService = Executors.newScheduledThreadPool(5)
         val retryScheduler: RetryScheduler =
             ExponentialBackOffIntervalRetryScheduler

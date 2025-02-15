@@ -15,7 +15,7 @@ import java.time.ZoneId
 @Component
 @ProcessingGroup(BrandProjectorEventProcessor.PROCESSOR_NAME)
 class BrandProjector(
-    private val repository: BrandJpaRepository
+    private val repository: BrandJpaRepository,
 ) {
     @ResetHandler
     fun on() {
@@ -23,13 +23,17 @@ class BrandProjector(
     }
 
     @EventHandler
-    fun on(event: BrandCreatedEvent, @Timestamp timestamp: Instant) {
-        val entity = BrandJpaEntity(
-            id = event.id,
-            name = event.name,
-            createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-            updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-        )
+    fun on(
+        event: BrandCreatedEvent,
+        @Timestamp timestamp: Instant,
+    ) {
+        val entity =
+            BrandJpaEntity(
+                id = event.id,
+                name = event.name,
+                createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+            )
 
         repository.save(entity)
     }

@@ -16,14 +16,15 @@ class CreateBrandInteractor(
 ) {
     @CommandHandler
     fun handle(command: CreateBrandCommand) {
-        if(verifier.isBrandExits(command.id)) {
+        if (verifier.isBrandExits(command.id)) {
             throw UseCaseException(CreateBrandError.BRAND_ALREADY_EXISTS)
         }
 
-        val internalCommand = InternalCreateBrandCommand(
-            id = command.id,
-            name = command.name
-        )
+        val internalCommand =
+            InternalCreateBrandCommand(
+                id = command.id,
+                name = command.name,
+            )
 
         commandGateway.sendAndWait<Any>(internalCommand)
     }

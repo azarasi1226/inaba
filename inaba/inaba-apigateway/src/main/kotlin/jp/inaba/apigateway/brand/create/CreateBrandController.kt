@@ -15,7 +15,7 @@ class CreateBrandController(
     @PostMapping("/api/brands")
     fun handle(
         @RequestBody
-        request: CreateBrandHttpRequest
+        request: CreateBrandHttpRequest,
     ) {
         val grpcRequest = request.toGrpcRequest()
 

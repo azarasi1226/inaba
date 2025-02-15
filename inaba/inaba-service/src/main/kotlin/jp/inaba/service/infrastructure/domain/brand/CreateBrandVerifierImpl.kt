@@ -8,17 +8,18 @@ import org.springframework.stereotype.Service
 
 @Service
 class CreateBrandVerifierImpl(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
 ) : CreateBrandVerifier {
     override fun isBrandExits(brandId: BrandId): Boolean {
-        val command = VerifyBrandExistenceCommand(
-            id = brandId
-        )
+        val command =
+            VerifyBrandExistenceCommand(
+                id = brandId,
+            )
 
         return try {
             commandGateway.sendAndWait<Any>(command)
             true
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             false
         }
     }

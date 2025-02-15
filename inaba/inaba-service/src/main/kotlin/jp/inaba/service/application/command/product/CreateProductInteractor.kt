@@ -19,7 +19,7 @@ class CreateProductInteractor(
         if (verifier.isProductExists(command.id)) {
             throw UseCaseException(CreateProductError.PRODUCT_ALREADY_EXISTS)
         }
-        if(verifier.isBrandNotFound(command.brandId)) {
+        if (verifier.isBrandNotFound(command.brandId)) {
             throw UseCaseException(CreateProductError.BRAND_NOT_FOUND)
         }
 

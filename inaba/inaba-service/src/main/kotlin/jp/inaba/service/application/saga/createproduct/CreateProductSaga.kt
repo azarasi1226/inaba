@@ -20,6 +20,7 @@ import org.axonframework.modelling.saga.SagaEventHandler
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.spring.stereotype.Saga
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 
 private val logger = KotlinLogging.logger {}
 
@@ -28,6 +29,7 @@ private val logger = KotlinLogging.logger {}
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class CreateProductSaga : SagaBase() {
     @Autowired
+    @Qualifier("exponentialBackoff")
     @JsonIgnore
     private lateinit var commandGateway: CommandGateway
 

@@ -9,8 +9,8 @@ data class BrandName(val value: String) {
     }
 
     init {
-        if(value.length !in MIN.. MAX) {
-            throw ValueObjectException("ブランド名の長さは[${MIN} ~ ${MAX}]の間です。value:[$value]")
+        if (value.length !in MIN..MAX) {
+            throw ValueObjectException("ブランド名の長さは[$MIN ~ $MAX]の間です。value:[$value]")
         }
     }
 }
