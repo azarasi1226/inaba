@@ -12,7 +12,7 @@ data class FindBasketByIdHttpResponse(
         val productName: String,
         val productPrice: Int,
         val productImageUrl: String,
-        val productQuantity: Int,
+        val basketItemQuantity: Int,
     )
 
     companion object {
@@ -27,7 +27,7 @@ data class FindBasketByIdHttpResponse(
                                     productName = it.productName,
                                     productPrice = it.productPrice,
                                     productImageUrl = it.productImageUrl,
-                                    productQuantity = it.productQuantity,
+                                    basketItemQuantity = it.basketItemQuantity,
                                 )
                             },
                         paging =

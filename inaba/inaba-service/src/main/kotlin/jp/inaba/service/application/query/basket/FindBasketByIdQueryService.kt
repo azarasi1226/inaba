@@ -75,7 +75,7 @@ LIMIT :offset, :pageSize
                                 productName = it.productName,
                                 productPrice = it.productPrice,
                                 productImageUrl = it.productPictureUrl,
-                                productQuantity = it.quantity,
+                                basketItemQuantity = it.quantity,
                             )
                         },
                     paging =

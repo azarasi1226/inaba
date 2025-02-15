@@ -50,7 +50,7 @@ class FindBasketByIdGrpcService(
                             .setProductName(it.productName)
                             .setProductPrice(it.productPrice)
                             .setProductImageUrl(it.productImageUrl)
-                            .setProductQuantity(it.productQuantity)
+                            .setBasketItemQuantity(it.basketItemQuantity)
                             .build()
                     },
                 )

@@ -17,6 +17,6 @@ data class FindBasketByIdResult(
         val productName: String,
         val productPrice: Int,
         val productImageUrl: String,
-        val productQuantity: Int,
+        val basketItemQuantity: Int,
     )
 }
