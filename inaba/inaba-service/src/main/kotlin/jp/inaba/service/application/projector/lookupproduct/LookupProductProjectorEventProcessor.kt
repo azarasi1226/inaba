@@ -14,11 +14,11 @@ class LookupProductProjectorEventProcessor {
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
         epc.registerSubscribingEventProcessor(
-            jp.inaba.service.application.projector.lookupproduct.LookupProductProjectorEventProcessor.Companion.PROCESSOR_NAME,
+            PROCESSOR_NAME,
         )
             // LookupTableの書き込みに失敗した場合、Eventが発行されたこともなかったことにする。
             .registerListenerInvocationErrorHandler(
-                jp.inaba.service.application.projector.lookupproduct.LookupProductProjectorEventProcessor.Companion.PROCESSOR_NAME,
+                PROCESSOR_NAME,
             ) {
                 PropagatingErrorHandler.INSTANCE
             }

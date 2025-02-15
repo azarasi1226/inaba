@@ -19,19 +19,19 @@ class UserMetadataProjectorEventProcessor {
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
         epc.registerTrackingEventProcessorConfiguration(
-            jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.Companion.PROCESSOR_NAME,
+            PROCESSOR_NAME,
         ) {
             TrackingEventProcessorConfiguration
                 .forParallelProcessing(
-                    jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.Companion.PROCESSOR_COUNT,
+                    PROCESSOR_COUNT,
                 )
         }
             .registerDeadLetterQueue(
-                jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.Companion.PROCESSOR_NAME,
+                PROCESSOR_NAME,
             ) {
                 JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()
                     .processingGroup(
-                        jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.Companion.PROCESSOR_NAME,
+                        PROCESSOR_NAME,
                     )
                     .entityManagerProvider(it.getComponent(EntityManagerProvider::class.java))
                     .transactionManager(it.getComponent((TransactionManager::class.java)))
