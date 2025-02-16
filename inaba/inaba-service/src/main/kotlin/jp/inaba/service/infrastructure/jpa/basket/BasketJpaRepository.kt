@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BasketJpaRepository : JpaRepository<BasketJpaEntity, BasketItemId> {
-    fun deleteByBasketItemId_BasketId(basketId: String)
+    fun deleteByBasketItemIdBasketId(basketId: String)
 
-    fun deleteByBasketItemId_ProductId(productId: String)
+    fun deleteByBasketItemIdProductId(productId: String)
 
     @Modifying
     @Transactional

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(StockProjectorEventProcessor.PROCESSOR_NAME)
 class StockProjector(
-    private val repository: StockJpaRepository
+    private val repository: StockJpaRepository,
 ) {
     @ResetHandler
     fun reset() {

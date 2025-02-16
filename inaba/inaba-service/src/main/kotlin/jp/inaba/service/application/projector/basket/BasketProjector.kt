@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
 class BasketProjector(
-    private val repository: BasketJpaRepository
+    private val repository: BasketJpaRepository,
 ) {
     @ResetHandler
     fun reset() {
@@ -49,11 +49,11 @@ class BasketProjector(
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
-        repository.deleteByBasketItemId_BasketId(event.id)
+        repository.deleteByBasketItemIdBasketId(event.id)
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        repository.deleteByBasketItemId_ProductId(event.id)
+        repository.deleteByBasketItemIdProductId(event.id)
     }
 }

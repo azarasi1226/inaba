@@ -12,13 +12,14 @@ import org.springframework.stereotype.Component
 @Component
 class FindProductByIdQueryService(
     private val productJpaRepository: ProductJpaRepository,
-    private val stockJpaRepository: StockJpaRepository
+    private val stockJpaRepository: StockJpaRepository,
 ) {
     @QueryHandler
     fun handle(query: FindProductByIdQuery): FindProductByIdResult {
-        val productJpaEntity = productJpaRepository.findById(query.id.value).orElseThrow {
-            UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
-        }
+        val productJpaEntity =
+            productJpaRepository.findById(query.id.value).orElseThrow {
+                UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
+            }
         val stockJpaEntity = stockJpaRepository.findByProductId(query.id.value).orElseThrow()
 
         return FindProductByIdResult(
