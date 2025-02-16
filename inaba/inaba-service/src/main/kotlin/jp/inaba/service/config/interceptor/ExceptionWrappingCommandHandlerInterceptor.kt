@@ -41,7 +41,7 @@ class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<Com
             // CommandHandler → CommandHandler　→　呼び出し元
             // 集約のCommandHandler内で外部システムにアクセスしたくない場合などにこのパターンを通る。
             is CommandExecutionException -> {
-                if (e.isWrapUseCaseError()) {
+                if (!e.isWrapUseCaseError()) {
                     logger.warn { "CommandHandlerからの例外を受け取りましたが、Detailsが取得できませんでした。" }
                     throw e
                 }
