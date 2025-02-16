@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class CreateBasketVerifierImpl(
     private val lookupUserJpaRepository: LookupUserJpaRepository,
     private val lookupBasketRepository: LookupBasketJpaRepository,
-    private val eventStore: EventStore
+    private val eventStore: EventStore,
 ) : CreateBasketVerifier {
     override fun isBasketExits(basketId: BasketId): Boolean {
         return eventStore.lastSequenceNumberFor(basketId.value).isPresent

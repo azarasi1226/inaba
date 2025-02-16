@@ -5,5 +5,4 @@ import org.springframework.context.annotation.Profile
 
 @Configuration
 @Profile("local", "local-with-axoniq")
-class LocalConfiguration {
-}
+class LocalConfiguration

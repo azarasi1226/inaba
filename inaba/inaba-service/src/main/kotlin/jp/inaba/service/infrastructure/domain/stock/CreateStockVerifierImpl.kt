@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class CreateStockVerifierImpl(
     private val lookupProductJpaRepository: LookupProductJpaRepository,
     private val lookupStockJpaRepository: LookupStockJpaRepository,
-    private val eventStore: EventStore
+    private val eventStore: EventStore,
 ) : CreateStockVerifier {
     override fun isStockExists(stockId: StockId): Boolean {
         return eventStore.lastSequenceNumberFor(stockId.value).isPresent
