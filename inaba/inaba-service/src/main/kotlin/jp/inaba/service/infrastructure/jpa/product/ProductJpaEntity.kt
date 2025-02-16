@@ -11,12 +11,10 @@ data class ProductJpaEntity(
     @Id
     val id: String = "",
     val brandId: String = "",
-    val stockId: String? = null,
     val name: String = "",
     val description: String = "",
     val imageUrl: String? = null,
     val price: Int = 0,
-    val quantity: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 )

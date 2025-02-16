@@ -7,13 +7,19 @@ import jp.inaba.service.infrastructure.jpa.stock.StockJpaEntity
 import jp.inaba.service.infrastructure.jpa.stock.StockJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
 @ProcessingGroup(StockProjectorEventProcessor.PROCESSOR_NAME)
 class StockProjector(
-    private val stockJpaRepository: StockJpaRepository
+    private val repository: StockJpaRepository
 ) {
+    @ResetHandler
+    fun reset() {
+        repository.deleteAllInBatch()
+    }
+
     @EventHandler
     fun on(event: StockCreatedEvent) {
         val entity =
@@ -23,24 +29,22 @@ class StockProjector(
                 quantity = 0,
             )
 
-        stockJpaRepository.save(entity)
+        repository.save(entity)
     }
 
     @EventHandler
     fun on(event: StockIncreasedEvent) {
-        val entity = stockJpaRepository.findById(event.id).orElseThrow()
-
+        val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity = entity.copy(quantity = event.increasedStockQuantity)
 
-        stockJpaRepository.save(updatedEntity)
+        repository.save(updatedEntity)
     }
 
     @EventHandler
     fun on(event: StockDecreasedEvent) {
-        val entity = stockJpaRepository.findById(event.id).orElseThrow()
-
+        val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity = entity.copy(quantity = event.decreasedStockQuantity)
 
-        stockJpaRepository.save(updatedEntity)
+        repository.save(updatedEntity)
     }
 }

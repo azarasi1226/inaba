@@ -5,6 +5,7 @@ import jp.inaba.service.infrastructure.jpa.user.UserJpaEntity
 import jp.inaba.service.infrastructure.jpa.user.UserJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.axonframework.eventhandling.Timestamp
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -16,6 +17,11 @@ import java.time.ZoneId
 class UserProjector(
     private val repository: UserJpaRepository,
 ) {
+    @ResetHandler
+    fun reset() {
+        repository.deleteAllInBatch()
+    }
+
     @EventHandler
     fun on(
         event: UserCreatedEvent,
@@ -24,7 +30,7 @@ class UserProjector(
         val entity =
             UserJpaEntity(
                 id = event.id,
-                userName = "ふｌえええつよい",
+                userName = "アザラシゴンザレス",
                 createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
                 updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
