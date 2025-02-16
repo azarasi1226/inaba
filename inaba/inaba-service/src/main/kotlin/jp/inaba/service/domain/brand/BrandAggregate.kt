@@ -1,7 +1,6 @@
 package jp.inaba.service.domain.brand
 
 import jp.inaba.core.domain.brand.BrandId
-import jp.inaba.message.brand.command.VerifyBrandExistenceCommand
 import jp.inaba.message.brand.event.BrandCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -24,9 +23,6 @@ class BrandAggregate() {
 
         AggregateLifecycle.apply(event)
     }
-
-    @CommandHandler
-    fun handle(command: VerifyBrandExistenceCommand) { }
 
     @EventSourcingHandler
     fun on(event: BrandCreatedEvent) {
