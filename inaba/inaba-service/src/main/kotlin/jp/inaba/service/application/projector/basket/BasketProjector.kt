@@ -9,13 +9,19 @@ import jp.inaba.service.infrastructure.jpa.basket.BasketJpaEntity
 import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
 class BasketProjector(
-    private val basketJpaRepository: BasketJpaRepository
+    private val repository: BasketJpaRepository
 ) {
+    @ResetHandler
+    fun reset() {
+        repository.deleteAllInBatch()
+    }
+
     @EventHandler
     fun on(event: BasketItemSetEvent) {
         val id =
@@ -30,12 +36,12 @@ class BasketProjector(
                 itemQuantity = event.basketItemQuantity,
             )
 
-        basketJpaRepository.save(basketItemJpaEntity)
+        repository.save(basketItemJpaEntity)
     }
 
     @EventHandler
     fun on(event: BasketItemDeletedEvent) {
-        basketJpaRepository.deleteByBasketIdAndProductId(
+        repository.deleteByBasketIdAndProductId(
             basketId = event.id,
             productId = event.productId,
         )
@@ -43,11 +49,11 @@ class BasketProjector(
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
-        basketJpaRepository.deleteByBasketItemId_BasketId(event.id)
+        repository.deleteByBasketItemId_BasketId(event.id)
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        basketJpaRepository.deleteByBasketItemId_ProductId(event.id)
+        repository.deleteByBasketItemId_ProductId(event.id)
     }
 }

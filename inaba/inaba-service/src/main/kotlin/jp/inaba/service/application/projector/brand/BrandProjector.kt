@@ -18,7 +18,7 @@ class BrandProjector(
     private val repository: BrandJpaRepository,
 ) {
     @ResetHandler
-    fun on() {
+    fun reset() {
         repository.deleteAllInBatch()
     }
 
