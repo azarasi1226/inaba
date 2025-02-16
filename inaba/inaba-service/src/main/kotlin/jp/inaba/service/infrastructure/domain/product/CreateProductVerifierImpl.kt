@@ -4,17 +4,17 @@ import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.message.brand.command.VerifyBrandExistenceCommand
 import jp.inaba.service.domain.product.CreateProductVerifier
-import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaRepository
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.eventsourcing.eventstore.EventStore
 import org.springframework.stereotype.Service
 
 @Service
 class CreateProductVerifierImpl(
-    private val repository: LookupProductJpaRepository,
     private val commandGateway: CommandGateway,
+    private val eventStore: EventStore
 ) : CreateProductVerifier {
     override fun isProductExists(productId: ProductId): Boolean {
-        return repository.existsById(productId.value)
+        return eventStore.lastSequenceNumberFor(productId.value).isPresent
     }
 
     override fun isBrandNotFound(brandId: BrandId): Boolean {
