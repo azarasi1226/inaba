@@ -3,7 +3,6 @@ package jp.inaba.service.application.projector.stock
 import jp.inaba.message.stock.event.StockCreatedEvent
 import jp.inaba.message.stock.event.StockDecreasedEvent
 import jp.inaba.message.stock.event.StockIncreasedEvent
-import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
 import jp.inaba.service.infrastructure.jpa.stock.StockJpaEntity
 import jp.inaba.service.infrastructure.jpa.stock.StockJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -13,17 +12,14 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(StockProjectorEventProcessor.PROCESSOR_NAME)
 class StockProjector(
-    private val stockJpaRepository: StockJpaRepository,
-    private val productJpaRepository: ProductJpaRepository,
+    private val stockJpaRepository: StockJpaRepository
 ) {
     @EventHandler
     fun on(event: StockCreatedEvent) {
-        val product = productJpaRepository.findById(event.productId).orElseThrow()
-
         val entity =
             StockJpaEntity(
                 id = event.id,
-                product = product,
+                productId = event.productId,
                 quantity = 0,
             )
 
