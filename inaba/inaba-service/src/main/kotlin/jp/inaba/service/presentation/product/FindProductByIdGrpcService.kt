@@ -20,10 +20,7 @@ FindProductByIdGrpcService(
         request: FindProductByIdRequest,
         responseObserver: StreamObserver<FindProductByIdResponse>,
     ) {
-        val query =
-            FindProductByIdQuery(
-                id = ProductId(request.id),
-            )
+        val query = FindProductByIdQuery(ProductId(request.id))
 
         val result = queryGateway.query<FindProductByIdResult, FindProductByIdQuery>(query).get()
 

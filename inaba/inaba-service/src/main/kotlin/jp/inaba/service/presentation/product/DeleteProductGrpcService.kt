@@ -17,10 +17,7 @@ class DeleteProductGrpcService(
         request: DeleteProductRequest,
         responseObserver: StreamObserver<Empty>,
     ) {
-        val command =
-            DeleteProductCommand(
-                id = ProductId(request.id),
-            )
+        val command = DeleteProductCommand(ProductId(request.id))
 
         commandGateway.sendAndWait<Any>(command)
 
