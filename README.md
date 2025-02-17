@@ -24,12 +24,7 @@ Cognitoで適当にアプリケーションクライアントつくってくだ�
 
 <br>
 
-### 3. AxonServerの起動
-* [AxonServer Console](http://localhost:8024/)にアクセスして、defualt contextを手動で作成します。
-
-<br>
-
-### 4. サービス起動
+### 3. サービス起動
 以下の環境変数をセットし、`inaba-service`モジュールを起動します。
 
 #### 通常のローカル環境
@@ -61,7 +56,7 @@ SPRING_DATASOURCE_USERNAME=root;
 SPRING_PROFILES_ACTIVE=local-with-axoniq;
 ```
 
-### 5. APIGatewayの起動
+### 4. APIGatewayの起動
 以下の環境変数をセットし、`inaba-apigateway`モジュールを起動します。
 
 ```
