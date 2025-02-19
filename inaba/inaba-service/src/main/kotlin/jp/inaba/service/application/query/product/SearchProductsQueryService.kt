@@ -13,32 +13,28 @@ import org.springframework.stereotype.Component
 class SearchProductsQueryService(
     private val entityManager: EntityManager,
 ) {
-    companion object {
-        private val QUERY =
-"""
-SELECT
-    p.id AS ${SqlResult::id.name},
-    p.name AS ${SqlResult::name.name},
-    p.image_url AS ${SqlResult::imageUrl.name},
-    p.price AS ${SqlResult::price.name},
-    p.quantity AS ${SqlResult::quantity.name},
-    COUNT(*) OVER() AS ${SqlResult::totalCount.name}
-FROM product p
-WHERE p.name LIKE :likeName
-ORDER BY :sortProperty :sortDirection
-LIMIT :offset, :pageSize
-"""
-    }
-
     @QueryHandler
     fun handle(query: SearchProductsQuery): SearchProductsResult {
+    val query2 =
+                """
+                SELECT
+                    p.id AS ${SqlResult::id.name},
+                    p.name AS ${SqlResult::name.name},
+                    p.image_url AS ${SqlResult::imageUrl.name},
+                    p.price AS ${SqlResult::price.name},
+                    s.quantity AS ${SqlResult::quantity.name},
+                    COUNT(*) OVER() AS ${SqlResult::totalCount.name}
+                FROM product p INNER JOIN stock s
+                ON p.id = s.product_id
+                WHERE p.name LIKE :likeName
+                ORDER BY ${query.sortCondition.property.propertyName} ${query.sortCondition.direction.name}
+                LIMIT :offset, :pageSize
+                """
         val nativeQuery =
-            entityManager.createNativeQuery(QUERY, SqlResult::class.java)
+            entityManager.createNativeQuery(query2, SqlResult::class.java)
                 .setParameter("likeName", "%${query.likeProductName}%")
                 .setParameter("offset", query.pagingCondition.offset)
                 .setParameter("pageSize", query.pagingCondition.pageSize)
-                .setParameter("sortProperty", query.sortCondition.property.propertyName)
-                .setParameter("sortDirection", query.sortCondition.direction.name)
 
         val results = nativeQuery.resultList.filterIsInstance<SqlResult>()
 
