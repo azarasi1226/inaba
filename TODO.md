@@ -18,6 +18,7 @@
 ### 修正したい
 * JPAのEntityのID値オブジェクトにしたんだけどできないのかな？
 * LookupTableのdelete処理消しちゃダメじゃね？ IDがイベントストアに残り続けてるのでは。
+* Crete/UpdateProductControllerのpriceをIntにすると、なぜか落ちる。今はStringにしてる
 
 # memo
 ## リトライ条件
