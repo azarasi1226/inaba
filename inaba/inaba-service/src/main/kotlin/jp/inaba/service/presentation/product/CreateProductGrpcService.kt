@@ -28,7 +28,7 @@ class CreateProductGrpcService(
                 brandId = BrandId(request.brandId),
                 name = ProductName(request.name),
                 description = ProductDescription(request.description),
-                imageUrl = ProductImageURL(request.imageUrl),
+                imageUrl = if(request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
                 price = ProductPrice(request.price),
             )
 

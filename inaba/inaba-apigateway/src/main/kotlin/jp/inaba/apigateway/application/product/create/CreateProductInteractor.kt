@@ -28,8 +28,9 @@ class CreateProductInteractor(
             .setBrandId(input.brandId)
             .setName(input.name)
             .setDescription(input.description)
-            .setImageUrl(imageUrl)
+            .apply { if (imageUrl != null) setImageUrl(imageUrl) }
             .setPrice(input.price)
+
             .build()
 
 
