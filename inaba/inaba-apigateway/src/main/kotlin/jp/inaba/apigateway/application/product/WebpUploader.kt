@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 @Service
 class WebpUploader(
     private val s3Client: S3Client,
-    @Value("\${aws.s3.bucket}")
+    @Value("\${minio.bucket}")
     private val bucketName: String
 ) {
     fun handle(content: ByteArray): String {

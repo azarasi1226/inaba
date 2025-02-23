@@ -23,15 +23,16 @@ class UpdateProductController(
         description: String,
         @RequestPart("image", required = false)
         image: MultipartFile?,
+        // TODO(なぜかIntにするとデータ送信時に失敗する？？なぜ???)
         @RequestPart("price")
-        price: Int
+        price: String,
     ) {
         val input = UpdateProductInput(
             id = id,
             name = name,
             description = description,
             image = image,
-            price = price
+            price = price.toInt()
         )
 
         interactor.handle(input)

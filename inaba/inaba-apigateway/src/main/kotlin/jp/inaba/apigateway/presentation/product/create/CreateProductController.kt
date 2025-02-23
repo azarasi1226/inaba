@@ -25,8 +25,9 @@ class CreateProductController(
         description: String,
         @RequestPart("image", required = false)
         image: MultipartFile?,
+        // TODO(なぜかIntにするとデータ送信時に失敗する？？なぜ???)
         @RequestPart("price")
-        price: Int
+        price: String,
     ) {
         val input = CreateProductInput(
             id = id,
@@ -34,7 +35,7 @@ class CreateProductController(
             name = name,
             description = description,
             image = image,
-            price = price
+            price = price.toInt()
         )
 
         interactor.handle(input)

@@ -1,22 +1,20 @@
 services:
   # AxonServer
   axon-server:
-    image: axoniq/axonserver:latest
+    image: axoniq/axonserver:latest-jdk-17
     environment:
       # 初期設定(Context作成)をしなくてもよくなる
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
     healthcheck:
       test: curl -f http://localhost:8024/actuator/health || exit 1;
     volumes:
-      - axonserver-data:/axonserver/data
       - axonserver-events:/axonserver/events
-      - axonserver-log:/axonserver/log
     ports:
       - 8024:8024
       - 8124:8124
       - 8224:8224
 
-  # 本当だったらサービスごとにDB作るけど、今はまとめる。
+  # 共通DB
   common-datastore:
     image: mysql:latest
     environment:
@@ -26,8 +24,20 @@ services:
     ports:
       - 3306:3306
 
+  # S3互換のファイルストレージ
+  minio:
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: "server /data --console-address :9001"
+    volumes:
+      - minio-store:/data
+
 volumes:
-  axonserver-data:
   axonserver-events:
-  axonserver-log:
   mysql-store:
+  minio-store:
