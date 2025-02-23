@@ -15,9 +15,10 @@ class CreateProductInteractor(
     private val grpcService: CreateProductGrpc.CreateProductBlockingStub,
 ) {
     fun handle(input: CreateProductInput) {
-        val imageUrl = input.image
-            ?.let(webpConverter::handle)
-            ?.let(webpUploader::handle)
+        val imageUrl =
+            input.image
+                ?.let(webpConverter::handle)
+                ?.let(webpUploader::handle)
 
         val grpcRequest =
             CreateProductRequest.newBuilder()
