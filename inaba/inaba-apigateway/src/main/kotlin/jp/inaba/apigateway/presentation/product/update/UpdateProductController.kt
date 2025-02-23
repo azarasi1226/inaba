@@ -3,6 +3,7 @@ package jp.inaba.apigateway.presentation.product.update
 import jp.inaba.apigateway.application.product.update.UpdateProductInput
 import jp.inaba.apigateway.application.product.update.UpdateProductInteractor
 import jp.inaba.apigateway.presentation.product.ProductController
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestPart
@@ -13,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 class UpdateProductController(
     private val interactor: UpdateProductInteractor
 ) : ProductController {
-    @PutMapping("/api/products/{id}")
+    @PutMapping("/api/products/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun handle(
         @PathVariable("id")
         id: String,
