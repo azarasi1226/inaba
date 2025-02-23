@@ -19,6 +19,7 @@
 * JPAのEntityのID値オブジェクトにしたんだけどできないのかな？
 * LookupTableのdelete処理消しちゃダメじゃね？ IDがイベントストアに残り続けてるのでは。
 * Crete/UpdateProductControllerのpriceをIntにすると、なぜか落ちる。今はStringにしてる
+* 現在minioのバケットを作る。パブリックアクセスにするの処理を全部手動でやってる。何とかしたい。
 
 # memo
 ## リトライ条件
