@@ -12,27 +12,26 @@ class CreateProductInteractor(
     private val webpConverter: WebpConverter,
     private val webpUploader: WebpUploader,
     @GrpcClient("global")
-    private val grpcService: CreateProductGrpc.CreateProductBlockingStub
+    private val grpcService: CreateProductGrpc.CreateProductBlockingStub,
 ) {
     fun handle(input: CreateProductInput) {
-        val imageUrl = if(input.image != null) {
-            val webp = webpConverter.handle(input.image)
-            webpUploader.handle(webp)
-        }
-        else {
-            null
-        }
+        val imageUrl =
+            if (input.image != null) {
+                val webp = webpConverter.handle(input.image)
+                webpUploader.handle(webp)
+            } else {
+                null
+            }
 
-        val grpcRequest = CreateProductRequest.newBuilder()
-            .setId(input.id)
-            .setBrandId(input.brandId)
-            .setName(input.name)
-            .setDescription(input.description)
-            .apply { if (imageUrl != null) setImageUrl(imageUrl) }
-            .setPrice(input.price)
-
-            .build()
-
+        val grpcRequest =
+            CreateProductRequest.newBuilder()
+                .setId(input.id)
+                .setBrandId(input.brandId)
+                .setName(input.name)
+                .setDescription(input.description)
+                .apply { if (imageUrl != null) setImageUrl(imageUrl) }
+                .setPrice(input.price)
+                .build()
 
         grpcService.handle(grpcRequest)
     }

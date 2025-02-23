@@ -26,7 +26,7 @@ class UpdateProductGrpcService(
                 id = ProductId(request.id),
                 name = ProductName(request.name),
                 description = ProductDescription(request.description),
-                imageUrl = if(request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
+                imageUrl = if (request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
                 price = ProductPrice(request.price),
             )
 

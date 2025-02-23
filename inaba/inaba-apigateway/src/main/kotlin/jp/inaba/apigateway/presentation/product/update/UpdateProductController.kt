@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class UpdateProductController(
-    private val interactor: UpdateProductInteractor
+    private val interactor: UpdateProductInteractor,
 ) : ProductController {
     @PutMapping("/api/products/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun handle(
@@ -28,13 +28,14 @@ class UpdateProductController(
         @RequestPart("price")
         price: String,
     ) {
-        val input = UpdateProductInput(
-            id = id,
-            name = name,
-            description = description,
-            image = image,
-            price = price.toInt()
-        )
+        val input =
+            UpdateProductInput(
+                id = id,
+                name = name,
+                description = description,
+                image = image,
+                price = price.toInt(),
+            )
 
         interactor.handle(input)
     }

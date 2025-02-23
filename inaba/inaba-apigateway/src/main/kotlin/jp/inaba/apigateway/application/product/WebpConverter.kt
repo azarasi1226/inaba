@@ -10,7 +10,7 @@ import java.util.Locale
 @Service
 class WebpConverter {
     fun handle(imageFile: MultipartFile): ByteArray {
-        if(!canConvertToWebp(imageFile)) {
+        if (!canConvertToWebp(imageFile)) {
             throw Exception("変換不可能なファイルです。")
         }
 
@@ -28,20 +28,22 @@ class WebpConverter {
     private fun convertToWebp(file: MultipartFile): ByteArray {
         // バイト配列から Matオブジェクト(C++の画像変換処理のラッパーらしい)に変換する
         val bytePointer = BytePointer(*file.bytes)
-        val fromImageMat = opencv_imgcodecs.imdecode(
-            Mat(bytePointer),
-            opencv_imgcodecs.IMREAD_UNCHANGED
-        )
+        val fromImageMat =
+            opencv_imgcodecs.imdecode(
+                Mat(bytePointer),
+                opencv_imgcodecs.IMREAD_UNCHANGED,
+            )
 
         try {
             // C++ のラッパーなので、変換処理の成功可否はsuccess戻り値でやるらしい。
             val outputPointer = BytePointer()
-            val success = opencv_imgcodecs.imencode(
-                ".webp",
-                fromImageMat,
-                outputPointer
-            )
-            if(!success) {
+            val success =
+                opencv_imgcodecs.imencode(
+                    ".webp",
+                    fromImageMat,
+                    outputPointer,
+                )
+            if (!success) {
                 throw Exception("画像の変換に失敗しました。")
             }
 

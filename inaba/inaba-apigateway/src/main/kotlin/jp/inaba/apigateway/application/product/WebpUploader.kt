@@ -11,30 +11,35 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 class WebpUploader(
     private val s3Client: S3Client,
     @Value("\${minio.bucket}")
-    private val bucketName: String
+    private val bucketName: String,
 ) {
     fun handle(content: ByteArray): String {
         val key = ULID().nextULID()
-        val filename = "${key}.webp"
+        val filename = "$key.webp"
 
         uploadImage(filename, content)
 
         return getFileUrl(filename)
     }
 
-    private fun uploadImage(key: String, content: ByteArray) {
-        val putObjectRequest = PutObjectRequest.builder()
-            .bucket(bucketName)
-            .key(key)
-            .contentType("image/webp")
-            .build()
+    private fun uploadImage(
+        key: String,
+        content: ByteArray,
+    ) {
+        val putObjectRequest =
+            PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .contentType("image/webp")
+                .build()
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(content))
     }
 
     private fun getFileUrl(key: String): String {
-        val url = s3Client.utilities().getUrl {
-            it.bucket(bucketName).key(key)
-        }
+        val url =
+            s3Client.utilities().getUrl {
+                it.bucket(bucketName).key(key)
+            }
 
         return url.toString()
     }

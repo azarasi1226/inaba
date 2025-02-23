@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class CreateProductController(
-    private val interactor: CreateProductInteractor
+    private val interactor: CreateProductInteractor,
 ) : ProductController {
     @PostMapping("/api/products", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun handle(
@@ -29,14 +29,15 @@ class CreateProductController(
         @RequestPart("price")
         price: String,
     ) {
-        val input = CreateProductInput(
-            id = id,
-            brandId = brandId,
-            name = name,
-            description = description,
-            image = image,
-            price = price.toInt()
-        )
+        val input =
+            CreateProductInput(
+                id = id,
+                brandId = brandId,
+                name = name,
+                description = description,
+                image = image,
+                price = price.toInt(),
+            )
 
         interactor.handle(input)
     }
