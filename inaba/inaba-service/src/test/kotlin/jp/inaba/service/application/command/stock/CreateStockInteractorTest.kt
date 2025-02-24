@@ -87,7 +87,7 @@ class CreateStockInteractorTest {
             }
 
         // Assert
-        assert(exception.error == CreateStockError.ProductNotExits)
+        assert(exception.error == CreateStockError.PRODUCT_NOT_FOUND)
         verify(exactly = 0) {
             commandGateway.sendAndWait<Any>(any())
         }
