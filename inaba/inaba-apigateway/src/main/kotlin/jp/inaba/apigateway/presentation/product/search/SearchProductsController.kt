@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.product.search
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.presentation.common.SortDirection
 import jp.inaba.apigateway.presentation.product.ProductController
 import jp.inaba.grpc.common.PagingCondition
@@ -17,6 +18,9 @@ class SearchProductsController(
     private val grpcService: SearchProductsGrpc.SearchProductsBlockingStub,
 ) : ProductController {
     @GetMapping("/api/products")
+    @Operation(
+        operationId = "searchProduct"
+    )
     fun handle(
         @RequestParam("name")
         name: String,

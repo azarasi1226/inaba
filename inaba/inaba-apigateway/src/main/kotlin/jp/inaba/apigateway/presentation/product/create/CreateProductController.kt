@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.product.create
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.application.product.create.CreateProductInput
 import jp.inaba.apigateway.application.product.create.CreateProductInteractor
 import jp.inaba.apigateway.presentation.product.ProductController
@@ -14,6 +15,9 @@ class CreateProductController(
     private val interactor: CreateProductInteractor,
 ) : ProductController {
     @PostMapping("/api/products", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(
+        operationId = "createProduct"
+    )
     fun handle(
         @RequestPart("id")
         id: String,

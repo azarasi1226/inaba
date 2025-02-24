@@ -19,6 +19,7 @@ class DeleteBasketItemController(
 ) : BasketController {
     @DeleteMapping("/api/baskets/items/{productId}")
     @Operation(
+        operationId = "deleteBasket",
         security = [
             SecurityRequirement(name = "OIDC"),
         ],

@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.product.findbyid
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.presentation.product.ProductController
 import jp.inaba.grpc.product.FindProductByIdGrpc
 import jp.inaba.grpc.product.FindProductByIdRequest
@@ -14,6 +15,9 @@ class FindProductByIdController(
     private val grpcService: FindProductByIdGrpc.FindProductByIdBlockingStub,
 ) : ProductController {
     @GetMapping("/api/products/{id}")
+    @Operation(
+        operationId = "findProductById"
+    )
     fun handle(
         @PathVariable("id")
         id: String,

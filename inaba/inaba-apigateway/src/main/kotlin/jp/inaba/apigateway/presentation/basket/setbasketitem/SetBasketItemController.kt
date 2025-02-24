@@ -18,6 +18,7 @@ class SetBasketItemController(
 ) : BasketController {
     @PostMapping("/api/baskets")
     @Operation(
+        operationId = "setBasketItem",
         security = [
             SecurityRequirement(name = "OIDC"),
         ],

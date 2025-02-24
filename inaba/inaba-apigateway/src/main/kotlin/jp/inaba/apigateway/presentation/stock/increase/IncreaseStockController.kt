@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.stock.increase
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.presentation.stock.StockController
 import jp.inaba.grpc.stock.IncreaseStockGrpc
 import net.devh.boot.grpc.client.inject.GrpcClient
@@ -14,6 +15,9 @@ class IncreaseStockController(
     private val grpcService: IncreaseStockGrpc.IncreaseStockBlockingStub,
 ) : StockController {
     @PatchMapping("/api/stocks/{id}/increase")
+    @Operation(
+        operationId = "increaseStock"
+    )
     fun handle(
         @PathVariable("id")
         id: String,

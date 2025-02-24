@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.brand.create
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.presentation.brand.BrandController
 import jp.inaba.grpc.brand.CreateBrandGrpc
 import net.devh.boot.grpc.client.inject.GrpcClient
@@ -13,6 +14,9 @@ class CreateBrandController(
     private val grpcService: CreateBrandGrpc.CreateBrandBlockingStub,
 ) : BrandController {
     @PostMapping("/api/brands")
+    @Operation(
+        operationId = "createBrand"
+    )
     fun handle(
         @RequestBody
         request: CreateBrandHttpRequest,

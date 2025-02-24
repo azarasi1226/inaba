@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.product.update
 
+import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.application.product.update.UpdateProductInput
 import jp.inaba.apigateway.application.product.update.UpdateProductInteractor
 import jp.inaba.apigateway.presentation.product.ProductController
@@ -15,6 +16,9 @@ class UpdateProductController(
     private val interactor: UpdateProductInteractor,
 ) : ProductController {
     @PutMapping("/api/products/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(
+        operationId = "updateProduct"
+    )
     fun handle(
         @PathVariable("id")
         id: String,

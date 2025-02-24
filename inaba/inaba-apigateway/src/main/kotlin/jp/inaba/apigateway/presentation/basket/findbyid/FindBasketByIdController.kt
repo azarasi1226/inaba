@@ -20,6 +20,7 @@ class FindBasketByIdController(
 ) : BasketController {
     @GetMapping("/api/baskets")
     @Operation(
+        operationId = "findBasketById",
         security = [
             SecurityRequirement(name = "OIDC"),
         ],
