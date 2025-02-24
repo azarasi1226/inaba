@@ -26,6 +26,6 @@ message BasketItem {
     string productId = 1;
     string productName = 2;
     int32 productPrice = 3;
-    string productImageUrl = 4;
+    optional string productImageUrl = 4;
     int32 basketItemQuantity = 5;
 }

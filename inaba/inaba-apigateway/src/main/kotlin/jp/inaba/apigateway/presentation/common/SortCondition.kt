@@ -1,6 +1,6 @@
 package jp.inaba.apigateway.presentation.common
 
-data class SortCondition(
-    val property: String,
+data class SortCondition<P: Enum<P>>(
+    val property: P,
     val direction: SortDirection,
 )

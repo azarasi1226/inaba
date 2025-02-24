@@ -16,7 +16,7 @@ data class FindProductByIdHttpResponse(
                 stockId = grpcResponse.stockId,
                 name = grpcResponse.name,
                 description = grpcResponse.description,
-                imageUrl = grpcResponse.imageUrl,
+                imageUrl = if(grpcResponse.hasImageUrl()) grpcResponse.imageUrl else null,
                 price = grpcResponse.price,
                 quantity = grpcResponse.quantity,
             )

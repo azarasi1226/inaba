@@ -27,7 +27,7 @@ message SearchProductsResponse {
 message Summary {
   string id = 1;
   string name = 2;
-  string imageUrl = 3;
+  optional string imageUrl = 3;
   int32 price = 4;
   int32 quantity = 5;
 }

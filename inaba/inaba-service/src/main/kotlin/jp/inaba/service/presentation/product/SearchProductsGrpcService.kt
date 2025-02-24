@@ -55,7 +55,7 @@ class SearchProductsGrpcService(
                         Summary.newBuilder()
                             .setId(it.id)
                             .setName(it.name)
-                            .setImageUrl(it.imageUrl)
+                            .apply { if (it.imageUrl != null) setImageUrl(it.imageUrl) }
                             .setPrice(it.price)
                             .setQuantity(it.quantity)
                             .build()

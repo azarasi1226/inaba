@@ -20,6 +20,11 @@
 * LookupTableのdelete処理消しちゃダメじゃね？ IDがイベントストアに残り続けてるのでは。
 * Crete/UpdateProductControllerのpriceをIntにすると、なぜか落ちる。今はStringにしてる
 * 現在minioのバケットを作る。パブリックアクセスにするの処理を全部手動でやってる。何とかしたい。
+* GRPCのnullの扱いやばすぎない？　kotlin番GRPC使えば治るのかな？
+* OPrderにsetparameter使えないのやばすぎでしょ。
+* uTLIsの中身
+* User作成同期的にしてApigatewayから呼び出す？
+* idがかぶったらエラーにするのを共通エラーとしてハンドリングするべき。
 
 # memo
 ## リトライ条件

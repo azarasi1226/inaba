@@ -10,7 +10,7 @@ data class SearchProductsHttpResponse(
     data class Summary(
         val id: String,
         val name: String,
-        val imageUrl: String,
+        val imageUrl: String?,
         val price: Int,
         val quantity: Int,
     )
@@ -25,7 +25,7 @@ data class SearchProductsHttpResponse(
                                 Summary(
                                     id = it.id,
                                     name = it.name,
-                                    imageUrl = it.imageUrl,
+                                    imageUrl = if(it.hasImageUrl()) it.imageUrl else null,
                                     price = it.price,
                                     quantity = it.quantity,
                                 )

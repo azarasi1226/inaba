@@ -1,5 +1,6 @@
 package jp.inaba.apigateway.presentation.product.search
 
+import jp.inaba.apigateway.presentation.common.SortDirection
 import jp.inaba.apigateway.presentation.product.ProductController
 import jp.inaba.grpc.common.PagingCondition
 import jp.inaba.grpc.common.SortCondition
@@ -24,9 +25,9 @@ class SearchProductsController(
         @RequestParam("pageNumber")
         pageNumber: Int,
         @RequestParam("sortProperty")
-        sortProperty: String,
+        sortProperty: ProductSortProperty,
         @RequestParam("sortDirection")
-        sortDirection: String,
+        sortDirection: SortDirection,
     ): SearchProductsHttpResponse {
         val grpcRequest =
             SearchProductsRequest.newBuilder()
@@ -39,14 +40,14 @@ class SearchProductsController(
                 )
                 .setSortCondition(
                     SortCondition.newBuilder()
-                        .setProperty(sortProperty)
-                        .setDirection(sortDirection)
+                        .setProperty(sortProperty.name)
+                        .setDirection(sortDirection.name)
                         .build(),
                 )
                 .build()
 
         val grpcResponse = grpcService.handle(grpcRequest)
 
-        return jp.inaba.apigateway.presentation.product.search.SearchProductsHttpResponse.fromGrpcResponse(grpcResponse)
+        return SearchProductsHttpResponse.fromGrpcResponse(grpcResponse)
     }
 }

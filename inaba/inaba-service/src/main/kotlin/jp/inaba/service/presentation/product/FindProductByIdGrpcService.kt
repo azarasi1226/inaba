@@ -29,7 +29,7 @@ FindProductByIdGrpcService(
                 .setName(result.name)
                 .setStockId(result.stockId)
                 .setDescription(result.description)
-                .setImageUrl(result.imageUrl)
+                .apply { if (result.imageUrl != null) setImageUrl(result.imageUrl) }
                 .setPrice(result.price)
                 .setQuantity(result.quantity)
                 .build()

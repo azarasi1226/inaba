@@ -11,7 +11,7 @@ data class FindBasketByIdHttpResponse(
         val productId: String,
         val productName: String,
         val productPrice: Int,
-        val productImageUrl: String,
+        val productImageUrl: String?,
         val basketItemQuantity: Int,
     )
 
@@ -26,7 +26,7 @@ data class FindBasketByIdHttpResponse(
                                     productId = it.productId,
                                     productName = it.productName,
                                     productPrice = it.productPrice,
-                                    productImageUrl = it.productImageUrl,
+                                    productImageUrl = if(it.hasProductImageUrl()) it.productImageUrl else null,
                                     basketItemQuantity = it.basketItemQuantity,
                                 )
                             },

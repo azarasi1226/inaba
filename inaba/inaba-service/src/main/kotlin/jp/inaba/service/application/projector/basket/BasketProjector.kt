@@ -10,7 +10,11 @@ import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.axonframework.eventhandling.ResetHandler
+import org.axonframework.eventhandling.Timestamp
 import org.springframework.stereotype.Component
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
@@ -23,7 +27,10 @@ class BasketProjector(
     }
 
     @EventHandler
-    fun on(event: BasketItemSetEvent) {
+    fun on(
+        event: BasketItemSetEvent,
+        @Timestamp timestamp: Instant,
+    ) {
         val id =
             BasketItemId(
                 basketId = event.id,
@@ -34,6 +41,7 @@ class BasketProjector(
             BasketJpaEntity(
                 basketItemId = id,
                 itemQuantity = event.basketItemQuantity,
+                addedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
 
         repository.save(basketItemJpaEntity)
