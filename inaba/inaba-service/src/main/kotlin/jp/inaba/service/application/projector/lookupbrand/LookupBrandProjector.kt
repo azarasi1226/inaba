@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(LookupBrandProjectorEventProcessor.PROCESSOR_NAME)
 class LookupBrandProjector(
-    private val repository: LookupBrandJpaRepository
+    private val repository: LookupBrandJpaRepository,
 ) {
     @EventHandler
     fun on(event: BrandCreatedEvent) {

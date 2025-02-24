@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class CreateUserVerifierImpl(
     private val repository: LookupUserJpaRepository,
-    private val eventStore: EventStore
+    private val eventStore: EventStore,
 ) : CreateUserVerifier {
     override fun isUserExists(userId: UserId): Boolean {
         return eventStore.lastSequenceNumberFor(userId.value).isPresent

@@ -44,13 +44,13 @@ class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<Com
 
         // 呼び出し元 → CommandHandler→ CommandHandler(例外発生)
         // 一回CommandHandlerを経由してAggregateなどが呼ばれた場合はこのルート
-        if(e is CommandExecutionException) {
+        if (e is CommandExecutionException) {
             if (e.isWrapUseCaseError()) {
                 return e.getWrapUseCaseError()
             }
 
             // 原因不明のエラー
-            logger.warn { e::class.simpleName}
+            logger.warn { e::class.simpleName }
             logger.warn { "CommandHandlerで想定外の例外がthrowされました。" }
             throw e
         }
@@ -59,15 +59,15 @@ class ExceptionWrappingCommandHandlerInterceptor : MessageHandlerInterceptor<Com
         if (e is AggregateDeletedException) {
             return CommonError.AGGREGATE_DELETED
         }
-        if(e is AggregateNotFoundException) {
+        if (e is AggregateNotFoundException) {
             return CommonError.AGGREGATE_NOT_FOUND
         }
-        if(e is IncompatibleAggregateException) {
+        if (e is IncompatibleAggregateException) {
             return CommonError.AGGREGATE_INCOMPATIBLE
         }
 
         // 原因不明のエラー
-        logger.warn { e::class.simpleName}
+        logger.warn { e::class.simpleName }
         logger.warn { "CommandHandlerで想定外の例外がthrowされました。" }
         throw e
     }

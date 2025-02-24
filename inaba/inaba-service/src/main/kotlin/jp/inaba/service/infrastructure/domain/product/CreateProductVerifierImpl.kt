@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class CreateProductVerifierImpl(
     private val eventStore: EventStore,
-    private val lookupBrandJpaRepository: LookupBrandJpaRepository
+    private val lookupBrandJpaRepository: LookupBrandJpaRepository,
 ) : CreateProductVerifier {
     override fun isProductExists(productId: ProductId): Boolean {
         return eventStore.lastSequenceNumberFor(productId.value).isPresent

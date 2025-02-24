@@ -5,6 +5,7 @@ import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.Index
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(
@@ -15,6 +16,7 @@ data class BasketJpaEntity(
     @EmbeddedId
     val basketItemId: BasketItemId = BasketItemId(),
     val itemQuantity: Int = 0,
+    val addedAt: LocalDateTime = LocalDateTime.now(),
 )
 
 @Embeddable

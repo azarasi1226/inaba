@@ -20,7 +20,10 @@ class FindProductByIdQueryService(
             productJpaRepository.findById(query.id.value).orElseThrow {
                 UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
             }
-        val stockJpaEntity = stockJpaRepository.findByProductId(query.id.value).orElseThrow()
+        val stockJpaEntity =
+            stockJpaRepository.findByProductId(query.id.value).orElseThrow {
+                UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
+            }
 
         return FindProductByIdResult(
             id = productJpaEntity.id,
