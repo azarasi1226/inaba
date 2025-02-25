@@ -7,11 +7,10 @@ import "google/protobuf/empty.proto";
 option java_multiple_files = true;
 option java_package = "jp.inaba.grpc.brand";
 
-service CreateBrand {
-  rpc handle (CreateBrandRequest) returns (google.protobuf.Empty);
+service DeleteBrand {
+  rpc handle (DeleteBrandRequest) returns (google.protobuf.Empty);
 }
 
-message CreateBrandRequest {
+message DeleteBrandRequest {
   string id = 1;
-  string name = 2;
 }

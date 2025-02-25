@@ -1,6 +1,7 @@
 package jp.inaba.service.application.projector.brand
 
 import jp.inaba.message.brand.event.BrandCreatedEvent
+import jp.inaba.message.brand.event.BrandDeletedEvent
 import jp.inaba.service.infrastructure.jpa.brand.BrandJpaEntity
 import jp.inaba.service.infrastructure.jpa.brand.BrandJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -36,5 +37,10 @@ class BrandProjector(
             )
 
         repository.save(entity)
+    }
+
+    @EventHandler
+    fun on(event: BrandDeletedEvent) {
+        repository.deleteById(event.id)
     }
 }

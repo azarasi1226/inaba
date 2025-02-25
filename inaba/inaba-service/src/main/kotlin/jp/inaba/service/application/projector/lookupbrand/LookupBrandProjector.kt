@@ -1,6 +1,7 @@
 package jp.inaba.service.application.projector.lookupbrand
 
 import jp.inaba.message.brand.event.BrandCreatedEvent
+import jp.inaba.message.brand.event.BrandDeletedEvent
 import jp.inaba.service.infrastructure.jpa.lookupbrand.LookupBrandJpaEntity
 import jp.inaba.service.infrastructure.jpa.lookupbrand.LookupBrandJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -17,5 +18,10 @@ class LookupBrandProjector(
         val entity = LookupBrandJpaEntity(event.id)
 
         repository.save(entity)
+    }
+
+    @EventHandler
+    fun on(event: BrandDeletedEvent) {
+        repository.deleteById(event.id)
     }
 }
