@@ -9,7 +9,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-@ProcessingGroup(jp.inaba.service.application.projector.usermetadata.UserMetadataProjectorEventProcessor.PROCESSOR_NAME)
+@ProcessingGroup(UserMetadataProjectorEventProcessor.PROCESSOR_NAME)
 class UserMetadataProjector(
     private val repository: UserMetadataJpaRepository,
 ) {
