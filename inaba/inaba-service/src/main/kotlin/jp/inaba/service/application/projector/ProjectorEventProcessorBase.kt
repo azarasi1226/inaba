@@ -9,9 +9,7 @@ import org.axonframework.eventhandling.deadletter.jpa.JpaSequencedDeadLetterQueu
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
- * 通常の射影用EventProcessor
- *
- * 例外時、DeadLetterQueueに蓄積される。
+ * 一般的なDB射影処理に使用
  */
 abstract class ProjectorEventProcessorBase {
     abstract val processorName: String
@@ -24,6 +22,9 @@ abstract class ProjectorEventProcessorBase {
             TrackingEventProcessorConfiguration
                 .forParallelProcessing(processorCount)
         }
+            // DBの情報は基本的に強い整合性を保ちたいので失敗したら後でちゃんとリトライできるようにしたい。
+            // でもリトライできるようにするために無限リトライモードにすると、イベントプロセッサーが修正するまでスタックする...
+            // そんな時はデッドレターキュー！
             .registerDeadLetterQueue(processorName) {
                 JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()
                     .processingGroup(processorName)
