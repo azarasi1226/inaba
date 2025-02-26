@@ -1,19 +1,14 @@
 package jp.inaba.service.application.projector.lookupuser
 
-import org.axonframework.config.EventProcessingConfigurer
-import org.axonframework.eventhandling.PropagatingErrorHandler
-import org.springframework.beans.factory.annotation.Autowired
+import jp.inaba.service.application.projector.LookupProjectorEventProcessorBase
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class LookupUserProjectorEventProcessor {
+class LookupUserProjectorEventProcessor : LookupProjectorEventProcessorBase() {
     companion object {
         const val PROCESSOR_NAME = "lookup-user-projector"
     }
 
-    @Autowired
-    fun config(epc: EventProcessingConfigurer) {
-        epc.registerSubscribingEventProcessor(PROCESSOR_NAME)
-            .registerListenerInvocationErrorHandler(PROCESSOR_NAME) { PropagatingErrorHandler.INSTANCE }
-    }
+    override val processorName: String
+        get() = PROCESSOR_NAME
 }
