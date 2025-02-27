@@ -16,7 +16,7 @@ class CreateProductController(
 ) : ProductController {
     @PostMapping("/api/products", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
-        operationId = "createProduct"
+        operationId = "createProduct",
     )
     fun handle(
         @RequestPart("id")

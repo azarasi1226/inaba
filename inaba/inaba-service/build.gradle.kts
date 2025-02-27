@@ -26,7 +26,7 @@ dependencies {
     implementation("org.axonframework.extensions.kotlin:axon-kotlin")
     testImplementation("org.axonframework:axon-test")
 
-    // other-common
+    // other
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.retry:spring-retry:2.0.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")

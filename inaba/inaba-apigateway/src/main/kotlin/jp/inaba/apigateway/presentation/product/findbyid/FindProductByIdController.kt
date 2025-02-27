@@ -16,7 +16,7 @@ class FindProductByIdController(
 ) : ProductController {
     @GetMapping("/api/products/{id}")
     @Operation(
-        operationId = "findProductById"
+        operationId = "findProductById",
     )
     fun handle(
         @PathVariable("id")

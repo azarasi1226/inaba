@@ -26,7 +26,7 @@ data class FindBasketByIdHttpResponse(
                                     productId = it.productId,
                                     productName = it.productName,
                                     productPrice = it.productPrice,
-                                    productImageUrl = if(it.hasProductImageUrl()) it.productImageUrl else null,
+                                    productImageUrl = if (it.hasProductImageUrl()) it.productImageUrl else null,
                                     basketItemQuantity = it.basketItemQuantity,
                                 )
                             },

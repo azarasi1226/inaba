@@ -1,23 +1,20 @@
-package jp.inaba.apigateway.presentation.product.search
+package jp.inaba.apigateway.presentation.brand.search
 
 import jp.inaba.apigateway.presentation.common.Page
 import jp.inaba.apigateway.presentation.common.Paging
-import jp.inaba.grpc.product.SearchProductsResponse
+import jp.inaba.grpc.brand.SearchBrandsResponse
 
-data class SearchProductsHttpResponse(
+data class SearchBrandsHttpResponse(
     val page: Page<Summary>,
 ) {
     data class Summary(
         val id: String,
         val name: String,
-        val imageUrl: String?,
-        val price: Int,
-        val quantity: Int,
     )
 
     companion object {
-        fun fromGrpcResponse(grpcResponse: SearchProductsResponse): SearchProductsHttpResponse {
-            return SearchProductsHttpResponse(
+        fun fromGrpcResponse(grpcResponse: SearchBrandsResponse): SearchBrandsHttpResponse {
+            return SearchBrandsHttpResponse(
                 page =
                     Page(
                         items =
@@ -25,9 +22,6 @@ data class SearchProductsHttpResponse(
                                 Summary(
                                     id = it.id,
                                     name = it.name,
-                                    imageUrl = if (it.hasImageUrl()) it.imageUrl else null,
-                                    price = it.price,
-                                    quantity = it.quantity,
                                 )
                             },
                         paging =

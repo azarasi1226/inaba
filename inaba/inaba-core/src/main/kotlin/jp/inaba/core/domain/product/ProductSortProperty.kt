@@ -6,5 +6,5 @@ enum class ProductSortProperty(
     override val dbColumnName: String,
 ) : SortProperty {
     PRICE("price"),
-    REGISTRATION_DATE("created_at")
+    REGISTRATION_DATE("created_at"),
 }

@@ -1,22 +1,22 @@
-//package jp.inaba.service.application.saga.createproduct
+// package jp.inaba.service.application.saga.createproduct
 //
-//import com.github.michaelbull.result.Err
-//import io.mockk.MockKAnnotations
-//import io.mockk.every
-//import io.mockk.impl.annotations.MockK
-//import jp.inaba.core.domain.product.ProductId
-//import jp.inaba.core.domain.stock.CreateStockError
-//import jp.inaba.core.domain.stock.StockId
-//import jp.inaba.core.domain.stock.StockIdFactory
-//import jp.inaba.message.product.command.DeleteProductCommand
-//import jp.inaba.message.product.event.ProductCreatedEvent
-//import jp.inaba.message.stock.command.CreateStockCommand
-//import org.axonframework.commandhandling.gateway.CommandGateway
-//import org.axonframework.test.saga.SagaTestFixture
-//import org.junit.jupiter.api.BeforeEach
-//import org.junit.jupiter.api.Test
+// import com.github.michaelbull.result.Err
+// import io.mockk.MockKAnnotations
+// import io.mockk.every
+// import io.mockk.impl.annotations.MockK
+// import jp.inaba.core.domain.product.ProductId
+// import jp.inaba.core.domain.stock.CreateStockError
+// import jp.inaba.core.domain.stock.StockId
+// import jp.inaba.core.domain.stock.StockIdFactory
+// import jp.inaba.message.product.command.DeleteProductCommand
+// import jp.inaba.message.product.event.ProductCreatedEvent
+// import jp.inaba.message.stock.command.CreateStockCommand
+// import org.axonframework.commandhandling.gateway.CommandGateway
+// import org.axonframework.test.saga.SagaTestFixture
+// import org.junit.jupiter.api.BeforeEach
+// import org.junit.jupiter.api.Test
 //
-//class CreateProductSagaTest {
+// class CreateProductSagaTest {
 //    private lateinit var fixture: SagaTestFixture<CreateProductSaga>
 //
 //    @MockK
@@ -92,4 +92,4 @@
 //                ),
 //            )
 //    }
-//}
+// }

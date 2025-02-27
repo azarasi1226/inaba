@@ -12,19 +12,20 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class DeleteBrandController(
     @GrpcClient("global")
-    private val grpcService: DeleteBrandGrpc.DeleteBrandBlockingStub
+    private val grpcService: DeleteBrandGrpc.DeleteBrandBlockingStub,
 ) : BrandController {
     @DeleteMapping("/api/brands/{id}")
     @Operation(
-        operationId = "deleteBrand"
+        operationId = "deleteBrand",
     )
     fun handle(
         @PathVariable("id")
-        id: String
+        id: String,
     ) {
-        val grpcRequest = DeleteBrandRequest.newBuilder()
-            .setId(id)
-            .build()
+        val grpcRequest =
+            DeleteBrandRequest.newBuilder()
+                .setId(id)
+                .build()
 
         grpcService.handle(grpcRequest)
     }

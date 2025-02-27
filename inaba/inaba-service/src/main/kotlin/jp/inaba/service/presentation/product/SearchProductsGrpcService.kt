@@ -26,7 +26,7 @@ class SearchProductsGrpcService(
     ) {
         val query =
             SearchProductsQuery(
-                likeProductName = request.name,
+                likeProductName = request.likeProductName,
                 pagingCondition =
                     PagingCondition(
                         pageSize = request.pagingCondition.pageSize,

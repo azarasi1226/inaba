@@ -16,7 +16,7 @@ class DecreaseStockController(
 ) : StockController {
     @PatchMapping("/api/stocks/{id}/decrease")
     @Operation(
-        operationId = "decreaseStock"
+        operationId = "decreaseStock",
     )
     fun handle(
         @PathVariable("id")

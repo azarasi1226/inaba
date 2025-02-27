@@ -19,11 +19,11 @@ class SearchProductsController(
 ) : ProductController {
     @GetMapping("/api/products")
     @Operation(
-        operationId = "searchProduct"
+        operationId = "searchProduct",
     )
     fun handle(
-        @RequestParam("name")
-        name: String,
+        @RequestParam("likeProductName")
+        likeProductName: String,
         @RequestParam("pageSize")
         pageSize: Int,
         @RequestParam("pageNumber")
@@ -35,7 +35,7 @@ class SearchProductsController(
     ): SearchProductsHttpResponse {
         val grpcRequest =
             SearchProductsRequest.newBuilder()
-                .setName(name)
+                .setLikeProductName(likeProductName)
                 .setPagingCondition(
                     PagingCondition.newBuilder()
                         .setPageSize(pageSize)

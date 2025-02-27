@@ -17,7 +17,7 @@ class UpdateProductController(
 ) : ProductController {
     @PutMapping("/api/products/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
-        operationId = "updateProduct"
+        operationId = "updateProduct",
     )
     fun handle(
         @PathVariable("id")

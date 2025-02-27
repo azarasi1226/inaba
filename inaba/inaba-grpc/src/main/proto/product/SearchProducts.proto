@@ -14,7 +14,7 @@ service SearchProducts {
 }
 
 message SearchProductsRequest {
-  string name = 1;
+  string likeProductName = 1;
   common.PagingCondition pagingCondition = 2;
   common.SortCondition sortCondition = 3;
 }

@@ -20,6 +20,7 @@ abstract class SagaEventProcessorBase {
                 .forParallelProcessing(processorCount)
         }
             // Sagaは強い整合性をかけたいので、失敗したら無限リトライさせる。
+            // 基本的に補償トランザクションを実装していることを前提としているの、Sagaがスタックしても問題ないという判定。
             .registerListenerInvocationErrorHandler(processorName) { PropagatingErrorHandler.INSTANCE }
     }
 }

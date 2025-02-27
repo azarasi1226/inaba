@@ -15,7 +15,7 @@ class CreateBrandController(
 ) : BrandController {
     @PostMapping("/api/brands")
     @Operation(
-        operationId = "createBrand"
+        operationId = "createBrand",
     )
     fun handle(
         @RequestBody
