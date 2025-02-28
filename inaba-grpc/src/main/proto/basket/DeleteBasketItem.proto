@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package basket;
+
+import "google/protobuf/empty.proto";
+import "common/Paging.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.basket";
+
+service DeleteBasketItem {
+  rpc handle (DeleteBasketItemRequest) returns (google.protobuf.Empty);
+}
+
+message DeleteBasketItemRequest {
+  string id = 1;
+  string productId = 2;
+}

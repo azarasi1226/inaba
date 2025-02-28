@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package product;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.product";
+
+service UpdateProduct {
+  rpc handle (UpdateProductRequest) returns (google.protobuf.Empty);
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  optional string imageUrl = 4;
+  int32 price = 5;
+}

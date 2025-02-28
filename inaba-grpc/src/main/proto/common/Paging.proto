@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package common;
+
+option java_multiple_files = true;
+option java_package = "jp.inaba.grpc.common";
+
+message Paging {
+  int64 totalCount = 1;
+  int32 pageSize = 2;
+  int32 pageNumber = 3;
+}

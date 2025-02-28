@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    jp.inaba: DEBUG
+
+aws:
+  cognito:
+    endpoint: http://localhost:5050

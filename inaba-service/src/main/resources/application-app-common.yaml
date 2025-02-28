@@ -1,0 +1,21 @@
+server:
+  port: ${SERVER_PORT}
+
+grpc:
+  server:
+    port: ${GRPC_PORT}
+
+spring:
+  application:
+    name: ${APPLICATION_NAME}
+
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+
+aws:
+  cognito:
+    user-pool-id: ${AWS_COGNITO_USER-POOL-ID}
+    client-id: ${AWS_COGNITO_CLIENT-ID}
