@@ -1,8 +1,10 @@
 package jp.inaba.service.application.command.user
 
+import jp.inaba.core.domain.common.CommonError
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.user.CreateUserError
 import jp.inaba.message.user.command.CreateUserCommand
+import jp.inaba.service.domain.UniqueAggregateIdVerifier
 import jp.inaba.service.domain.user.CreateUserVerifier
 import jp.inaba.service.domain.user.InternalCreateUserCommand
 import org.axonframework.commandhandling.CommandHandler
@@ -11,15 +13,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class CreateUserInteractor(
-    private val verifier: CreateUserVerifier,
+    private val uniqueAggregateIdVerifier: UniqueAggregateIdVerifier,
+    private val createUserVerifier: CreateUserVerifier,
     private val commandGateway: CommandGateway,
 ) {
     @CommandHandler
     fun handle(command: CreateUserCommand) {
-        if (verifier.isUserExists(command.id)) {
-            throw UseCaseException(CreateUserError.USER_ALREADY_EXISTS)
+        if (uniqueAggregateIdVerifier.hasDuplicateAggregateId(command.id.value)) {
+            throw UseCaseException(CommonError.AGGREGATE_DUPLICATED)
         }
-        if (verifier.isLinkedSubject(command.subject)) {
+        if (createUserVerifier.isLinkedSubject(command.subject)) {
             throw UseCaseException(CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT)
         }
 

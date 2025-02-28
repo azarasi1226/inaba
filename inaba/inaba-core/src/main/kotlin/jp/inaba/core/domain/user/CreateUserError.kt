@@ -6,6 +6,5 @@ enum class CreateUserError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    USER_ALREADY_EXISTS("1", "同じIDでユーザーが存在しています"),
-    USER_ALREADY_LINKED_TO_SUBJECT("2", "別のユーザーにすでにリンク済みのSubjectです"),
+    USER_ALREADY_LINKED_TO_SUBJECT("1", "別のユーザーにすでにリンク済みのSubjectです"),
 }
