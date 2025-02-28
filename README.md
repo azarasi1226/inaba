@@ -2,6 +2,7 @@
 CQRS/ES, DDDをベースに作られた販売サイトのマイクロサービスサンプルです。
 
 ## 参考
+* [wiki](https://github.com/azarasi1226/inaba/wiki)
 * [ドメインストーミング図](https://miro.com/app/board/uXjVM1s4A4A=/)
 * [Terraform](https://github.com/azarasi1226/inaba-infrastructure)
 
