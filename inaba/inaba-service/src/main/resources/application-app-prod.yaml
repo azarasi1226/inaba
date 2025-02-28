@@ -1,8 +1,0 @@
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: none
-
-logging:
-  level:
-    jp.inaba: INFO
