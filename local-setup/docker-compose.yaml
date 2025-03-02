@@ -2,7 +2,7 @@ services:
   axon-server:
     image: axoniq/axonserver:latest-jdk-17
     environment:
-      # 初期設定(Context作成)をしなくてもよくなる
+      # 初期設定(Context作成)を手動でしなくてもよくなる
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
     healthcheck:
       test: curl -f http://localhost:8024/actuator/health || exit 1;
@@ -23,6 +23,7 @@ services:
       - 3306:3306
 
   # S3互換のファイルストレージ
+  # S3のSDKからアクセスできるので実装のすり替えをしなくてよい。
   minio:
     image: minio/minio:latest
     environment:
