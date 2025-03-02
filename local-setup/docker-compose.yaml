@@ -1,6 +1,6 @@
 services:
   axon-server:
-    image: axoniq/axonserver:latest-jdk-17
+    image: axoniq/axonserver:latest
     environment:
       # 初期設定(Context作成)を手動でしなくてもよくなる
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
