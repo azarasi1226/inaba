@@ -1,5 +1,4 @@
 services:
-  # AxonServer
   axon-server:
     image: axoniq/axonserver:latest-jdk-17
     environment:
@@ -14,8 +13,7 @@ services:
       - 8124:8124
       - 8224:8224
 
-  # 共通DB
-  common-datastore:
+  mysql:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: passw0rd
