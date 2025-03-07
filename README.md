@@ -12,7 +12,7 @@ CQRS/ES, DDDをベースに作られた販売サイトのマイクロサービ�
 ### 1. Dockerによる環境構築
 docker-composeを使用してインフラ構築をします。
 ```bash
-cd ./setup
+cd ./local-setup
 docker compose up -d
 ```
 <br>
