@@ -1,6 +1,6 @@
 package jp.inaba.service.application.projector.lookupproduct
 
-import jp.inaba.message.product.command.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaRepository

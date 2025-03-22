@@ -1,6 +1,6 @@
 package jp.inaba.service.application.projector.product
 
-import jp.inaba.message.product.command.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
 import jp.inaba.message.product.event.StockDecreasedEvent
