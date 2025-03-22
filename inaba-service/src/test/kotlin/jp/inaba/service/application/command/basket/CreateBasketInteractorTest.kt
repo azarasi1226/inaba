@@ -117,7 +117,7 @@ class CreateBasketInteractorTest {
             }
 
         // Assert
-        assert(exception.error == CreateBasketError.BASKET_ALREADY_EXISTS)
+        assert(exception.error == CreateBasketError.BASKET_ALREADY_LINKED_TO_USER)
         verify(exactly = 0) {
             commandGateway.sendAndWait<Any>(any())
         }
