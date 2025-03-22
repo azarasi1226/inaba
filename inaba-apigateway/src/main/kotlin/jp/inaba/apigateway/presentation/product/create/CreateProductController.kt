@@ -32,6 +32,8 @@ class CreateProductController(
         // TODO(なぜかIntにするとデータ送信時に失敗する？？なぜ???)
         @RequestPart("price")
         price: String,
+        @RequestPart("quantity")
+        quantity: String,
     ) {
         val input =
             CreateProductInput(
@@ -41,6 +43,7 @@ class CreateProductController(
                 description = description,
                 image = image,
                 price = price.toInt(),
+                quantity.toInt(),
             )
 
         interactor.handle(input)

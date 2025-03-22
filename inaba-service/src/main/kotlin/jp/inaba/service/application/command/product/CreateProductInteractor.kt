@@ -34,6 +34,7 @@ class CreateProductInteractor(
                 description = command.description,
                 imageUrl = command.imageUrl,
                 price = command.price,
+                quantity = command.quantity
             )
 
         commandGateway.sendAndWait<Any>(internalCommand)

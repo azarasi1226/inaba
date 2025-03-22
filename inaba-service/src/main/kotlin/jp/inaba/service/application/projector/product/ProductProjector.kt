@@ -1,8 +1,10 @@
 package jp.inaba.service.application.projector.product
 
-import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.command.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
+import jp.inaba.message.product.event.StockDecreasedEvent
+import jp.inaba.message.product.event.StockIncreasedEvent
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
 import org.axonframework.config.ProcessingGroup
@@ -37,6 +39,7 @@ class ProductProjector(
                 description = event.description,
                 imageUrl = event.imageUrl,
                 price = event.price,
+                quantity = event.quantity,
                 createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
                 updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
@@ -57,6 +60,34 @@ class ProductProjector(
                 imageUrl = event.imageUrl,
                 price = event.price,
                 updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+            )
+
+        repository.save(updatedEntity)
+    }
+
+    @EventHandler
+    fun on(
+        event: StockIncreasedEvent,
+        @Timestamp timestamp: Instant
+    ) {
+        val entity = repository.findById(event.id).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                quantity = event.increasedStockQuantity
+            )
+
+        repository.save(updatedEntity)
+    }
+
+    @EventHandler
+    fun on(
+        event: StockDecreasedEvent,
+        @Timestamp timestamp: Instant
+    ) {
+        val entity = repository.findById(event.id).orElseThrow()
+        val updatedEntity =
+            entity.copy(
+                quantity = event.decreasedStockQuantity
             )
 
         repository.save(updatedEntity)

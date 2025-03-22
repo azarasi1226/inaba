@@ -1,8 +1,8 @@
-package jp.inaba.core.domain.stock
+package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.ValueObjectException
 
-data class IncreaseCount(val value: Int) {
+data class IncreaseStockQuantity(val value: Int) {
     companion object {
         private const val MIN = 1
         private const val MAX = 1_000_000

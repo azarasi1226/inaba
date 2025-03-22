@@ -1,29 +1,29 @@
-package jp.inaba.service.presentation.stock
+package jp.inaba.service.presentation.product
 
 import com.google.protobuf.Empty
 import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.common.IdempotencyId
-import jp.inaba.core.domain.stock.IncreaseCount
-import jp.inaba.core.domain.stock.StockId
-import jp.inaba.grpc.stock.IncreaseStockGrpc
-import jp.inaba.grpc.stock.IncreaseStockRequest
-import jp.inaba.message.stock.command.IncreaseStockCommand
+import jp.inaba.core.domain.product.DecreaseStockQuantity
+import jp.inaba.core.domain.product.ProductId
+import jp.inaba.grpc.stock.DecreaseStockGrpc
+import jp.inaba.grpc.stock.DecreaseStockRequest
+import jp.inaba.message.product.command.DecreaseStockCommand
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
 
 @GrpcService
-class IncreaseStockGrpcService(
+class DecreaseStockGrpcService(
     private val commandGateway: CommandGateway,
-) : IncreaseStockGrpc.IncreaseStockImplBase() {
+) : DecreaseStockGrpc.DecreaseStockImplBase() {
     override fun handle(
-        request: IncreaseStockRequest,
+        request: DecreaseStockRequest,
         responseObserver: StreamObserver<Empty>,
     ) {
         val command =
-            IncreaseStockCommand(
-                id = StockId(request.id),
-                increaseCount = IncreaseCount(request.increaseCount),
+            DecreaseStockCommand(
+                id = ProductId(request.id),
                 idempotencyId = IdempotencyId(request.idempotencyId),
+                decreaseStockQuantity = DecreaseStockQuantity(request.decreaseCount),
             )
 
         commandGateway.sendAndWait<Any>(command)

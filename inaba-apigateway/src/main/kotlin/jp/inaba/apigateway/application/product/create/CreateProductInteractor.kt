@@ -28,6 +28,7 @@ class CreateProductInteractor(
                 .setDescription(input.description)
                 .apply { if (imageUrl != null) setImageUrl(imageUrl) }
                 .setPrice(input.price)
+                .setQuantity(input.quantity)
                 .build()
 
         grpcService.handle(grpcRequest)

@@ -15,6 +15,7 @@ data class ProductJpaEntity(
     val description: String = "",
     val imageUrl: String? = null,
     val price: Int = 0,
+    val quantity: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 )

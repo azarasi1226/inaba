@@ -1,9 +1,8 @@
-package jp.inaba.message.stock.event
+package jp.inaba.message.product.event
 
 data class StockIncreasedEvent(
     val id: String,
-    val increaseCount: Int,
-    // 　冪等性対策
     val idempotencyId: String,
+    val increaseStockQuantity: Int,
     val increasedStockQuantity: Int,
 )

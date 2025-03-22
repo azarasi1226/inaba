@@ -6,6 +6,7 @@ import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
+import jp.inaba.core.domain.product.StockQuantity
 import jp.inaba.message.product.command.ProductAggregateCommand
 
 data class InternalCreateProductCommand(
@@ -15,4 +16,5 @@ data class InternalCreateProductCommand(
     val description: ProductDescription,
     val imageUrl: ProductImageURL?,
     val price: ProductPrice,
+    val quantity: StockQuantity,
 ) : ProductAggregateCommand

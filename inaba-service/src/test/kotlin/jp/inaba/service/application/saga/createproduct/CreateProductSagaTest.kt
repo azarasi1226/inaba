@@ -9,7 +9,7 @@
 // import jp.inaba.core.domain.stock.StockId
 // import jp.inaba.core.domain.stock.StockIdFactory
 // import jp.inaba.message.product.command.DeleteProductCommand
-// import jp.inaba.message.product.event.ProductCreatedEvent
+// import jp.inaba.message.product.command.ProductCreatedEvent
 // import jp.inaba.message.stock.command.CreateStockCommand
 // import org.axonframework.commandhandling.gateway.CommandGateway
 // import org.axonframework.test.saga.SagaTestFixture

@@ -1,4 +1,4 @@
-package jp.inaba.core.domain.stock
+package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.ValueObjectException
 
@@ -14,33 +14,33 @@ data class StockQuantity(val value: Int) {
         }
     }
 
-    fun canNotAdd(increaseCount: IncreaseCount): Boolean {
-        val newValue = value + increaseCount.value
+    fun canNotAdd(increaseStock: IncreaseStockQuantity): Boolean {
+        val newValue = value + increaseStock.value
 
         return newValue > MAX
     }
 
-    fun add(increaseCount: IncreaseCount): StockQuantity {
-        if (canNotAdd(increaseCount)) {
+    fun add(increaseStock: IncreaseStockQuantity): StockQuantity {
+        if (canNotAdd(increaseStock)) {
             throw ValueObjectException("在庫数の上限は[$MAX]です。")
         }
 
-        val newValue = value + increaseCount.value
+        val newValue = value + increaseStock.value
         return StockQuantity(newValue)
     }
 
-    fun canNotSubtract(decreaseCount: DecreaseCount): Boolean {
-        val newValue = value - decreaseCount.value
+    fun canNotSubtract(decreaseStock: DecreaseStockQuantity): Boolean {
+        val newValue = value - decreaseStock.value
 
         return newValue < MIN
     }
 
-    fun subtract(decreaseCount: DecreaseCount): StockQuantity {
-        if (canNotSubtract(decreaseCount)) {
+    fun subtract(decreaseStock: DecreaseStockQuantity): StockQuantity {
+        if (canNotSubtract(decreaseStock)) {
             throw ValueObjectException("在庫数は[$MIN]以下にできません。")
         }
 
-        val newValue = value - decreaseCount.value
+        val newValue = value - decreaseStock.value
         return StockQuantity(newValue)
     }
 }

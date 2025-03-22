@@ -6,7 +6,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.stock.StockIdFactory
 import jp.inaba.message.product.command.DeleteProductCommand
-import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.command.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.stock.command.CreateStockCommand
 import jp.inaba.message.stock.event.StockCreatedEvent

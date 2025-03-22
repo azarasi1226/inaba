@@ -1,6 +1,6 @@
 package jp.inaba.service.application.projector.lookupproduct
 
-import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.command.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaEntity
 import jp.inaba.service.infrastructure.jpa.lookupproduct.LookupProductJpaRepository
@@ -9,7 +9,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-@ProcessingGroup(jp.inaba.service.application.projector.lookupproduct.LookupProductProjectorEventProcessor.PROCESSOR_NAME)
+@ProcessingGroup(LookupProductProjectorEventProcessor.PROCESSOR_NAME)
 class LookupProductProjector(
     private val repository: LookupProductJpaRepository,
 ) {

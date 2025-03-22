@@ -1,4 +1,4 @@
-package jp.inaba.message.product.event
+package jp.inaba.message.product.command
 
 data class ProductCreatedEvent(
     val id: String,
@@ -7,4 +7,5 @@ data class ProductCreatedEvent(
     val description: String,
     val imageUrl: String?,
     val price: Int,
+    val quantity: Int,
 )

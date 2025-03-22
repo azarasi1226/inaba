@@ -1,7 +1,7 @@
-package jp.inaba.apigateway.presentation.stock.decrease
+package jp.inaba.apigateway.presentation.product.decreasestock
 
 import io.swagger.v3.oas.annotations.Operation
-import jp.inaba.apigateway.presentation.stock.StockController
+import jp.inaba.apigateway.presentation.product.ProductController
 import jp.inaba.grpc.stock.DecreaseStockGrpc
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.PatchMapping
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController
 class DecreaseStockController(
     @GrpcClient("global")
     private val grpcService: DecreaseStockGrpc.DecreaseStockBlockingStub,
-) : StockController {
-    @PatchMapping("/api/stocks/{id}/decrease")
+) : ProductController {
+    @PatchMapping("/api/products/{id}/decrease-stock")
     @Operation(
         operationId = "decreaseStock",
     )

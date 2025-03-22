@@ -1,10 +1,10 @@
-package jp.inaba.core.domain.stock
+package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.UseCaseError
 
-enum class IncreaseStockError(
+enum class DecreaseStockError(
     override val errorCode: String,
     override val errorMessage: String,
 ) : UseCaseError {
-    OutOfStock("1", "在庫が満杯です。"),
+    INSUFFICIENT_STOCK("1", "在庫が確保できませんでした"),
 }

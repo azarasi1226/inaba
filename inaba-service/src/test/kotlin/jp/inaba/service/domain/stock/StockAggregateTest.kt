@@ -3,16 +3,16 @@ package jp.inaba.service.domain.stock
 import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.core.domain.stock.DecreaseCount
-import jp.inaba.core.domain.stock.DecreaseStockError
-import jp.inaba.core.domain.stock.IncreaseCount
-import jp.inaba.core.domain.stock.IncreaseStockError
+import jp.inaba.core.domain.product.DecreaseStockQuantity
+import jp.inaba.core.domain.product.DecreaseStockError
+import jp.inaba.core.domain.product.IncreaseStockQuantity
+import jp.inaba.core.domain.product.IncreaseStockError
 import jp.inaba.core.domain.stock.StockId
-import jp.inaba.message.stock.command.DecreaseStockCommand
-import jp.inaba.message.stock.command.IncreaseStockCommand
+import jp.inaba.message.product.command.DecreaseStockCommand
+import jp.inaba.message.product.command.IncreaseStockCommand
 import jp.inaba.message.stock.event.StockCreatedEvent
-import jp.inaba.message.stock.event.StockDecreasedEvent
-import jp.inaba.message.stock.event.StockIncreasedEvent
+import jp.inaba.message.product.event.StockDecreasedEvent
+import jp.inaba.message.product.event.StockIncreasedEvent
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.axonframework.test.matchers.Matchers
@@ -57,7 +57,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = IncreaseCount(1000)
+        val increaseCount = IncreaseStockQuantity(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -70,7 +70,7 @@ class StockAggregateTest {
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
-                    increaseCount = increaseCount,
+                    increaseStockQuantity = increaseCount,
                     idempotencyId = idempotencyId,
                 ),
             )
@@ -79,7 +79,7 @@ class StockAggregateTest {
             .expectEvents(
                 StockIncreasedEvent(
                     id = stockId.value,
-                    increaseCount = increaseCount.value,
+                    increaseStockQuantity = increaseCount.value,
                     idempotencyId = idempotencyId.value,
                     // 在庫がないのだから入庫した分のはず
                     increasedStockQuantity = 1000,
@@ -92,7 +92,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = IncreaseCount(1000)
+        val increaseCount = IncreaseStockQuantity(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -103,7 +103,7 @@ class StockAggregateTest {
             ),
             StockIncreasedEvent(
                 id = stockId.value,
-                increaseCount = increaseCount.value,
+                increaseStockQuantity = increaseCount.value,
                 idempotencyId = idempotencyId.value,
                 increasedStockQuantity = 1000,
             ),
@@ -111,7 +111,7 @@ class StockAggregateTest {
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
-                    increaseCount = increaseCount,
+                    increaseStockQuantity = increaseCount,
                     idempotencyId = idempotencyId,
                 ),
             )
@@ -125,7 +125,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val increaseCount = IncreaseCount(1_000_000)
+        val increaseCount = IncreaseStockQuantity(1_000_000)
         val idempotencyId1 = IdempotencyId()
         val idempotencyId2 = IdempotencyId()
 
@@ -137,7 +137,7 @@ class StockAggregateTest {
             ),
             StockIncreasedEvent(
                 id = stockId.value,
-                increaseCount = increaseCount.value,
+                increaseStockQuantity = increaseCount.value,
                 idempotencyId = idempotencyId1.value,
                 increasedStockQuantity = 1_000_000,
             ),
@@ -145,7 +145,7 @@ class StockAggregateTest {
             .`when`(
                 IncreaseStockCommand(
                     id = stockId,
-                    increaseCount = IncreaseCount(1),
+                    increaseStockQuantity = IncreaseStockQuantity(1),
                     idempotencyId = idempotencyId2,
                 ),
             )
@@ -153,7 +153,7 @@ class StockAggregateTest {
             .expectNoEvents()
             .expectException(
                 Matchers.predicate<UseCaseException> {
-                    it.error == IncreaseStockError.OutOfStock
+                    it.error == IncreaseStockError.CANNOT_RECEIVE
                 },
             )
     }
@@ -163,7 +163,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = DecreaseCount(1)
+        val decreaseCount = DecreaseStockQuantity(1)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -174,7 +174,7 @@ class StockAggregateTest {
             ),
             StockIncreasedEvent(
                 id = stockId.value,
-                increaseCount = 1,
+                increaseStockQuantity = 1,
                 idempotencyId = IdempotencyId().value,
                 increasedStockQuantity = 1,
             ),
@@ -182,7 +182,7 @@ class StockAggregateTest {
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
-                    decreaseCount = decreaseCount,
+                    decreaseStockQuantity = decreaseCount,
                     idempotencyId = idempotencyId,
                 ),
             )
@@ -191,7 +191,7 @@ class StockAggregateTest {
             .expectEvents(
                 StockDecreasedEvent(
                     id = stockId.value,
-                    decreaseCount = decreaseCount.value,
+                    decreaseStockQuantity = decreaseCount.value,
                     idempotencyId = idempotencyId.value,
                     decreasedStockQuantity = 0,
                 ),
@@ -203,7 +203,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = DecreaseCount(1000)
+        val decreaseCount = DecreaseStockQuantity(1000)
         val idempotencyId = IdempotencyId()
 
         // Act
@@ -214,13 +214,13 @@ class StockAggregateTest {
             ),
             StockIncreasedEvent(
                 id = stockId.value,
-                increaseCount = 100,
+                increaseStockQuantity = 100,
                 idempotencyId = IdempotencyId().value,
                 increasedStockQuantity = 100,
             ),
             StockDecreasedEvent(
                 id = stockId.value,
-                decreaseCount = 10,
+                decreaseStockQuantity = 10,
                 idempotencyId = idempotencyId.value,
                 decreasedStockQuantity = 90,
             ),
@@ -228,7 +228,7 @@ class StockAggregateTest {
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
-                    decreaseCount = decreaseCount,
+                    decreaseStockQuantity = decreaseCount,
                     idempotencyId = idempotencyId,
                 ),
             )
@@ -242,7 +242,7 @@ class StockAggregateTest {
         // Arrange
         val stockId = StockId()
         val productId = ProductId()
-        val decreaseCount = DecreaseCount(1_000_000)
+        val decreaseCount = DecreaseStockQuantity(1_000_000)
         val idempotencyId1 = IdempotencyId()
         val idempotencyId2 = IdempotencyId()
 
@@ -256,7 +256,7 @@ class StockAggregateTest {
             .`when`(
                 DecreaseStockCommand(
                     id = stockId,
-                    decreaseCount = decreaseCount,
+                    decreaseStockQuantity = decreaseCount,
                     idempotencyId = idempotencyId2,
                 ),
             )
@@ -264,7 +264,7 @@ class StockAggregateTest {
             .expectNoEvents()
             .expectException(
                 Matchers.predicate<UseCaseException> {
-                    it.error == DecreaseStockError.InsufficientStock
+                    it.error == DecreaseStockError.INSUFFICIENT_STOCK
                 },
             )
     }

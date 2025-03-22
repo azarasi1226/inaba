@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package stock;
+package product;
 
 import "google/protobuf/empty.proto";
 
 option java_multiple_files = true;
-option java_package = "jp.inaba.grpc.stock";
+option java_package = "jp.inaba.grpc.product";
 
 service DecreaseStock {
   rpc handle (DecreaseStockRequest) returns (google.protobuf.Empty);
@@ -13,7 +13,6 @@ service DecreaseStock {
 
 message DecreaseStockRequest {
   string id = 1;
-  int32 decreaseCount = 2;
-
-  string idempotencyId = 3;
+  string idempotencyId = 2;
+  int32 decreaseStockQuantity = 3;
 }

@@ -18,4 +18,5 @@ message CreateProductRequest {
   string description = 4;
   optional string imageUrl = 5;
   int32 price = 6;
+  int32 quantity = 7;
 }

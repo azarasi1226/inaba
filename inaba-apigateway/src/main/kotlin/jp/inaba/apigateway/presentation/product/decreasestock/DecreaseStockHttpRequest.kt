@@ -1,4 +1,4 @@
-package jp.inaba.apigateway.presentation.stock.decrease
+package jp.inaba.apigateway.presentation.product.decreasestock
 
 import jp.inaba.grpc.stock.DecreaseStockRequest
 

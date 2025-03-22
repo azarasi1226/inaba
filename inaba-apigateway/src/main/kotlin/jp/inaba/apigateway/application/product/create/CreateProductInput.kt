@@ -9,4 +9,5 @@ data class CreateProductInput(
     val description: String,
     val image: MultipartFile?,
     val price: Int,
+    val quantity: Int,
 )

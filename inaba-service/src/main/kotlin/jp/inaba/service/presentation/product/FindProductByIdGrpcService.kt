@@ -27,7 +27,6 @@ FindProductByIdGrpcService(
         val response =
             FindProductByIdResponse.newBuilder()
                 .setName(result.name)
-                .setStockId(result.stockId)
                 .setDescription(result.description)
                 .apply { if (result.imageUrl != null) setImageUrl(result.imageUrl) }
                 .setPrice(result.price)

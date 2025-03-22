@@ -14,7 +14,6 @@ message FindProductByIdRequest {
 }
 
 message FindProductByIdResponse {
-  string stockId = 1;
   string name = 2;
   string description = 3;
   optional string imageUrl = 4;
