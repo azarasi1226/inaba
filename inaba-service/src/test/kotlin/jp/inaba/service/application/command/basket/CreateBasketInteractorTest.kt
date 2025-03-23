@@ -1,25 +1,33 @@
 package jp.inaba.service.application.command.basket
 
-import io.mockk.MockKAnnotations
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.basket.CreateBasketError
+import jp.inaba.core.domain.common.CommonError
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.basket.command.CreateBasketCommand
+import jp.inaba.service.domain.UniqueAggregateIdVerifier
 import jp.inaba.service.domain.basket.CreateBasketVerifier
 import jp.inaba.service.domain.basket.InternalCreateBasketCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 class CreateBasketInteractorTest {
     @MockK
-    private lateinit var canCreateBasketVerifier: CreateBasketVerifier
+    private lateinit var uniqueAggregateIdVerifier: UniqueAggregateIdVerifier
+
+    @MockK
+    private lateinit var createBasketVerifier: CreateBasketVerifier
 
     @MockK
     private lateinit var commandGateway: CommandGateway
@@ -27,9 +35,9 @@ class CreateBasketInteractorTest {
     @InjectMockKs
     private lateinit var sut: CreateBasketInteractor
 
-    @BeforeEach
-    fun before() {
-        MockKAnnotations.init(this)
+    @AfterEach
+    fun after() {
+        confirmVerified(commandGateway)
     }
 
     @Test
@@ -43,10 +51,13 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.isUserNotFound(userId)
+            uniqueAggregateIdVerifier.hasDuplicateAggregateId(basketId.value)
         } returns false
         every {
-            canCreateBasketVerifier.isLinkedToUser(userId)
+            createBasketVerifier.isUserNotFound(userId)
+        } returns false
+        every {
+            createBasketVerifier.isLinkedToUser(userId)
         } returns false
         every {
             commandGateway.sendAndWait<Any>(any())
@@ -67,6 +78,30 @@ class CreateBasketInteractorTest {
     }
 
     @Test
+    fun `AggregateIdが既に存在する_同じIDで買い物かごを作成する_Commandが発行されずException`() {
+        // Arrange
+        val basketId = BasketId()
+        val userId = UserId()
+        val command =
+            CreateBasketCommand(
+                id = basketId,
+                userId = userId,
+            )
+        every {
+            uniqueAggregateIdVerifier.hasDuplicateAggregateId(basketId.value)
+        } returns true
+
+        // Act
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
+
+        // Assert
+        assert(exception.error == CommonError.AGGREGATE_DUPLICATED)
+    }
+
+    @Test
     fun `ユーザーが存在しない_買い物かごを作成_Commandが発行されずException`() {
         // Arrange
         val basketId = BasketId()
@@ -77,7 +112,10 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.isUserNotFound(userId)
+            uniqueAggregateIdVerifier.hasDuplicateAggregateId(basketId.value)
+        } returns false
+        every {
+            createBasketVerifier.isUserNotFound(userId)
         } returns true
 
         // Act
@@ -88,9 +126,6 @@ class CreateBasketInteractorTest {
 
         // Assert
         assert(exception.error == CreateBasketError.USER_NOT_FOUND)
-        verify(exactly = 0) {
-            commandGateway.sendAndWait<Any>(any())
-        }
     }
 
     @Test
@@ -104,10 +139,13 @@ class CreateBasketInteractorTest {
                 userId = userId,
             )
         every {
-            canCreateBasketVerifier.isUserNotFound(userId)
+            uniqueAggregateIdVerifier.hasDuplicateAggregateId(basketId.value)
         } returns false
         every {
-            canCreateBasketVerifier.isLinkedToUser(userId)
+            createBasketVerifier.isUserNotFound(userId)
+        } returns false
+        every {
+            createBasketVerifier.isLinkedToUser(userId)
         } returns true
 
         // Act
@@ -118,8 +156,5 @@ class CreateBasketInteractorTest {
 
         // Assert
         assert(exception.error == CreateBasketError.BASKET_ALREADY_LINKED_TO_USER)
-        verify(exactly = 0) {
-            commandGateway.sendAndWait<Any>(any())
-        }
     }
 }
