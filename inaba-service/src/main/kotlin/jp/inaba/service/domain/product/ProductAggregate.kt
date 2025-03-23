@@ -1,6 +1,7 @@
 package jp.inaba.service.domain.product
 
 import jp.inaba.core.domain.product.ProductId
+import jp.inaba.core.domain.product.StockQuantity
 import jp.inaba.message.product.command.DeleteProductCommand
 import jp.inaba.message.product.command.UpdateProductCommand
 import jp.inaba.message.product.event.ProductCreatedEvent
@@ -19,7 +20,7 @@ class ProductAggregate() {
     private lateinit var id: ProductId
 
     @AggregateMember
-    private val stock: ProductStock = ProductStock()
+    private lateinit var stock: ProductStock
 
     @CommandHandler
     constructor(command: InternalCreateProductCommand) : this() {
@@ -61,6 +62,7 @@ class ProductAggregate() {
     @EventSourcingHandler
     fun on(event: ProductCreatedEvent) {
         id = ProductId(event.id)
+        stock = ProductStock(StockQuantity(event.quantity))
     }
 
     @EventSourcingHandler
