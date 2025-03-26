@@ -36,12 +36,11 @@ SELECT
     p.name AS ${SqlResult::name.name},
     p.image_url AS ${SqlResult::imageUrl.name},
     p.price AS ${SqlResult::price.name},
-    s.quantity AS ${SqlResult::quantity.name},
+    p.quantity AS ${SqlResult::quantity.name},
     COUNT(*) OVER() AS ${SqlResult::totalCount.name}
 FROM product p
-INNER JOIN stock s
-    ON p.name LIKE :likeName
-    AND p.id = s.product_id
+WHERE
+    p.name LIKE :likeName
 ORDER BY ${query.sortCondition.property.dbColumnName} ${query.sortCondition.direction.name}
 LIMIT :offset, :pageSize
 """
