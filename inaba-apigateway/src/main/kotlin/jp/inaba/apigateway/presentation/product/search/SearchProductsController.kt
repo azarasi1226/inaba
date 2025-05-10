@@ -1,10 +1,8 @@
 package jp.inaba.apigateway.presentation.product.search
 
 import io.swagger.v3.oas.annotations.Operation
-import jp.inaba.apigateway.presentation.common.SortDirection
 import jp.inaba.apigateway.presentation.product.ProductController
 import jp.inaba.grpc.common.PagingCondition
-import jp.inaba.grpc.common.SortCondition
 import jp.inaba.grpc.product.SearchProductsGrpc
 import jp.inaba.grpc.product.SearchProductsRequest
 import net.devh.boot.grpc.client.inject.GrpcClient
@@ -28,10 +26,8 @@ class SearchProductsController(
         pageSize: Int,
         @RequestParam("pageNumber")
         pageNumber: Int,
-        @RequestParam("sortProperty")
-        sortProperty: ProductSortProperty,
-        @RequestParam("sortDirection")
-        sortDirection: SortDirection,
+        @RequestParam("sortCondition")
+        sortCondition: SearchProductSortCondition,
     ): SearchProductsHttpResponse {
         val grpcRequest =
             SearchProductsRequest.newBuilder()
@@ -42,12 +38,7 @@ class SearchProductsController(
                         .setPageNumber(pageNumber)
                         .build(),
                 )
-                .setSortCondition(
-                    SortCondition.newBuilder()
-                        .setProperty(sortProperty.name)
-                        .setDirection(sortDirection.name)
-                        .build(),
-                )
+                .setSortCondition(sortCondition.name)
                 .build()
 
         val grpcResponse = grpcService.handle(grpcRequest)

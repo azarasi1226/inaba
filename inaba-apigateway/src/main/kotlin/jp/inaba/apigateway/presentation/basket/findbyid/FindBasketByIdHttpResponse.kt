@@ -33,6 +33,7 @@ data class FindBasketByIdHttpResponse(
                         paging =
                             Paging(
                                 totalCount = grpcResponse.paging.totalCount,
+                                totalPage = grpcResponse.paging.totalPage,
                                 pageSize = grpcResponse.paging.pageSize,
                                 pageNumber = grpcResponse.paging.pageNumber,
                             ),

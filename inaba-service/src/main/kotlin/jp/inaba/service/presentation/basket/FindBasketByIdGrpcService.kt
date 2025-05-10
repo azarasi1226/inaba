@@ -39,6 +39,7 @@ class FindBasketByIdGrpcService(
                 .setPaging(
                     Paging.newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
+                        .setTotalPage(result.page.paging.totalPage)
                         .setPageSize(result.page.paging.pageSize)
                         .setPageNumber(result.page.paging.pageNumber)
                         .build(),

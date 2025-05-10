@@ -2,9 +2,7 @@ package jp.inaba.service.presentation.product
 
 import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.common.PagingCondition
-import jp.inaba.core.domain.common.SortCondition
-import jp.inaba.core.domain.common.SortDirection
-import jp.inaba.core.domain.product.ProductSortProperty
+import jp.inaba.core.domain.product.SearchProductSortCondition
 import jp.inaba.grpc.common.Paging
 import jp.inaba.grpc.product.SearchProductsGrpc
 import jp.inaba.grpc.product.SearchProductsRequest
@@ -32,11 +30,7 @@ class SearchProductsGrpcService(
                         pageSize = request.pagingCondition.pageSize,
                         pageNumber = request.pagingCondition.pageNumber,
                     ),
-                sortCondition =
-                    SortCondition(
-                        property = ProductSortProperty.valueOf(request.sortCondition.property),
-                        direction = SortDirection.valueOf(request.sortCondition.direction),
-                    ),
+                sortCondition = SearchProductSortCondition.valueOf(request.sortCondition)
             )
 
         val result = queryGateway.query<SearchProductsResult, SearchProductsQuery>(query).get()
@@ -46,6 +40,7 @@ class SearchProductsGrpcService(
                 .setPaging(
                     Paging.newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
+                        .setTotalPage(result.page.paging.totalPage)
                         .setPageSize(result.page.paging.pageSize)
                         .setPageNumber(result.page.paging.pageNumber)
                         .build(),

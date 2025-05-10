@@ -41,7 +41,7 @@ SELECT
 FROM product p
 WHERE
     p.name LIKE :likeName
-ORDER BY ${query.sortCondition.property.dbColumnName} ${query.sortCondition.direction.name}
+ORDER BY ${query.sortCondition.dbColumnName} ${query.sortCondition.sortDirection.name}
 LIMIT :offset, :pageSize
 """
 

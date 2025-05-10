@@ -2,13 +2,12 @@ package jp.inaba.message.product.query
 
 import jp.inaba.core.domain.common.Page
 import jp.inaba.core.domain.common.PagingCondition
-import jp.inaba.core.domain.common.SortCondition
-import jp.inaba.core.domain.product.ProductSortProperty
+import jp.inaba.core.domain.product.SearchProductSortCondition
 
 data class SearchProductsQuery(
     val likeProductName: String,
     val pagingCondition: PagingCondition,
-    val sortCondition: SortCondition<ProductSortProperty>,
+    val sortCondition: SearchProductSortCondition,
 )
 
 data class SearchProductsResult(

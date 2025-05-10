@@ -4,7 +4,6 @@ package product;
 
 import "common/Paging.proto";
 import "common/PagingCondition.proto";
-import "common/SortCondition.proto";
 
 option java_multiple_files = true;
 option java_package = "jp.inaba.grpc.product";
@@ -16,7 +15,7 @@ service SearchProducts {
 message SearchProductsRequest {
   string likeProductName = 1;
   common.PagingCondition pagingCondition = 2;
-  common.SortCondition sortCondition = 3;
+  string sortCondition = 3;
 }
 
 message SearchProductsResponse {

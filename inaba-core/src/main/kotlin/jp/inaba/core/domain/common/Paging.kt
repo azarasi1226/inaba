@@ -1,19 +1,23 @@
 package jp.inaba.core.domain.common
 
+import kotlin.math.ceil
+
 data class Paging(
     val totalCount: Long,
     val pageSize: Int,
     val pageNumber: Int,
 ) {
+    val totalPage: Int = ceil(totalCount.toDouble() / pageSize).toInt()
+
     init {
         if (totalCount < 0) {
-            throw ValueObjectException("totalCountは[0 ~ ]の数値を乳旅行してください。totalCount:[$totalCount]")
+            throw ValueObjectException("totalCountは[0 ~]な数値を入力してください。totalCount:[$totalCount]")
         }
-        if (pageSize <= 0) {
-            throw ValueObjectException("pageSizeは[1 ~]の数値を入力してください。pageSize:[$pageSize]")
+        if (pageSize < 1) {
+            throw ValueObjectException("pageSizeは[1 ~]な数値を入力してください。pageSize:[$pageSize]")
         }
         if (pageNumber < 0) {
-            throw ValueObjectException("pageNumberは[0 ~]の数値を入力してください。pageNumber:[$pageNumber]")
+            throw ValueObjectException("pageNumberは[0 ~]な数値を入力してください。pageNumber:[$pageNumber]")
         }
     }
 }
