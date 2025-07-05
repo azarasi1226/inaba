@@ -5,8 +5,8 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.common.IdempotencyId
 import jp.inaba.core.domain.product.IncreaseStockQuantity
 import jp.inaba.core.domain.product.ProductId
-import jp.inaba.grpc.stock.IncreaseStockGrpc
-import jp.inaba.grpc.stock.IncreaseStockRequest
+import jp.inaba.grpc.product.IncreaseStockGrpc
+import jp.inaba.grpc.product.IncreaseStockRequest
 import jp.inaba.message.product.command.IncreaseStockCommand
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -23,7 +23,7 @@ class IncreaseStockGrpcService(
             IncreaseStockCommand(
                 id = ProductId(request.id),
                 idempotencyId = IdempotencyId(request.idempotencyId),
-                increaseStockQuantity = IncreaseStockQuantity(request.increaseCount),
+                increaseStockQuantity = IncreaseStockQuantity(request.increaseStockQuantity),
             )
 
         commandGateway.sendAndWait<Any>(command)

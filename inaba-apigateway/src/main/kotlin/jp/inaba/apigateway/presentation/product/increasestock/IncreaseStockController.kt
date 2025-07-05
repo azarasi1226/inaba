@@ -2,7 +2,7 @@ package jp.inaba.apigateway.presentation.product.increasestock
 
 import io.swagger.v3.oas.annotations.Operation
 import jp.inaba.apigateway.presentation.product.ProductController
-import jp.inaba.grpc.stock.IncreaseStockGrpc
+import jp.inaba.grpc.product.IncreaseStockGrpc
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable

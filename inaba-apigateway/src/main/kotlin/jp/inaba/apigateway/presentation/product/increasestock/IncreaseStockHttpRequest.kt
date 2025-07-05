@@ -1,6 +1,6 @@
 package jp.inaba.apigateway.presentation.product.increasestock
 
-import jp.inaba.grpc.stock.IncreaseStockRequest
+import jp.inaba.grpc.product.IncreaseStockRequest
 
 data class IncreaseStockHttpRequest(
     val increaseCount: Int,
@@ -9,7 +9,7 @@ data class IncreaseStockHttpRequest(
     fun toGrpcRequest(id: String): IncreaseStockRequest {
         return IncreaseStockRequest.newBuilder()
             .setId(id)
-            .setIncreaseCount(increaseCount)
+            .setIncreaseStockQuantity(increaseCount)
             .setIdempotencyId(idempotencyId)
             .build()
     }
