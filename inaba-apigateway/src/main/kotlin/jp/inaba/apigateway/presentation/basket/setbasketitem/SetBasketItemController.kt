@@ -25,7 +25,7 @@ class SetBasketItemController(
     )
     fun handle(
         @RequestBody
-        request: jp.inaba.apigateway.presentation.basket.setbasketitem.SetBasketItemHttpRequest,
+        request: SetBasketItemHttpRequest,
     ) {
         val basketId = authenticatedUserService.getUserMetadata().basketId
         val grpcRequest = request.toGrpcRequest(basketId)
