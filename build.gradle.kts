@@ -16,7 +16,7 @@ java {
 }
 
 allprojects {
-    val axonVersion = "4.10.4"
+    val axonVersion = "4.11.3"
 
     group = "inaba"
     version = "0.0.1-SNAPSHOT"
