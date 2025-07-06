@@ -1,18 +1,20 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.2.3"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("org.springframework.boot") version "3.5.3"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
 
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.spring") version "1.9.22"
-    kotlin("plugin.jpa") version "1.9.22"
+    kotlin("jvm") version "2.2.0"
+    kotlin("plugin.spring") version "2.2.0"
+    kotlin("plugin.jpa") version "2.2.0"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 allprojects {
@@ -28,10 +30,12 @@ allprojects {
         mavenCentral()
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs += "-Xjsr305=strict"
-            jvmTarget = "21"
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            // @Nullableや@NonNullをkotlinのnullableなどのルールに変換する
+            freeCompilerArgs.add("-Xjsr305=strict")
+            // バイトコードをJVM21向けのバイトコードに変換する
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -41,8 +45,7 @@ allprojects {
 
     dependencies {
         implementation(platform("org.axonframework:axon-bom:$axonVersion"))
-        implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
+        implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
         implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
-        implementation("com.michael-bull.kotlin-result:kotlin-result:2.0.0")
     }
 }
