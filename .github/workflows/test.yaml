@@ -4,6 +4,15 @@ on:
     paths: ['**/*.kt', '**/*.build.gradle.kts']
   push: #TODO消す
 jobs:
+  ktlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v4
+
+      - name: "ktlint"
+        run: ./gradlew ktlintCheck
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -19,9 +28,6 @@ jobs:
 
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
-
-      - name: "ktlint"
-        run: ./gradle ktlintCheck
 
       - name: "build"
         run: ./gradlew :inaba-service:build
