@@ -3,10 +3,21 @@ on:
   pull_request:
     paths: ['**/*.kt', '**/*.build.gradle.kts']
 jobs:
-  - uses: actions/setup-java@v5
-    with:
-      distribution: 'corretto'
-      java-version: '21'
-      cash: 'gradle'
-  - name: "test実行"
-    run: ./gradle test
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v4
+
+      - name: "setup java"
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+          cash: 'gradle'
+
+      - name: "build"
+        run: ./gradle build
+
+      - name: "test"
+        run: ./gradle test
