@@ -1,0 +1,12 @@
+name: test
+on:
+  pull_request:
+    paths: ['**/*.kt', '**/*.build.gradle.kts']
+jobs:
+  - uses: actions/setup-java@v5
+    with:
+      distribution: 'corretto'
+      java-version: '21'
+      cash: 'gradle'
+  - name: "test実行"
+    run: ./gradle test
