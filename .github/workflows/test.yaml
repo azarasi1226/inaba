@@ -17,8 +17,11 @@ jobs:
           java-version: '21'
           cash: 'gradle'
 
+      - name: "./gradleファイルを実行する権限を付与"
+        run: chmod -x ./gradlew
+
       - name: "build"
-        run: ./gradle build
+        run: ./gradlew build
 
       - name: "test"
-        run: ./gradle test
+        run: ./gradlew test
