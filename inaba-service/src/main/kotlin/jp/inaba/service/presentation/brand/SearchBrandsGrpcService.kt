@@ -34,24 +34,25 @@ class SearchBrandsGrpcService(
         val result = queryGateway.query<SearchBrandsResult, SearchBrandsQuery>(query).get()
 
         val response =
-            SearchBrandsResponse.newBuilder()
+            SearchBrandsResponse
+                .newBuilder()
                 .setPaging(
-                    Paging.newBuilder()
+                    Paging
+                        .newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
                         .setTotalPage(result.page.paging.totalPage)
                         .setPageSize(result.page.paging.pageSize)
                         .setPageNumber(result.page.paging.pageNumber)
                         .build(),
-                )
-                .addAllItems(
+                ).addAllItems(
                     result.page.items.map {
-                        Summary.newBuilder()
+                        Summary
+                            .newBuilder()
                             .setId(it.id)
                             .setName(it.name)
                             .build()
                     },
-                )
-                .build()
+                ).build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

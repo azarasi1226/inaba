@@ -8,12 +8,11 @@ import java.util.function.BiFunction
 private val logger = KotlinLogging.logger {}
 
 class LoggingQueryDispatchInterceptor : MessageDispatchInterceptor<QueryMessage<*, *>> {
-    override fun handle(messages: MutableList<out QueryMessage<*, *>>): BiFunction<Int, QueryMessage<*, *>, QueryMessage<*, *>> {
-        return BiFunction { _, query ->
+    override fun handle(messages: MutableList<out QueryMessage<*, *>>): BiFunction<Int, QueryMessage<*, *>, QueryMessage<*, *>> =
+        BiFunction { _, query ->
             // TODO:もっときれいな表示形式にしたいね('ω')
             logger.debug { "クエリ発行：${query.payload}" }
 
             query
         }
-    }
 }

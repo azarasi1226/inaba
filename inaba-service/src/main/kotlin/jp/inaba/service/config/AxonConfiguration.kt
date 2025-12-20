@@ -32,11 +32,11 @@ class AxonConfiguration {
     }
 
     @Bean
-    fun commandGateway(commandBus: CommandBus): CommandGateway {
-        return DefaultCommandGateway.builder()
+    fun commandGateway(commandBus: CommandBus): CommandGateway =
+        DefaultCommandGateway
+            .builder()
             .commandBus(commandBus)
             .build()
-    }
 
     @Bean(name = ["exponentialBackoff"])
     fun exponentialBackOffCommandGateway(commandBus: CommandBus): CommandGateway {
@@ -57,8 +57,7 @@ class AxonConfiguration {
                     }
 
                     return@addNonTransientFailurePredicate false
-                }
-                .build()
+                }.build()
 
         return DefaultCommandGateway
             .builder()

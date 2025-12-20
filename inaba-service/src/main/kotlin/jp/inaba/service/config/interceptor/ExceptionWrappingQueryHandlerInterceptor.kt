@@ -29,8 +29,8 @@ class ExceptionWrappingQueryHandlerInterceptor : MessageHandlerInterceptor<Query
         }
     }
 
-    private fun exceptionDetails(e: Throwable): UseCaseError {
-        return when (e) {
+    private fun exceptionDetails(e: Throwable): UseCaseError =
+        when (e) {
             // QueryHandler → 呼び出し元
             is UseCaseException -> {
                 e.error
@@ -41,5 +41,4 @@ class ExceptionWrappingQueryHandlerInterceptor : MessageHandlerInterceptor<Query
                 throw e
             }
         }
-    }
 }

@@ -21,7 +21,8 @@ class FindBasketByIdQueryService(
 ) {
     @QueryHandler
     fun handle(query: FindBasketByIdQuery): FindBasketByIdResult {
-        lookUpBasketRepository.findById(query.basketId.value)
+        lookUpBasketRepository
+            .findById(query.basketId.value)
             .orElseThrow { UseCaseException(FindBasketByIdError.BASKET_NOT_FOUND) }
 
         val nativeQuery = createNativeQuery(query)
@@ -53,7 +54,8 @@ LIMIT :offset, :pageSize
 """
 
         val nativeQuery =
-            entityManager.createNativeQuery(sql, SqlResult::class.java)
+            entityManager
+                .createNativeQuery(sql, SqlResult::class.java)
                 .setParameter("basketId", query.basketId.value)
                 .setParameter("offset", query.pagingCondition.offset)
                 .setParameter("pageSize", query.pagingCondition.pageSize)

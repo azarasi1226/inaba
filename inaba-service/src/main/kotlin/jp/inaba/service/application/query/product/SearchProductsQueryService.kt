@@ -46,7 +46,8 @@ LIMIT :offset, :pageSize
 """
 
         val nativeQuery =
-            entityManager.createNativeQuery(sql, SqlResult::class.java)
+            entityManager
+                .createNativeQuery(sql, SqlResult::class.java)
                 .setParameter("likeName", "%${query.likeProductName}%")
                 .setParameter("offset", query.pagingCondition.offset)
                 .setParameter("pageSize", query.pagingCondition.pageSize)

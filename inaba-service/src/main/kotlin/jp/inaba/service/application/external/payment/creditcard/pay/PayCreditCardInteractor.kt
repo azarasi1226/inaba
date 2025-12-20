@@ -4,8 +4,7 @@ import org.axonframework.commandhandling.CommandHandler
 import org.springframework.stereotype.Component
 
 @Component
-class PayCreditCardInteractor
-{
+class PayCreditCardInteractor {
     @CommandHandler
     fun handle() {
         println("支払いしたよ～")

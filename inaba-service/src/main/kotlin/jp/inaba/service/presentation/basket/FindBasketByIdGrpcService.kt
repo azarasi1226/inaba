@@ -35,18 +35,20 @@ class FindBasketByIdGrpcService(
         val result = queryGateway.query<FindBasketByIdResult, FindBasketByIdQuery>(query).get()
 
         val response =
-            FindBasketByIdResponse.newBuilder()
+            FindBasketByIdResponse
+                .newBuilder()
                 .setPaging(
-                    Paging.newBuilder()
+                    Paging
+                        .newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
                         .setTotalPage(result.page.paging.totalPage)
                         .setPageSize(result.page.paging.pageSize)
                         .setPageNumber(result.page.paging.pageNumber)
                         .build(),
-                )
-                .addAllBasketItems(
+                ).addAllBasketItems(
                     result.page.items.map {
-                        BasketItem.newBuilder()
+                        BasketItem
+                            .newBuilder()
                             .setProductId(it.productId)
                             .setProductName(it.productName)
                             .setProductPrice(it.productPrice)
@@ -54,8 +56,7 @@ class FindBasketByIdGrpcService(
                             .setBasketItemQuantity(it.basketItemQuantity)
                             .build()
                     },
-                )
-                .build()
+                ).build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

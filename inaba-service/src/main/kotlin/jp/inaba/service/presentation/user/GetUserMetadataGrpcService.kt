@@ -26,7 +26,8 @@ class GetUserMetadataGrpcService(
         val result = queryGateway.query<FindUserMetadataBySubjectResult, FindUserMetadataBySubjectQuery>(query).get()
 
         val response =
-            FindUserMetadataBySubjectResponse.newBuilder()
+            FindUserMetadataBySubjectResponse
+                .newBuilder()
                 .setUserId(result.userId)
                 .setBasketId(result.basketId)
                 .build()

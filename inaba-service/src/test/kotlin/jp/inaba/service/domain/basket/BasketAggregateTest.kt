@@ -34,7 +34,8 @@ class BasketAggregateTest {
         val basketId = BasketId()
         val userId = UserId()
 
-        fixture.givenNoPriorActivity()
+        fixture
+            .givenNoPriorActivity()
             // Act
             .`when`(
                 InternalCreateBasketCommand(
@@ -61,19 +62,21 @@ class BasketAggregateTest {
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(
-            BasketCreatedEvent(
-                id = basketId.value,
-                userId = userId.value,
-            ),
-            *(1..itemKindCount).map {
-                BasketItemSetEvent(
+        fixture
+            .given(
+                BasketCreatedEvent(
                     id = basketId.value,
-                    productId = ProductId().value,
-                    basketItemQuantity = quantity.value,
-                )
-            }.toTypedArray(),
-        )
+                    userId = userId.value,
+                ),
+                *(1..itemKindCount)
+                    .map {
+                        BasketItemSetEvent(
+                            id = basketId.value,
+                            productId = ProductId().value,
+                            basketItemQuantity = quantity.value,
+                        )
+                    }.toTypedArray(),
+            )
             // Act
             .`when`(
                 InternalSetBasketItemCommand(
@@ -102,19 +105,21 @@ class BasketAggregateTest {
         val quantity = BasketItemQuantity(20)
         val itemKindCount = 50
 
-        fixture.given(
-            BasketCreatedEvent(
-                id = basketId.value,
-                userId = userId.value,
-            ),
-            *(1..itemKindCount).map {
-                BasketItemSetEvent(
+        fixture
+            .given(
+                BasketCreatedEvent(
                     id = basketId.value,
-                    productId = ProductId().value,
-                    basketItemQuantity = quantity.value,
-                )
-            }.toTypedArray(),
-        )
+                    userId = userId.value,
+                ),
+                *(1..itemKindCount)
+                    .map {
+                        BasketItemSetEvent(
+                            id = basketId.value,
+                            productId = ProductId().value,
+                            basketItemQuantity = quantity.value,
+                        )
+                    }.toTypedArray(),
+            )
             // Act
             .`when`(
                 InternalSetBasketItemCommand(
@@ -140,17 +145,18 @@ class BasketAggregateTest {
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(
-            BasketCreatedEvent(
-                id = basketId.value,
-                userId = userId.value,
-            ),
-            BasketItemSetEvent(
-                id = basketId.value,
-                productId = productId.value,
-                basketItemQuantity = quantity.value,
-            ),
-        )
+        fixture
+            .given(
+                BasketCreatedEvent(
+                    id = basketId.value,
+                    userId = userId.value,
+                ),
+                BasketItemSetEvent(
+                    id = basketId.value,
+                    productId = productId.value,
+                    basketItemQuantity = quantity.value,
+                ),
+            )
             // Act
             .`when`(
                 DeleteBasketItemCommand(
@@ -175,12 +181,13 @@ class BasketAggregateTest {
         val userId = UserId()
         val productId = ProductId()
 
-        fixture.given(
-            BasketCreatedEvent(
-                id = basketId.value,
-                userId = userId.value,
-            ),
-        )
+        fixture
+            .given(
+                BasketCreatedEvent(
+                    id = basketId.value,
+                    userId = userId.value,
+                ),
+            )
             // Act
             .`when`(
                 DeleteBasketItemCommand(
@@ -206,17 +213,18 @@ class BasketAggregateTest {
         val productId = ProductId()
         val quantity = BasketItemQuantity(20)
 
-        fixture.given(
-            BasketCreatedEvent(
-                id = basketId.value,
-                userId = userId.value,
-            ),
-            BasketItemSetEvent(
-                id = basketId.value,
-                productId = productId.value,
-                basketItemQuantity = quantity.value,
-            ),
-        )
+        fixture
+            .given(
+                BasketCreatedEvent(
+                    id = basketId.value,
+                    userId = userId.value,
+                ),
+                BasketItemSetEvent(
+                    id = basketId.value,
+                    productId = productId.value,
+                    basketItemQuantity = quantity.value,
+                ),
+            )
             // Act
             .`when`(
                 ClearBasketCommand(basketId),

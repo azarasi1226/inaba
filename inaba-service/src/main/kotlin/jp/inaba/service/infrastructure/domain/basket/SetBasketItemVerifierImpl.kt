@@ -12,9 +12,7 @@ class SetBasketItemVerifierImpl(
     private val lookupProductJpaRepository: LookupProductJpaRepository,
     private val productJpaRepository: ProductJpaRepository,
 ) : SetBasketItemVerifier {
-    override fun isProductNotFound(productId: ProductId): Boolean {
-        return !lookupProductJpaRepository.existsById(productId.value)
-    }
+    override fun isProductNotFound(productId: ProductId): Boolean = !lookupProductJpaRepository.existsById(productId.value)
 
     override fun isOutOfStock(
         productId: ProductId,
