@@ -1,4 +1,8 @@
 name: test
+defaults:
+  run:
+    # デフォルトshellをbashにすると "--noprofile --norc -eo pipelinfail {0}" が指定されたことになり、安全性が高まる。
+    shell: bash
 on:
   pull_request:
     paths: ['**/*.kt', '**/*.build.gradle.kts']
