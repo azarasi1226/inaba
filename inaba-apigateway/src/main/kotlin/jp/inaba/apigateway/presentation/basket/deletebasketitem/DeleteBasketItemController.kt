@@ -30,7 +30,8 @@ class DeleteBasketItemController(
     ) {
         val basketId = authenticatedUserService.getUserMetadata().basketId
         val grpcRequest =
-            DeleteBasketItemRequest.newBuilder()
+            DeleteBasketItemRequest
+                .newBuilder()
                 .setId(basketId)
                 .setProductId(productId)
                 .build()

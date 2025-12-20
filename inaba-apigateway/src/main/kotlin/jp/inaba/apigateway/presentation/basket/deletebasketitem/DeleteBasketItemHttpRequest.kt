@@ -6,10 +6,10 @@ data class DeleteBasketItemHttpRequest(
     val id: String,
     val productId: String,
 ) {
-    fun toGrpcRequest(): DeleteBasketItemRequest {
-        return DeleteBasketItemRequest.newBuilder()
+    fun toGrpcRequest(): DeleteBasketItemRequest =
+        DeleteBasketItemRequest
+            .newBuilder()
             .setId(id)
             .setProductId(productId)
             .build()
-    }
 }

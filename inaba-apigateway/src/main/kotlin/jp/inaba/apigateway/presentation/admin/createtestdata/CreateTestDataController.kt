@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Profile("local", "test")
 class CreateTestDataController(
-    val interactor: CreateTestDataInteractor
+    val interactor: CreateTestDataInteractor,
 ) : AdminController {
     @PostMapping("/create-test-data")
     fun handle() {

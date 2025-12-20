@@ -10,14 +10,13 @@ data class FindProductByIdHttpResponse(
     val quantity: Int,
 ) {
     companion object {
-        fun fromGrpcResponse(grpcResponse: FindProductByIdResponse): FindProductByIdHttpResponse {
-            return FindProductByIdHttpResponse(
+        fun fromGrpcResponse(grpcResponse: FindProductByIdResponse): FindProductByIdHttpResponse =
+            FindProductByIdHttpResponse(
                 name = grpcResponse.name,
                 description = grpcResponse.description,
                 imageUrl = if (grpcResponse.hasImageUrl()) grpcResponse.imageUrl else null,
                 price = grpcResponse.price,
                 quantity = grpcResponse.quantity,
             )
-        }
     }
 }

@@ -28,15 +28,16 @@ class SearchBrandsController(
         pageNumber: Int,
     ): SearchBrandsHttpResponse {
         val grpcRequest =
-            SearchBrandsRequest.newBuilder()
+            SearchBrandsRequest
+                .newBuilder()
                 .setLikeBrandName(likeBrandName)
                 .setPagingCondition(
-                    PagingCondition.newBuilder()
+                    PagingCondition
+                        .newBuilder()
                         .setPageSize(pageSize)
                         .setPageNumber(pageNumber)
                         .build(),
-                )
-                .build()
+                ).build()
 
         val grpcResponse = grpcService.handle(grpcRequest)
 

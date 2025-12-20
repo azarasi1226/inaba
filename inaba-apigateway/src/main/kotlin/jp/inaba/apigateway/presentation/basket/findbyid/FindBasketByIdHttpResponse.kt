@@ -16,8 +16,8 @@ data class FindBasketByIdHttpResponse(
     )
 
     companion object {
-        fun formGrpcResponse(grpcResponse: FindBasketByIdResponse): FindBasketByIdHttpResponse {
-            return FindBasketByIdHttpResponse(
+        fun formGrpcResponse(grpcResponse: FindBasketByIdResponse): FindBasketByIdHttpResponse =
+            FindBasketByIdHttpResponse(
                 page =
                     Page(
                         items =
@@ -39,6 +39,5 @@ data class FindBasketByIdHttpResponse(
                             ),
                     ),
             )
-        }
     }
 }

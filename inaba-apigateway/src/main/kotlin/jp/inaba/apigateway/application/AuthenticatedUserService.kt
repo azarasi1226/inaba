@@ -24,7 +24,8 @@ class AuthenticatedUserService(
     fun getUserMetadata(): UserMetaData {
         val sub = getJwt().subject
         val grpcRequest =
-            FindUserMetadataBySubjectRequest.newBuilder()
+            FindUserMetadataBySubjectRequest
+                .newBuilder()
                 .setSubject(sub)
                 .build()
 
@@ -36,7 +37,9 @@ class AuthenticatedUserService(
                 basketId = grpcResponse.basketId,
             )
         } catch (e: StatusRuntimeException) {
-            val errorCodeKey = io.grpc.Metadata.Key.of("error-code", io.grpc.Metadata.ASCII_STRING_MARSHALLER)
+            val errorCodeKey =
+                io.grpc.Metadata.Key
+                    .of("error-code", io.grpc.Metadata.ASCII_STRING_MARSHALLER)
             val errorCode = e.trailers?.get(errorCodeKey)
 
             // ユーザーが登録されていない場合作成しに行く。
@@ -46,7 +49,8 @@ class AuthenticatedUserService(
             if (errorCode == "1") {
                 val userId = ULID().nextULID()
                 val createUserGrpcRequest =
-                    CreateUserRequest.newBuilder()
+                    CreateUserRequest
+                        .newBuilder()
                         .setId(userId)
                         .setSubject(sub)
                         .build()

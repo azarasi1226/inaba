@@ -20,6 +20,9 @@ jobs:
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
 
+      - name: "ktlint"
+        run: ./gradle ktlintCheck
+
       - name: "build"
         run: ./gradlew :inaba-service:build
 

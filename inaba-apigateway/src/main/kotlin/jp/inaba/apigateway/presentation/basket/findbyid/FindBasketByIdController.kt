@@ -33,14 +33,15 @@ class FindBasketByIdController(
     ): FindBasketByIdHttpResponse {
         val basketId = authenticatedUserService.getUserMetadata().basketId
         val grpcRequest =
-            FindBasketByIdRequest.newBuilder()
+            FindBasketByIdRequest
+                .newBuilder()
                 .setPagingCondition(
-                    PagingCondition.newBuilder()
+                    PagingCondition
+                        .newBuilder()
                         .setPageSize(pageSize)
                         .setPageNumber(pageNumber)
                         .build(),
-                )
-                .setId(basketId)
+                ).setId(basketId)
                 .build()
 
         val grpcResponse = grpcService.handle(grpcRequest)

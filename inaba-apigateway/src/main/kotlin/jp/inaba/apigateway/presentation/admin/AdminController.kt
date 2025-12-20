@@ -6,4 +6,3 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Tag(name = "Admin")
 @RequestMapping("/api/admin")
 interface AdminController
-

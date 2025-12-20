@@ -30,15 +30,16 @@ class SearchProductsController(
         sortCondition: SearchProductSortCondition,
     ): SearchProductsHttpResponse {
         val grpcRequest =
-            SearchProductsRequest.newBuilder()
+            SearchProductsRequest
+                .newBuilder()
                 .setLikeProductName(likeProductName)
                 .setPagingCondition(
-                    PagingCondition.newBuilder()
+                    PagingCondition
+                        .newBuilder()
                         .setPageSize(pageSize)
                         .setPageNumber(pageNumber)
                         .build(),
-                )
-                .setSortCondition(sortCondition.name)
+                ).setSortCondition(sortCondition.name)
                 .build()
 
         val grpcResponse = grpcService.handle(grpcRequest)

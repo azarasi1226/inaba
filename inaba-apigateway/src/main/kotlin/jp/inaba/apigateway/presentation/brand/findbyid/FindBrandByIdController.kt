@@ -23,7 +23,8 @@ class FindBrandByIdController(
         id: String,
     ): FindBrandByIdHttpResponse {
         val grpcRequest =
-            FindBrandByIdRequest.newBuilder()
+            FindBrandByIdRequest
+                .newBuilder()
                 .setId(id)
                 .build()
 

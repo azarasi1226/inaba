@@ -17,7 +17,5 @@ class IdempotenceChecker {
         idempotencyIds.add(idempotencyId)
     }
 
-    fun isIdempotent(idempotencyId: IdempotencyId): Boolean {
-        return idempotencyIds.contains(idempotencyId)
-    }
+    fun isIdempotent(idempotencyId: IdempotencyId): Boolean = idempotencyIds.contains(idempotencyId)
 }

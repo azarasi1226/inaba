@@ -6,10 +6,10 @@ data class CreateBrandHttpRequest(
     val id: String,
     val name: String,
 ) {
-    fun toGrpcRequest(): CreateBrandRequest {
-        return CreateBrandRequest.newBuilder()
+    fun toGrpcRequest(): CreateBrandRequest =
+        CreateBrandRequest
+            .newBuilder()
             .setId(id)
             .setName(name)
             .build()
-    }
 }

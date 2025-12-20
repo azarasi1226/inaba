@@ -6,10 +6,10 @@ data class CreateUserHttpRequest(
     val id: String,
     val subject: String,
 ) {
-    fun toGrpcRequest(): CreateUserRequest {
-        return CreateUserRequest.newBuilder()
+    fun toGrpcRequest(): CreateUserRequest =
+        CreateUserRequest
+            .newBuilder()
             .setId(id)
             .setSubject(subject)
             .build()
-    }
 }
