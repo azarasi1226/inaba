@@ -18,7 +18,7 @@ jobs:
           cash: 'gradle'
 
       - name: "./gradleファイルを実行する権限を付与"
-        run: chmod -x ./gradlew
+        run: chmod +x ./gradlew
 
       - name: "build"
         run: ./gradlew build
