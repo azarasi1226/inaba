@@ -21,7 +21,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: "build"
-        run: ./gradlew build
+        run: ./gradlew :inaba-service:build
 
       - name: "test"
-        run: ./gradlew test
+        run: ./gradlew :inaba-service:test
