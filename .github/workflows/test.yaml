@@ -2,6 +2,7 @@ name: test
 on:
   pull_request:
     paths: ['**/*.kt', '**/*.build.gradle.kts']
+  push: #TODO消す
 jobs:
   test:
     runs-on: ubuntu-latest
