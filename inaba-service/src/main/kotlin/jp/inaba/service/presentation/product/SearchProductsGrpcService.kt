@@ -30,24 +30,26 @@ class SearchProductsGrpcService(
                         pageSize = request.pagingCondition.pageSize,
                         pageNumber = request.pagingCondition.pageNumber,
                     ),
-                sortCondition = SearchProductSortCondition.valueOf(request.sortCondition)
+                sortCondition = SearchProductSortCondition.valueOf(request.sortCondition),
             )
 
         val result = queryGateway.query<SearchProductsResult, SearchProductsQuery>(query).get()
 
         val response =
-            SearchProductsResponse.newBuilder()
+            SearchProductsResponse
+                .newBuilder()
                 .setPaging(
-                    Paging.newBuilder()
+                    Paging
+                        .newBuilder()
                         .setTotalCount(result.page.paging.totalCount)
                         .setTotalPage(result.page.paging.totalPage)
                         .setPageSize(result.page.paging.pageSize)
                         .setPageNumber(result.page.paging.pageNumber)
                         .build(),
-                )
-                .addAllItems(
+                ).addAllItems(
                     result.page.items.map {
-                        Summary.newBuilder()
+                        Summary
+                            .newBuilder()
                             .setId(it.id)
                             .setName(it.name)
                             .apply { if (it.imageUrl != null) setImageUrl(it.imageUrl) }
@@ -55,8 +57,7 @@ class SearchProductsGrpcService(
                             .setQuantity(it.quantity)
                             .build()
                     },
-                )
-                .build()
+                ).build()
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()

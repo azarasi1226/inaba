@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UniqueAggregateIdVerifierImpl(
-    private val eventStore: EventStore
+    private val eventStore: EventStore,
 ) : UniqueAggregateIdVerifier {
-    override fun hasDuplicateAggregateId(id: String): Boolean {
-        return eventStore.lastSequenceNumberFor(id).isPresent
-    }
+    override fun hasDuplicateAggregateId(id: String): Boolean = eventStore.lastSequenceNumberFor(id).isPresent
 }

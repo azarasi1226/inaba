@@ -7,11 +7,10 @@ data class FindUserMetadataBySubjectHttpResponse(
     val basketId: String,
 ) {
     companion object {
-        fun fromGrpcResponse(response: FindUserMetadataBySubjectResponse): FindUserMetadataBySubjectHttpResponse {
-            return FindUserMetadataBySubjectHttpResponse(
+        fun fromGrpcResponse(response: FindUserMetadataBySubjectResponse): FindUserMetadataBySubjectHttpResponse =
+            FindUserMetadataBySubjectHttpResponse(
                 userId = response.userId,
                 basketId = response.basketId,
             )
-        }
     }
 }

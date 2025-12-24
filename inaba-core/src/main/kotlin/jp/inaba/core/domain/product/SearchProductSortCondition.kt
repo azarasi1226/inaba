@@ -5,7 +5,7 @@ import jp.inaba.core.domain.common.SortDirection
 
 enum class SearchProductSortCondition(
     override val dbColumnName: String,
-    override val sortDirection: SortDirection
+    override val sortDirection: SortDirection,
 ) : SortCondition {
     PRICE_ASC("price", SortDirection.ASC),
     PRICE_DESC("price", SortDirection.DESC),

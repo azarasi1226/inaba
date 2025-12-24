@@ -2,7 +2,9 @@ package jp.inaba.core.domain.product
 
 import jp.inaba.core.domain.common.ValueObjectException
 
-data class StockQuantity(val value: Int) {
+data class StockQuantity(
+    val value: Int,
+) {
     companion object {
         private const val MIN = 0
         private const val MAX = 1_000_000

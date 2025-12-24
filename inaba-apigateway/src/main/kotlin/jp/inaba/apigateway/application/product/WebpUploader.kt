@@ -27,7 +27,8 @@ class WebpUploader(
         content: ByteArray,
     ) {
         val putObjectRequest =
-            PutObjectRequest.builder()
+            PutObjectRequest
+                .builder()
                 .bucket(bucketName)
                 .key(key)
                 .contentType("image/webp")

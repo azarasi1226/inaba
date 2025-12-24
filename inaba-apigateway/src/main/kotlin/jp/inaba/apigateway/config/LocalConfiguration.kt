@@ -21,16 +21,15 @@ class LocalConfiguration {
         userName: String,
         @Value("\${minio.password}")
         password: String,
-    ): S3Client {
-        return S3Client.builder()
+    ): S3Client =
+        S3Client
+            .builder()
             .region(Region.AP_NORTHEAST_1)
             .endpointOverride(URI.create(endpoint))
             .credentialsProvider(
                 StaticCredentialsProvider.create(
                     AwsBasicCredentials.create(userName, password),
                 ),
-            )
-            .forcePathStyle(true)
+            ).forcePathStyle(true)
             .build()
-    }
 }

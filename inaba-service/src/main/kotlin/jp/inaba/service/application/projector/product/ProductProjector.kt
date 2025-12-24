@@ -68,12 +68,12 @@ class ProductProjector(
     @EventHandler
     fun on(
         event: StockIncreasedEvent,
-        @Timestamp timestamp: Instant
+        @Timestamp timestamp: Instant,
     ) {
         val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity =
             entity.copy(
-                quantity = event.increasedStockQuantity
+                quantity = event.increasedStockQuantity,
             )
 
         repository.save(updatedEntity)
@@ -82,12 +82,12 @@ class ProductProjector(
     @EventHandler
     fun on(
         event: StockDecreasedEvent,
-        @Timestamp timestamp: Instant
+        @Timestamp timestamp: Instant,
     ) {
         val entity = repository.findById(event.id).orElseThrow()
         val updatedEntity =
             entity.copy(
-                quantity = event.decreasedStockQuantity
+                quantity = event.decreasedStockQuantity,
             )
 
         repository.save(updatedEntity)

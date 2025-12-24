@@ -8,12 +8,11 @@ import java.util.function.BiFunction
 private val logger = KotlinLogging.logger {}
 
 class LoggingCommandDispatchInterceptor : MessageDispatchInterceptor<CommandMessage<*>> {
-    override fun handle(messages: List<CommandMessage<*>>): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> {
-        return BiFunction { _, command ->
+    override fun handle(messages: List<CommandMessage<*>>): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> =
+        BiFunction { _, command ->
             // TODO:もっときれいな表示形式にしたいね('ω')
             logger.debug { "コマンド発行：${command.payload}" }
 
             command
         }
-    }
 }

@@ -31,7 +31,7 @@ class ProductAggregateTest {
     }
 
     @Test
-    fun `商品を作成_Event発行` () {
+    fun `商品を作成_Event発行`() {
         // Arrange
         val productId = ProductId()
         val brandId = BrandId()
@@ -41,7 +41,8 @@ class ProductAggregateTest {
         val price = ProductPrice(132)
         val quantity = StockQuantity(100)
 
-        fixture.givenNoPriorActivity()
+        fixture
+            .givenNoPriorActivity()
             // Act
             .`when`(
                 InternalCreateProductCommand(
@@ -52,7 +53,7 @@ class ProductAggregateTest {
                     imageUrl = imageUrl,
                     price = price,
                     quantity = quantity,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -65,7 +66,7 @@ class ProductAggregateTest {
                     imageUrl = imageUrl.value,
                     price = price.value,
                     quantity = quantity.value,
-                )
+                ),
             )
     }
 
@@ -81,21 +82,22 @@ class ProductAggregateTest {
         val price = ProductPrice(132)
         val quantity = StockQuantity(100)
 
-        //Update
+        // Update
         val updatedName = ProductName("おいしすぎる昆布茶")
         val updatedPrice = ProductPrice(300)
 
-        fixture.given(
-            ProductCreatedEvent(
-                id = productId.value,
-                brandId = brandId.value,
-                name = name.value,
-                description = description.value,
-                imageUrl = imageUrl.value,
-                price = price.value,
-                quantity = quantity.value,
+        fixture
+            .given(
+                ProductCreatedEvent(
+                    id = productId.value,
+                    brandId = brandId.value,
+                    name = name.value,
+                    description = description.value,
+                    imageUrl = imageUrl.value,
+                    price = price.value,
+                    quantity = quantity.value,
+                ),
             )
-        )
             // Act
             .`when`(
                 UpdateProductCommand(
@@ -104,7 +106,7 @@ class ProductAggregateTest {
                     description = description,
                     imageUrl = imageUrl,
                     price = updatedPrice,
-                )
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -115,7 +117,7 @@ class ProductAggregateTest {
                     description = description.value,
                     imageUrl = imageUrl.value,
                     price = updatedPrice.value,
-                )
+                ),
             )
     }
 
@@ -134,24 +136,25 @@ class ProductAggregateTest {
         val idempotencyId = IdempotencyId()
         val increaseStockQuantity = IncreaseStockQuantity(13)
 
-        fixture.given(
-            ProductCreatedEvent(
-                id = productId.value,
-                brandId = brandId.value,
-                name = name.value,
-                description = description.value,
-                imageUrl = imageUrl.value,
-                price = price.value,
-                quantity = quantity.value,
+        fixture
+            .given(
+                ProductCreatedEvent(
+                    id = productId.value,
+                    brandId = brandId.value,
+                    name = name.value,
+                    description = description.value,
+                    imageUrl = imageUrl.value,
+                    price = price.value,
+                    quantity = quantity.value,
+                ),
             )
-        )
             // Act
             .`when`(
                 IncreaseStockCommand(
                     id = productId,
                     idempotencyId = idempotencyId,
-                    increaseStockQuantity = increaseStockQuantity
-                )
+                    increaseStockQuantity = increaseStockQuantity,
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -160,8 +163,8 @@ class ProductAggregateTest {
                     id = productId.value,
                     idempotencyId = idempotencyId.value,
                     increaseStockQuantity = increaseStockQuantity.value,
-                    increasedStockQuantity = increaseStockQuantity.value + quantity.value
-                )
+                    increasedStockQuantity = increaseStockQuantity.value + quantity.value,
+                ),
             )
     }
 
@@ -180,24 +183,25 @@ class ProductAggregateTest {
         val idempotencyId = IdempotencyId()
         val decreaseStockQuantity = DecreaseStockQuantity(13)
 
-        fixture.given(
-            ProductCreatedEvent(
-                id = productId.value,
-                brandId = brandId.value,
-                name = name.value,
-                description = description.value,
-                imageUrl = imageUrl.value,
-                price = price.value,
-                quantity = quantity.value,
+        fixture
+            .given(
+                ProductCreatedEvent(
+                    id = productId.value,
+                    brandId = brandId.value,
+                    name = name.value,
+                    description = description.value,
+                    imageUrl = imageUrl.value,
+                    price = price.value,
+                    quantity = quantity.value,
+                ),
             )
-        )
             // Act
             .`when`(
                 DecreaseStockCommand(
                     id = productId,
                     idempotencyId = idempotencyId,
-                    decreaseStockQuantity = decreaseStockQuantity
-                )
+                    decreaseStockQuantity = decreaseStockQuantity,
+                ),
             )
             // Assert
             .expectSuccessfulHandlerExecution()
@@ -206,8 +210,8 @@ class ProductAggregateTest {
                     id = productId.value,
                     idempotencyId = idempotencyId.value,
                     decreaseStockQuantity = decreaseStockQuantity.value,
-                    decreasedStockQuantity = quantity.value - decreaseStockQuantity.value
-                )
+                    decreasedStockQuantity = quantity.value - decreaseStockQuantity.value,
+                ),
             )
     }
 }

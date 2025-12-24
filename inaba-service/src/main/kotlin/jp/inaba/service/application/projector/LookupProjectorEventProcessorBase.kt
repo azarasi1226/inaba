@@ -12,7 +12,8 @@ abstract class LookupProjectorEventProcessorBase {
 
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
-        epc.registerSubscribingEventProcessor(processorName)
+        epc
+            .registerSubscribingEventProcessor(processorName)
             // LookupTableはDB操作に失敗したらEventの発行もなかったことにしたいレベルの強い整合性をかけたいときに使う。
             // PropagatingErrorHandlerを利用することで、EventをpublishしたスレッドにExceptionが伝播される。
             .registerListenerInvocationErrorHandler(processorName) { PropagatingErrorHandler.INSTANCE }

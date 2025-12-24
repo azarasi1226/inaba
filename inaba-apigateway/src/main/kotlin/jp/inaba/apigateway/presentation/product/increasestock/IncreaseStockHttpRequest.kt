@@ -6,11 +6,11 @@ data class IncreaseStockHttpRequest(
     val increaseCount: Int,
     val idempotencyId: String,
 ) {
-    fun toGrpcRequest(id: String): IncreaseStockRequest {
-        return IncreaseStockRequest.newBuilder()
+    fun toGrpcRequest(id: String): IncreaseStockRequest =
+        IncreaseStockRequest
+            .newBuilder()
             .setId(id)
             .setIncreaseStockQuantity(increaseCount)
             .setIdempotencyId(idempotencyId)
             .build()
-    }
 }

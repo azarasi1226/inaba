@@ -32,7 +32,7 @@ class ProductAggregate() {
                 description = command.description.value,
                 imageUrl = command.imageUrl?.value,
                 price = command.price.value,
-                quantity = command.quantity.value
+                quantity = command.quantity.value,
             )
 
         AggregateLifecycle.apply(event)

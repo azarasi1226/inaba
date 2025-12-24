@@ -23,7 +23,8 @@ class DeleteProductController(
         id: String,
     ) {
         val grpcRequest =
-            DeleteProductRequest.newBuilder()
+            DeleteProductRequest
+                .newBuilder()
                 .setId(id)
                 .build()
 

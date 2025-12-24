@@ -16,8 +16,8 @@ data class SearchProductsHttpResponse(
     )
 
     companion object {
-        fun fromGrpcResponse(grpcResponse: SearchProductsResponse): SearchProductsHttpResponse {
-            return SearchProductsHttpResponse(
+        fun fromGrpcResponse(grpcResponse: SearchProductsResponse): SearchProductsHttpResponse =
+            SearchProductsHttpResponse(
                 page =
                     Page(
                         items =
@@ -39,6 +39,5 @@ data class SearchProductsHttpResponse(
                             ),
                     ),
             )
-        }
     }
 }

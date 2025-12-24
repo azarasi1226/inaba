@@ -22,7 +22,8 @@ class UserAggregateTest {
         val subject = "oidc:sub:azarasikozou"
 
         // Act
-        fixture.givenNoPriorActivity()
+        fixture
+            .givenNoPriorActivity()
             .`when`(
                 InternalCreateUserCommand(
                     id = userId,

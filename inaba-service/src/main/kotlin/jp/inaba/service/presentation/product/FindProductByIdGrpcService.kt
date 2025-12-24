@@ -25,7 +25,8 @@ FindProductByIdGrpcService(
         val result = queryGateway.query<FindProductByIdResult, FindProductByIdQuery>(query).get()
 
         val response =
-            FindProductByIdResponse.newBuilder()
+            FindProductByIdResponse
+                .newBuilder()
                 .setName(result.name)
                 .setDescription(result.description)
                 .apply { if (result.imageUrl != null) setImageUrl(result.imageUrl) }

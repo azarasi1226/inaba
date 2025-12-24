@@ -24,7 +24,8 @@ class FindBrandByIdGrpcService(
         val result = queryGateway.query<FindBrandByIdResult, FindBrandByIdQuery>(query).get()
 
         val response =
-            FindBrandByIdResponse.newBuilder()
+            FindBrandByIdResponse
+                .newBuilder()
                 .setName(result.name)
                 .build()
 

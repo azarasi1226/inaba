@@ -31,7 +31,7 @@ class CreateProductGrpcService(
                 description = ProductDescription(request.description),
                 imageUrl = if (request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
                 price = ProductPrice(request.price),
-                quantity = StockQuantity(request.quantity)
+                quantity = StockQuantity(request.quantity),
             )
 
         commandGateway.sendAndWait<Any>(command)

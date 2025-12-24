@@ -21,7 +21,8 @@ class UpdateProductInteractor(
                 ?.let(webpUploader::handle)
 
         val grpcRequest =
-            UpdateProductRequest.newBuilder()
+            UpdateProductRequest
+                .newBuilder()
                 .setId(input.id)
                 .setName(input.name)
                 .setDescription(input.description)

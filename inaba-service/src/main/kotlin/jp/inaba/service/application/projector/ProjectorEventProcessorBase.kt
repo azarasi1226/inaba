@@ -18,15 +18,17 @@ abstract class ProjectorEventProcessorBase {
 
     @Autowired
     fun config(epc: EventProcessingConfigurer) {
-        epc.registerTrackingEventProcessorConfiguration(processorName) {
-            TrackingEventProcessorConfiguration
-                .forParallelProcessing(processorCount)
-        }
+        epc
+            .registerTrackingEventProcessorConfiguration(processorName) {
+                TrackingEventProcessorConfiguration
+                    .forParallelProcessing(processorCount)
+            }
             // DBの情報は基本的に強い整合性を保ちたいので失敗したら後でちゃんとリトライできるようにしたい。
             // でもリトライできるようにするために無限リトライモードにすると、イベントプロセッサーが修正するまでスタックする...
             // そんな時はデッドレターキュー！
             .registerDeadLetterQueue(processorName) {
-                JpaSequencedDeadLetterQueue.builder<EventMessage<*>>()
+                JpaSequencedDeadLetterQueue
+                    .builder<EventMessage<*>>()
                     .processingGroup(processorName)
                     .entityManagerProvider(it.getComponent(EntityManagerProvider::class.java))
                     .transactionManager(it.getComponent((TransactionManager::class.java)))

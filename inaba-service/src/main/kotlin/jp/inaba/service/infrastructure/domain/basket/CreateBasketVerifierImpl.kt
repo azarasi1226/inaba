@@ -11,11 +11,7 @@ class CreateBasketVerifierImpl(
     private val lookupUserJpaRepository: LookupUserJpaRepository,
     private val lookupBasketRepository: LookupBasketJpaRepository,
 ) : CreateBasketVerifier {
-    override fun isUserNotFound(userId: UserId): Boolean {
-        return !lookupUserJpaRepository.existsById(userId.value)
-    }
+    override fun isUserNotFound(userId: UserId): Boolean = !lookupUserJpaRepository.existsById(userId.value)
 
-    override fun isLinkedToUser(userId: UserId): Boolean {
-        return lookupBasketRepository.existsByUserId(userId.value)
-    }
+    override fun isLinkedToUser(userId: UserId): Boolean = lookupBasketRepository.existsByUserId(userId.value)
 }

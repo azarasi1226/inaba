@@ -2,7 +2,9 @@ package jp.inaba.core.domain.brand
 
 import jp.inaba.core.domain.common.ValueObjectException
 
-data class BrandName(val value: String) {
+data class BrandName(
+    val value: String,
+) {
     companion object {
         private const val MIN = 1
         private const val MAX = 300

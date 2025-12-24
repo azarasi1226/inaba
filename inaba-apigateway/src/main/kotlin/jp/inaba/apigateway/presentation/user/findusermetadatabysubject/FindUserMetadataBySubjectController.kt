@@ -19,7 +19,8 @@ class FindUserMetadataBySubjectController(
         subject: String,
     ): FindUserMetadataBySubjectHttpResponse {
         val grpcRequest =
-            FindUserMetadataBySubjectRequest.newBuilder()
+            FindUserMetadataBySubjectRequest
+                .newBuilder()
                 .setSubject(subject)
                 .build()
 

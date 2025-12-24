@@ -9,7 +9,5 @@ import org.springframework.stereotype.Service
 class CreateProductVerifierImpl(
     private val lookupBrandJpaRepository: LookupBrandJpaRepository,
 ) : CreateProductVerifier {
-    override fun isBrandNotFound(brandId: BrandId): Boolean {
-        return lookupBrandJpaRepository.findById(brandId.value).isEmpty
-    }
+    override fun isBrandNotFound(brandId: BrandId): Boolean = lookupBrandJpaRepository.findById(brandId.value).isEmpty
 }

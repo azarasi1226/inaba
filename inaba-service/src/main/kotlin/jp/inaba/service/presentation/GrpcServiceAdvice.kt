@@ -44,7 +44,8 @@ class GrpcServiceAdvice {
             logger.warn { "handle Command UseCaseException:[${error.errorMessage}]" }
 
             val status =
-                Status.INVALID_ARGUMENT.withDescription(error.errorMessage)
+                Status.INVALID_ARGUMENT
+                    .withDescription(error.errorMessage)
                     .withCause(e)
 
             val errorTypeKey = Metadata.Key.of("error-type", Metadata.ASCII_STRING_MARSHALLER)
@@ -75,7 +76,8 @@ class GrpcServiceAdvice {
                 logger.warn { "handle QueryUseCaseException:[${error.errorMessage}]" }
 
                 val status =
-                    Status.INVALID_ARGUMENT.withDescription(error.errorMessage)
+                    Status.INVALID_ARGUMENT
+                        .withDescription(error.errorMessage)
                         .withCause(e)
 
                 val errorTypeKey = Metadata.Key.of("error-type", Metadata.ASCII_STRING_MARSHALLER)

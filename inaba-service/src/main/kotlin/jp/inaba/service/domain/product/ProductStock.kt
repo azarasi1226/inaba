@@ -14,7 +14,9 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateLifecycle
 
-class ProductStock(stockQuantity: StockQuantity) {
+class ProductStock(
+    stockQuantity: StockQuantity,
+) {
     private var quantity: StockQuantity = stockQuantity
     private var idempotenceChecker = IdempotenceChecker()
 

@@ -8,7 +8,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class CommonConfiguration {
     @Bean
-    fun basketIdFactory(): BasketIdFactory {
-        return BasketIdFactoryImpl()
-    }
+    fun basketIdFactory(): BasketIdFactory = BasketIdFactoryImpl()
 }

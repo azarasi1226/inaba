@@ -13,8 +13,8 @@ class OpenAPIConfiguration {
     @Bean
     fun openApi(
         @Value("\${OIDC_ISSUER}") oidcIssuer: String,
-    ): OpenAPI {
-        return OpenAPI()
+    ): OpenAPI =
+        OpenAPI()
             .components(
                 Components()
                     .addSecuritySchemes(
@@ -23,10 +23,9 @@ class OpenAPIConfiguration {
                             .type(SecurityScheme.Type.OPENIDCONNECT)
                             .openIdConnectUrl("$oidcIssuer/.well-known/openid-configuration"),
                     ),
-            )
-            .info(
-                Info().title("Inaba")
+            ).info(
+                Info()
+                    .title("Inaba")
                     .version("0.0.1"),
             )
-    }
 }
