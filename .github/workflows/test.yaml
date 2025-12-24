@@ -1,12 +1,13 @@
 name: test
 defaults:
   run:
-    # デフォルトshellをbashにすると "--noprofile --norc -eo pipelinfail {0}" が指定されたことになり、安全性が高まる。
+    # 明示的にshellを指定すると "pipefail"が暗黙的に設定され安全性が向上する
     shell: bash
 on:
   pull_request:
-    paths: ['**/*.kt', '**/*.build.gradle.kts']
-  push: #TODO消す
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
 jobs:
   ktlint:
     runs-on: ubuntu-latest
