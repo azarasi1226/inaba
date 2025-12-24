@@ -14,25 +14,38 @@ jobs:
     steps:
       - name: "checkout"
         uses: actions/checkout@v4
-      - name: "./gradleファイルを実行する権限を付与"
-        run: chmod +x ./gradlew
-      - name: "ktlint"
-        run: ./gradlew ktlintCheck
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "checkout"
-        uses: actions/checkout@v4
-      - name: "setup java"
+      - name: "setup gradle"
         uses: actions/setup-java@v5
         with:
           distribution: 'corretto'
           java-version: '21'
           cache: 'gradle'
+
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
+
+      - name: "ktlint"
+        run: ./gradlew ktlintCheck
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v4
+
+      - name: "setup gradle"
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: "./gradleファイルを実行する権限を付与"
+        run: chmod +x ./gradlew
+
       - name: "build"
-        run: ./gradlew :inaba-service:build
+        run: ./gradlew :inaba-service:build -x test
+
       - name: "test"
         run: ./gradlew :inaba-service:test
