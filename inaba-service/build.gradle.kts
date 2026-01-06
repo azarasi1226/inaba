@@ -18,6 +18,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
         exclude(module = "mockito-core")
     }
 
