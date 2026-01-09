@@ -72,7 +72,7 @@ class AuthenticatedUserService(
     // ログイン中のユーザーのJWTを取得
     private fun getJwt(): Jwt {
         val authentication = SecurityContextHolder.getContext().authentication
-        if (authentication.principal is Jwt) {
+        if (authentication?.principal is Jwt) {
             return authentication.principal as Jwt
         } else {
             throw IllegalStateException("Authentication principal is not of type Jwt")
