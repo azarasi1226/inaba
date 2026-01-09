@@ -7,9 +7,10 @@ on:
   pull_request:
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
+  # 新しい変更を検知した際、すでに実行中のジョブはキャンセルする (プルリクのテストは最新のコードベースだけ検証したいため)
   cancel-in-progress: true
 jobs:
-  ktlint:
+  linter-formatter:
     runs-on: ubuntu-latest
     steps:
       - name: "checkout"
