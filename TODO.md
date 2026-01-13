@@ -14,8 +14,8 @@
 ### 追加したい
 * リトライ不許可例外を出して、それ以外はリトライさせるようにしよう。基本的にUsecaseExcpetion、DomainExcpedtionはリトライさせない。
 * LookupTableの実装周り見直したい。　DB消されたときSubsciption`rocessero反応しないから、Trakingも付け足したほうがいいのかな?
-* findをgetに
-### 修正したい
+* findをgetにあああ
+### 修正したいあ
 * JPAのEntityのID値オブジェクトにしたんだけどできないのかな？
 * LookupTableのdelete処理消しちゃダメじゃね？ IDがイベントストアに残り続けてるのでは。
 * Crete/UpdateProductControllerのpriceをIntにすると、なぜか落ちる。今はStringにしてる
