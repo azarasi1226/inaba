@@ -30,7 +30,7 @@ class GrpcServiceAdvice {
         val metadata =
             Metadata().apply {
                 put(errorTypeKey, "inaba")
-                put(errorCodeKey, 0.toString()) //Valueのエラーの際のエラーコードを考えるべき
+                put(errorCodeKey, 0.toString()) // Valueのエラーの際のエラーコードを考えるべき
                 put(errorMessageKey, e.errorMessage)
             }
 
