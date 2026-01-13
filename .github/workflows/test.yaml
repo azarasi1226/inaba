@@ -25,6 +25,9 @@ jobs:
       - name: "setup gradle"
         uses: gradle/actions/setup-gradle@v5
 
+      - name: "./gradleファイルを実行する権限を付与"
+        run: chmod +x ./gradlew
+
       - name: "ktlint"
         run: ./gradlew ktlintCheck
 
@@ -42,6 +45,9 @@ jobs:
 
       - name: "setup gradle"
         uses: gradle/actions/setup-gradle@v5
+
+      - name: "./gradleファイルを実行する権限を付与"
+        run: chmod +x ./gradlew
 
       - name: "test"
         run: ./gradlew :inaba-service:test
