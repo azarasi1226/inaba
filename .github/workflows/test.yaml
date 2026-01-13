@@ -45,8 +45,5 @@ jobs:
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
 
-      - name: "build"
-        run: ./gradlew :inaba-service:build -x test
-
       - name: "test"
         run: ./gradlew :inaba-service:test
