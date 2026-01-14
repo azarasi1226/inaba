@@ -1,0 +1,36 @@
+name: Dependabot Auto Merge
+defaults:
+  run:
+    # 明示的にshellを指定すると "pipefail"が暗黙的に設定され安全性が向上する
+    shell: bash
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  auto-merge:
+    # Dependabotのプルリクエストのみを対象とする
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v5
+
+      - id: dependabot-meta
+        name: "fetch dependabot metadata"
+        uses: dependabot/fetch-metadata@v2
+
+      # ライブラリのパッチバージョンの更新時のみマージを実行する
+      - if: ${{steps.meta.output.update-type == 'version-update:semver-patch' }}
+        name: "auto merge"
+        run: |
+          # 承認させ、マージできる状態にする
+          gh pr review "${GITHUB_HEAD_REF}" --approve
+          # --autoフラグは他のすべてのCIが成功した場合にのみマージを実行することを意味します
+          # --autoフラグはGitHubのリポジトリ設定からONにしなければなりません。
+          gh pr merge "${GITHUB_HEAD_REF}" --squash --auto

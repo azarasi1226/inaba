@@ -68,11 +68,11 @@ allprojects {
                         // カバレッジ計測対象のフォルダを指定
                         include(
                             "jp/inaba/service/application/command/**",
-                            "jp/inaba/service/domain/**"
+                            "jp/inaba/service/domain/**",
                         )
                     }
-                }
-            )
+                },
+            ),
         )
     }
 
