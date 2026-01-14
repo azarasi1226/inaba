@@ -38,6 +38,13 @@ RuntimeExceptionであろうが、Axonサーバーを使ってる限りすべて
  * 外部コマンドハンドラー内で Excetion → リトライ
  * 外部コマンドハンドラー内で RuntimeException →　リトライ
 
+## 集約のIDがすでに登録されていた場合、Intecepterでの共通化が困難であるため、集約作成系のCommandHandler内で例外を投げるようにする。
+つまり、すべての集約作成時に検証が必要なので外部コマンドハンドラーに切り出す。
+
+## Actorベースの集約全体の検証は不可能という結論に至りました。
+具体的には、ReserveSubjectEventとCommandに次になんのコマンドを中継させるか未来を予測することが極めて困難だからである。
+また、やっぱりusecaseクラスの中で可能な限り検証するのはわかりやすい実装だ。
+
 * cognito修正するべし。
 
 https://localhost:5052/oauth2/authorize?response_type=token&client_id=example-client-name&redirect_uri=http://localhost:8082
