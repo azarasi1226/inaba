@@ -20,7 +20,7 @@ dependencies {
     }
 
     // other
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.15")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
     implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
     implementation("software.amazon.awssdk:s3:2.41.6")
