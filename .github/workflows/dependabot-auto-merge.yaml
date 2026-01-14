@@ -5,8 +5,6 @@ defaults:
     shell: bash
 on:
   pull_request:
-    branches:
-      - main
 jobs:
   auto-merge:
     # Dependabotのプルリクエストのみを対象とする
