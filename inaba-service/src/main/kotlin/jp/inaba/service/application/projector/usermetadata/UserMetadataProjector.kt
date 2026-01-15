@@ -6,6 +6,7 @@ import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaEntity
 import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Component
 class UserMetadataProjector(
     private val repository: UserMetadataJpaRepository,
 ) {
+    @ResetHandler
+    fun reset() {
+        repository.deleteAllInBatch()
+    }
+
     @EventHandler
     fun on(event: UserCreatedEvent) {
         val entity =

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component
 @Component
 class FindBasketByIdQueryService(
     private val entityManager: EntityManager,
+    // 通常のBasketRepositoryの場合、買い物かごにまだ商品が入っていなかったらテーブルデータがないため、存在しないと判断されてしまう。
+    // そのため、買い物かごの存在確認用には、LookupBasketRepositoryを使用する。
     private val lookUpBasketRepository: LookupBasketJpaRepository,
 ) {
     @QueryHandler

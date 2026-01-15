@@ -74,6 +74,7 @@ class ProductProjector(
         val updatedEntity =
             entity.copy(
                 quantity = event.increasedStockQuantity,
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
 
         repository.save(updatedEntity)
@@ -88,6 +89,7 @@ class ProductProjector(
         val updatedEntity =
             entity.copy(
                 quantity = event.decreasedStockQuantity,
+                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
             )
 
         repository.save(updatedEntity)

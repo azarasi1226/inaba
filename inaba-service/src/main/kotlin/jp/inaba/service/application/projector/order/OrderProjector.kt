@@ -8,6 +8,7 @@ import jp.inaba.service.infrastructure.jpa.order.OrderJpaEntity
 import jp.inaba.service.infrastructure.jpa.order.OrderJpaRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
@@ -15,6 +16,11 @@ import org.springframework.stereotype.Component
 class OrderProjector(
     private val repository: OrderJpaRepository,
 ) {
+    @ResetHandler
+    fun reset() {
+        repository.deleteAllInBatch()
+    }
+
     @EventHandler
     fun on(event: OrderIssuedEvent) {
         val entity =
