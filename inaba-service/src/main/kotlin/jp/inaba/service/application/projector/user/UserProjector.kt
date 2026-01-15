@@ -30,6 +30,7 @@ class UserProjector(
         val entity =
             UserJpaEntity(
                 id = event.id,
+                //TODO (仮のユーザー名になってるというかユーザ名って扱いどうするの？初期にメールアドレスとかも送ってもらう？)
                 userName = "アザラシゴンザレス",
                 createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
                 updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
