@@ -1,12 +1,11 @@
 plugins {
+    id("org.springframework.boot") version "3.5.3"
+    id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.10"
-}
 
-apply(plugin = "org.jetbrains.kotlin.jvm")
-apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-apply(plugin = "org.springframework.boot")
-apply(plugin = "io.spring.dependency-management")
-apply(plugin = "kotlin-allopen")
+    kotlin("plugin.spring") version "2.2.0"
+    kotlin("plugin.jpa") version "2.3.0"
+}
 
 dependencies {
     // project
