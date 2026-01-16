@@ -4,28 +4,28 @@ import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.core.domain.product.FindProductByIdError
 import jp.inaba.message.product.query.FindProductByIdQuery
 import jp.inaba.message.product.query.FindProductByIdResult
-import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
 import org.axonframework.queryhandling.QueryHandler
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
 class FindProductByIdQueryService(
-    private val productJpaRepository: ProductJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @QueryHandler
-    fun handle(query: FindProductByIdQuery): FindProductByIdResult {
-        val entity =
-            productJpaRepository.findById(query.id.value).orElseThrow {
-                UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
-            }
-
-        return FindProductByIdResult(
-            id = entity.id,
-            name = entity.name,
-            description = entity.description,
-            imageUrl = entity.imageUrl,
-            price = entity.price,
-            quantity = entity.quantity,
-        )
-    }
+    fun handle(query: FindProductByIdQuery): FindProductByIdResult =
+        dsl
+            .selectFrom(PRODUCT)
+            .where(PRODUCT.ID.eq(query.id.value))
+            .fetchOne {
+                FindProductByIdResult(
+                    id = it.id,
+                    name = it.name!!,
+                    description = it.description!!,
+                    imageUrl = it.imageUrl,
+                    price = it.price,
+                    quantity = it.quantity,
+                )
+            } ?: throw UseCaseException(FindProductByIdError.PRODUCT_NOT_FOUND)
 }

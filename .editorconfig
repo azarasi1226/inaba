@@ -1,1 +1,6 @@
+# すべてのkotlinファイルに対する共通設定
 [*.{kt,kts}]
+
+# jooqによって自動生成されたコードは除外
+[**/generated-sources/jooq/**]
+ktlint = disabled
