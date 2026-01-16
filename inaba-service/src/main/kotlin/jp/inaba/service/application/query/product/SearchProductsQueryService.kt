@@ -1,102 +1,58 @@
 package jp.inaba.service.application.query.product
 
-import jakarta.persistence.EntityManager
-import jakarta.persistence.Query
 import jp.inaba.core.domain.common.Page
 import jp.inaba.core.domain.common.Paging
-import jp.inaba.core.domain.common.PagingCondition
 import jp.inaba.message.product.query.SearchProductsQuery
 import jp.inaba.message.product.query.SearchProductsResult
-import jp.inaba.service.utlis.sqlDebugLogging
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import jp.inaba.service.utlis.toOrderField
 import org.axonframework.queryhandling.QueryHandler
+import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import org.springframework.stereotype.Component
 
 @Component
 class SearchProductsQueryService(
-    private val entityManager: EntityManager,
+    private val dsl: DSLContext,
 ) {
     @QueryHandler
     fun handle(query: SearchProductsQuery): SearchProductsResult {
-        val nativeQuery = createNativeQuery(query)
+        val totalCountFiled = DSL.count().over()
+        val records =
+            dsl
+                .select(
+                    PRODUCT.asterisk(),
+                    totalCountFiled,
+                ).from(PRODUCT)
+                .where(PRODUCT.NAME.like("%${query.likeProductName}%"))
+                .orderBy(query.sortCondition.toOrderField())
+                .limit(query.pagingCondition.pageSize)
+                .offset(query.pagingCondition.offset)
+                .fetch()
 
-        val results = nativeQuery.resultList.filterIsInstance<SqlResult>()
-
-        return convertToQueryResult(
-            results = results,
-            pagingCondition = query.pagingCondition,
-        )
-    }
-
-    private fun createNativeQuery(query: SearchProductsQuery): Query {
-        // Order ByはsetParameterに対応してないみたいなんや...!謎だね^^
-        val sql =
-"""
-SELECT
-    p.id AS ${SqlResult::id.name},
-    p.name AS ${SqlResult::name.name},
-    p.image_url AS ${SqlResult::imageUrl.name},
-    p.price AS ${SqlResult::price.name},
-    p.quantity AS ${SqlResult::quantity.name},
-    COUNT(*) OVER() AS ${SqlResult::totalCount.name}
-FROM product p
-WHERE
-    p.name LIKE :likeName
-ORDER BY ${query.sortCondition.dbColumnName} ${query.sortCondition.sortDirection.name}
-LIMIT :offset, :pageSize
-"""
-
-        val nativeQuery =
-            entityManager
-                .createNativeQuery(sql, SqlResult::class.java)
-                .setParameter("likeName", "%${query.likeProductName}%")
-                .setParameter("offset", query.pagingCondition.offset)
-                .setParameter("pageSize", query.pagingCondition.pageSize)
-
-        nativeQuery.sqlDebugLogging()
-
-        return nativeQuery
-    }
-
-    private fun convertToQueryResult(
-        results: List<SqlResult>,
-        pagingCondition: PagingCondition,
-    ): SearchProductsResult {
-        val totalCount =
-            if (results.isNotEmpty()) {
-                results.first().totalCount
-            } else {
-                0
-            }
+        val totalCount: Long = records.firstOrNull()?.get(totalCountFiled)?.toLong() ?: 0L
 
         return SearchProductsResult(
             page =
                 Page(
                     items =
-                        results.map {
+                        records.map {
+                            val product = it.into(PRODUCT)
                             SearchProductsResult.Summary(
-                                id = it.id,
-                                name = it.name,
-                                imageUrl = it.imageUrl,
-                                price = it.price,
-                                quantity = it.quantity,
+                                id = product.id,
+                                name = product.name!!,
+                                imageUrl = product.imageUrl,
+                                price = product.price,
+                                quantity = product.quantity,
                             )
                         },
                     paging =
                         Paging(
                             totalCount = totalCount,
-                            pageSize = pagingCondition.pageSize,
-                            pageNumber = pagingCondition.pageNumber,
+                            pageSize = query.pagingCondition.pageSize,
+                            pageNumber = query.pagingCondition.pageNumber,
                         ),
                 ),
         )
     }
-
-    private data class SqlResult(
-        val id: String,
-        val name: String,
-        val imageUrl: String?,
-        val price: Int,
-        val quantity: Int,
-        val totalCount: Long,
-    )
 }
