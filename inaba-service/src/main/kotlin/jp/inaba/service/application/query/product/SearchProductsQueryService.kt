@@ -31,7 +31,6 @@ class SearchProductsQueryService(
                 .fetch()
 
         val totalCount: Long = records.firstOrNull()?.get(totalCountFiled)?.toLong() ?: 0L
-
         return SearchProductsResult(
             page =
                 Page(

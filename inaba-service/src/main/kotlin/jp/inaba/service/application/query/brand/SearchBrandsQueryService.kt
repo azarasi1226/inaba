@@ -29,7 +29,6 @@ class SearchBrandsQueryService(
                 .fetch()
 
         val totalCount: Long = records.firstOrNull()?.get(totalCountFiled)?.toLong() ?: 0L
-
         return SearchBrandsResult(
             page =
                 Page(
