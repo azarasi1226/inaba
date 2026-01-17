@@ -1,0 +1,20 @@
+version: "3"
+
+tasks:
+  default:
+    silent: true
+    desc: 実行可能なすべてのタスクを表示
+    cmds:
+      - task --list-all
+
+  atlas-migrate-diff:
+    desc: データベースのマイグレーション差分を生成
+    dir: ./database
+    cmds:
+      - atlas migrate diff --dev-url "docker://mysql/8/dev" --dir "file://migrations" --to "file://schema.mysql.sql"
+
+  atlas-migrate-apply:
+    desc: データベースのマイグレーションを適用
+    dir: ./database
+    cmds:
+      - atlas migrate apply --url "docker://mysql/8/dev" --dir "file://migrations"
