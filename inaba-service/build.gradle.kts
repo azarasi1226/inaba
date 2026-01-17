@@ -74,3 +74,9 @@ sourceSets.main {
     // これにより、自動生成されたコードがコンパイル対象に含まれるようになる
     java.srcDirs("build/generated-sources/jooq")
 }
+
+// コンパイル前にjOOQのコード生成を実行するよう設定これにより常に最新のスキーマに基づいたコードが生成される
+// 幸いDDLDatabaseを使っているため、DBサーバーへの接続は発生しない完全ローカル完結...最高すぎかよ...
+tasks.named("compileKotlin") {
+    dependsOn("jooqCodegen")
+}

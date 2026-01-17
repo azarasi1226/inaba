@@ -5,14 +5,12 @@ import jp.inaba.core.domain.user.FindUserMetadataBySubjectError
 import jp.inaba.message.user.query.FindUserMetadataBySubjectQuery
 import jp.inaba.message.user.query.FindUserMetadataBySubjectResult
 import jp.inaba.service.infrastructure.jooq.generated.tables.references.USER_METADATA
-import jp.inaba.service.infrastructure.jpa.usermetadata.UserMetadataJpaRepository
 import org.axonframework.queryhandling.QueryHandler
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
 class FindUserMetadataBySubjectQueryService(
-    private val repository: UserMetadataJpaRepository,
     private val dsl: DSLContext,
 ) {
     @QueryHandler
