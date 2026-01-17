@@ -15,10 +15,12 @@ CREATE TABLE basket_items (
   product_id varchar(255) NOT NULL,
   item_quantity int NOT NULL,
   added_at datetime NOT NULL,
-  PRIMARY KEY (basket_id, product_id),
-  -- 商品が削除された時に、連鎖して対象レコードを削除する用
-  INDEX idx_baskets__product_id (product_id)
+  PRIMARY KEY (basket_id, product_id)
 );
+
+-- 商品が削除された時に、連鎖して対象レコードを削除する用
+CREATE INDEX idx_baskets__product_id
+  ON basket_items (product_id);
 
 CREATE TABLE brands (
   id varchar(255) NOT NULL,
