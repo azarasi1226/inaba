@@ -3,7 +3,7 @@ package jp.inaba.service.infrastructure.domain.basket
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.service.domain.basket.SetBasketItemVerifier
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCTS
 import org.jooq.DSLContext
 import org.springframework.stereotype.Service
 
@@ -13,7 +13,7 @@ class SetBasketItemVerifierImpl(
 ) : SetBasketItemVerifier {
     override fun isProductNotFound(productId: ProductId): Boolean =
         !dsl.fetchExists(
-            dsl.selectOne().from(PRODUCT).where(PRODUCT.ID.eq(productId.value)),
+            dsl.selectOne().from(PRODUCTS).where(PRODUCTS.ID.eq(productId.value)),
         )
 
     override fun isOutOfStock(
@@ -22,10 +22,10 @@ class SetBasketItemVerifierImpl(
     ): Boolean {
         val quantity: Int =
             dsl
-                .select(PRODUCT.QUANTITY)
-                .from(PRODUCT)
-                .where(PRODUCT.ID.eq(productId.value))
-                .fetchOne(PRODUCT.QUANTITY) ?: return true
+                .select(PRODUCTS.QUANTITY)
+                .from(PRODUCTS)
+                .where(PRODUCTS.ID.eq(productId.value))
+                .fetchOne(PRODUCTS.QUANTITY) ?: return true
 
         return quantity < basketItemQuantity.value
     }

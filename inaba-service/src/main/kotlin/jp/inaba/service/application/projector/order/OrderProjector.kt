@@ -4,48 +4,51 @@ import jp.inaba.message.order.event.OrderCompletedEvent
 import jp.inaba.message.order.event.OrderFailedEvent
 import jp.inaba.message.order.event.OrderIssuedEvent
 import jp.inaba.service.domain.order.OrderStatus
-import jp.inaba.service.infrastructure.jpa.order.OrderJpaEntity
-import jp.inaba.service.infrastructure.jpa.order.OrderJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.ORDERS
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.axonframework.eventhandling.ResetHandler
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
 @ProcessingGroup(OrderProjectorEventProcessor.PROCESSOR_NAME)
 class OrderProjector(
-    private val repository: OrderJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @ResetHandler
     fun reset() {
-        repository.deleteAllInBatch()
+        dsl.deleteFrom(ORDERS).execute()
     }
 
     @EventHandler
     fun on(event: OrderIssuedEvent) {
-        val entity =
-            OrderJpaEntity(
-                id = event.id,
-                status = OrderStatus.Issued,
-                userId = event.userId,
-            )
-
-        repository.save(entity)
+        dsl
+            .insertInto(
+                ORDERS,
+                ORDERS.ID,
+                ORDERS.USER_ID,
+                ORDERS.STATUS,
+            ).values(event.id, event.userId, OrderStatus.Issued.value)
+            .onDuplicateKeyIgnore()
+            .execute()
     }
 
     @EventHandler
     fun on(event: OrderCompletedEvent) {
-        val entity = repository.findById(event.id).orElseThrow()
-        val updatedEntity = entity.copy(status = OrderStatus.Completed)
-
-        repository.save(updatedEntity)
+        dsl
+            .update(ORDERS)
+            .set(ORDERS.STATUS, OrderStatus.Completed.value)
+            .where(ORDERS.ID.eq(event.id))
+            .execute()
     }
 
     @EventHandler
     fun on(event: OrderFailedEvent) {
-        val entity = repository.findById(event.id).orElseThrow()
-        val updatedEntity = entity.copy(status = OrderStatus.Failed)
-
-        repository.save(updatedEntity)
+        dsl
+            .update(ORDERS)
+            .set(ORDERS.STATUS, OrderStatus.Failed.value)
+            .where(ORDERS.ID.eq(event.id))
+            .execute()
     }
 }

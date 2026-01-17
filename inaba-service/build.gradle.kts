@@ -40,23 +40,23 @@ dependencies {
     // jooq
     implementation("org.jooq:jooq:3.20.10")
     jooqCodegen("com.mysql:mysql-connector-j")
+    jooqCodegen("org.jooq:jooq-meta-extensions:3.20.10") // DDLDatabase用
 }
 
 jooq {
     configuration {
-        jdbc {
-            driver = "com.mysql.cj.jdbc.Driver"
-            url = "jdbc:mysql://localhost:3306/inaba"
-            user = "root"
-            password = "passw0rd"
-        }
         generator {
-            // Kotlinコードを生成
+            // Kotlin用のコードを生成
             name = "org.jooq.codegen.KotlinGenerator"
             database {
-                name = "org.jooq.meta.mysql.MySQLDatabase"
-                inputSchema = "inaba"
-                includes = ".*"
+                // H2DBを利用し、atlasで管理しているschemaファイルを元にコード生成を行う
+                name = "org.jooq.meta.extensions.ddl.DDLDatabase"
+                properties {
+                    property {
+                        key = "scripts"
+                        value = "../database/schema.mysql.sql"
+                    }
+                }
             }
             generate {
                 // Null許容でないカラムに対してKotlinの非null型を使用する設定
