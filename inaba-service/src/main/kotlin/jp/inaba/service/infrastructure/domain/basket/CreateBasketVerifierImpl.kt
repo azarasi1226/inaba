@@ -13,11 +13,11 @@ class CreateBasketVerifierImpl(
 ) : CreateBasketVerifier {
     override fun isUserNotFound(userId: UserId): Boolean =
         !dsl.fetchExists(
-            dsl.selectOne().from(LOOKUP_USER).where(LOOKUP_USER.ID.eq(userId.value))
+            dsl.selectOne().from(LOOKUP_USER).where(LOOKUP_USER.ID.eq(userId.value)),
         )
 
     override fun isLinkedToUser(userId: UserId): Boolean =
         dsl.fetchExists(
-            dsl.selectOne().from(LOOKUP_BASKET).where(LOOKUP_BASKET.USER_ID.eq(userId.value))
+            dsl.selectOne().from(LOOKUP_BASKET).where(LOOKUP_BASKET.USER_ID.eq(userId.value)),
         )
 }

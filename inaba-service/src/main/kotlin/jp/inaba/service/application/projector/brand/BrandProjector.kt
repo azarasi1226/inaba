@@ -2,7 +2,7 @@ package jp.inaba.service.application.projector.brand
 
 import jp.inaba.message.brand.event.BrandCreatedEvent
 import jp.inaba.message.brand.event.BrandDeletedEvent
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.BRAND
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BRANDS
 import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
@@ -19,7 +19,7 @@ class BrandProjector(
 ) {
     @ResetHandler
     fun reset() {
-        dsl.deleteFrom(BRAND).execute()
+        dsl.deleteFrom(BRANDS).execute()
     }
 
     @EventHandler
@@ -29,11 +29,11 @@ class BrandProjector(
     ) {
         dsl
             .insertInto(
-                BRAND,
-                BRAND.ID,
-                BRAND.NAME,
-                BRAND.CREATED_AT,
-                BRAND.UPDATED_AT,
+                BRANDS,
+                BRANDS.ID,
+                BRANDS.NAME,
+                BRANDS.CREATED_AT,
+                BRANDS.UPDATED_AT,
             ).values(
                 event.id,
                 event.name,
@@ -47,6 +47,6 @@ class BrandProjector(
 
     @EventHandler
     fun on(event: BrandDeletedEvent) {
-        dsl.deleteFrom(BRAND).where(BRAND.ID.eq(event.id)).execute()
+        dsl.deleteFrom(BRANDS).where(BRANDS.ID.eq(event.id)).execute()
     }
 }

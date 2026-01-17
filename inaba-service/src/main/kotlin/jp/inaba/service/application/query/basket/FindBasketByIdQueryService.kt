@@ -6,9 +6,9 @@ import jp.inaba.core.domain.common.Paging
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.message.basket.query.FindBasketByIdQuery
 import jp.inaba.message.basket.query.FindBasketByIdResult
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.BASKET
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_BASKET
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BASKET_ITEMS
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_BASKETS
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCTS
 import org.axonframework.queryhandling.QueryHandler
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
@@ -24,8 +24,8 @@ class FindBasketByIdQueryService(
         // そのため、買い物かごの存在確認用には、LookupBasketTableを使用する。
         val existsBasket =
             dsl.fetchExists(
-                LOOKUP_BASKET,
-                LOOKUP_BASKET.ID.eq(query.basketId.value),
+                LOOKUP_BASKETS,
+                LOOKUP_BASKETS.ID.eq(query.basketId.value),
             )
         if (!existsBasket) {
             throw UseCaseException(FindBasketByIdError.BASKET_NOT_FOUND)
@@ -35,17 +35,17 @@ class FindBasketByIdQueryService(
         val records =
             dsl
                 .select(
-                    PRODUCT.asterisk(),
-                    BASKET.asterisk(),
+                    PRODUCTS.asterisk(),
+                    BASKET_ITEMS.asterisk(),
                     totalCountFiled,
-                ).from(PRODUCT)
-                .join(BASKET)
+                ).from(PRODUCTS)
+                .join(BASKET_ITEMS)
                 .on(
-                    PRODUCT.ID
-                        .eq(BASKET.PRODUCT_ID)
+                    PRODUCTS.ID
+                        .eq(BASKET_ITEMS.PRODUCT_ID)
                         // whereではなく join の on に basketId 条件を入れることで、join時の絞り込みを行い、高速なSQLを生成する。
-                        .and(BASKET.BASKET_ID.eq(query.basketId.value)),
-                ).orderBy(BASKET.ADDED_AT.asc())
+                        .and(BASKET_ITEMS.BASKET_ID.eq(query.basketId.value)),
+                ).orderBy(BASKET_ITEMS.ADDED_AT.asc())
                 .limit(query.pagingCondition.pageSize)
                 .offset(query.pagingCondition.offset)
                 .fetch()
@@ -56,11 +56,11 @@ class FindBasketByIdQueryService(
                 Page(
                     items =
                         records.map {
-                            val product = it.into(PRODUCT)
-                            val basket = it.into(BASKET)
+                            val product = it.into(PRODUCTS)
+                            val basket = it.into(BASKET_ITEMS)
                             FindBasketByIdResult.BasketItem(
                                 productId = product.id,
-                                productName = product.name!!,
+                                productName = product.name,
                                 productPrice = product.price,
                                 productImageUrl = product.imageUrl,
                                 basketItemQuantity = basket.itemQuantity,

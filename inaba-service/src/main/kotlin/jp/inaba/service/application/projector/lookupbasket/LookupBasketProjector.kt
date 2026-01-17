@@ -2,7 +2,7 @@ package jp.inaba.service.application.projector.lookupbasket
 
 import jp.inaba.message.basket.event.BasketCreatedEvent
 import jp.inaba.message.basket.event.BasketDeletedEvent
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_BASKET
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_BASKETS
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.jooq.DSLContext
@@ -17,9 +17,9 @@ class LookupBasketProjector(
     fun on(event: BasketCreatedEvent) {
         dsl
             .insertInto(
-                LOOKUP_BASKET,
-                LOOKUP_BASKET.ID,
-                LOOKUP_BASKET.USER_ID,
+                LOOKUP_BASKETS,
+                LOOKUP_BASKETS.ID,
+                LOOKUP_BASKETS.USER_ID,
             ).values(
                 event.id,
                 event.userId,
@@ -30,6 +30,6 @@ class LookupBasketProjector(
 
     @EventHandler
     fun on(event: BasketDeletedEvent) {
-        dsl.deleteFrom(LOOKUP_BASKET).where(LOOKUP_BASKET.ID.eq(event.id)).execute()
+        dsl.deleteFrom(LOOKUP_BASKETS).where(LOOKUP_BASKETS.ID.eq(event.id)).execute()
     }
 }

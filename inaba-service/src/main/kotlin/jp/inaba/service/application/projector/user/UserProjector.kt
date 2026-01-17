@@ -1,7 +1,7 @@
 package jp.inaba.service.application.projector.user
 
 import jp.inaba.message.user.event.UserCreatedEvent
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.USER
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.USERS
 import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
@@ -18,7 +18,7 @@ class UserProjector(
 ) {
     @ResetHandler
     fun reset() {
-        dsl.deleteFrom(USER).execute()
+        dsl.deleteFrom(USERS).execute()
     }
 
     @EventHandler
@@ -28,11 +28,11 @@ class UserProjector(
     ) {
         dsl
             .insertInto(
-                USER,
-                USER.ID,
-                USER.USER_NAME,
-                USER.CREATED_AT,
-                USER.UPDATED_AT,
+                USERS,
+                USERS.ID,
+                USERS.NAME,
+                USERS.CREATED_AT,
+                USERS.UPDATED_AT,
             ).values(
                 event.id,
                 // TODO (仮のユーザー名になってるというかユーザ名って扱いどうするの？初期にメールアドレスとかも送ってもらう？)

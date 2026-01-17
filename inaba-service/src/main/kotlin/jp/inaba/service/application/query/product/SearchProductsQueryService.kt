@@ -4,7 +4,7 @@ import jp.inaba.core.domain.common.Page
 import jp.inaba.core.domain.common.Paging
 import jp.inaba.message.product.query.SearchProductsQuery
 import jp.inaba.message.product.query.SearchProductsResult
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCTS
 import jp.inaba.service.utlis.toOrderField
 import org.axonframework.queryhandling.QueryHandler
 import org.jooq.DSLContext
@@ -21,10 +21,10 @@ class SearchProductsQueryService(
         val records =
             dsl
                 .select(
-                    PRODUCT.asterisk(),
+                    PRODUCTS.asterisk(),
                     totalCountFiled,
-                ).from(PRODUCT)
-                .where(PRODUCT.NAME.like("%${query.likeProductName}%"))
+                ).from(PRODUCTS)
+                .where(PRODUCTS.NAME.like("%${query.likeProductName}%"))
                 .orderBy(query.sortCondition.toOrderField())
                 .limit(query.pagingCondition.pageSize)
                 .offset(query.pagingCondition.offset)
@@ -36,10 +36,10 @@ class SearchProductsQueryService(
                 Page(
                     items =
                         records.map {
-                            val product = it.into(PRODUCT)
+                            val product = it.into(PRODUCTS)
                             SearchProductsResult.Summary(
                                 id = product.id,
-                                name = product.name!!,
+                                name = product.name,
                                 imageUrl = product.imageUrl,
                                 price = product.price,
                                 quantity = product.quantity,

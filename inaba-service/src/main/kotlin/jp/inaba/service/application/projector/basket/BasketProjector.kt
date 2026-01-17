@@ -4,8 +4,8 @@ import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemDeletedEvent
 import jp.inaba.message.basket.event.BasketItemSetEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
-import jp.inaba.service.infrastructure.jooq.generated.tables.records.BasketRecord
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.BASKET
+import jp.inaba.service.infrastructure.jooq.generated.tables.records.BasketItemsRecord
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BASKET_ITEMS
 import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
@@ -22,7 +22,7 @@ class BasketProjector(
 ) {
     @ResetHandler
     fun reset() {
-        dsl.deleteFrom(BASKET).execute()
+        dsl.deleteFrom(BASKET_ITEMS).execute()
     }
 
     @EventHandler
@@ -32,7 +32,7 @@ class BasketProjector(
     ) {
         val addedAt = timestamp.toTokyoLocalDateTime()
         val record =
-            BasketRecord(
+            BasketItemsRecord(
                 basketId = event.id,
                 productId = event.productId,
                 itemQuantity = event.basketItemQuantity,
@@ -40,35 +40,35 @@ class BasketProjector(
             )
 
         dsl
-            .insertInto(BASKET)
+            .insertInto(BASKET_ITEMS)
             .set(record)
             .onDuplicateKeyUpdate()
-            .set(BASKET.ITEM_QUANTITY, event.basketItemQuantity)
-            .set(BASKET.ADDED_AT, addedAt)
+            .set(BASKET_ITEMS.ITEM_QUANTITY, event.basketItemQuantity)
+            .set(BASKET_ITEMS.ADDED_AT, addedAt)
             .execute()
     }
 
     @EventHandler
     fun on(event: BasketItemDeletedEvent) {
         dsl
-            .deleteFrom(BASKET)
-            .where(BASKET.BASKET_ID.eq(event.id).and(BASKET.PRODUCT_ID.eq(event.productId)))
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.BASKET_ID.eq(event.id).and(BASKET_ITEMS.PRODUCT_ID.eq(event.productId)))
             .execute()
     }
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
         dsl
-            .deleteFrom(BASKET)
-            .where(BASKET.BASKET_ID.eq(event.id))
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.BASKET_ID.eq(event.id))
             .execute()
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
         dsl
-            .deleteFrom(BASKET)
-            .where(BASKET.PRODUCT_ID.eq(event.id))
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.PRODUCT_ID.eq(event.id))
             .execute()
     }
 }
