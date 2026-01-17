@@ -2,8 +2,8 @@ package jp.inaba.service.application.projector.lookupuser
 
 import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.message.user.event.UserDeletedEvent
-import jp.inaba.service.infrastructure.jpa.lookupuser.LookupUserJpaEntity
-import jp.inaba.service.infrastructure.jpa.lookupuser.LookupUserJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_USER
+import org.jooq.DSLContext
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
@@ -11,21 +11,22 @@ import org.springframework.stereotype.Component
 @Component
 @ProcessingGroup(LookupUserProjectorEventProcessor.PROCESSOR_NAME)
 class LookupUserProjector(
-    private val repository: LookupUserJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @EventHandler
     fun on(event: UserCreatedEvent) {
-        val entity =
-            LookupUserJpaEntity(
-                id = event.id,
-                subject = event.subject,
-            )
-
-        repository.save(entity)
+        dsl.insertInto(
+            LOOKUP_USER,
+            LOOKUP_USER.ID,
+            LOOKUP_USER.SUBJECT,
+        ).values(
+            event.id,
+            event.subject,
+        ).execute()
     }
 
     @EventHandler
     fun on(event: UserDeletedEvent) {
-        repository.deleteById(event.id)
+        dsl.deleteFrom(LOOKUP_USER).where(LOOKUP_USER.ID.eq(event.id)).execute()
     }
 }

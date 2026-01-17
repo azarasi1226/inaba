@@ -2,25 +2,24 @@ package jp.inaba.service.application.projector.brand
 
 import jp.inaba.message.brand.event.BrandCreatedEvent
 import jp.inaba.message.brand.event.BrandDeletedEvent
-import jp.inaba.service.infrastructure.jpa.brand.BrandJpaEntity
-import jp.inaba.service.infrastructure.jpa.brand.BrandJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BRAND
+import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.axonframework.eventhandling.ResetHandler
 import org.axonframework.eventhandling.Timestamp
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Component
 @ProcessingGroup(BrandProjectorEventProcessor.PROCESSOR_NAME)
 class BrandProjector(
-    private val repository: BrandJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @ResetHandler
     fun reset() {
-        repository.deleteAllInBatch()
+        dsl.deleteFrom(BRAND).execute()
     }
 
     @EventHandler
@@ -28,19 +27,23 @@ class BrandProjector(
         event: BrandCreatedEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val entity =
-            BrandJpaEntity(
-                id = event.id,
-                name = event.name,
-                createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-            )
-
-        repository.save(entity)
+        dsl
+            .insertInto(
+                BRAND,
+                BRAND.ID,
+                BRAND.NAME,
+                BRAND.CREATED_AT,
+                BRAND.UPDATED_AT,
+            ).values(
+                event.id,
+                event.name,
+                timestamp.toTokyoLocalDateTime(),
+                timestamp.toTokyoLocalDateTime(),
+            ).execute()
     }
 
     @EventHandler
     fun on(event: BrandDeletedEvent) {
-        repository.deleteById(event.id)
+        dsl.deleteFrom(BRAND).where(BRAND.ID.eq(event.id)).execute()
     }
 }
