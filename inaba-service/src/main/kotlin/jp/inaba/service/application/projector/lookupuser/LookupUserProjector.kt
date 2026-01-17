@@ -23,7 +23,9 @@ class LookupUserProjector(
             ).values(
                 event.id,
                 event.subject,
-            ).execute()
+            )
+            // このテーブルは一意聖を保証するためのテーブルなので、重複したら例外とする
+            .execute()
     }
 
     @EventHandler

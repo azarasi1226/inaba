@@ -5,25 +5,24 @@ import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
 import jp.inaba.message.product.event.StockDecreasedEvent
 import jp.inaba.message.product.event.StockIncreasedEvent
-import jp.inaba.service.infrastructure.jpa.product.ProductJpaEntity
-import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.axonframework.eventhandling.ResetHandler
 import org.axonframework.eventhandling.Timestamp
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Component
 @ProcessingGroup(ProductProjectorEventProcessor.PROCESSOR_NAME)
 class ProductProjector(
-    private val repository: ProductJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @ResetHandler
     fun reset() {
-        repository.deleteAllInBatch()
+        dsl.deleteFrom(PRODUCT).execute()
     }
 
     @EventHandler
@@ -31,20 +30,32 @@ class ProductProjector(
         event: ProductCreatedEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val entity =
-            ProductJpaEntity(
-                id = event.id,
-                brandId = event.brandId,
-                name = event.name,
-                description = event.description,
-                imageUrl = event.imageUrl,
-                price = event.price,
-                quantity = event.quantity,
-                createdAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+        dsl
+            .insertInto(
+                PRODUCT,
+                PRODUCT.ID,
+                PRODUCT.BRAND_ID,
+                PRODUCT.NAME,
+                PRODUCT.DESCRIPTION,
+                PRODUCT.IMAGE_URL,
+                PRODUCT.PRICE,
+                PRODUCT.QUANTITY,
+                PRODUCT.CREATED_AT,
+                PRODUCT.UPDATED_AT,
+            ).values(
+                event.id,
+                event.brandId,
+                event.name,
+                event.description,
+                event.imageUrl,
+                event.price,
+                event.quantity,
+                timestamp.toTokyoLocalDateTime(),
+                timestamp.toTokyoLocalDateTime(),
             )
-
-        repository.save(entity)
+            // 冪等性の考慮
+            .onDuplicateKeyIgnore()
+            .execute()
     }
 
     @EventHandler
@@ -52,17 +63,15 @@ class ProductProjector(
         event: ProductUpdatedEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val entity = repository.findById(event.id).orElseThrow()
-        val updatedEntity =
-            entity.copy(
-                name = event.name,
-                description = event.description,
-                imageUrl = event.imageUrl,
-                price = event.price,
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-            )
-
-        repository.save(updatedEntity)
+        dsl
+            .update(PRODUCT)
+            .set(PRODUCT.NAME, event.name)
+            .set(PRODUCT.DESCRIPTION, event.description)
+            .set(PRODUCT.IMAGE_URL, event.imageUrl)
+            .set(PRODUCT.PRICE, event.price)
+            .set(PRODUCT.UPDATED_AT, timestamp.toTokyoLocalDateTime())
+            .where(PRODUCT.ID.eq(event.id))
+            .execute()
     }
 
     @EventHandler
@@ -70,14 +79,12 @@ class ProductProjector(
         event: StockIncreasedEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val entity = repository.findById(event.id).orElseThrow()
-        val updatedEntity =
-            entity.copy(
-                quantity = event.increasedStockQuantity,
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-            )
-
-        repository.save(updatedEntity)
+        dsl
+            .update(PRODUCT)
+            .set(PRODUCT.QUANTITY, event.increasedStockQuantity)
+            .set(PRODUCT.UPDATED_AT, timestamp.toTokyoLocalDateTime())
+            .where(PRODUCT.ID.eq(event.id))
+            .execute()
     }
 
     @EventHandler
@@ -85,18 +92,16 @@ class ProductProjector(
         event: StockDecreasedEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val entity = repository.findById(event.id).orElseThrow()
-        val updatedEntity =
-            entity.copy(
-                quantity = event.decreasedStockQuantity,
-                updatedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
-            )
-
-        repository.save(updatedEntity)
+        dsl
+            .update(PRODUCT)
+            .set(PRODUCT.QUANTITY, event.decreasedStockQuantity)
+            .set(PRODUCT.UPDATED_AT, timestamp.toTokyoLocalDateTime())
+            .where(PRODUCT.ID.eq(event.id))
+            .execute()
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        repository.deleteById(event.id)
+        dsl.deleteFrom(PRODUCT).where(PRODUCT.ID.eq(event.id)).execute()
     }
 }

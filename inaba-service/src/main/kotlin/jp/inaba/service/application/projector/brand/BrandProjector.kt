@@ -39,7 +39,10 @@ class BrandProjector(
                 event.name,
                 timestamp.toTokyoLocalDateTime(),
                 timestamp.toTokyoLocalDateTime(),
-            ).execute()
+            )
+            // 冪等性の考慮
+            .onDuplicateKeyIgnore()
+            .execute()
     }
 
     @EventHandler
