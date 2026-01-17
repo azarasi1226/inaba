@@ -1,12 +1,16 @@
 package jp.inaba.service.infrastructure.domain.user
 
 import jp.inaba.service.domain.user.CreateUserVerifier
-import jp.inaba.service.infrastructure.jpa.lookupuser.LookupUserJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_USER
+import org.jooq.DSLContext
 import org.springframework.stereotype.Service
 
 @Service
 class CreateUserVerifierImpl(
-    private val repository: LookupUserJpaRepository,
+    private val dsl: DSLContext,
 ) : CreateUserVerifier {
-    override fun isLinkedSubject(subject: String): Boolean = repository.existsBySubject(subject)
+    override fun isLinkedSubject(subject: String): Boolean =
+        dsl.fetchExists(
+            dsl.selectOne().from(LOOKUP_USER).where(LOOKUP_USER.SUBJECT.eq(subject)),
+        )
 }

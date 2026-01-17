@@ -3,21 +3,30 @@ package jp.inaba.service.infrastructure.domain.basket
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.service.domain.basket.SetBasketItemVerifier
-import jp.inaba.service.infrastructure.jpa.product.ProductJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.PRODUCT
+import org.jooq.DSLContext
 import org.springframework.stereotype.Service
 
 @Service
 class SetBasketItemVerifierImpl(
-    private val productJpaRepository: ProductJpaRepository,
+    private val dsl: DSLContext,
 ) : SetBasketItemVerifier {
-    override fun isProductNotFound(productId: ProductId): Boolean = !productJpaRepository.existsById(productId.value)
+    override fun isProductNotFound(productId: ProductId): Boolean =
+        !dsl.fetchExists(
+            dsl.selectOne().from(PRODUCT).where(PRODUCT.ID.eq(productId.value)),
+        )
 
     override fun isOutOfStock(
         productId: ProductId,
         basketItemQuantity: BasketItemQuantity,
     ): Boolean {
-        val entity = productJpaRepository.findById(productId.value).orElseThrow()
+        val quantity: Int =
+            dsl
+                .select(PRODUCT.QUANTITY)
+                .from(PRODUCT)
+                .where(PRODUCT.ID.eq(productId.value))
+                .fetchOne(PRODUCT.QUANTITY) ?: return true
 
-        return entity.quantity < basketItemQuantity.value
+        return quantity < basketItemQuantity.value
     }
 }

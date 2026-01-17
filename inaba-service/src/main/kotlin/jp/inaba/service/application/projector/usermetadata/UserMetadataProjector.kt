@@ -28,8 +28,8 @@ class UserMetadataProjector(
                 USER_METADATA.USER_ID,
             ).values(
                 event.subject,
-                event.id)
-            .onDuplicateKeyIgnore()
+                event.id,
+            ).onDuplicateKeyIgnore()
             .execute()
     }
 
