@@ -40,18 +40,12 @@ allprojects {
         useJUnitPlatform()
     }
 
-    tasks.test {
-        // test実行後にカバレッジ計測も行う
-        finalizedBy(tasks.jacocoTestReport)
-    }
-
     // Test時のカバレッジ測定の対象とするディレクトリの設定
     val jacocoInclude =
         listOf(
             "jp/inaba/service/application/command/**",
             "jp/inaba/service/domain/**",
         )
-
     tasks.jacocoTestReport {
         // カバレッジ測定前にtestの実行を行う
         dependsOn(tasks.test)
