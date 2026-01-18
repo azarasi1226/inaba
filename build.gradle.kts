@@ -45,6 +45,13 @@ allprojects {
         finalizedBy(tasks.jacocoTestReport)
     }
 
+    // Test時のカバレッジ測定の対象とするディレクトリの設定
+    val jacocoInclude =
+        listOf(
+            "jp/inaba/service/application/command/**",
+            "jp/inaba/service/domain/**",
+        )
+
     tasks.jacocoTestReport {
         // カバレッジ測定前にtestの実行を行う
         dependsOn(tasks.test)
@@ -60,14 +67,35 @@ allprojects {
                 classDirectories.files.map {
                     fileTree(it) {
                         // カバレッジ計測対象のフォルダを指定
-                        include(
-                            "jp/inaba/service/application/command/**",
-                            "jp/inaba/service/domain/**",
-                        )
+                        include(jacocoInclude)
                     }
                 },
             ),
         )
+    }
+
+    // カバレッジが一定値を下回った場合にビルドを失敗させる設定
+    tasks.jacocoTestCoverageVerification {
+        classDirectories.setFrom(
+            files(
+                classDirectories.files.map {
+                    fileTree(it) {
+                        include(jacocoInclude)
+                    }
+                },
+            ),
+        )
+
+        violationRules {
+            rule {
+                element = "CLASS"
+                limit {
+                    counter = "LINE"
+                    value = "COVEREDRATIO"
+                    minimum = 0.80.toBigDecimal()
+                }
+            }
+        }
     }
 
     dependencies {
