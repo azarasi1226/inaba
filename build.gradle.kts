@@ -43,6 +43,7 @@ allprojects {
     // Test時のカバレッジ測定の対象とするディレクトリの設定
     val jacocoInclude =
         listOf(
+            "jp/inaba/core/domain/**",
             "jp/inaba/service/application/command/**",
             "jp/inaba/service/domain/**",
         )

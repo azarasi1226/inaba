@@ -1,4 +1,4 @@
-package jp.inaba.service.domain.basket
+package jp.inaba.core.domain.brand
 
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.common.ValueObjectException
