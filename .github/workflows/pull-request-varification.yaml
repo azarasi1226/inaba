@@ -50,4 +50,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: "test"
-        run: ./gradlew :inaba-service:test
+        run: ./gradlew :inaba-service:jacocoTestCoverageVerification
