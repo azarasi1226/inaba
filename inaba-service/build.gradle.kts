@@ -1,5 +1,7 @@
 plugins {
-    id("org.springframework.boot") version "4.0.1"
+    // TODO:AxonFramework 4.12.3がSpring Boot 3系にまでしか対応していないので、まだ4系にしない方がいい。
+    // 公式的には2026年には対応するから、その頃にまた考えよう。
+    id("org.springframework.boot") version "3.5.9"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.10"
 
