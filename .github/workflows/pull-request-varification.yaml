@@ -49,5 +49,5 @@ jobs:
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
 
-      - name: "test"
+      - name: "test & カバレッジ測定"
         run: ./gradlew :inaba-service:jacocoTestCoverageVerification
