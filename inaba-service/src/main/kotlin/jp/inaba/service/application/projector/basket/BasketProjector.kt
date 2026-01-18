@@ -4,26 +4,25 @@ import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemDeletedEvent
 import jp.inaba.message.basket.event.BasketItemSetEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
-import jp.inaba.service.infrastructure.jpa.basket.BasketItemId
-import jp.inaba.service.infrastructure.jpa.basket.BasketJpaEntity
-import jp.inaba.service.infrastructure.jpa.basket.BasketJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.records.BasketItemsRecord
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BASKET_ITEMS
+import jp.inaba.service.utlis.toTokyoLocalDateTime
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.axonframework.eventhandling.ResetHandler
 import org.axonframework.eventhandling.Timestamp
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Component
 @ProcessingGroup(BasketProjectorEventProcessor.PROCESSOR_NAME)
 class BasketProjector(
-    private val repository: BasketJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @ResetHandler
     fun reset() {
-        repository.deleteAllInBatch()
+        dsl.deleteFrom(BASKET_ITEMS).execute()
     }
 
     @EventHandler
@@ -31,37 +30,45 @@ class BasketProjector(
         event: BasketItemSetEvent,
         @Timestamp timestamp: Instant,
     ) {
-        val id =
-            BasketItemId(
+        val addedAt = timestamp.toTokyoLocalDateTime()
+        val record =
+            BasketItemsRecord(
                 basketId = event.id,
                 productId = event.productId,
-            )
-
-        val basketItemJpaEntity =
-            BasketJpaEntity(
-                basketItemId = id,
                 itemQuantity = event.basketItemQuantity,
-                addedAt = LocalDateTime.ofInstant(timestamp, ZoneId.of("Asia/Tokyo")),
+                addedAt = addedAt,
             )
 
-        repository.save(basketItemJpaEntity)
+        dsl
+            .insertInto(BASKET_ITEMS)
+            .set(record)
+            .onDuplicateKeyUpdate()
+            .set(BASKET_ITEMS.ITEM_QUANTITY, event.basketItemQuantity)
+            .set(BASKET_ITEMS.ADDED_AT, addedAt)
+            .execute()
     }
 
     @EventHandler
     fun on(event: BasketItemDeletedEvent) {
-        repository.deleteByBasketIdAndProductId(
-            basketId = event.id,
-            productId = event.productId,
-        )
+        dsl
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.BASKET_ID.eq(event.id).and(BASKET_ITEMS.PRODUCT_ID.eq(event.productId)))
+            .execute()
     }
 
     @EventHandler
     fun on(event: BasketClearedEvent) {
-        repository.deleteByBasketItemIdBasketId(event.id)
+        dsl
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.BASKET_ID.eq(event.id))
+            .execute()
     }
 
     @EventHandler
     fun on(event: ProductDeletedEvent) {
-        repository.deleteByBasketItemIdProductId(event.id)
+        dsl
+            .deleteFrom(BASKET_ITEMS)
+            .where(BASKET_ITEMS.PRODUCT_ID.eq(event.id))
+            .execute()
     }
 }

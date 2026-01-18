@@ -26,9 +26,9 @@ class CreateUserInteractor(
             throw UseCaseException(CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT)
         }
 
-        // Subject(認証ユーザー)がIDProviderに問い合わせ確認模したほうがいいような気もしたんやけど...
+        // Subject(認証ユーザーに紐づいている一意の値)が存在するか、IDProviderに問い合わせ確認もしたほうがいいような気もしたんやけど...
         // * AccessTokenだとCognitoのLambdaハンドラーから問い合わせできない。
-        // * Subjectでのユーザー問い合わせはCognitoでは対応していない。
+        // * 通常AccessTokenで可能なUseInfoエンドポイントへのSubjectでのユーザー問い合わせはCognitoでは対応していない。
         // 上記２点を踏まえてやめている。万が一存在しないSubjectが渡されたとしても、ゴミデータが作られるだけで、システムの整合性的には問題ない認識。
 
         val internalCommand =

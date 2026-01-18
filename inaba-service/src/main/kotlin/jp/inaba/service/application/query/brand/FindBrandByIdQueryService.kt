@@ -4,23 +4,23 @@ import jp.inaba.core.domain.brand.FindBrandByIdError
 import jp.inaba.core.domain.common.UseCaseException
 import jp.inaba.message.brand.query.FindBrandByIdQuery
 import jp.inaba.message.brand.query.FindBrandByIdResult
-import jp.inaba.service.infrastructure.jpa.brand.BrandJpaRepository
+import jp.inaba.service.infrastructure.jooq.generated.tables.references.BRANDS
 import org.axonframework.queryhandling.QueryHandler
+import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
 class FindBrandByIdQueryService(
-    private val repository: BrandJpaRepository,
+    private val dsl: DSLContext,
 ) {
     @QueryHandler
-    fun handle(query: FindBrandByIdQuery): FindBrandByIdResult {
-        val entity =
-            repository.findById(query.id.value).orElseThrow {
-                UseCaseException(FindBrandByIdError.BRAND_NOD_FOUND)
-            }
-
-        return FindBrandByIdResult(
-            name = entity.name,
-        )
-    }
+    fun handle(query: FindBrandByIdQuery): FindBrandByIdResult =
+        dsl
+            .selectFrom(BRANDS)
+            .where(BRANDS.ID.eq(query.id.value))
+            .fetchOne {
+                FindBrandByIdResult(
+                    name = it.name,
+                )
+            } ?: throw UseCaseException(FindBrandByIdError.BRAND_NOD_FOUND)
 }
