@@ -1,7 +1,9 @@
 package jp.inaba.service.domain.user
 
 import jp.inaba.core.domain.user.UserId
+import jp.inaba.message.user.command.DeleteUserCommand
 import jp.inaba.message.user.event.UserCreatedEvent
+import jp.inaba.message.user.event.UserDeletedEvent
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.jupiter.api.BeforeEach
@@ -16,14 +18,14 @@ class UserAggregateTest {
     }
 
     @Test
-    fun `ユーザー作成_Event発行`() {
+    fun `ユーザーを作成_Event発行`() {
         // Arrange
         val userId = UserId()
-        val subject = "oidc:sub:azarasikozou"
+        val subject = "auth0|123456789"
 
-        // Act
         fixture
             .givenNoPriorActivity()
+            // Act
             .`when`(
                 InternalCreateUserCommand(
                     id = userId,
@@ -39,4 +41,33 @@ class UserAggregateTest {
                 ),
             )
     }
+
+    @Test
+    fun `ユーザーを削除_Event発行`() {
+        // Arrange
+        val userId = UserId()
+        val subject = "auth0|123456789"
+
+        fixture
+            .given(
+                UserCreatedEvent(
+                    id = userId.value,
+                    subject = subject,
+                ),
+            )
+            // Act
+            .`when`(
+                DeleteUserCommand(
+                    id = userId,
+                ),
+            )
+            // Assert
+            .expectSuccessfulHandlerExecution()
+            .expectEvents(
+                UserDeletedEvent(
+                    id = userId.value,
+                ),
+            )
+    }
 }
+
