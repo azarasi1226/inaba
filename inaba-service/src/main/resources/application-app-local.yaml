@@ -6,7 +6,5 @@ spring:
 logging:
   level:
     jp.inaba: DEBUG
-
-aws:
-  cognito:
-    endpoint: http://localhost:5050
+    # jooq SQLログ出力設定(最低DEBUGにするとSQLが全てログに出力される)
+    org.jooq.tools.LoggerListener: DEBUG

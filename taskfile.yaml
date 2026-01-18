@@ -7,6 +7,16 @@ tasks:
     cmds:
       - task --list-all
 
+  local-up:
+    desc: ローカル環境のセットアップ(主にコンテナ起動)
+    cmds:
+      - docker compose -f ./local-setup/docker-compose.yaml up -d
+
+  local-down:
+    desc: ローカル環境の停止(主にコンテナ停止)
+    cmds:
+      - docker compose -f ./local-setup/docker-compose.yaml down
+
   atlas-migrate-diff:
     desc: データベースのマイグレーション差分を生成
     dir: ./database
@@ -16,5 +26,8 @@ tasks:
   atlas-migrate-apply:
     desc: データベースのマイグレーションを適用
     dir: ./database
+    deps:
+      - local-up
     cmds:
-      - atlas migrate apply --url "docker://mysql/8/dev" --dir "file://migrations"
+     # TODO:MYSQLが立ち上がっているかの確認をしないといけない。
+      - atlas migrate apply --url "mysql://root:passw0rd@localhost:3306/inaba" --dir "file://migrations"
