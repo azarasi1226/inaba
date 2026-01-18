@@ -26,5 +26,5 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:5.0.1")
     implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
     implementation("software.amazon.awssdk:s3:2.41.6")
-    implementation("org.bytedeco:javacv-platform:1.5.11")
+    implementation("org.bytedeco:javacv-platform:1.5.12")
 }
