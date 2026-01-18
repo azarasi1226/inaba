@@ -74,9 +74,10 @@ class CreateUserInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CommonError.AGGREGATE_DUPLICATED)
@@ -96,12 +97,12 @@ class CreateUserInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT)
     }
 }
-

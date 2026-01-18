@@ -67,12 +67,12 @@ class CreateBrandInteractorTest {
         } returns true
 
         // Act
-        val exception = assertThrows<UseCaseException> {
-            sut.handle(command)
-        }
+        val exception =
+            assertThrows<UseCaseException> {
+                sut.handle(command)
+            }
 
         // Assert
         assert(exception.error == CommonError.AGGREGATE_DUPLICATED)
     }
 }
-
