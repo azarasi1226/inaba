@@ -1,6 +1,5 @@
-package jp.inaba.core.domain.brand
+package jp.inaba.core.domain.basket
 
-import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.common.ValueObjectException
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -18,7 +17,7 @@ class BasketItemQuantityTest {
 
     @ParameterizedTest
     @ValueSource(ints = [1, 99])
-    fun `正常な値でBasketItemQuantity作成_インスタンス化成功`(value: Int) {
+    fun `正常な値でBasketItemQuantity作成_成功`(value: Int) {
         assertDoesNotThrow {
             BasketItemQuantity(value)
         }

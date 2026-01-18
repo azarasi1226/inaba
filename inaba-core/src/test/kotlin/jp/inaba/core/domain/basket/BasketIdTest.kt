@@ -1,5 +1,4 @@
-package jp.inaba.core.domain.brand
-
+import de.huxhorn.sulky.ulid.ULID
 import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.common.ValueObjectException
 import org.junit.jupiter.api.Test
@@ -17,7 +16,7 @@ class BasketIdTest {
     @Test
     fun `正常な値でBasketId作成_成功`() {
         assertDoesNotThrow {
-            BasketId("01J0BR147P3HTJXDMNZKCCV7Z5")
+            BasketId(ULID().nextULID())
         }
     }
 }

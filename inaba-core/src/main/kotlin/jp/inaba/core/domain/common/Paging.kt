@@ -16,8 +16,8 @@ data class Paging(
         if (pageSize < 1) {
             throw ValueObjectException("pageSizeは[1 ~]な数値を入力してください。pageSize:[$pageSize]")
         }
-        if (pageNumber < 0) {
-            throw ValueObjectException("pageNumberは[0 ~]な数値を入力してください。pageNumber:[$pageNumber]")
+        if (pageNumber < 1) {
+            throw ValueObjectException("pageNumberは[1 ~]な数値を入力してください。pageNumber:[$pageNumber]")
         }
     }
 }
