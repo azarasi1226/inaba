@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class CustomJooqConfiguration {
     @Bean
-    fun jooqCustomizer(): DefaultConfigurationCustomizer {
-        return DefaultConfigurationCustomizer { configuration: DefaultConfiguration ->
-            configuration.settings()
+    fun jooqCustomizer(): DefaultConfigurationCustomizer =
+        DefaultConfigurationCustomizer { configuration: DefaultConfiguration ->
+            configuration
+                .settings()
                 .withRenderNameCase(RenderNameCase.LOWER)
         }
-    }
 }
