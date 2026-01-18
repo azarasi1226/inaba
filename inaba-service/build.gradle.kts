@@ -3,7 +3,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.10"
 
-    kotlin("plugin.spring") version "2.2.0"
+    kotlin("plugin.spring") version "2.3.0"
     kotlin("plugin.jpa") version "2.3.0"
 }
 
