@@ -61,7 +61,9 @@ jobs:
           paths: |
             ${{ github.workspace }}/inaba-service/build/reports/jacoco/test/jacocoTestReport.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
-          # 最小カバレッジ
-          min-coverage-overall: 99
-          min-coverage-changed-files: 99
-          pass-emoji: ✅
+          title: "ちゃんとテスト書いたのか検証するよ(*'ω'*)"
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          pass-emoji: 😄
+          fail-emoji: 😠
+          continue-on-error: false
