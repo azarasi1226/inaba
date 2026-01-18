@@ -10,7 +10,7 @@ tasks:
   local-up:
     desc: ローカル環境のセットアップ(主にコンテナ起動)
     cmds:
-      - docker compose -f ./local-setup/docker-compose.yaml up -d
+      - docker compose -f ./local-setup/docker-compose.yaml up -d --wait
 
   local-down:
     desc: ローカル環境の停止(主にコンテナ停止)
@@ -29,5 +29,4 @@ tasks:
     deps:
       - local-up
     cmds:
-     # TODO:MYSQLが立ち上がっているかの確認をしないといけない。
       - atlas migrate apply --url "mysql://root:passw0rd@localhost:3306/inaba" --dir "file://migrations"

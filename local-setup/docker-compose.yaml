@@ -4,14 +4,18 @@ services:
     environment:
       # 初期設定(Context作成)を手動でしなくてもよくなる
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
-    healthcheck:
-      test: curl -f http://localhost:8024/actuator/health || exit 1;
     volumes:
       - axonserver-events:/axonserver/events
     ports:
       - 8024:8024
       - 8124:8124
       - 8224:8224
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8024/actuator/health"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
 
   mysql:
     image: mysql:latest
@@ -22,6 +26,12 @@ services:
       - mysql-store:/var/lib/mysql
     ports:
       - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
 
   # S3互換のファイルストレージ
   # S3のSDKからアクセスできるので実装のすり替えをしなくてよい。
