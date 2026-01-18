@@ -76,6 +76,8 @@ allprojects {
 
     // カバレッジが一定値を下回った場合にビルドを失敗させる設定
     tasks.jacocoTestCoverageVerification {
+        // カバレッジの検証には jacocoTestReportが吐き出した、test.exec ファイルを使用するため、先にレポートの作成を依存関係として追加
+        dependsOn(tasks.jacocoTestReport)
         classDirectories.setFrom(
             files(
                 classDirectories.files.map {
