@@ -21,4 +21,3 @@ class OrderStatusTest {
         assert(OrderStatus.Failed.value == 3)
     }
 }
-

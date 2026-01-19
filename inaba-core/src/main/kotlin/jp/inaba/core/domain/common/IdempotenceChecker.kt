@@ -10,7 +10,7 @@ class IdempotenceChecker {
 
     fun register(idempotencyId: IdempotencyId) {
         if (idempotencyIds.size >= MAX_ID_COUNT) {
-            val lastId = idempotencyIds.last()
+            val lastId = idempotencyIds.first
             idempotencyIds.remove(lastId)
         }
 
