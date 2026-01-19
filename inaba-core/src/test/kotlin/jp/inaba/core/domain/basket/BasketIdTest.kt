@@ -19,4 +19,11 @@ class BasketIdTest {
             BasketId(ULID().nextULID())
         }
     }
+
+    @Test
+    fun `デフォルトコンストラクタでBasketId作成_成功`() {
+        assertDoesNotThrow {
+            BasketId()
+        }
+    }
 }

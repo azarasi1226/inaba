@@ -20,4 +20,11 @@ class BrandIdTest {
             BrandId(ULID().nextULID())
         }
     }
+
+    @Test
+    fun `デフォルトコンストラクタでBrandId作成_成功`() {
+        assertDoesNotThrow {
+            BrandId()
+        }
+    }
 }
