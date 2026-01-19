@@ -96,7 +96,7 @@ allprojects {
 
     dependencies {
         implementation(platform("org.axonframework:axon-bom:$axonVersion"))
-        implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
+        implementation("io.github.oshai:kotlin-logging-jvm:7.0.14")
         implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
     }
 }
