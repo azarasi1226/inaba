@@ -36,7 +36,6 @@ class PagingConditionTest {
         }
     }
 
-
     @ParameterizedTest
     @CsvSource(
         // 1ページ目, offset=0
@@ -44,9 +43,13 @@ class PagingConditionTest {
         // 2ページ目, offset=10
         "10,2,10",
         // 5ページ目, offset=80
-        "20,5,80"
+        "20,5,80",
     )
-    fun `offsetが正しく計算される`(pageSize: Int, pageNumber: Int, expectedOffset: Int) {
+    fun `offsetが正しく計算される`(
+        pageSize: Int,
+        pageNumber: Int,
+        expectedOffset: Int,
+    ) {
         val condition = PagingCondition(pageSize = pageSize, pageNumber = pageNumber)
         assertEquals(expectedOffset, condition.offset)
     }
@@ -58,4 +61,3 @@ class PagingConditionTest {
         }
     }
 }
-

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
 
 class PagingTest {
     @Test
@@ -53,9 +52,14 @@ class PagingTest {
         // 1件の場合
         "1,10,1,1",
         // 0件の場合
-        "0,10,1,0"
+        "0,10,1,0",
     )
-    fun `totalPageが正しく計算される`(totalCount: Long, pageSize: Int, pageNumber: Int, expectedTotalPage: Int) {
+    fun `totalPageが正しく計算される`(
+        totalCount: Long,
+        pageSize: Int,
+        pageNumber: Int,
+        expectedTotalPage: Int,
+    ) {
         val paging = Paging(totalCount = totalCount, pageSize = pageSize, pageNumber = pageNumber)
         assertEquals(expectedTotalPage, paging.totalPage)
     }
@@ -67,4 +71,3 @@ class PagingTest {
         }
     }
 }
-

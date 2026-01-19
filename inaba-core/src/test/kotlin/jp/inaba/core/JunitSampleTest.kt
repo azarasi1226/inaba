@@ -1,11 +1,10 @@
 package jp.inaba.core
 
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 @DisplayName("JUnit 5 テスト動作確認")
 class JunitSampleTest {
-
     @Test
     @DisplayName("足し算が正しく計算される")
     fun `1 + 1 = 2`() {
@@ -28,4 +27,3 @@ class JunitSampleTest {
         // Act & Assert
     }
 }
-

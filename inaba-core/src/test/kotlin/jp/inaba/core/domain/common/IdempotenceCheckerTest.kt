@@ -25,7 +25,6 @@ class IdempotenceCheckerTest {
         val idempotencyId = IdempotencyId()
         sut.register(idempotencyId)
 
-
         // Act
         val actual = sut.isIdempotent(idempotencyId)
 
@@ -67,4 +66,3 @@ class IdempotenceCheckerTest {
         assertTrue(sut.isIdempotent(idempotencyId))
     }
 }
-

@@ -14,7 +14,6 @@ class IdempotenceChecker {
             idempotencyIds.remove(lastId)
         }
 
-        // TODO:同じ冪等IDが追加された場合はエラーにする？
         idempotencyIds.add(idempotencyId)
     }
 
