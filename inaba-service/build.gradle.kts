@@ -111,7 +111,7 @@ sourceSets {
 val intTestImplementation by configurations.getting {
     extendsFrom(configurations.implementation.get())
 }
-val intTestRuntimeOnly by configurations.getting{
+val intTestRuntimeOnly by configurations.getting {
     extendsFrom(configurations.runtimeOnly.get())
 }
 
