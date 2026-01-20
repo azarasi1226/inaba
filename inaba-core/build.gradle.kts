@@ -1,6 +1,6 @@
 dependencies {
     // JUnit 6
-    implementation(platform("org.junit:junit-bom:6.0.1"))
+    implementation(platform("org.junit:junit-bom:6.0.2"))
     // JUnitのコア
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     // JUnitエンジン
