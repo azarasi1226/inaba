@@ -1,11 +1,5 @@
 package jp.inaba.service
 
-import de.huxhorn.sulky.ulid.ULID
-import jp.inaba.core.domain.user.UserId
-import jp.inaba.message.user.command.CreateUserCommand
-import org.axonframework.commandhandling.gateway.CommandGateway
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.test.context.TestPropertySource
@@ -35,44 +29,10 @@ class IntegrationTestBase {
         @ServiceConnection
         val mysql =
             MySQLContainer("mysql:8.0").apply {
-                //     withInitScript("")
+                // DBの初期化スクリプトのパスを指定
+                val hostPath = java.nio.file.Paths.get("../").toAbsolutePath().resolve("database/schema.mysql.sql")
+                val mountable = org.testcontainers.utility.MountableFile.forHostPath(hostPath)
+                withCopyFileToContainer(mountable, "/docker-entrypoint-initdb.d/schema.mysql.sql")
             }
-    }
-}
-
-class Test1 : IntegrationTestBase() {
-    @Autowired
-    lateinit var commandGateway: CommandGateway
-
-    @Test
-    fun `test1`() {
-        val command =
-            CreateUserCommand(
-                id = UserId(),
-                subject = ULID().nextULID(),
-            )
-
-        commandGateway.sendAndWait<Any>(command)
-    }
-}
-
-class Test2 : IntegrationTestBase() {
-    @Test
-    fun `test2`() {
-        println("name" + mysql.containerName)
-    }
-}
-
-class Test3 : IntegrationTestBase() {
-    @Test
-    fun `test3`() {
-        println("name" + mysql.containerName)
-    }
-}
-
-class Test4 : IntegrationTestBase() {
-    @Test
-    fun `test4`() {
-        println("name" + mysql.containerName)
     }
 }
