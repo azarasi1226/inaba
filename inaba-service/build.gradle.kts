@@ -45,6 +45,9 @@ dependencies {
     jooqCodegen("org.jooq:jooq-meta-extensions:3.20.10") // DDLDatabase用
 }
 
+// =====================================================
+// ======================jacoco=========================
+// =====================================================
 jooq {
     configuration {
         generator {
@@ -81,4 +84,64 @@ sourceSets.main {
 // 幸いDDLDatabaseを使っているため、DBサーバーへの接続は発生しない完全ローカル完結...最高すぎかよ...
 tasks.named("compileKotlin") {
     dependsOn("jooqCodegen")
+}
+
+// =====================================================
+// ======================統合テスト======================
+// =====================================================
+sourceSets {
+    create("intTest") {
+        kotlin {
+            srcDir("src/intTest/kotlin")
+        }
+        resources {
+            srcDir("src/intTest/resources")
+        }
+
+        // mainソースセットの出力を統合テストのコンパイルと実行のクラスパスに追加。
+        // 簡単に言うとmainで書いたコードを参照できるようにするってこと
+        compileClasspath += main.get().output
+        runtimeClasspath += main.get().output
+    }
+}
+
+// 統合テスト用の依存関係を追加する際に使用する implementation と runtimeOnly の設定を作成。
+// "intTest"Implementationって、↑で作ったSourceSetの名前と同じことにすることで、Gradleが自動的に認識してくれるらしい。
+// まじgradleむずいっていうかキモイね
+val intTestImplementation by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+val intTestRuntimeOnly by configurations.getting {
+    extendsFrom(configurations.runtimeOnly.get())
+}
+
+// 統合テスト用依存関係
+dependencies {
+    intTestImplementation(platform("org.testcontainers:testcontainers-bom:2.0.3"))
+    intTestImplementation("org.testcontainers:junit-jupiter")
+    intTestImplementation("org.testcontainers:testcontainers-mysql")
+    intTestImplementation("org.springframework.boot:spring-boot-testcontainers")
+    intTestImplementation("org.springframework.boot:spring-boot-starter-test") {
+        // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
+        exclude(module = "mockito-core")
+    }
+    intTestImplementation("com.ninja-squad:springmockk:5.0.1")
+}
+
+// 専用タスク `integrationTest` を作成。
+tasks.register<Test>("integrationTest") {
+    description = "Runs the integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
+    // 一般的に統合テストは遅いため、初めに単体テストを実行して落ちたら統合テストは実施しないという方向にした方が良い
+    shouldRunAfter("test")
+
+    useJUnitPlatform()
+
+    // 統合テストの結果を標準出力に表示する設定(成功したものpassed)のみ表示する
+    testLogging {
+        events("passed")
+    }
 }
