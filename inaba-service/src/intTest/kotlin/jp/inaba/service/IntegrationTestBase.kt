@@ -30,8 +30,14 @@ class IntegrationTestBase {
         val mysql =
             MySQLContainer("mysql:8.0").apply {
                 // DBの初期化スクリプトのパスを指定
-                val hostPath = java.nio.file.Paths.get("../").toAbsolutePath().resolve("database/schema.mysql.sql")
-                val mountable = org.testcontainers.utility.MountableFile.forHostPath(hostPath)
+                val hostPath =
+                    java.nio.file.Paths
+                        .get("../")
+                        .toAbsolutePath()
+                        .resolve("database/schema.mysql.sql")
+                val mountable =
+                    org.testcontainers.utility.MountableFile
+                        .forHostPath(hostPath)
                 withCopyFileToContainer(mountable, "/docker-entrypoint-initdb.d/schema.mysql.sql")
             }
     }
