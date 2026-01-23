@@ -1,25 +1,21 @@
 package jp.inaba.service.basket
 
-import jp.inaba.core.domain.basket.BasketId
 import jp.inaba.core.domain.basket.BasketItemQuantity
-import jp.inaba.core.domain.brand.BrandId
-import jp.inaba.core.domain.brand.BrandName
-import jp.inaba.core.domain.common.PagingCondition
-import jp.inaba.core.domain.product.*
-import jp.inaba.core.domain.user.UserId
+import jp.inaba.core.domain.basket.SetBasketItemError
+import jp.inaba.core.domain.product.ProductId
+import jp.inaba.core.domain.product.StockQuantity
 import jp.inaba.message.basket.command.SetBasketItemCommand
-import jp.inaba.message.basket.query.FindBasketByIdQuery
-import jp.inaba.message.basket.query.FindBasketByIdResult
-import jp.inaba.message.brand.command.CreateBrandCommand
-import jp.inaba.message.product.command.CreateProductCommand
-import jp.inaba.message.user.command.CreateUserCommand
-import jp.inaba.message.user.query.FindUserMetadataBySubjectQuery
-import jp.inaba.message.user.query.FindUserMetadataBySubjectResult
 import jp.inaba.service.MySqlTestContainerFactory
-import jp.inaba.service.utlis.retryQuery
+import jp.inaba.service.fixture.BasketTestDataCreator
+import jp.inaba.service.fixture.ProductTestDataCreator
+import jp.inaba.service.utlis.getWrapUseCaseError
+import jp.inaba.service.utlis.isWrapUseCaseError
+import org.axonframework.commandhandling.CommandExecutionException
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
@@ -30,86 +26,85 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @ActiveProfiles("integration-test")
 @Testcontainers
-class SetBasketItemIntegrationTest  {
-  companion object {
-    @Container
-    @ServiceConnection
-    val mysql = MySqlTestContainerFactory.create()
-  }
+class SetBasketItemIntegrationTest(
+    @param:Autowired
+    private val commandGateway: CommandGateway,
+    @param:Autowired
+    private val queryGateway: QueryGateway,
+) {
+    companion object {
+        @Container
+        @ServiceConnection
+        private val mysql = MySqlTestContainerFactory.create()
+    }
 
-  @Autowired
-  lateinit var commandGateway: CommandGateway
+    private val basketTestDataCreator = BasketTestDataCreator(commandGateway)
+    private val productTestDataCreator = ProductTestDataCreator(commandGateway)
 
-  @Autowired
-  lateinit var queryGateway: QueryGateway
+    @Test
+    fun `買い物かごに商品を追加する_成功`() {
+        // Arrange
+        val basketId = basketTestDataCreator.create()
+        val productId = productTestDataCreator.create()
+        val setBasketItemCommand =
+            SetBasketItemCommand(
+                id = basketId,
+                productId = productId,
+                basketItemQuantity = BasketItemQuantity(1),
+            )
+        Thread.sleep(500)
 
-  @Test
-  fun `バスケットにアイテムを追加する_成功する`() {
-    // Arrange
-    // Basket作成
-    val createUserCommand =
-      CreateUserCommand(
-        id = UserId(),
-        subject = "aaa",
-      )
-    commandGateway.sendAndWait<Any>(createUserCommand)
-    val request = FindUserMetadataBySubjectQuery(createUserCommand.subject)
-    // 結果整合性により、すぐ問い合わせてもまだプロジェクションされて無い可能性があるのでリトライする
-    val result = queryGateway.retryQuery<FindUserMetadataBySubjectResult, FindUserMetadataBySubjectQuery>(request)
+        // Act & Assert
+        assertDoesNotThrow {
+            commandGateway.sendAndWait<Any>(setBasketItemCommand)
+        }
+    }
 
-    val createBrandCommand = CreateBrandCommand(
-      id = BrandId(),
-      name = BrandName("伊藤園"),
-    )
+    @Test
+    fun `買い物かごに存在しない商品を追加する_失敗`() {
+        // Arrange
+        val basketId = basketTestDataCreator.create()
+        val missingProductId = ProductId()
+        val setBasketItemCommand =
+            SetBasketItemCommand(
+                id = basketId,
+                productId = missingProductId,
+                basketItemQuantity = BasketItemQuantity(2),
+            )
+        Thread.sleep(500)
 
-    commandGateway.sendAndWait<Any>(createBrandCommand)
+        // Act
+        val exception =
+            assertThrows<CommandExecutionException> {
+                commandGateway.sendAndWait<Any>(setBasketItemCommand)
+            }
 
-    Thread.sleep(500)
-    // Product作成
-    val productId = ProductId()
-    val brandId = createBrandCommand.id
-    val name = ProductName("おいしい昆布茶")
-    val description = ProductDescription("健康になっちゃうかも")
-    val imageUrl = ProductImageURL("http://amazon.s3/hoge.png")
-    val price = ProductPrice(132)
-    val quantity = StockQuantity(100)
-    val command =
-      CreateProductCommand(
-        id = productId,
-        brandId = brandId,
-        name = name,
-        description = description,
-        imageUrl = imageUrl,
-        price = price,
-        quantity = quantity,
-      )
-    commandGateway.sendAndWait<Any>(command)
+        // Assert
+        assert(exception.isWrapUseCaseError())
+        assert(exception.getWrapUseCaseError().errorCode == SetBasketItemError.PRODUCT_NOT_FOUND.errorCode)
+    }
 
-    // Act
-    val setBasketItemCommand =
-      SetBasketItemCommand(
-        id = BasketId(result.basketId),
-        productId = productId,
-        basketItemQuantity = BasketItemQuantity(3),
-      )
-    Thread.sleep(500)
-    commandGateway.sendAndWait<Any>(setBasketItemCommand)
+    @Test
+    fun `バスケットに追加したアイテムの個数が在庫を下回っていた_失敗`() {
+        // Arrange
+        val basketId = basketTestDataCreator.create()
+        val productId = productTestDataCreator.create(quantity = StockQuantity(5))
+        val setBasketItemCommand =
+            SetBasketItemCommand(
+                id = basketId,
+                productId = productId,
+                basketItemQuantity = BasketItemQuantity(10),
+            )
+        Thread.sleep(500)
 
-    // Assert
-    val query = FindBasketByIdQuery(
-      basketId = BasketId(result.basketId),
-      pagingCondition = PagingCondition(
-        pageNumber = 1,
-        pageSize = 10,
-      )
-    )
+        // Act
+        val exception =
+            assertThrows<CommandExecutionException> {
+                commandGateway.sendAndWait<Any>(setBasketItemCommand)
+            }
 
-    //まだできてない可能性があるので、いったんスレッドスリープ
-    Thread.sleep(500)
-    val basketResult = queryGateway.retryQuery<FindBasketByIdResult, FindBasketByIdQuery>(query)
-    assert(basketResult.page.items.size == 1)
-    val basketItem = basketResult.page.items[0]
-    assert(basketItem.productId == productId.value)
-    assert(basketItem.basketItemQuantity == 3)
-  }
+        // Assert
+        assert(exception.isWrapUseCaseError())
+        assert(exception.getWrapUseCaseError().errorCode == SetBasketItemError.OUT_OF_STOCK.errorCode)
+    }
 }

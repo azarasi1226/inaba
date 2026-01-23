@@ -58,10 +58,11 @@ class CreateUserIntegrationTest {
 
     @Test
     fun `すでにユーザーが登録されている_同じSubjectでユーザーを登録する_UseCaseError`() {
-        val createUserCommand1 = CreateUserCommand(
-            id = UserId(),
-            subject = "aaa2",
-        )
+        val createUserCommand1 =
+            CreateUserCommand(
+                id = UserId(),
+                subject = "aaa2",
+            )
         commandGateway.sendAndWait<Any>(createUserCommand1)
         val createUserCommand2 =
             CreateUserCommand(
@@ -70,9 +71,10 @@ class CreateUserIntegrationTest {
             )
 
         // Act
-        val exception = assertThrows<CommandExecutionException> {
-            commandGateway.sendAndWait<Any>(createUserCommand2)
-        }
+        val exception =
+            assertThrows<CommandExecutionException> {
+                commandGateway.sendAndWait<Any>(createUserCommand2)
+            }
 
         assert(exception.isWrapUseCaseError())
         assert(exception.getWrapUseCaseError().errorCode == CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT.errorCode)
