@@ -140,6 +140,8 @@ tasks.register<Test>("integrationTest") {
 
     useJUnitPlatform()
 
+    maxParallelForks = 4
+
     // 統合テストの結果を標準出力に表示する設定(成功したものpassed)のみ表示する
     testLogging {
         events("passed")
