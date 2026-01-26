@@ -25,6 +25,6 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
     implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
-    implementation("software.amazon.awssdk:s3:2.41.10")
+    implementation("software.amazon.awssdk:s3:2.41.14")
     implementation("org.bytedeco:javacv-platform:1.5.12")
 }
