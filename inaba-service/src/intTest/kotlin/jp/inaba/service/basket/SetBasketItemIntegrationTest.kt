@@ -52,7 +52,6 @@ class SetBasketItemIntegrationTest(
                 productId = productId,
                 basketItemQuantity = BasketItemQuantity(1),
             )
-        Thread.sleep(500)
 
         // Act & Assert
         assertDoesNotThrow {
@@ -61,7 +60,7 @@ class SetBasketItemIntegrationTest(
     }
 
     @Test
-    fun `買い物かごに存在しない商品を追加する_失敗`() {
+    fun `存在しない商品を買い物かごに追加する_失敗`() {
         // Arrange
         val basketId = basketTestDataCreator.create()
         val missingProductId = ProductId()
@@ -71,7 +70,6 @@ class SetBasketItemIntegrationTest(
                 productId = missingProductId,
                 basketItemQuantity = BasketItemQuantity(2),
             )
-        Thread.sleep(500)
 
         // Act
         val exception =
@@ -85,7 +83,7 @@ class SetBasketItemIntegrationTest(
     }
 
     @Test
-    fun `バスケットに追加したアイテムの個数が在庫を下回っていた_失敗`() {
+    fun `バスケットに追加した商品の個数が商品の在庫数を上回っていた_失敗`() {
         // Arrange
         val basketId = basketTestDataCreator.create()
         val productId = productTestDataCreator.create(quantity = StockQuantity(5))
@@ -95,7 +93,6 @@ class SetBasketItemIntegrationTest(
                 productId = productId,
                 basketItemQuantity = BasketItemQuantity(10),
             )
-        Thread.sleep(500)
 
         // Act
         val exception =
@@ -106,5 +103,39 @@ class SetBasketItemIntegrationTest(
         // Assert
         assert(exception.isWrapUseCaseError())
         assert(exception.getWrapUseCaseError().errorCode == SetBasketItemError.OUT_OF_STOCK.errorCode)
+    }
+
+    @Test
+    fun `バスケットに追加した商品種類の合計が50を越した_失敗`() {
+        // Arrange
+        val basketId = basketTestDataCreator.create()
+        for (i in 1..50) {
+            val productId = productTestDataCreator.create()
+            val setBasketItemCommand =
+                SetBasketItemCommand(
+                    id = basketId,
+                    productId = productId,
+                    basketItemQuantity = BasketItemQuantity(1),
+                )
+
+            commandGateway.send<Any>(setBasketItemCommand)
+        }
+        val productId = productTestDataCreator.create()
+        val setBasketItemCommand =
+            SetBasketItemCommand(
+                id = basketId,
+                productId = productId,
+                basketItemQuantity = BasketItemQuantity(1),
+            )
+
+        // Act
+        val exception =
+            assertThrows<CommandExecutionException> {
+                commandGateway.sendAndWait<Any>(setBasketItemCommand)
+            }
+
+        // Assert
+        assert(exception.isWrapUseCaseError())
+        assert(exception.getWrapUseCaseError().errorCode == SetBasketItemError.PRODUCT_MAX_KIND_OVER.errorCode)
     }
 }

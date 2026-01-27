@@ -6,6 +6,7 @@ import jp.inaba.message.user.command.CreateUserCommand
 import jp.inaba.message.user.query.FindUserMetadataBySubjectQuery
 import jp.inaba.message.user.query.FindUserMetadataBySubjectResult
 import jp.inaba.service.MySqlTestContainerFactory
+import jp.inaba.service.fixture.UserTestDataCreator
 import jp.inaba.service.utlis.getWrapUseCaseError
 import jp.inaba.service.utlis.isWrapUseCaseError
 import jp.inaba.service.utlis.retryQuery
@@ -24,21 +25,23 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @ActiveProfiles("integration-test")
 @Testcontainers
-class CreateUserIntegrationTest {
+class CreateUserIntegrationTest(
+    @param:Autowired
+    private val commandGateway: CommandGateway,
+    @param:Autowired
+    private val queryGateway: QueryGateway,
+) {
     companion object {
         @Container
         @ServiceConnection
         val mysql = MySqlTestContainerFactory.create()
     }
 
-    @Autowired
-    lateinit var commandGateway: CommandGateway
-
-    @Autowired
-    lateinit var queryGateway: QueryGateway
+    val userTestDataCreator = UserTestDataCreator(commandGateway)
 
     @Test
     fun `ユーザーを作成する_成功する`() {
+        // Arrange
         val createUserCommand =
             CreateUserCommand(
                 id = UserId(),
@@ -58,13 +61,9 @@ class CreateUserIntegrationTest {
 
     @Test
     fun `すでにユーザーが登録されている_同じSubjectでユーザーを登録する_UseCaseError`() {
-        val createUserCommand1 =
-            CreateUserCommand(
-                id = UserId(),
-                subject = "aaa2",
-            )
-        commandGateway.sendAndWait<Any>(createUserCommand1)
-        val createUserCommand2 =
+        // Arrange
+        userTestDataCreator.handle(subject = "aaa2")
+        val createUserCommand =
             CreateUserCommand(
                 id = UserId(),
                 subject = "aaa2",
@@ -73,9 +72,10 @@ class CreateUserIntegrationTest {
         // Act
         val exception =
             assertThrows<CommandExecutionException> {
-                commandGateway.sendAndWait<Any>(createUserCommand2)
+                commandGateway.sendAndWait<Any>(createUserCommand)
             }
 
+        // Assert
         assert(exception.isWrapUseCaseError())
         assert(exception.getWrapUseCaseError().errorCode == CreateUserError.USER_ALREADY_LINKED_TO_SUBJECT.errorCode)
     }

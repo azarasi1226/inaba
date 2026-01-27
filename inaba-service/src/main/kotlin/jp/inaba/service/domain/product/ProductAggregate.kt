@@ -17,10 +17,10 @@ import org.axonframework.spring.stereotype.Aggregate
 @Aggregate
 class ProductAggregate() {
     @AggregateIdentifier
-    private lateinit var id: ProductId
+    lateinit var id: ProductId
 
     @AggregateMember
-    private lateinit var stock: ProductStock
+    lateinit var stock: ProductStock
 
     @CommandHandler
     constructor(command: InternalCreateProductCommand) : this() {
