@@ -10,5 +10,5 @@ dependencies {
     // JUnit Platform launcher（テスト実行に必須）
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // Mockk（Kotlin のモッキングライブラリ）
-    testImplementation("io.mockk:mockk:1.14.7")
+    testImplementation("io.mockk:mockk:1.14.9")
 }
