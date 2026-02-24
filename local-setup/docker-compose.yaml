@@ -2,9 +2,12 @@ services:
   axon-server:
     image: axoniq/axonserver:2025.2.5-nonroot
     environment:
-      # 初期設定(Context作成)を手動でしなくてもよくなる
-      - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
+      # DCB対応のContextを手動でしなくてもよくなる
+      axoniq.axonserver.standalone-dcb: true
+      axoniq_axonserver_hostname: axon-server
+      axoniq_axonserver_devmode_enabled: true
     volumes:
+      - axonserver-data:/axonserver/data
       - axonserver-events:/axonserver/events
     ports:
       - 8024:8024
@@ -48,6 +51,7 @@ services:
       - minio-store:/data
 
 volumes:
+  axonserver-data:
   axonserver-events:
   mysql-store:
   minio-store:
