@@ -2,7 +2,9 @@ package jp.inaba.service2.features.user.create
 
 import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_USERS
 import org.jooq.DSLContext
+import org.springframework.stereotype.Component
 
+@Component
 class SubjectLinkedChecker(
     private val dsl: DSLContext,
 ) {
