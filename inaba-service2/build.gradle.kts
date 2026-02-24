@@ -11,7 +11,7 @@ dependencies {
     // project
     implementation(project(":inaba-core"))
     implementation(project(":inaba-grpc"))
-    // implementation(project(":inaba-message"))
+    implementation(project(":inaba-message2"))
 
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
