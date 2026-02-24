@@ -1,7 +1,7 @@
 package jp.inaba.service2.features.command.user.create
 
+import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.service.infrastructure.jooq.generated.tables.references.LOOKUP_USERS
-import jp.inaba.service2.features.user.create.UserCreatedEvent
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 

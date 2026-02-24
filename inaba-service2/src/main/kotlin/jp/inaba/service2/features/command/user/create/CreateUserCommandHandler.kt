@@ -37,19 +37,19 @@ class CreateUserCommandHandler {
         )
         return CreateUserResult.success()
     }
+}
 
-    @EventSourced(tagKey = "userId", idType = UserId::class)
-    class State(
-        var created: Boolean,
-    ) {
-        @EntityCreator
-        constructor() : this(
-            created = false,
-        )
+@EventSourced(tagKey = "userId", idType = UserId::class)
+class State(
+    var created: Boolean,
+) {
+    @EntityCreator
+    constructor() : this(
+        created = false,
+    )
 
-        @EventSourcingHandler
-        fun evolve(event: UserCreatedEvent) {
-            created = true
-        }
+    @EventSourcingHandler
+    fun evolve(event: UserCreatedEvent) {
+        created = true
     }
 }
