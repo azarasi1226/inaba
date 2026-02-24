@@ -1,6 +1,6 @@
 services:
   axon-server:
-    image: axoniq/axonserver:latest
+    image: axoniq/axonserver:2025.2.5-nonroot
     environment:
       # 初期設定(Context作成)を手動でしなくてもよくなる
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
