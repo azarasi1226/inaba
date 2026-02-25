@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.5.8"
+    id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.11"
     idea
@@ -126,15 +126,20 @@ val intTestRuntimeOnly by configurations.getting {
 
 // 統合テスト用依存関係
 dependencies {
+    // TestContainers
     intTestImplementation(platform("org.testcontainers:testcontainers-bom:2.0.3"))
-    intTestImplementation("org.testcontainers:junit-jupiter")
+    intTestImplementation("org.testcontainers:testcontainers-junit-jupiter")
     intTestImplementation("org.testcontainers:testcontainers-mysql")
     intTestImplementation("org.springframework.boot:spring-boot-testcontainers")
-    intTestImplementation("org.axonframework:axon-test:5.0.2")
+
+    // Spring Boot Test
     intTestImplementation("org.springframework.boot:spring-boot-starter-test:4.0.3") {
         // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
         exclude(module = "mockito-core")
     }
+
+    //Axon & Other
+    intTestImplementation("org.axonframework:axon-test:5.0.2")
     intTestImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 

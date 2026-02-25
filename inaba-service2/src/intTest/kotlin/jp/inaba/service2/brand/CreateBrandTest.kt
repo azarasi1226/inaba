@@ -23,7 +23,7 @@ class CreateBrandTest : InabaIntegrationTestBase() {
             .`when`()
             .command(command)
             .then()
-            .success()
+            .resultMessagePayload(CreateBrandResult.success())
             .events(
                 BrandCreatedEvent(
                     id = command.id.value,
@@ -51,8 +51,7 @@ class CreateBrandTest : InabaIntegrationTestBase() {
             .command(command)
             .then()
             .resultMessagePayload(
-                CreateBrandResult.alreadyExists()
+                CreateBrandResult.alreadyExists(),
             )
     }
-
 }

@@ -3,17 +3,11 @@ server.port: 0
 grpc.server.port: 0
 
 spring:
-  jpa:
-    # これがないとAxonFrameworkで使用するテーブルが作成されない
-    hibernate.ddl-auto: update
-    open-in-view: false
   # 最低限のドライバーのみ指定し、あとは@ServiceConnectionで設定してもらう
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 axon:
-  # AxonServerはインメモリモード
-  axonserver.enabled: false
   serializer:
     general: jackson
     events: jackson

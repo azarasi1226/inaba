@@ -4,6 +4,8 @@ spring:
   profiles:
     active: local
     group:
+      integration-test:
+        - app-integration-test
       local:
         - app-common
         - app-local
@@ -15,8 +17,6 @@ spring:
         - axon-server
         - axoniq-console
         - datastore-mysql
-      integration-test:
-        - app-integration-test
       test:
         - app-common
         - app-test
