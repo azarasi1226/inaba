@@ -62,10 +62,6 @@ jooq {
                         key = "scripts"
                         value = "../database/schema.mysql.sql"
                     }
-                    property {
-                        key = "defaultNameCase"
-                        value = "lower"
-                    }
                 }
             }
             generate {

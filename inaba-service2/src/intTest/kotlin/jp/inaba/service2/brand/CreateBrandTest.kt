@@ -1,11 +1,11 @@
-package jp.inaba.feature.command.brand
+package jp.inaba.service2.brand
 
-import jp.inaba.InabaIntegrationTestBase
 import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.core.domain.brand.BrandName
 import jp.inaba.message.brand.command.CreateBrandCommand
 import jp.inaba.message.brand.command.CreateBrandResult
 import jp.inaba.message.brand.event.BrandCreatedEvent
+import jp.inaba.service2.InabaIntegrationTestBase
 import org.junit.jupiter.api.Test
 
 class CreateBrandTest : InabaIntegrationTestBase() {
