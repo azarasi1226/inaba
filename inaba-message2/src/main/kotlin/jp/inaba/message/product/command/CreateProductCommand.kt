@@ -9,16 +9,22 @@ import jp.inaba.core.domain.product.ProductPrice
 import jp.inaba.core.domain.product.StockQuantity
 import jp.inaba.message.Error
 import jp.inaba.message.UseCaseResult
+import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateProductCommand(
-    override val id: ProductId,
+    val id: ProductId,
     val brandId: BrandId,
     val name: ProductName,
     val description: ProductDescription,
     val imageUrl: ProductImageURL?,
     val price: ProductPrice,
     val quantity: StockQuantity,
-): ProductCommand
+) {
+    data class TargetId(val productId: ProductId, val brandId: BrandId)
+    @get:TargetEntityId
+    private val targetId: TargetId
+        get() = TargetId(productId = id, brandId = brandId)
+}
 
 class CreateProductResult private constructor(
     override val success: Boolean, override val error: Error?,

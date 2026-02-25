@@ -12,6 +12,13 @@ abstract class UseCaseResult {
   abstract val success: Boolean
   abstract val error: Error?
 
+  companion object {
+    fun success(): UseCaseResult = object : UseCaseResult() {
+      override val success: Boolean = true
+      override val error: Error? = null
+    }
+  }
+
   override fun toString(): String {
     return "UseCaseResult(success=$success, error=$error)"
   }

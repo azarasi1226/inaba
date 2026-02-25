@@ -3,11 +3,13 @@ package jp.inaba.message.user.command
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.UseCaseResult
 import jp.inaba.message.Error
+import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateUserCommand(
-    override val id: UserId,
+    @get:TargetEntityId
+    val id: UserId,
     val subject: String,
-): UserCommand
+)
 
 class CreateUserResult private constructor(override val success: Boolean, override val error: Error?) : UseCaseResult() {
     companion object {

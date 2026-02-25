@@ -4,7 +4,8 @@ import jp.inaba.message.InabaEventTag
 import org.axonframework.eventsourcing.annotation.EventTag
 
 data class ProductCreatedEvent(
-    override val id: String,
+    @EventTag(key = InabaEventTag.PRODUCT_ID)
+    val id: String,
     @EventTag(key = InabaEventTag.BRAND_ID)
     val brandId: String,
     val name: String,
@@ -12,4 +13,4 @@ data class ProductCreatedEvent(
     val imageUrl: String?,
     val price: Int,
     val quantity: Int,
-): ProductEvent
+)
