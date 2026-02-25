@@ -2,11 +2,6 @@
 server.port: 0
 grpc.server.port: 0
 
-#spring:
-#  # 最低限のドライバーのみ指定し、あとは@ServiceConnectionで設定してもらう
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-
 axon:
   serializer:
     general: jackson
