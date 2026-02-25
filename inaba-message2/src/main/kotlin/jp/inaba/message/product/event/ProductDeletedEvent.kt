@@ -1,5 +1,5 @@
 package jp.inaba.message.product.event
 
 data class ProductDeletedEvent(
-    val id: String,
-)
+    override val id: String,
+): ProductEvent

@@ -8,4 +8,4 @@ data class DecreaseStockCommand(
     override val id: ProductId,
     val idempotencyId: IdempotencyId,
     val decreaseStockQuantity: DecreaseStockQuantity,
-) : ProductAggregateCommand
+) : ProductCommand

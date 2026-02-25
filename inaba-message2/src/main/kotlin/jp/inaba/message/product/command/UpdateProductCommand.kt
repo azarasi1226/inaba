@@ -12,4 +12,4 @@ data class UpdateProductCommand(
     val description: ProductDescription,
     val imageUrl: ProductImageURL?,
     val price: ProductPrice,
-) : ProductAggregateCommand
+) : ProductCommand
