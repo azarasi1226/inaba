@@ -33,7 +33,7 @@ class CreateBrandTest : InabaIntegrationTestBase() {
     }
 
     @Test
-    fun `すでに同じIDでユーザーが登録されている_エラー`() {
+    fun `すでに同じIDでユーザーが登録されている_alreadyExists`() {
         val command =
             CreateBrandCommand(
                 id = BrandId(),

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 
 class CreateProductTest : InabaIntegrationTestBase() {
     @Test
-    fun `正常に商品を作成できる`() {
+    fun `正常系`() {
         val productId = ProductId()
         val brandId = BrandId()
 
@@ -53,7 +53,7 @@ class CreateProductTest : InabaIntegrationTestBase() {
     }
 
     @Test
-    fun `ブランドが存在しない場合は商品を作成できない`() {
+    fun `ブランドが存在しない_brandNotFound`() {
         val nonExistentBrandId = BrandId()
         val productId = ProductId()
 
@@ -76,8 +76,8 @@ class CreateProductTest : InabaIntegrationTestBase() {
     }
 
     @Test
-    fun `すでに登録済みの場合は商品を作成できない`() {
-        val productId = ProductId()
+    fun `すでに同じIDで商品が登録済み_alreadyExists`() {
+        val existsProductId = ProductId()
         val brandId = BrandId()
 
         fixture
@@ -88,7 +88,7 @@ class CreateProductTest : InabaIntegrationTestBase() {
                     name = "テストブランド",
                 ),
                 ProductCreatedEvent(
-                    id = productId.value,
+                    id = existsProductId.value,
                     brandId = brandId.value,
                     name = "テスト商品",
                     description = "テスト商品の説明",
@@ -99,7 +99,7 @@ class CreateProductTest : InabaIntegrationTestBase() {
             ).`when`()
             .command(
                 CreateProductCommand(
-                    id = productId,
+                    id = existsProductId,
                     brandId = brandId,
                     name = ProductName("テスト商品2"),
                     description = ProductDescription("テスト商品2の説明"),
