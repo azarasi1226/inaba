@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "4.0.3"
+    id("org.springframework.boot") version "3.5.8"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.11"
     idea
@@ -155,7 +155,7 @@ tasks.register<Test>("integrationTest") {
 
     useJUnitPlatform()
 
-    maxParallelForks = 1
+    maxParallelForks = 4
 
     // 統合テストの結果を標準出力に表示する設定(成功したものpassed)のみ表示する
     testLogging {

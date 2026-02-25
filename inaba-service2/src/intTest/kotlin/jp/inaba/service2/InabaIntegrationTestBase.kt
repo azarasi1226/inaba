@@ -31,36 +31,31 @@ abstract class InabaIntegrationTestBase {
     lateinit var fixture: AxonTestFixture
 
     companion object {
-        @JvmField
         @Container
         @ServiceConnection
         val mysql = MySqlTestContainerFactory.create()
 
-        @JvmField
         @Container
-        val axonServer =
-            AxonServerContainer()
-                .withAxonServerHostname("localhost")
-                .withDcbContext(true)
-                .withReuse(true)
-                .withDevMode(true)
+        @ServiceConnection
+        val axonServer = AxonServerContainerFactory.create()
 
         @JvmStatic
         @DynamicPropertySource
         fun axonServerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("axon.axonserver.servers") { axonServer.axonServerAddress }
+            //registry.add("axon.axonserver.servers") { axonServer.axonServerAddress }
+            //registry.add("axon.axonserver.enabled") { true }
         }
 
         @JvmStatic
         @BeforeAll
         fun setup2() {
             // EventStoreの初期化
-            AxonServerContainerUtils.purgeEventsFromAxonServer(
-                axonServer.host,
-                axonServer.httpPort,
-                "default",
-                true,
-            )
+//            AxonServerContainerUtils.purgeEventsFromAxonServer(
+//                axonServer.host,
+//                axonServer.httpPort,
+//                "default",
+//                true,
+//            )
         }
     }
 
