@@ -3,6 +3,8 @@ package jp.inaba.service2
 import org.axonframework.common.configuration.ApplicationConfigurer
 import org.axonframework.test.fixture.AxonTestFixture
 import org.axonframework.test.fixture.MessagesRecordingConfigurationEnhancer
+import org.axonframework.test.server.AxonServerContainerUtils
+import org.jooq.tools.json.ContainerFactory
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -31,29 +33,22 @@ abstract class InabaIntegrationTestBase {
     companion object {
         @Container
         @ServiceConnection
-        val mysql = MySqlTestContainerFactory.create()
+        val mysql = TestContainerFactory.mysql()
 
         @Container
         @ServiceConnection
-        val axonServer = AxonServerContainerFactory.create()
-
-        @JvmStatic
-        @DynamicPropertySource
-        fun axonServerProperties(registry: DynamicPropertyRegistry) {
-            // registry.add("axon.axonserver.servers") { axonServer.axonServerAddress }
-            // registry.add("axon.axonserver.enabled") { true }
-        }
+        val axonServer = TestContainerFactory.axonServer()
 
         @JvmStatic
         @BeforeAll
         fun setup2() {
             // EventStoreの初期化
-//            AxonServerContainerUtils.purgeEventsFromAxonServer(
-//                axonServer.host,
-//                axonServer.httpPort,
-//                "default",
-//                true,
-//            )
+            AxonServerContainerUtils.purgeEventsFromAxonServer(
+                axonServer.host,
+                axonServer.httpPort,
+                "default",
+                true,
+            )
         }
     }
 
