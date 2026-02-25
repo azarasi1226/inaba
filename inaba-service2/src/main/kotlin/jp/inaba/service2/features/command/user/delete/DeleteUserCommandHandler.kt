@@ -6,7 +6,6 @@ import jp.inaba.message.user.command.DeleteUserCommand
 import jp.inaba.message.user.command.DeleteUserResult
 import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.message.user.event.UserDeletedEvent
-import jp.inaba.service2.features.user.create.State
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
 import org.axonframework.eventsourcing.annotation.reflection.EntityCreator
 import org.axonframework.extension.spring.stereotype.EventSourced
@@ -35,26 +34,27 @@ class DeleteUserCommandHandler {
 
         return DeleteUserResult.success()
     }
-}
 
-@EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
-class State(
-    var created: Boolean,
-    var deleted: Boolean,
-) {
-    @EntityCreator
-    constructor() : this(
-        created = false,
-        deleted = false,
-    )
+    @EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
+    class State(
+        var created: Boolean,
+        var deleted: Boolean,
+    ) {
+        @EntityCreator
+        constructor() : this(
+            created = false,
+            deleted = false,
+        )
 
-    @EventSourcingHandler
-    fun evolve(event: UserCreatedEvent) {
-        created = true
+        @EventSourcingHandler
+        fun evolve(event: UserCreatedEvent) {
+            created = true
+        }
+
+        @EventSourcingHandler
+        fun evolve(event: UserDeletedEvent) {
+            deleted = true
+        }
     }
 
-    @EventSourcingHandler
-    fun evolve(event: UserDeletedEvent) {
-        deleted = true
-    }
 }

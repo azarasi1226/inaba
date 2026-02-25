@@ -34,26 +34,26 @@ class DeleteBrandCommandHandler {
 
         return DeleteBrandResult.success()
     }
-}
 
-@EventSourced(tagKey = InabaEventTag.BRAND_ID, idType = BrandId::class)
-class State(
-    var created: Boolean,
-    var deleted: Boolean,
-) {
-    @EntityCreator
-    constructor() : this(
-        created = false,
-        deleted = false,
-    )
+    @EventSourced(tagKey = InabaEventTag.BRAND_ID, idType = BrandId::class)
+    class State(
+        var created: Boolean,
+        var deleted: Boolean,
+    ) {
+        @EntityCreator
+        constructor() : this(
+            created = false,
+            deleted = false,
+        )
 
-    @EventSourcingHandler
-    fun evolve(event: BrandCreatedEvent) {
-        created = true
-    }
+        @EventSourcingHandler
+        fun evolve(event: BrandCreatedEvent) {
+            created = true
+        }
 
-    @EventSourcingHandler
-    fun evolve(event: BrandDeletedEvent) {
-        deleted = true
+        @EventSourcingHandler
+        fun evolve(event: BrandDeletedEvent) {
+            deleted = true
+        }
     }
 }

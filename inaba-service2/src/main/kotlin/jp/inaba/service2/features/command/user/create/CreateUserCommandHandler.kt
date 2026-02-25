@@ -38,19 +38,20 @@ class CreateUserCommandHandler {
 
         return CreateUserResult.success()
     }
-}
 
-@EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
-class State(
-    var created: Boolean,
-) {
-    @EntityCreator
-    constructor() : this(
-        created = false,
-    )
+    @EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
+    class State(
+        var created: Boolean,
+    ) {
+        @EntityCreator
+        constructor() : this(
+            created = false,
+        )
 
-    @EventSourcingHandler
-    fun evolve(event: UserCreatedEvent) {
-        created = true
+        @EventSourcingHandler
+        fun evolve(event: UserCreatedEvent) {
+            created = true
+        }
     }
+
 }

@@ -34,19 +34,19 @@ class CreateBrandCommandHandler {
 
         return CreateBrandResult.success()
     }
-}
 
-@EventSourced(tagKey = InabaEventTag.BRAND_ID, idType = BrandId::class)
-class State(
-    var created: Boolean,
-) {
-    @EntityCreator
-    constructor() : this(
-        created = false,
-    )
+    @EventSourced(tagKey = InabaEventTag.BRAND_ID, idType = BrandId::class)
+    class State(
+        var created: Boolean,
+    ) {
+        @EntityCreator
+        constructor() : this(
+            created = false,
+        )
 
-    @EventSourcingHandler
-    fun evolve(event: BrandCreatedEvent) {
-        created = true
+        @EventSourcingHandler
+        fun evolve(event: BrandCreatedEvent) {
+            created = true
+        }
     }
 }
