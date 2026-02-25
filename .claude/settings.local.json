@@ -13,7 +13,8 @@
       "Bash(jar tf:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -path \"*/product/update/*\" -name \"*.kt\" | xargs cat 2>/dev/null)"
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -path \"*/product/update/*\" -name \"*.kt\" | xargs cat 2>/dev/null)",
+      "Bash(head:*)"
     ]
   }
 }
