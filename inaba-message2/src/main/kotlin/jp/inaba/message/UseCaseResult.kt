@@ -8,9 +8,13 @@ interface QueryResult<T> {
 }
 
 //TODO:
-interface UseCaseResult {
-  val success: Boolean
-  val error: Error?
+abstract class UseCaseResult {
+  abstract val success: Boolean
+  abstract val error: Error?
+
+  override fun toString(): String {
+    return "UseCaseResult(success=$success, error=$error)"
+  }
 }
 
 class UseCaseException(

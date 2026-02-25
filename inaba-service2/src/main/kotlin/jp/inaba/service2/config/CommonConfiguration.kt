@@ -21,8 +21,6 @@ class CommonConfiguration {
         connectionProvider: ConnectionProvider,
         converter: Converter,
     ): TokenStore {
-
-
         val tokenStore = JdbcTokenStore(connectionProvider, converter, JdbcTokenStoreConfiguration.DEFAULT)
         // TokenStoreテーブルを作成する内部では IF NOT EXITSでテーブルが作成されてるので、存在しなかった場合のみ作成される。
         tokenStore.createSchema(

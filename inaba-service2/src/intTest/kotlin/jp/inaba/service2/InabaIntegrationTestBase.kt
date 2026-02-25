@@ -25,59 +25,59 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @Import(AxonTestConfig::class)
 abstract class InabaIntegrationTestBase {
-  @Autowired
-  lateinit var  configurer: ApplicationConfigurer
+    @Autowired
+    lateinit var configurer: ApplicationConfigurer
 
-  lateinit var fixture: AxonTestFixture
+    lateinit var fixture: AxonTestFixture
 
-  companion object {
-    @JvmField
-    @Container
-    @ServiceConnection
-    val mysql = MySqlTestContainerFactory.create()
+    companion object {
+        @JvmField
+        @Container
+        @ServiceConnection
+        val mysql = MySqlTestContainerFactory.create()
 
-    @JvmField
-    @Container
-    val axonServer = AxonServerContainer()
-      .withAxonServerHostname("localhost")
-      .withDcbContext(true)
-      .withReuse(true)
-      .withDevMode(true)
+        @JvmField
+        @Container
+        val axonServer =
+            AxonServerContainer()
+                .withAxonServerHostname("localhost")
+                .withDcbContext(true)
+                .withReuse(true)
+                .withDevMode(true)
 
-    @JvmStatic
-    @DynamicPropertySource
-    fun axonServerProperties(registry: DynamicPropertyRegistry) {
-      registry.add("axon.axonserver.servers") { axonServer.axonServerAddress }
+        @JvmStatic
+        @DynamicPropertySource
+        fun axonServerProperties(registry: DynamicPropertyRegistry) {
+            registry.add("axon.axonserver.servers") { axonServer.axonServerAddress }
+        }
+
+        @JvmStatic
+        @BeforeAll
+        fun setup2() {
+            // EventStoreの初期化
+            AxonServerContainerUtils.purgeEventsFromAxonServer(
+                axonServer.host,
+                axonServer.httpPort,
+                "default",
+                true,
+            )
+        }
     }
 
-    @JvmStatic
-    @BeforeAll
-    fun setup2() {
-      // EventStoreの初期化
-      AxonServerContainerUtils.purgeEventsFromAxonServer(
-        axonServer.host,
-        axonServer.httpPort,
-        "default",
-        true,
-      )
+    @BeforeEach
+    fun setup() {
+        // Fixtureの初期化
+        fixture = AxonTestFixture.with(configurer)
     }
-  }
 
-  @BeforeEach
-  fun setup() {
-    // Fixtureの初期化
-    fixture = AxonTestFixture.with(configurer)
-  }
-
-  @AfterEach
-  fun tearDown() {
-    fixture.stop()
-  }
+    @AfterEach
+    fun tearDown() {
+        fixture.stop()
+    }
 }
 
 @TestConfiguration
 class AxonTestConfig {
-  @Bean
-  fun messagesRecordingConfigurationEnhancer() = MessagesRecordingConfigurationEnhancer()
+    @Bean
+    fun messagesRecordingConfigurationEnhancer() = MessagesRecordingConfigurationEnhancer()
 }
-

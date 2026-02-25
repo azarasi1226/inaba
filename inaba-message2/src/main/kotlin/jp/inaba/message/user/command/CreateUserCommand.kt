@@ -9,7 +9,7 @@ data class CreateUserCommand(
     val subject: String,
 ): UserCommand
 
-class CreateUserResult private constructor(override val success: Boolean, override val error: Error?) : UseCaseResult {
+class CreateUserResult private constructor(override val success: Boolean, override val error: Error?) : UseCaseResult() {
     companion object {
         fun success(): CreateUserResult = CreateUserResult(true, null)
         fun userAlreadyExists(): CreateUserResult = CreateUserResult(false, Error("すでに登録されたユーザーです"))

@@ -25,15 +25,16 @@ class CreateProductGrpcService(
         request: CreateProductRequest,
         responseObserver: StreamObserver<Empty>,
     ) {
-        val command = CreateProductCommand(
-            id = ProductId(request.id),
-            brandId = BrandId(request.brandId),
-            name = ProductName(request.name),
-            description = ProductDescription(request.description),
-            imageUrl = if (request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
-            price = ProductPrice(request.price),
-            quantity = StockQuantity(request.quantity),
-        )
+        val command =
+            CreateProductCommand(
+                id = ProductId(request.id),
+                brandId = BrandId(request.brandId),
+                name = ProductName(request.name),
+                description = ProductDescription(request.description),
+                imageUrl = if (request.hasImageUrl()) ProductImageURL(request.imageUrl) else null,
+                price = ProductPrice(request.price),
+                quantity = StockQuantity(request.quantity),
+            )
 
         commandGateway.createProduct(command).throwIfError()
 

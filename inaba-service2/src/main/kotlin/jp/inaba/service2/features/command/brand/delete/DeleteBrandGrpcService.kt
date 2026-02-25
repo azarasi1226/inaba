@@ -5,8 +5,8 @@ import io.grpc.stub.StreamObserver
 import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.grpc.brand.DeleteBrandGrpc
 import jp.inaba.grpc.brand.DeleteBrandRequest
-import jp.inaba.message.brand.deleteBrand
 import jp.inaba.message.brand.command.DeleteBrandCommand
+import jp.inaba.message.brand.deleteBrand
 import jp.inaba.message.throwIfError
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway
@@ -19,9 +19,10 @@ class DeleteBrandGrpcService(
         request: DeleteBrandRequest,
         responseObserver: StreamObserver<Empty>,
     ) {
-        val command = DeleteBrandCommand(
-            id = BrandId(request.id),
-        )
+        val command =
+            DeleteBrandCommand(
+                id = BrandId(request.id),
+            )
 
         commandGateway.deleteBrand(command).throwIfError()
 

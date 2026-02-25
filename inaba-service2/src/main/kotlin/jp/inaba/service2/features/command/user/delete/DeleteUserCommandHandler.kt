@@ -56,5 +56,4 @@ class DeleteUserCommandHandler {
             deleted = true
         }
     }
-
 }

@@ -13,7 +13,7 @@ data class CreateBrandCommand(
 class CreateBrandResult private constructor(
     override val success: Boolean,
     override val error: Error?,
-) : UseCaseResult {
+) : UseCaseResult() {
     companion object {
         fun success(): CreateBrandResult = CreateBrandResult(true, null)
         fun alreadyExists(): CreateBrandResult = CreateBrandResult(false, Error("ブランドが既に存在しています"))

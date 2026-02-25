@@ -11,7 +11,7 @@ data class DeleteBrandCommand(
 class DeleteBrandResult private constructor(
     override val success: Boolean,
     override val error: Error?,
-) : UseCaseResult {
+) : UseCaseResult() {
     companion object {
         fun success(): DeleteBrandResult = DeleteBrandResult(true, null)
         fun brandNotFound(): DeleteBrandResult = DeleteBrandResult(false, Error("ブランドが存在しません"))

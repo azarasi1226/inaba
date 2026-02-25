@@ -22,7 +22,7 @@ data class CreateProductCommand(
 
 class CreateProductResult private constructor(
     override val success: Boolean, override val error: Error?,
-) : UseCaseResult {
+) : UseCaseResult() {
     companion object {
         fun success(): CreateProductResult = CreateProductResult(true, null)
         fun alreadyExists(): CreateProductResult = CreateProductResult(false, Error("商品が既に存在しています"))
