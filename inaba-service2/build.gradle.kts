@@ -17,7 +17,7 @@ dependencies {
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     // TODO:消しても動くならこのまま消しておきたい。
-    //implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -32,7 +32,7 @@ dependencies {
     implementation("org.axonframework.extensions.spring:axon-spring-boot-starter:5.0.2")
     // TODO: 便利なのでバージョンが公開されたら使いたい
     // implementation("org.axonframework.extensions.kotlin:axon-kotlin")
-    //testImplementation("org.axonframework:axon-test:5.0.2")
+    // testImplementation("org.axonframework:axon-test:5.0.2")
 
     // other
     implementation("org.springframework.retry:spring-retry:2.0.12")
@@ -138,7 +138,7 @@ dependencies {
         exclude(module = "mockito-core")
     }
 
-    //Axon & Other
+    // Axon & Other
     intTestImplementation("org.axonframework:axon-test:5.0.2")
     intTestImplementation("com.ninja-squad:springmockk:5.0.1")
 }

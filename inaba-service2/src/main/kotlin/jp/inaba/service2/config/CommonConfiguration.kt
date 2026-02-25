@@ -4,7 +4,6 @@ import jp.inaba.core.domain.basket.BasketIdFactory
 import jp.inaba.core.domain.basket.BasketIdFactoryImpl
 import org.axonframework.common.jdbc.ConnectionProvider
 import org.axonframework.conversion.Converter
-import org.axonframework.eventsourcing.eventstore.EventStore
 import org.axonframework.messaging.eventhandling.processing.streaming.token.store.TokenStore
 import org.axonframework.messaging.eventhandling.processing.streaming.token.store.jdbc.GenericTokenTableFactory
 import org.axonframework.messaging.eventhandling.processing.streaming.token.store.jdbc.JdbcTokenStore
