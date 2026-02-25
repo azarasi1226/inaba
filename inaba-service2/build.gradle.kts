@@ -17,7 +17,7 @@ dependencies {
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     // TODO:消しても動くならこのまま消しておきたい。
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    //implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -32,7 +32,7 @@ dependencies {
     implementation("org.axonframework.extensions.spring:axon-spring-boot-starter:5.0.2")
     // TODO: 便利なのでバージョンが公開されたら使いたい
     // implementation("org.axonframework.extensions.kotlin:axon-kotlin")
-    testImplementation("org.axonframework:axon-test:5.0.2")
+    //testImplementation("org.axonframework:axon-test:5.0.2")
 
     // other
     implementation("org.springframework.retry:spring-retry:2.0.12")
@@ -43,7 +43,6 @@ dependencies {
     implementation("org.jooq:jooq:3.20.11")
     jooqCodegen("com.mysql:mysql-connector-j")
     jooqCodegen("org.jooq:jooq-meta-extensions:3.20.11") // DDLDatabase用
-    testImplementation(kotlin("test"))
 }
 
 // =====================================================
@@ -69,6 +68,7 @@ jooq {
                 isKotlinNotNullRecordAttributes = true
             }
             target {
+                // /build/{packageName}/** みたいなパスで生成コードが作られる
                 packageName = "jp.inaba.service.infrastructure.jooq.generated"
             }
         }
@@ -145,12 +145,12 @@ tasks.register<Test>("integrationTest") {
 
     testClassesDirs = sourceSets["intTest"].output.classesDirs
     classpath = sourceSets["intTest"].runtimeClasspath
-    // 一般的に統合テストは遅いため、初めに単体テストを実行して落ちたら統合テストは実施しないという方向にした方が良い
+    // 一般的に統合テストは遅いため、初めに単体テストを実行して落ちたら統合テストは実施しないという方向にした方が無駄がない
     shouldRunAfter("test")
 
     useJUnitPlatform()
 
-    maxParallelForks = 4
+    maxParallelForks = 1
 
     // 統合テストの結果を標準出力に表示する設定(成功したものpassed)のみ表示する
     testLogging {
