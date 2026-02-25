@@ -14,7 +14,6 @@ private val logger = KotlinLogging.logger {}
 // TODO(全体的に美しくない。作り直したい。)
 @GrpcAdvice
 class GrpcServiceAdvice {
-    // まだCommand/Queryを投げる前のPresentation層で発生する例外の想定
     @GrpcExceptionHandler
     fun handleDomainException(e: ValueObjectException): StatusException {
         logger.warn { "handle DomainException:[${e.errorMessage}]" }
@@ -30,8 +29,6 @@ class GrpcServiceAdvice {
         return status.asException(metadata)
     }
 
-    // Commandが投げられた後のUseCase層 / Domain層で発生する例外の想定
-    // CommandExecutionExceptionの中にラップされているので、取り出す必要がある。
     @GrpcExceptionHandler
     fun handleCommandUseCaseException(e: UseCaseException): StatusException {
         logger.warn { "handle Command UseCaseException:[${e.error.message}]" }
@@ -50,36 +47,6 @@ class GrpcServiceAdvice {
 
         return status.asException(metadata)
     }
-
-//  // CompletableFutureの中で発生する例外はExecutionExceptionにラップされて元の例外がわからないので一回判定を挟んでいる。
-//  // TODO:そのままの例外をキャッチできるようにQueryの問い合わせの部分工夫できないかな？
-//  @GrpcExceptionHandler
-//  fun handleQueryUseCaseException(e: ExecutionException): StatusException {
-//    if (e.cause is QueryExecutionException) {
-//      val exception = e.cause as QueryExecutionException
-//
-//      if (exception.isWrapUseCaseError()) {
-//        val error = exception.getWrapUseCaseError()
-//        logger.warn { "handle QueryUseCaseException:[${error.errorMessage}]" }
-//
-//        val status =
-//          Status.INVALID_ARGUMENT
-//            .withDescription(error.errorMessage)
-//            .withCause(e)
-//
-//        val metadata =
-//          GrpcErrorDetails(
-//            errorType = "usecase-error",
-//            errorCode = error.errorCode,
-//            errorMessage = error.errorMessage,
-//          ).toMetadata()
-//
-//        return status.asException(metadata)
-//      }
-//    }
-//
-//    return handleUnknownException(e)
-//  }
 
     @GrpcExceptionHandler
     fun handleUnknownException(e: Exception): StatusException {

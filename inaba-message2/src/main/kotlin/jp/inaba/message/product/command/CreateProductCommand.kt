@@ -7,6 +7,8 @@ import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
 import jp.inaba.core.domain.product.StockQuantity
+import jp.inaba.message.Error
+import jp.inaba.message.UseCaseResult
 
 data class CreateProductCommand(
     override val id: ProductId,
@@ -17,3 +19,14 @@ data class CreateProductCommand(
     val price: ProductPrice,
     val quantity: StockQuantity,
 ): ProductCommand
+
+class CreateProductResult private constructor(
+    override val success: Boolean, override val error: Error?,
+) : UseCaseResult {
+    companion object {
+        fun success(): CreateProductResult = CreateProductResult(true, null)
+        fun alreadyExists(): CreateProductResult = CreateProductResult(false, Error("商品が既に存在しています"))
+        fun brandNotFound(): CreateProductResult = CreateProductResult(false, Error("ブランドが存在しません"))
+    }
+}
+
