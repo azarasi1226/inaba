@@ -1,5 +1,9 @@
 package jp.inaba.message.brand.event
 
+import jp.inaba.message.InabaEventTag
+import org.axonframework.eventsourcing.annotation.EventTag
+
 data class BrandDeletedEvent(
-    override val id: String,
-) : BrandEvent
+    @EventTag(key = InabaEventTag.BRAND_ID)
+    val id: String,
+)
