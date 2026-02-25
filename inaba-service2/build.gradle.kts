@@ -1,7 +1,8 @@
 plugins {
-    id("org.springframework.boot") version "4.0.3"
+    id("org.springframework.boot") version "3.5.8"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.11"
+    idea
 
     kotlin("plugin.spring") version "2.3.10"
     kotlin("plugin.jpa") version "2.3.10"
@@ -109,6 +110,14 @@ sourceSets {
     }
 }
 
+// IntelliJ IDEAにintTestソースセットをテストソースとして認識させる
+idea {
+    module {
+        testSources.from(sourceSets["intTest"].kotlin.srcDirs)
+        testResources.from(sourceSets["intTest"].resources.srcDirs)
+    }
+}
+
 // 統合テスト用の依存関係を追加する際に使用する implementation と runtimeOnly の設定を作成。
 // "intTest"Implementationって、↑で作ったSourceSetの名前と同じことにすることで、Gradleが自動的に認識してくれるらしい。
 // まじgradleむずいっていうかキモイね
@@ -125,7 +134,8 @@ dependencies {
     intTestImplementation("org.testcontainers:junit-jupiter")
     intTestImplementation("org.testcontainers:testcontainers-mysql")
     intTestImplementation("org.springframework.boot:spring-boot-testcontainers")
-    intTestImplementation("org.springframework.boot:spring-boot-starter-test") {
+    intTestImplementation("org.axonframework:axon-test:5.0.2")
+    intTestImplementation("org.springframework.boot:spring-boot-starter-test:4.0.3") {
         // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
         exclude(module = "mockito-core")
     }
