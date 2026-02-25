@@ -18,42 +18,4 @@ class AxonConfiguration {
      */
     @Bean
     fun axonConnectionProvider(dataSource: DataSource): ConnectionProvider = SpringDataSourceConnectionProvider(dataSource)
-
-//    /**
-//     * Axon5 の Converter（デフォルトは JacksonConverter）
-//     * 既に ObjectMapper を Spring が提供しているならそれを流用。
-//     */
-//    @Bean
-//    fun axonConverter(objectMapper: ObjectMapper): Converter =
-//        JacksonConverter(objectMapper)
-
-    /**
-     * TokenStore 設定。まずは DEFAULT でOK。
-     * claimTimeout だけ変えたい例も載せてます。
-     */
-    @Bean
-    fun jdbcTokenStoreConfiguration(): JdbcTokenStoreConfiguration = JdbcTokenStoreConfiguration.DEFAULT
-    // .claimTimeout(Duration.ofSeconds(30)) // 必要なら
-    // .nodeId("my-node-id")               // 必要なら
-    // .schema(TokenSchema.builder()....)  // 必要なら
-
-    /**
-     * これで TokenStore として DI される
-     */
-    @Bean
-    fun tokenStore(
-        connectionProvider: ConnectionProvider,
-        converter: Converter,
-        config: JdbcTokenStoreConfiguration,
-    ): TokenStore {
-        val tokenStore = JdbcTokenStore(connectionProvider, converter, config)
-
-        // TokenStoreテーブルを作成する
-        tokenStore.createSchema(
-            // 汎用的なDBに対応したTableFactory
-            GenericTokenTableFactory.INSTANCE,
-        )
-
-        return tokenStore
-    }
 }
