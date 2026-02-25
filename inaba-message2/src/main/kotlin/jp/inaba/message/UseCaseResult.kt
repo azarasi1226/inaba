@@ -1,6 +1,12 @@
 package jp.inaba.message
 
 
+interface QueryResult<T> {
+  val success: Boolean
+  val data: T?
+  val error: Error?
+}
+
 //TODO:
 interface UseCaseResult {
   val success: Boolean

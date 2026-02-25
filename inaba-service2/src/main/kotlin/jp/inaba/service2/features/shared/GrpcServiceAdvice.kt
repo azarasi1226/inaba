@@ -5,7 +5,7 @@ import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusException
 import jp.inaba.core.domain.common.ValueObjectException
-import jp.inaba.service2.features.user.create.CommandException
+import jp.inaba.message.UseCaseException
 import net.devh.boot.grpc.server.advice.GrpcAdvice
 import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
 
@@ -33,19 +33,19 @@ class GrpcServiceAdvice {
     // Commandが投げられた後のUseCase層 / Domain層で発生する例外の想定
     // CommandExecutionExceptionの中にラップされているので、取り出す必要がある。
     @GrpcExceptionHandler
-    fun handleCommandUseCaseException(e: CommandException): StatusException {
-        logger.warn { "handle Command UseCaseException:[${e.errorMessage}]" }
+    fun handleCommandUseCaseException(e: UseCaseException): StatusException {
+        logger.warn { "handle Command UseCaseException:[${e.error.message}]" }
 
         val status =
             Status.UNKNOWN
-                .withDescription(e.errorMessage)
+                .withDescription(e.error.message)
                 .withCause(e)
 
         val metadata =
             GrpcErrorDetails(
                 errorType = "usecase-error",
                 errorCode = "",
-                errorMessage = e.errorMessage,
+                errorMessage = e.error.message,
             ).toMetadata()
 
         return status.asException(metadata)

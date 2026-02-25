@@ -1,16 +1,9 @@
 package jp.inaba.service2.features.query.user
 
-import jp.inaba.core.domain.common.UseCaseException
-import jp.inaba.core.domain.user.FindUserMetadataBySubjectError
-import jp.inaba.service.infrastructure.jooq.generated.tables.references.USER_METADATA
-import org.axonframework.messaging.queryhandling.annotation.QueryHandler
-import org.jooq.DSLContext
-import org.springframework.stereotype.Component
-
-//@Component
-//class FindUserMetadataBySubjectQueryService(
+// @Component
+// class FindUserMetadataBySubjectQueryService(
 //  private val dsl: DSLContext,
-//) {
+// ) {
 //  @QueryHandler
 //  fun handle(query: FindUserMetadataBySubjectQuery): FindUserMetadataBySubjectResult =
 //    dsl
@@ -23,4 +16,4 @@ import org.springframework.stereotype.Component
 //          basketId = it.basketId!!,
 //        )
 //      } ?: throw UseCaseException(FindUserMetadataBySubjectError.USER_METADATA_NOT_FOUND)
-//}
+// }

@@ -6,7 +6,13 @@
       "WebFetch(domain:www.axoniq.io)",
       "WebFetch(domain:docs.axoniq.io)",
       "WebFetch(domain:apidocs.axoniq.io)",
-      "WebFetch(domain:dev.to)"
+      "WebFetch(domain:dev.to)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"@EventHandler\" 2>/dev/null)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"TokenStore\\\\|ProcessingGroup\\\\|EventProcessor\" 2>/dev/null)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"@Configuration\\\\|@Bean\" 2>/dev/null)",
+      "Bash(jar tf:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ]
   }
 }

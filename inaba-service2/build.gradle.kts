@@ -16,7 +16,7 @@ dependencies {
     // spring bom
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     // TODO:消しても動くならこのまま消しておきたい。
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -60,6 +60,10 @@ jooq {
                     property {
                         key = "scripts"
                         value = "../database/schema.mysql.sql"
+                    }
+                    property {
+                        key = "defaultNameCase"
+                        value = "lower"
                     }
                 }
             }

@@ -1,9 +1,12 @@
-package jp.inaba.service2.features.user.create
+package jp.inaba.service2.features.command.user.delete
 
 import jp.inaba.core.domain.user.UserId
-import jp.inaba.message.user.command.CreateUserCommand
-import jp.inaba.message.user.command.CreateUserResult
+import jp.inaba.message.InabaEventTag
+import jp.inaba.message.user.command.DeleteUserCommand
+import jp.inaba.message.user.command.DeleteUserResult
 import jp.inaba.message.user.event.UserCreatedEvent
+import jp.inaba.message.user.event.UserDeletedEvent
+import jp.inaba.service2.features.user.create.State
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
 import org.axonframework.eventsourcing.annotation.reflection.EntityCreator
 import org.axonframework.extension.spring.stereotype.EventSourced
@@ -13,43 +16,45 @@ import org.axonframework.modelling.annotation.InjectEntity
 import org.springframework.stereotype.Component
 
 @Component
-class CreateUserCommandHandler {
+class DeleteUserCommandHandler {
     @CommandHandler
     fun handle(
-        command: CreateUserCommand,
+        command: DeleteUserCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-        subjectLinkedChecker: SubjectLinkedChecker,
-    ): CreateUserResult {
+    ): DeleteUserResult {
         if (state.created) {
-            return CreateUserResult.userAlreadyExists()
-        }
-        if (subjectLinkedChecker.handle(command.subject)) {
-            return CreateUserResult.alreadyLinkedSubject()
+            return DeleteUserResult.userNotFound()
         }
 
         eventAppender.append(
-            UserCreatedEvent(
+            UserDeletedEvent(
                 id = command.id.value,
-                subject = command.subject,
             ),
         )
 
-        return CreateUserResult.success()
+        return DeleteUserResult.success()
     }
 }
 
-@EventSourced(tagKey = "userId", idType = UserId::class)
+@EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
 class State(
     var created: Boolean,
+    var deleted: Boolean,
 ) {
     @EntityCreator
     constructor() : this(
         created = false,
+        deleted = false,
     )
 
     @EventSourcingHandler
     fun evolve(event: UserCreatedEvent) {
         created = true
+    }
+
+    @EventSourcingHandler
+    fun evolve(event: UserDeletedEvent) {
+        deleted = true
     }
 }
