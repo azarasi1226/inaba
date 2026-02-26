@@ -15,7 +15,10 @@
       "Bash(grep:*)",
       "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -path \"*/product/update/*\" -name \"*.kt\" | xargs cat 2>/dev/null)",
       "Bash(head:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(\"$JAVA_HOME/bin/jar\" tf:*)",
+      "Bash(python3:*)",
+      "Bash(unzip:*)"
     ]
   }
 }
