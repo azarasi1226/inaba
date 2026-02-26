@@ -1,4 +1,4 @@
-package jp.inaba.service2
+package jp.inaba.service2.feature
 
 import org.axonframework.test.server.AxonServerContainer
 import org.testcontainers.mysql.MySQLContainer

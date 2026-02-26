@@ -1,4 +1,4 @@
-package jp.inaba.service2.product
+package jp.inaba.service2.feature.product
 
 import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.core.domain.product.ProductDescription
@@ -10,7 +10,7 @@ import jp.inaba.message.brand.event.BrandCreatedEvent
 import jp.inaba.message.product.command.CreateProductCommand
 import jp.inaba.message.product.command.CreateProductResult
 import jp.inaba.message.product.event.ProductCreatedEvent
-import jp.inaba.service2.InabaIntegrationTestBase
+import jp.inaba.service2.feature.InabaIntegrationTestBase
 import org.junit.jupiter.api.Test
 
 class CreateProductTest : InabaIntegrationTestBase() {

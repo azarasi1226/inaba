@@ -1,5 +1,6 @@
-package jp.inaba.service2
+package jp.inaba.service2.feature
 
+import jp.inaba.service2.InabaApplication
 import org.axonframework.common.configuration.ApplicationConfigurer
 import org.axonframework.test.fixture.AxonTestFixture
 import org.axonframework.test.fixture.MessagesRecordingConfigurationEnhancer

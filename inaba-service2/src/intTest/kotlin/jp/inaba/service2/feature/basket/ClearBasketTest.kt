@@ -1,4 +1,4 @@
-package jp.inaba.service2.basket
+package jp.inaba.service2.feature.basket
 
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.user.UserId
@@ -7,7 +7,7 @@ import jp.inaba.message.basket.command.ClearBasketResult
 import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemSetEvent
 import jp.inaba.message.user.event.UserCreatedEvent
-import jp.inaba.service2.InabaIntegrationTestBase
+import jp.inaba.service2.feature.InabaIntegrationTestBase
 import org.junit.jupiter.api.Test
 
 class ClearBasketTest : InabaIntegrationTestBase() {

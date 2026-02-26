@@ -1,4 +1,4 @@
-package jp.inaba.service2.basket
+package jp.inaba.service2.feature.basket
 
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.product.ProductId
@@ -8,7 +8,7 @@ import jp.inaba.message.basket.command.SetBasketItemResult
 import jp.inaba.message.basket.event.BasketItemSetEvent
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.user.event.UserCreatedEvent
-import jp.inaba.service2.InabaIntegrationTestBase
+import jp.inaba.service2.feature.InabaIntegrationTestBase
 import org.junit.jupiter.api.Test
 
 class SetBasketItemTest : InabaIntegrationTestBase() {
