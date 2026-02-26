@@ -150,6 +150,7 @@ tasks.register<Test>("integrationTest") {
 
     useJUnitPlatform()
 
+    // 並列設定、コンテナ数が3, 6, 12と増えていくので、2くらいがちょうどいいかなと思う
     maxParallelForks = 2
 
     // 統合テストの結果を標準出力に表示する設定(成功したものpassed)のみ表示する
