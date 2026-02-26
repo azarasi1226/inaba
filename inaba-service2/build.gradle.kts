@@ -21,17 +21,19 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.mysql:mysql-connector-j")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
-        exclude(module = "mockito-core")
-    }
 
     // axon bom
     implementation("org.axonframework.extensions.spring:axon-spring-boot-starter:5.0.2")
 
+    //test
+    testImplementation("com.ninja-squad:springmockk:5.0.1")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
+        exclude(module = "mockito-core")
+    }
+    
     // other
     implementation("org.springframework.retry:spring-retry:2.0.12")
-    testImplementation("com.ninja-squad:springmockk:5.0.1")
     implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
     // jooq
