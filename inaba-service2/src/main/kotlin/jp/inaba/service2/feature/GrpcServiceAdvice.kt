@@ -40,7 +40,7 @@ class GrpcServiceAdvice {
         val metadata =
             GrpcErrorDetails(
                 errorType = "usecase-error",
-                errorCode = "",
+                errorCode = "1",
                 errorMessage = e.error.message,
             ).toMetadata()
 
