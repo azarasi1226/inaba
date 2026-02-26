@@ -20,7 +20,7 @@ class FindBrandByIdResult private constructor(
     override val error: Error?,
 ): QueryResult2<FindBrandByIdData> {
     companion object {
-        fun success(data: FindBrandByIdData) = FindBrandByIdResult(true, payload, null)
+        fun success(data: FindBrandByIdData) = FindBrandByIdResult(true, data, null)
         fun notFound() = FindBrandByIdResult(false, null, Error("ブランドが存在しませんでした"))
     }
 }
