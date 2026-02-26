@@ -61,5 +61,4 @@ class DeleteBrandCommandHandler {
             deleted = true
         }
     }
-
 }
