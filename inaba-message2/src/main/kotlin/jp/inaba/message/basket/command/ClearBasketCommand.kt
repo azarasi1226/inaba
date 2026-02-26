@@ -1,7 +1,9 @@
 package jp.inaba.message.basket.command
 
 import jp.inaba.core.domain.user.UserId
-import jp.inaba.message.UseCaseResult
+import jp.inaba.message.CommandResult
+import jp.inaba.message.Error
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class ClearBasketCommand(
@@ -9,12 +11,10 @@ data class ClearBasketCommand(
     val id: UserId,
 )
 
-class ClearBasketResult private constructor(
-    override val success: Boolean,
-    override val error: jp.inaba.message.Error?,
-) : UseCaseResult() {
-    companion object {
-        fun success(): ClearBasketResult = ClearBasketResult(true, null)
-        fun userNotFound(): ClearBasketResult = ClearBasketResult(false, jp.inaba.message.Error("ユーザーが存在しません"))
-    }
+object ClearBasketResult {
+    fun success() = CommandResult.success()
+    fun userNotFound() = CommandResult.faile(Error("ユーザーが存在しません"))
 }
+
+fun CommandGateway.clearBasket(command: ClearBasketCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)

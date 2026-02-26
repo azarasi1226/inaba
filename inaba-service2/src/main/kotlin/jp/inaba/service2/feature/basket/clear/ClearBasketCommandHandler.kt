@@ -2,6 +2,7 @@ package jp.inaba.service2.feature.command.basket.clear
 
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.InabaEventTag
+import jp.inaba.message.CommandResult
 import jp.inaba.message.basket.command.ClearBasketCommand
 import jp.inaba.message.basket.command.ClearBasketResult
 import jp.inaba.message.basket.event.BasketClearedEvent
@@ -24,7 +25,7 @@ class ClearBasketCommandHandler {
         command: ClearBasketCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): ClearBasketResult {
+    ): CommandResult {
         if (!state.userCreated) {
             return ClearBasketResult.userNotFound()
         }

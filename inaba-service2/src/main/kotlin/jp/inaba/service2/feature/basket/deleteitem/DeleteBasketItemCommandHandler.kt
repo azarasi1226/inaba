@@ -2,6 +2,7 @@ package jp.inaba.service2.feature.command.basket.deleteitem
 
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.InabaEventTag
+import jp.inaba.message.CommandResult
 import jp.inaba.message.basket.command.DeleteBasketItemCommand
 import jp.inaba.message.basket.command.DeleteBasketItemResult
 import jp.inaba.message.basket.event.BasketClearedEvent
@@ -24,7 +25,7 @@ class DeleteBasketItemCommandHandler {
         command: DeleteBasketItemCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): DeleteBasketItemResult {
+    ): CommandResult {
         if (!state.userCreated) {
             return DeleteBasketItemResult.userNotFound()
         }

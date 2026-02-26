@@ -1,6 +1,7 @@
 package jp.inaba.service2.feature.command.basket.setitem
 
 import jp.inaba.message.InabaEventTag
+import jp.inaba.message.CommandResult
 import jp.inaba.message.basket.command.SetBasketItemCommand
 import jp.inaba.message.basket.command.SetBasketItemResult
 import jp.inaba.message.basket.event.BasketClearedEvent
@@ -29,7 +30,7 @@ class SetBasketItemCommandHandler {
         command: SetBasketItemCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): SetBasketItemResult {
+    ): CommandResult {
         if (!state.userCreated) {
             return SetBasketItemResult.userNotFound()
         }

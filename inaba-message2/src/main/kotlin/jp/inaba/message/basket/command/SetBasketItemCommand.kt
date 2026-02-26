@@ -3,8 +3,9 @@ package jp.inaba.message.basket.command
 import jp.inaba.core.domain.basket.BasketItemQuantity
 import jp.inaba.core.domain.product.ProductId
 import jp.inaba.core.domain.user.UserId
+import jp.inaba.message.CommandResult
 import jp.inaba.message.Error
-import jp.inaba.message.UseCaseResult
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class SetBasketItemCommand(
@@ -19,14 +20,12 @@ data class SetBasketItemCommand(
         get() = TargetId(userId = id, productId = productId)
 }
 
-class SetBasketItemResult private constructor(
-    override val success: Boolean,
-    override val error: Error?,
-) : UseCaseResult() {
-    companion object {
-        fun success(): SetBasketItemResult = SetBasketItemResult(true, null)
-        fun userNotFound(): SetBasketItemResult = SetBasketItemResult(false, Error("ユーザーが存在しません"))
-        fun productNotFound(): SetBasketItemResult = SetBasketItemResult(false, Error("商品が存在しません"))
-        fun productMaxKindOver(): SetBasketItemResult = SetBasketItemResult(false, Error("商品種類の上限数に到達しました"))
-    }
+object SetBasketItemResult {
+    fun success() = CommandResult.success()
+    fun userNotFound() = CommandResult.faile(Error("ユーザーが存在しません"))
+    fun productNotFound() = CommandResult.faile(Error("商品が存在しません"))
+    fun productMaxKindOver() = CommandResult.faile(Error("商品種類の上限数に到達しました"))
 }
+
+fun CommandGateway.setBasketItem(command: SetBasketItemCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)
