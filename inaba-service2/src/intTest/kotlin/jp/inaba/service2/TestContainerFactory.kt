@@ -9,6 +9,7 @@ object TestContainerFactory {
     fun mysql(): MySQLContainer =
         MySQLContainer("mysql:8.0").apply {
             // DBの初期化スクリプトのパスを指定
+            // TODO これは@BeforeAllの中でやった方がいい気がする
             val hostPath =
                 Paths
                     .get("../")
@@ -23,7 +24,8 @@ object TestContainerFactory {
     fun axonServer(): AxonServerContainer =
         AxonServerContainer()
             .withAxonServerHostname("localhost")
+            // これがないとDCB系の機能が使えない
             .withDcbContext(true)
-            .withReuse(true)
+            //AxonServerContainerUtils.purgeEventsFromAxonServerを呼ぶために
             .withDevMode(true)
 }

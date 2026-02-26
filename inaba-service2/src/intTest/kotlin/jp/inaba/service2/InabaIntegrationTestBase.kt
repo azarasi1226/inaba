@@ -4,7 +4,6 @@ import org.axonframework.common.configuration.ApplicationConfigurer
 import org.axonframework.test.fixture.AxonTestFixture
 import org.axonframework.test.fixture.MessagesRecordingConfigurationEnhancer
 import org.axonframework.test.server.AxonServerContainerUtils
-import org.jooq.tools.json.ContainerFactory
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -15,14 +14,9 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest(classes = [InabaApplication::class])
 @ActiveProfiles("integration-test")
-@Testcontainers
 @Import(AxonTestConfig::class)
 abstract class InabaIntegrationTestBase {
     @Autowired
@@ -31,17 +25,15 @@ abstract class InabaIntegrationTestBase {
     lateinit var fixture: AxonTestFixture
 
     companion object {
-        @Container
         @ServiceConnection
-        val mysql = TestContainerFactory.mysql()
+        val mysql = TestContainerFactory.mysql().apply { start() }
 
-        @Container
         @ServiceConnection
-        val axonServer = TestContainerFactory.axonServer()
+        val axonServer = TestContainerFactory.axonServer().apply { start() }
 
         @JvmStatic
         @BeforeAll
-        fun setup2() {
+        fun beforeTestSuite() {
             // EventStoreの初期化
             AxonServerContainerUtils.purgeEventsFromAxonServer(
                 axonServer.host,
@@ -49,17 +41,18 @@ abstract class InabaIntegrationTestBase {
                 "default",
                 true,
             )
+
+            // TODO:MySQLの初期化
         }
     }
 
     @BeforeEach
-    fun setup() {
-        // Fixtureの初期化
+    fun beforeTestCase() {
         fixture = AxonTestFixture.with(configurer)
     }
 
     @AfterEach
-    fun tearDown() {
+    fun afterTestCase() {
         fixture.stop()
     }
 }
