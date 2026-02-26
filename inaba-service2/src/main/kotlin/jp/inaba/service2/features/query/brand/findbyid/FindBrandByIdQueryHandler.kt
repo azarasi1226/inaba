@@ -14,7 +14,7 @@ class FindBrandByIdQueryHandler(
 ) {
   @QueryHandler
   fun handle(query: FindBrandByIdQuery): FindBrandByIdResult {
-    val payload = dsl
+    val data = dsl
       .selectFrom(BRANDS)
       .where(BRANDS.ID.eq(query.id.value))
       .fetchOne {
@@ -22,8 +22,12 @@ class FindBrandByIdQueryHandler(
           id = it.id,
           name = it.name,
         )
-      } ?: return FindBrandByIdResult.notFound()
+      }
 
-    return FindBrandByIdResult.success(payload)
+    return if (data != null) {
+      FindBrandByIdResult.success(data)
+    } else {
+      FindBrandByIdResult.notFound()
+    }
   }
 }
