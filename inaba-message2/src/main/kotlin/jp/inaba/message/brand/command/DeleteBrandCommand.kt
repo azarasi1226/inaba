@@ -1,8 +1,9 @@
 package jp.inaba.message.brand.command
 
 import jp.inaba.core.domain.brand.BrandId
+import jp.inaba.message.CommandResult
 import jp.inaba.message.Error
-import jp.inaba.message.UseCaseResult
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class DeleteBrandCommand(
@@ -10,12 +11,10 @@ data class DeleteBrandCommand(
     val id: BrandId,
 )
 
-class DeleteBrandResult private constructor(
-    override val success: Boolean,
-    override val error: Error?,
-) : UseCaseResult() {
-    companion object {
-        fun success(): DeleteBrandResult = DeleteBrandResult(true, null)
-        fun brandNotFound(): DeleteBrandResult = DeleteBrandResult(false, Error("ブランドが存在しません"))
-    }
+object DeleteBrandResult {
+    fun success(): CommandResult = CommandResult.success()
+    fun notFound(): CommandResult = CommandResult.faile(Error("ブランドが存在しませんでした"))
 }
+
+fun CommandGateway.deleteBrand(command: DeleteBrandCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)

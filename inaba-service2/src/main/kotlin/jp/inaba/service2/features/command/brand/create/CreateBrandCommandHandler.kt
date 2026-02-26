@@ -1,6 +1,7 @@
 package jp.inaba.service2.features.command.brand.create
 
 import jp.inaba.core.domain.brand.BrandId
+import jp.inaba.message.CommandResult
 import jp.inaba.message.InabaEventTag
 import jp.inaba.message.brand.command.CreateBrandCommand
 import jp.inaba.message.brand.command.CreateBrandResult
@@ -20,9 +21,9 @@ class CreateBrandCommandHandler {
         command: CreateBrandCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): CreateBrandResult {
+    ): CommandResult {
         if (state.created) {
-            return CreateBrandResult.alreadyExists()
+            return CreateBrandResult.duplicated()
         }
 
         eventAppender.append(

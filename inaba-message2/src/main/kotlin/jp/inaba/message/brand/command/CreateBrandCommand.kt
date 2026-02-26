@@ -3,7 +3,8 @@ package jp.inaba.message.brand.command
 import jp.inaba.core.domain.brand.BrandId
 import jp.inaba.core.domain.brand.BrandName
 import jp.inaba.message.Error
-import jp.inaba.message.UseCaseResult
+import jp.inaba.message.CommandResult
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateBrandCommand(
@@ -12,12 +13,10 @@ data class CreateBrandCommand(
     val name: BrandName,
 )
 
-class CreateBrandResult private constructor(
-    override val success: Boolean,
-    override val error: Error?,
-) : UseCaseResult() {
-    companion object {
-        fun success(): CreateBrandResult = CreateBrandResult(true, null)
-        fun alreadyExists(): CreateBrandResult = CreateBrandResult(false, Error("ブランドが既に存在しています"))
-    }
+object CreateBrandResult {
+    fun success() = CommandResult.success()
+    fun duplicated() = CommandResult.faile(Error("同じIDのブランドが既に存在しています"))
 }
+
+fun CommandGateway.createBrand(command: CreateBrandCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)

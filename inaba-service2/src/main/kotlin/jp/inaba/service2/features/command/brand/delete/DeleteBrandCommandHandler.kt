@@ -1,6 +1,7 @@
 package jp.inaba.service2.features.command.brand.delete
 
 import jp.inaba.core.domain.brand.BrandId
+import jp.inaba.message.CommandResult
 import jp.inaba.message.InabaEventTag
 import jp.inaba.message.brand.command.DeleteBrandCommand
 import jp.inaba.message.brand.command.DeleteBrandResult
@@ -21,9 +22,13 @@ class DeleteBrandCommandHandler {
         command: DeleteBrandCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): DeleteBrandResult {
-        if (!state.created || state.deleted) {
-            return DeleteBrandResult.brandNotFound()
+    ): CommandResult {
+        if (!state.created) {
+            return DeleteBrandResult.notFound()
+        }
+        // 冪等性を考慮し、すでに削除されている場合は成功を返す
+        if (state.deleted) {
+            return DeleteBrandResult.success()
         }
 
         eventAppender.append(
@@ -56,4 +61,5 @@ class DeleteBrandCommandHandler {
             deleted = true
         }
     }
+
 }

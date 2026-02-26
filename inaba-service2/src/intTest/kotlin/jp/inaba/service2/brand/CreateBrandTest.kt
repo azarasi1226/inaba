@@ -33,7 +33,7 @@ class CreateBrandTest : InabaIntegrationTestBase() {
     }
 
     @Test
-    fun `すでに同じIDでユーザーが登録されている_alreadyExists`() {
+    fun `すでに同じIDでユーザーが登録されている_duplicated`() {
         val command =
             CreateBrandCommand(
                 id = BrandId(),
@@ -50,6 +50,6 @@ class CreateBrandTest : InabaIntegrationTestBase() {
             ).`when`()
             .command(command)
             .then()
-            .resultMessagePayload(CreateBrandResult.alreadyExists())
+            .resultMessagePayload(CreateBrandResult.duplicated())
     }
 }
