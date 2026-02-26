@@ -3,7 +3,6 @@ package jp.inaba.message.brand.query
 import jp.inaba.core.domain.common.Page
 import jp.inaba.core.domain.common.PagingCondition
 import jp.inaba.message.Error
-import jp.inaba.message.QueryResult
 import jp.inaba.message.QueryResult2
 import org.axonframework.messaging.queryhandling.gateway.QueryGateway
 

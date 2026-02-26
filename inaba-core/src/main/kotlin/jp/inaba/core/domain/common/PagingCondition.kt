@@ -1,9 +1,13 @@
 package jp.inaba.core.domain.common
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 data class PagingCondition(
     val pageSize: Int,
     val pageNumber: Int,
 ) {
+    //TODO: なぜここだけ@JsonIgnoreをつけないとエラーが出るのか不明、調査するべし
+    @get:JsonIgnore
     val offset
         get() = (pageNumber - 1) * pageSize
 

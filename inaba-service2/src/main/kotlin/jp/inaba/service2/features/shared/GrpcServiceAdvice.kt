@@ -11,7 +11,6 @@ import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
 
 private val logger = KotlinLogging.logger {}
 
-// TODO(全体的に美しくない。作り直したい。)
 @GrpcAdvice
 class GrpcServiceAdvice {
     @GrpcExceptionHandler
