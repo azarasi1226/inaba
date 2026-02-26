@@ -1,0 +1,60 @@
+package jp.inaba.service2.basket
+
+import jp.inaba.core.domain.product.ProductId
+import jp.inaba.core.domain.user.UserId
+import jp.inaba.message.basket.command.DeleteBasketItemCommand
+import jp.inaba.message.basket.command.DeleteBasketItemResult
+import jp.inaba.message.basket.event.BasketItemDeletedEvent
+import jp.inaba.message.basket.event.BasketItemSetEvent
+import jp.inaba.service2.InabaIntegrationTestBase
+import org.junit.jupiter.api.Test
+
+class DeleteBasketItemTest : InabaIntegrationTestBase() {
+    @Test
+    fun `正常系`() {
+        val userId = UserId()
+        val productId = ProductId()
+
+        fixture
+            .given()
+            .events(
+                BasketItemSetEvent(
+                    userId = userId.value,
+                    productId = productId.value,
+                    basketItemQuantity = 1,
+                ),
+            ).`when`()
+            .command(
+                DeleteBasketItemCommand(
+                    id = userId,
+                    productId = productId,
+                ),
+            ).then()
+            .resultMessagePayload(DeleteBasketItemResult.success())
+            .events(
+                BasketItemDeletedEvent(
+                    userId = userId.value,
+                    productId = productId.value,
+                ),
+            )
+    }
+
+    @Test
+    fun `買い物かごに該当商品が存在しない_itemNotFound`() {
+        val userId = UserId()
+        val productId = ProductId()
+
+        fixture
+            .given()
+            .noPriorActivity()
+            .`when`()
+            .command(
+                DeleteBasketItemCommand(
+                    id = userId,
+                    productId = productId,
+                ),
+            ).then()
+            .resultMessagePayload(DeleteBasketItemResult.itemNotFound())
+            .noEvents()
+    }
+}
