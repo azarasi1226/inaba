@@ -4,6 +4,7 @@ import jp.inaba.message.InabaEventTag
 import jp.inaba.message.brand.event.BrandCreatedEvent
 import jp.inaba.message.brand.event.BrandDeletedEvent
 import jp.inaba.message.product.command.CreateProductCommand
+import jp.inaba.message.CommandResult
 import jp.inaba.message.product.command.CreateProductResult
 import jp.inaba.message.product.event.ProductCreatedEvent
 import org.axonframework.eventsourcing.annotation.EventCriteriaBuilder
@@ -25,7 +26,7 @@ class CreateProductCommandHandler {
         command: CreateProductCommand,
         @InjectEntity state: CreateProductCommandState,
         eventAppender: EventAppender,
-    ): CreateProductResult {
+    ): CommandResult {
         if (state.created) {
             return CreateProductResult.alreadyExists()
         }

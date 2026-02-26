@@ -7,8 +7,9 @@ import jp.inaba.core.domain.product.ProductImageURL
 import jp.inaba.core.domain.product.ProductName
 import jp.inaba.core.domain.product.ProductPrice
 import jp.inaba.core.domain.product.StockQuantity
+import jp.inaba.message.CommandResult
 import jp.inaba.message.Error
-import jp.inaba.message.UseCaseResult
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateProductCommand(
@@ -26,13 +27,12 @@ data class CreateProductCommand(
         get() = TargetId(productId = id, brandId = brandId)
 }
 
-class CreateProductResult private constructor(
-    override val success: Boolean, override val error: Error?,
-) : UseCaseResult() {
-    companion object {
-        fun success(): CreateProductResult = CreateProductResult(true, null)
-        fun alreadyExists(): CreateProductResult = CreateProductResult(false, Error("商品が既に存在しています"))
-        fun brandNotFound(): CreateProductResult = CreateProductResult(false, Error("ブランドが存在しません"))
-    }
+object CreateProductResult {
+    fun success() = CommandResult.success()
+    fun alreadyExists() = CommandResult.faile(Error("商品が既に存在しています"))
+    fun brandNotFound() = CommandResult.faile(Error("ブランドが存在しません"))
 }
+
+fun CommandGateway.createProduct(command: CreateProductCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)
 

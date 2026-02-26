@@ -12,7 +12,7 @@ import jp.inaba.core.domain.product.StockQuantity
 import jp.inaba.grpc.product.CreateProductGrpc
 import jp.inaba.grpc.product.CreateProductRequest
 import jp.inaba.message.product.command.CreateProductCommand
-import jp.inaba.message.product.createProduct
+import jp.inaba.message.product.command.createProduct
 import jp.inaba.message.throwIfError
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway
