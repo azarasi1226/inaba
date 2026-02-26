@@ -50,8 +50,6 @@ class CreateBrandTest : InabaIntegrationTestBase() {
             ).`when`()
             .command(command)
             .then()
-            .resultMessagePayload(
-                CreateBrandResult.alreadyExists(),
-            )
+            .resultMessagePayload(CreateBrandResult.alreadyExists())
     }
 }

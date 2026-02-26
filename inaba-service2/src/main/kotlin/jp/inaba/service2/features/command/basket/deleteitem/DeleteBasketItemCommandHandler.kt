@@ -24,7 +24,7 @@ class DeleteBasketItemCommandHandler {
         eventAppender: EventAppender,
     ): DeleteBasketItemResult {
         if (command.productId.value !in state.itemProductIds) {
-            return DeleteBasketItemResult.itemNotFound()
+            return DeleteBasketItemResult.success()
         }
 
         eventAppender.append(
