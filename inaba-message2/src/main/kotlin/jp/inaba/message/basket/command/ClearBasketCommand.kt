@@ -15,5 +15,6 @@ class ClearBasketResult private constructor(
 ) : UseCaseResult() {
     companion object {
         fun success(): ClearBasketResult = ClearBasketResult(true, null)
+        fun userNotFound(): ClearBasketResult = ClearBasketResult(false, jp.inaba.message.Error("ユーザーが存在しません"))
     }
 }

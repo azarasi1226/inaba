@@ -6,6 +6,7 @@ import jp.inaba.message.basket.command.ClearBasketCommand
 import jp.inaba.message.basket.command.ClearBasketResult
 import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemSetEvent
+import jp.inaba.message.user.event.UserCreatedEvent
 import jp.inaba.service2.InabaIntegrationTestBase
 import org.junit.jupiter.api.Test
 
@@ -18,6 +19,10 @@ class ClearBasketTest : InabaIntegrationTestBase() {
         fixture
             .given()
             .events(
+                UserCreatedEvent(
+                    id = userId.value,
+                    subject = "test-subject",
+                ),
                 BasketItemSetEvent(
                     userId = userId.value,
                     productId = productId.value,
@@ -43,6 +48,27 @@ class ClearBasketTest : InabaIntegrationTestBase() {
 
         fixture
             .given()
+            .events(
+                UserCreatedEvent(
+                    id = userId.value,
+                    subject = "test-subject",
+                ),
+            ).`when`()
+            .command(
+                ClearBasketCommand(
+                    id = userId,
+                ),
+            ).then()
+            .resultMessagePayload(ClearBasketResult.success())
+            .noEvents()
+    }
+
+    @Test
+    fun `ユーザーが存在しない_userNotFound`() {
+        val userId = UserId()
+
+        fixture
+            .given()
             .noPriorActivity()
             .`when`()
             .command(
@@ -50,7 +76,7 @@ class ClearBasketTest : InabaIntegrationTestBase() {
                     id = userId,
                 ),
             ).then()
-            .resultMessagePayload(ClearBasketResult.success())
+            .resultMessagePayload(ClearBasketResult.userNotFound())
             .noEvents()
     }
 }

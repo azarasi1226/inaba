@@ -7,6 +7,8 @@ import jp.inaba.message.basket.command.ClearBasketResult
 import jp.inaba.message.basket.event.BasketClearedEvent
 import jp.inaba.message.basket.event.BasketItemDeletedEvent
 import jp.inaba.message.basket.event.BasketItemSetEvent
+import jp.inaba.message.user.event.UserCreatedEvent
+import jp.inaba.message.user.event.UserDeletedEvent
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
 import org.axonframework.eventsourcing.annotation.reflection.EntityCreator
 import org.axonframework.extension.spring.stereotype.EventSourced
@@ -23,6 +25,9 @@ class ClearBasketCommandHandler {
         @InjectEntity state: State,
         eventAppender: EventAppender,
     ): ClearBasketResult {
+        if (!state.userCreated) {
+            return ClearBasketResult.userNotFound()
+        }
         if (state.itemProductIds.isEmpty()) {
             return ClearBasketResult.success()
         }
@@ -38,12 +43,24 @@ class ClearBasketCommandHandler {
 
     @EventSourced(tagKey = InabaEventTag.USER_ID, idType = UserId::class)
     class State(
+        var userCreated: Boolean,
         var itemProductIds: MutableSet<String>,
     ) {
         @EntityCreator
         constructor() : this(
+            userCreated = false,
             itemProductIds = mutableSetOf(),
         )
+
+        @EventSourcingHandler
+        fun evolve(event: UserCreatedEvent) {
+            userCreated = true
+        }
+
+        @EventSourcingHandler
+        fun evolve(event: UserDeletedEvent) {
+            userCreated = false
+        }
 
         @EventSourcingHandler
         fun evolve(event: BasketItemSetEvent) {

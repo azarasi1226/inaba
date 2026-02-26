@@ -18,6 +18,6 @@ class DeleteBasketItemResult private constructor(
 ) : UseCaseResult() {
     companion object {
         fun success(): DeleteBasketItemResult = DeleteBasketItemResult(true, null)
-        fun itemNotFound(): DeleteBasketItemResult = DeleteBasketItemResult(false, Error("買い物かごに該当商品が存在しません"))
+        fun userNotFound(): DeleteBasketItemResult = DeleteBasketItemResult(false, Error("ユーザーが存在しません"))
     }
 }
