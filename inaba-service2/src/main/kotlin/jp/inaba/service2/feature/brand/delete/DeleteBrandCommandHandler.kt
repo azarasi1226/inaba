@@ -7,6 +7,8 @@ import jp.inaba.message.brand.command.DeleteBrandCommand
 import jp.inaba.message.brand.command.DeleteBrandResult
 import jp.inaba.message.brand.event.BrandCreatedEvent
 import jp.inaba.message.brand.event.BrandDeletedEvent
+import jp.inaba.message.product.event.ProductCreatedEvent
+import jp.inaba.message.product.event.ProductDeletedEvent
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
 import org.axonframework.eventsourcing.annotation.reflection.EntityCreator
 import org.axonframework.extension.spring.stereotype.EventSourced
@@ -26,6 +28,9 @@ class DeleteBrandCommandHandler {
         if (!state.created) {
             return DeleteBrandResult.notFound()
         }
+        if(state.productIds.isNotEmpty()) {
+            return DeleteBrandResult.hasLinkedProducts()
+        }
         // 冪等性を考慮し、すでに削除されている場合は成功を返す
         if (state.deleted) {
             return DeleteBrandResult.success()
@@ -44,11 +49,13 @@ class DeleteBrandCommandHandler {
     class State(
         var created: Boolean,
         var deleted: Boolean,
+        var productIds: HashSet<String>
     ) {
         @EntityCreator
         constructor() : this(
             created = false,
             deleted = false,
+            productIds = HashSet()
         )
 
         @EventSourcingHandler
@@ -59,6 +66,16 @@ class DeleteBrandCommandHandler {
         @EventSourcingHandler
         fun evolve(event: BrandDeletedEvent) {
             deleted = true
+        }
+
+        @EventSourcingHandler
+        fun evolve(event: ProductCreatedEvent) {
+            productIds.add(event.id)
+        }
+
+        @EventSourcingHandler
+        fun evolve(event: ProductDeletedEvent) {
+            productIds.remove(event.id)
         }
     }
 }

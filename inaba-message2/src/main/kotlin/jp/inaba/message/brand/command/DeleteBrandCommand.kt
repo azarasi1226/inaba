@@ -14,6 +14,7 @@ data class DeleteBrandCommand(
 object DeleteBrandResult {
     fun success() = CommandResult.success()
     fun notFound() = CommandResult.faile(Error("ブランドが存在しませんでした"))
+    fun hasLinkedProducts() = CommandResult.faile(Error("ブランドに紐づくする商品が存在します"))
 }
 
 fun CommandGateway.deleteBrand(command: DeleteBrandCommand): CommandResult =
