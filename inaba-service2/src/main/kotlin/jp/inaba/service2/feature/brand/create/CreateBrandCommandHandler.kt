@@ -23,7 +23,7 @@ class CreateBrandCommandHandler {
         eventAppender: EventAppender,
     ): CommandResult {
         if (state.created) {
-            return CreateBrandResult.duplicated()
+            return CreateBrandResult.alreadyExists()
         }
 
         eventAppender.append(

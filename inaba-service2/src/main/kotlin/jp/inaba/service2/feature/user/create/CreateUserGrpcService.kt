@@ -7,7 +7,7 @@ import jp.inaba.grpc.user.CreateUserGrpc
 import jp.inaba.grpc.user.CreateUserRequest
 import jp.inaba.message.throwIfError
 import jp.inaba.message.user.command.CreateUserCommand
-import jp.inaba.message.user.createUser
+import jp.inaba.message.user.command.createUser
 import net.devh.boot.grpc.server.service.GrpcService
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 

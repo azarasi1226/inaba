@@ -2,6 +2,7 @@ package jp.inaba.service2.feature.user.create
 
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.InabaEventTag
+import jp.inaba.message.CommandResult
 import jp.inaba.message.user.command.CreateUserCommand
 import jp.inaba.message.user.command.CreateUserResult
 import jp.inaba.message.user.event.UserCreatedEvent
@@ -21,9 +22,9 @@ class CreateUserCommandHandler {
         @InjectEntity state: State,
         eventAppender: EventAppender,
         subjectLinkedChecker: SubjectLinkedChecker,
-    ): CreateUserResult {
+    ): CommandResult {
         if (state.created) {
-            return CreateUserResult.userAlreadyExists()
+            return CreateUserResult.alreadyExists()
         }
         if (subjectLinkedChecker.handle(command.subject)) {
             return CreateUserResult.alreadyLinkedSubject()

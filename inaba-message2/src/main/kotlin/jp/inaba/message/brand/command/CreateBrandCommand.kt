@@ -15,7 +15,7 @@ data class CreateBrandCommand(
 
 object CreateBrandResult {
     fun success() = CommandResult.success()
-    fun duplicated() = CommandResult.faile(Error("同じIDのブランドが既に存在しています"))
+    fun alreadyExists() = CommandResult.faile(Error("同じIDのブランドが既に存在しています"))
 }
 
 fun CommandGateway.createBrand(command: CreateBrandCommand): CommandResult =

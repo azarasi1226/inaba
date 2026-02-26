@@ -1,8 +1,9 @@
 package jp.inaba.message.user.command
 
 import jp.inaba.core.domain.user.UserId
-import jp.inaba.message.UseCaseResult
+import jp.inaba.message.CommandResult
 import jp.inaba.message.Error
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateUserCommand(
@@ -11,10 +12,11 @@ data class CreateUserCommand(
     val subject: String,
 )
 
-class CreateUserResult private constructor(override val success: Boolean, override val error: Error?) : UseCaseResult() {
-    companion object {
-        fun success(): CreateUserResult = CreateUserResult(true, null)
-        fun userAlreadyExists(): CreateUserResult = CreateUserResult(false, Error("すでに登録されたユーザーです"))
-        fun alreadyLinkedSubject(): CreateUserResult = CreateUserResult(false, Error("すでにリンクされたsubjectです"))
-    }
+object CreateUserResult {
+    fun success() = CommandResult.success()
+    fun alreadyExists() = CommandResult.faile(Error("すでに登録されたユーザーです"))
+    fun alreadyLinkedSubject() = CommandResult.faile(Error("すでにリンクされたsubjectです"))
 }
+
+fun CommandGateway.createUser(command: CreateUserCommand): CommandResult =
+    this.sendAndWait(command, CommandResult::class.java)

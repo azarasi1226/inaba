@@ -2,6 +2,7 @@ package jp.inaba.service2.feature.command.user.delete
 
 import jp.inaba.core.domain.user.UserId
 import jp.inaba.message.InabaEventTag
+import jp.inaba.message.CommandResult
 import jp.inaba.message.user.command.DeleteUserCommand
 import jp.inaba.message.user.command.DeleteUserResult
 import jp.inaba.message.user.event.UserCreatedEvent
@@ -21,9 +22,13 @@ class DeleteUserCommandHandler {
         command: DeleteUserCommand,
         @InjectEntity state: State,
         eventAppender: EventAppender,
-    ): DeleteUserResult {
-        if (state.created) {
-            return DeleteUserResult.userNotFound()
+    ): CommandResult {
+        if (!state.created) {
+            return DeleteUserResult.notFound()
+        }
+        // 冪等性を考慮し、すでに削除されている場合は成功を返す
+        if (state.deleted) {
+            return DeleteUserResult.success()
         }
 
         eventAppender.append(
