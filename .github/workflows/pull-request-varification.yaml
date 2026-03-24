@@ -23,7 +23,7 @@ jobs:
           java-version: '21'
 
       - name: "setup gradle"
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
@@ -46,7 +46,7 @@ jobs:
           java-version: '21'
 
       - name: "setup gradle"
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: "./gradleファイルを実行する権限を付与"
         run: chmod +x ./gradlew
