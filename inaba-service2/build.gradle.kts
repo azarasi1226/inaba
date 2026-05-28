@@ -1,11 +1,9 @@
 plugins {
+    kotlin("plugin.spring") version "2.2.21"
     id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.20.11"
     idea
-
-    kotlin("plugin.spring") version "2.3.10"
-    kotlin("plugin.jpa") version "2.3.10"
 }
 
 dependencies {
@@ -22,8 +20,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.mysql:mysql-connector-j")
 
-    // axon bom
-    implementation("org.axonframework.extensions.spring:axon-spring-boot-starter:5.0.2")
+    // Axon
+    implementation(platform("org.axonframework:axon-framework-bom:5.1.0"))
+    implementation("org.axonframework.extensions.spring:axon-spring-boot-starter")
+    implementation("io.axoniq.framework:axon-server-connector:5.1.0")
 
     //test
     testImplementation("com.ninja-squad:springmockk:5.0.1")
@@ -31,15 +31,19 @@ dependencies {
         // 今回はmockkというライブラリを別で導入しているため、初期からあるmockの機能はoffに
         exclude(module = "mockito-core")
     }
-    
-    // other
-    implementation("org.springframework.retry:spring-retry:2.0.12")
-    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
     // jooq
+    testImplementation("org.springframework.boot:spring-boot-starter-jooq-test")
     implementation("org.jooq:jooq:3.20.11")
     jooqCodegen("com.mysql:mysql-connector-j")
     jooqCodegen("org.jooq:jooq-meta-extensions:3.20.11") // DDLDatabase用
+
+    // other
+    // gRPC
+    implementation("org.springframework.grpc:spring-grpc-spring-boot-starter:1.0.2")
+    implementation("io.grpc:grpc-kotlin-stub:1.5.0")
+    implementation("com.google.protobuf:protobuf-kotlin:4.34.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 }
 
 // =====================================================

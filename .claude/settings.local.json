@@ -18,7 +18,11 @@
       "Bash(cd:*)",
       "Bash(\"$JAVA_HOME/bin/jar\" tf:*)",
       "Bash(python3:*)",
-      "Bash(unzip:*)"
+      "Bash(unzip:*)",
+      "Bash(./gradlew :inaba-message2:build:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-message2:build:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-message2:compileKotlin:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-service2:compileKotlin:*)"
     ]
   }
 }
