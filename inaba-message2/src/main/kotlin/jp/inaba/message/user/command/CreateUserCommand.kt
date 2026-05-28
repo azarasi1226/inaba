@@ -7,16 +7,18 @@ import org.axonframework.messaging.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.annotation.TargetEntityId
 
 data class CreateUserCommand(
-    @get:TargetEntityId
-    val id: UserId,
-    val subject: String,
+    val oidcIssuer: String,
+    val oidcSubject: String,
+    val oidcIdentityProvider: String,
+    val email: String,
+    val emailVerified: Boolean
 )
 
-object CreateUserResult {
+object CreateUserCommandResult {
     fun success() = CommandResult.success()
-    fun alreadyExists() = CommandResult.faile(Error("すでに登録されたユーザーです"))
-    fun alreadyLinkedSubject() = CommandResult.faile(Error("すでにリンクされたsubjectです"))
+    fun emailNotVerified() = CommandResult.fail(Error("Emailが検証されていません"))
 }
 
-fun CommandGateway.createUser(command: CreateUserCommand): CommandResult =
-    this.sendAndWait(command, CommandResult::class.java)
+suspend fun CommandGateway.createUser(command: CreateUserCommand): CommandResult {
+    return send(command, CommandResult::class.java).await()
+}

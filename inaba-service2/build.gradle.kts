@@ -38,12 +38,11 @@ dependencies {
     jooqCodegen("com.mysql:mysql-connector-j")
     jooqCodegen("org.jooq:jooq-meta-extensions:3.20.11") // DDLDatabase用
 
-    // other
     // gRPC
     implementation("org.springframework.grpc:spring-grpc-spring-boot-starter:1.0.2")
     implementation("io.grpc:grpc-kotlin-stub:1.5.0")
     implementation("com.google.protobuf:protobuf-kotlin:4.34.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core") //TODO: gRPCの分類なのか？
 }
 
 // =====================================================
