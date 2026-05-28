@@ -2,14 +2,41 @@ package jp.inaba.service2.feature
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.grpc.Metadata
+import io.grpc.ServerInterceptor
 import io.grpc.Status
 import io.grpc.StatusException
 import jp.inaba.core.domain.common.ValueObjectException
 import jp.inaba.message.UseCaseException
 import net.devh.boot.grpc.server.advice.GrpcAdvice
 import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
+import org.springframework.grpc.server.GlobalServerInterceptor
+import org.springframework.grpc.server.exception.GrpcExceptionHandler
 
 private val logger = KotlinLogging.logger {}
+
+@Configuration
+class GrpcConfig {
+
+    @Bean
+    @Order(0)
+    @GlobalServerInterceptor
+    fun grpcAuthInterceptor(jwtDecoder: JwtDecoder): ServerInterceptor =
+        GrpcAuthInterceptor(jwtDecoder)
+
+    @Bean
+    fun grpcExceptionHandler(): GrpcExceptionHandler = GrpcExceptionHandler { ex ->
+        when (ex) {
+            is UseCaseException -> StatusException(Status.INVALID_ARGUMENT.withDescription(ex.error.message))
+            else -> null
+        }
+    }
+}
+
+
+
 
 @GrpcAdvice
 class GrpcServiceAdvice {
