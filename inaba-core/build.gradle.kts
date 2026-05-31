@@ -1,4 +1,6 @@
 dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.21")
+
     // JUnit 6
     implementation(platform("org.junit:junit-bom:6.0.1"))
     // JUnitのコア

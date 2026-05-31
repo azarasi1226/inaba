@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.axoniq.io)",
+      "WebFetch(domain:docs.axoniq.io)",
+      "WebFetch(domain:apidocs.axoniq.io)",
+      "WebFetch(domain:dev.to)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"@EventHandler\" 2>/dev/null)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"TokenStore\\\\|ProcessingGroup\\\\|EventProcessor\" 2>/dev/null)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -name \"*.kt\" | xargs grep -l \"@Configuration\\\\|@Bean\" 2>/dev/null)",
+      "Bash(jar tf:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(find /c/Develop/Repository/inaba/inaba-service2/src -path \"*/product/update/*\" -name \"*.kt\" | xargs cat 2>/dev/null)",
+      "Bash(head:*)",
+      "Bash(cd:*)",
+      "Bash(\"$JAVA_HOME/bin/jar\" tf:*)",
+      "Bash(python3:*)",
+      "Bash(unzip:*)",
+      "Bash(./gradlew :inaba-message2:build:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-message2:build:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-message2:compileKotlin:*)",
+      "Bash(JAVA_HOME=\"C:/Users/seal1/.jdks/corretto-21.0.7\" ./gradlew :inaba-service2:compileKotlin:*)"
+    ]
+  }
+}

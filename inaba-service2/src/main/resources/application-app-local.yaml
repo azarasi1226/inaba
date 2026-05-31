@@ -1,0 +1,5 @@
+logging:
+  level:
+    jp.inaba: DEBUG
+    # jooq SQLログ出力設定(最低DEBUGにするとSQLが全てログに出力される)
+    org.jooq.tools.LoggerListener: DEBUG
