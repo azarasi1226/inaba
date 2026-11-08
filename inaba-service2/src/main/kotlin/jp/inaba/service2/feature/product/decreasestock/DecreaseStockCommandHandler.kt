@@ -10,6 +10,7 @@ import jp.inaba.message.product.command.DecreaseStockCommand
 import jp.inaba.message.product.command.DecreaseStockResult
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
+import jp.inaba.message.order.event.StockConfirmedEvent
 import jp.inaba.message.product.event.StockDecreasedEvent
 import jp.inaba.message.product.event.StockIncreasedEvent
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
@@ -94,6 +95,12 @@ class DecreaseStockCommandHandler {
         fun evolve(event: StockIncreasedEvent) {
             quantity = event.increasedStockQuantity
             idempotenceChecker.register(IdempotencyId(event.idempotencyId))
+        }
+
+        @EventSourcingHandler
+        fun evolve(event: StockConfirmedEvent) {
+            // オーダー確定でも物理在庫は減るので畳み込む(でないと直接減算が stale を見る)
+            quantity = event.decreasedStockQuantity
         }
     }
 }

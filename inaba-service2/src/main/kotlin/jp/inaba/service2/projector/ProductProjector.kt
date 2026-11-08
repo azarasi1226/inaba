@@ -1,5 +1,6 @@
 package jp.inaba.service2.projector
 
+import jp.inaba.message.order.event.StockConfirmedEvent
 import jp.inaba.message.product.event.ProductCreatedEvent
 import jp.inaba.message.product.event.ProductDeletedEvent
 import jp.inaba.message.product.event.ProductUpdatedEvent
@@ -95,6 +96,21 @@ class ProductProjector(
             .set(PRODUCTS.QUANTITY, event.decreasedStockQuantity)
             .set(PRODUCTS.UPDATED_AT, timestamp.toTokyoLocalDateTime())
             .where(PRODUCTS.ID.eq(event.id))
+            .execute()
+    }
+
+    @EventHandler
+    fun on(
+        event: StockConfirmedEvent,
+        @Timestamp timestamp: Instant,
+    ) {
+        // オーダー確定でも物理在庫は減るので、読みモデルの在庫数を反映する。
+        // これが無いと、確定で在庫が減ったのに一覧/詳細では在庫ありに見え続け、売り切れ商品が注文できてしまう。
+        dsl
+            .update(PRODUCTS)
+            .set(PRODUCTS.QUANTITY, event.decreasedStockQuantity)
+            .set(PRODUCTS.UPDATED_AT, timestamp.toTokyoLocalDateTime())
+            .where(PRODUCTS.ID.eq(event.productId))
             .execute()
     }
 
